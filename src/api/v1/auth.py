@@ -6,6 +6,7 @@ from src.utils.tokens import create_access_token
 from src.middleware.auth import get_current_client
 from src.crud.clients import client
 from src.schemas.auth import Token
+from src.schemas.client import Client
 from src.utils.errors import errors
 
 auth_router = APIRouter()
@@ -21,7 +22,7 @@ async def get_access_token(
     db: Session = Depends(get_db), form_data: OAuth2PasswordRequestForm = Depends()
 ):
     user = client.authenticate(
-        db, email=form_data.username, password=form_data.password
+        db, email=form_data.email, password=form_data.password
     )
     if not user:
         return errors.not_found("No client found")
@@ -33,9 +34,12 @@ async def get_access_token(
 
 
 @auth_router.post(
-    "/auth/me", tags=["Auth"], summary="Get current client", response_model=Client
+    "/auth/me",
+    tags=["Auth"],
+    summary="Get active client",
+    response_model=Client
 )
-async def get_current_client(active_client: Client = Depends(get_current_client)):
+async def get_active_client(active_client: Client = Depends(get_current_client)):
     if not active_client:
         return errors.unauthorized("Not logged in")
     active_client["password"] = None
