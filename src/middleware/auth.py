@@ -4,7 +4,7 @@ from src.models.Client import Client
 from sqlalchemy.orm import Session
 
 # import schemas
-from src.schemas import TokenPayload
+from src.schemas.auth import TokenPayload
 
 # import crud
 from src.crud import clients

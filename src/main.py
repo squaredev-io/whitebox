@@ -1,8 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from src.api.app.v1 import v1_router
+from src.api.v1 import v1_router
 from fastapi.openapi.utils import get_openapi
-from src.api.app.v1.docs import description, tags_metadata
 import json
 from src.core.settings import get_settings
 from src.core.db import connect, close
@@ -49,8 +48,6 @@ def app_openapi():
         title="Whitebox",
         version=settings.VERSION,
         routes=app.routes,
-        description=description,
-        tags=tags_metadata,
     )
     with open("src/assets/openapi.json", "r") as openapi:
         openapi = json.load(openapi)
@@ -62,9 +59,3 @@ def app_openapi():
 
 
 app.openapi = app_openapi
-
-
-# @app.get("/", response_class=HTMLResponse)
-# async def _():
-#     page = codecs.open("assets/LandingPage.html", 'r')
-#     return HTMLResponse(content=page.read(), status_code=200)

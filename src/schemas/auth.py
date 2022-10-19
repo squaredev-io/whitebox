@@ -31,13 +31,13 @@ class Token(BaseModel):
     token_type: str
 
 
-# class TokenPayload(BaseModel):
-#     id: str
-#     email: str
-#     first_name: str
-#     last_name: str
-#     username: str
-#     expiration: str
+class TokenPayload(BaseModel):
+    id: str
+    email: str
+    first_name: str
+    last_name: str
+    username: str
+    expiration: str
 
 
 # class LoginForm(BaseModel):
