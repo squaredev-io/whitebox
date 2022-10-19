@@ -73,30 +73,9 @@ def serve_cron(
     )
 
 
-@app.command("seed")
-def seed(env: Optional[Environment] = Environment.dev):
-    typer.echo(f"\nRunning Seed | Environment: {env} 🚀 \n")
-    os.system('export PYTHONPATH="${PYTHONPATH}:/src"')
-    os.system(f"ENV='{env}' python3 src/utils/seed.py")
-
-
 @app.command()
 def test():
     os.system(f"ENV=test pytest -s")
-
-
-try:
-    from eralchemy import render_er
-
-    @app.command("generate_diagram")
-    def generate_er_diagram():
-        typer.echo(f"\nGenerate ER diagram 🚀 \n")
-        render_er(Base, "src/assets/er/er_diagram.er")
-        render_er(Base, "src/assets/er/er_diagram.dot")
-        render_er(Base, "src/assets/er/er_diagram.png")
-
-except ImportError as e:
-    pass
 
 
 if __name__ == "__main__":

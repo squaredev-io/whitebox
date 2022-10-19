@@ -11,7 +11,6 @@ class OAuth2RequestForm:
     def __init__(
         self,
         grant_type: str = Form(None),
-        username: Optional[str] = Form(None),
         email: Optional[EmailStr] = Form(None),
         password: Optional[str] = Form(None),
         # scope: str = Form(...),
@@ -19,7 +18,7 @@ class OAuth2RequestForm:
         # client_secret: Optional[str] = Form(None),
     ):
         self.grant_type = grant_type
-        self.email = username if username else email
+        self.email = email
         self.password = password
         # self.scope = scope
         # self.client_id = client_id
@@ -33,18 +32,14 @@ class Token(BaseModel):
 
 class TokenPayload(BaseModel):
     id: str
+    name: str
     email: str
-    first_name: str
-    last_name: str
-    username: str
-    expiration: str
 
 
-# class LoginForm(BaseModel):
-#     email: str
-#     password: str
-#     keepLoggedIn: Optional[bool] = False
-#     deviceId: Optional[str] = None
+class LoginForm(BaseModel):
+    email: str
+    password: str
+    keepLoggedIn: Optional[bool] = False
 
 
 # class LoginResponse(BaseModel):

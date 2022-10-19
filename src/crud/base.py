@@ -23,7 +23,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         self.model = model
 
     def get(self, db: Session, _id: str) -> Optional[ModelType]:
-        if self.model.__tablename__ in ["clients"]:
+        if self.model.__tablename__ in ["users"]:
             return (
                 db.query(self.model)
                 .options(defer("password"))
