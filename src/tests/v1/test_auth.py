@@ -26,8 +26,5 @@ def test_login(client):
 def test_me(client):
     global access_token
     response = client.post("/v1/auth/me", headers={"Authorization": access_token})
-    assert response.json()["username"] == register_payload["username"]
     assert response.json()["email"] == register_payload["email"]
-    assert response.json()["first_name"] == register_payload["first_name"]
-    assert response.json()["last_name"] == register_payload["last_name"]
     assert response.json()["password"] is None
