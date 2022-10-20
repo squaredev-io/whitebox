@@ -39,7 +39,6 @@ class TokenPayload(BaseModel):
 class LoginForm(BaseModel):
     email: str
     password: str
-    keepLoggedIn: Optional[bool] = False
 
 
 # class LoginResponse(BaseModel):

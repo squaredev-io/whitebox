@@ -39,17 +39,6 @@ jobs:
         run: ENV="ci" pytest
         timeout-minutes: 3
 
-  # appsimulator:
-  #   needs:
-  #     - Test
-  #   uses: squaredev-io/gh-workflows/.github/workflows/base_build_publish.yml@main
-  #   with:
-  #     image: appsimulator
-  #     dockerfile: Dockerfile.appsimulator
-  #   secrets:
-  #     docker_username: ${{ secrets.DOCKER_USERNAME }}
-  #     docker_access_token: ${{ secrets.DOCKER_ACCESS_TOKEN }}
-
   whitebox:
     needs:
       - Test
@@ -60,14 +49,3 @@ jobs:
     secrets:
       docker_username: ${{ secrets.DOCKER_USERNAME }}
       docker_access_token: ${{ secrets.DOCKER_ACCESS_TOKEN }}
-
-  # cron:
-  #   needs:
-  #     - Test
-  #   uses: squaredev-io/gh-workflows/.github/workflows/base_build_publish.yml@main
-  #   with:
-  #     image: antycron
-  #     dockerfile: Dockerfile.cron
-  #   secrets:
-  #     docker_username: ${{ secrets.DOCKER_USERNAME }}
-  #     docker_access_token: ${{ secrets.DOCKER_ACCESS_TOKEN }}

@@ -1,7 +1,7 @@
 version: '3.10'
 services:
   postgres:
-    image: postgres:latest
+    image: postgres:15
     restart: unless-stopped
     environment:
       - POSTGRES_USER=postgres
@@ -14,8 +14,7 @@ services:
     ports:
       - '5432:5432'
     volumes:
-      - ./volumes/postgres-data:/var/lib/postgresql/data
-      - ./docker-postgres-multi-db.sh:/docker-entrypoint-initdb.d/docker-postgres-multi-db.sh
+      - wb_data:/var/lib/postgresql/data
 
   whitebox:
     profiles: [ 'whitebox' ]

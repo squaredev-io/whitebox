@@ -21,14 +21,14 @@ auth_router = APIRouter()
 async def get_access_token(
     db: Session = Depends(get_db), form_data: OAuth2PasswordRequestForm = Depends()
 ):
-    fetched_user = user.authenticate(
+    user_in_db = user.authenticate(
         db, email=form_data.username, password=form_data.password
     )
-    if not fetched_user:
+    if not user_in_db:
         return errors.not_found("No user found")
 
     return {
-        "access_token": create_access_token(fetched_user),
+        "access_token": create_access_token(user_in_db),
         "token_type": "bearer",
     }
 
