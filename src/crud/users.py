@@ -3,19 +3,11 @@ from fastapi.encoders import jsonable_encoder
 from typing import Optional
 from sqlalchemy.orm import Session
 from src.crud.base import CRUDBase
-from src.schemas.user import UserCreate, UserInDb, UserUpdate
+from src.schemas.user import UserBase, UserCreate, UserInDb, UserUpdate
 from src.models.User import User as UserModel
 
 
-class CRUDUser(CRUDBase[UserInDb, UserCreate, UserUpdate]):
-    # def create(self, db: Session, obj_in: UserCreate) -> UserInDb:
-    #     obj_in_data = jsonable_encoder(obj_in)
-    #     db_obj = self.model(**obj_in_data)
-    #     db.add(db_obj)
-    #     db.commit()
-    #     db.refresh(db_obj)
-    #     return db_obj.__dict__
-
+class CRUDUser(CRUDBase[UserModel, UserCreate, UserUpdate]):
     def update(self, db: Session, *, form: UserUpdate, db_obj: UserModel) -> UserInDb:
         if form.password:
             form.password = hash_password(form.password)

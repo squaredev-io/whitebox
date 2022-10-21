@@ -4,6 +4,7 @@ from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from src.core.db import Base
 from sqlalchemy.orm import defer
+import datetime
 
 ModelType = TypeVar("ModelType", bound=Base)
 CreateSchemaType = TypeVar("CreateSchemaType", bound=BaseModel)
@@ -39,8 +40,10 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         return db.query(self.model).offset(skip).limit(limit).all()
 
     def create(self, db: Session, *, obj_in: CreateSchemaType) -> ModelType:
+        date_now = datetime.datetime.utcnow()
+        dates = jsonable_encoder({"created_at": date_now, "updated_at" : date_now})
         obj_in_data = jsonable_encoder(obj_in)
-        db_obj = self.model(**obj_in_data)  # type: ignore
+        db_obj = self.model(**obj_in_data, **dates)  # type: ignore
         db.add(db_obj)
         db.commit()
         db.refresh(db_obj)

@@ -1,5 +1,5 @@
 # from .Base import Base
-from sqlalchemy import Column, String
+from sqlalchemy import Column, String, DateTime
 from src.models.Base import Base
 from src.utils.id_gen import generate_uuid
 from sqlalchemy.orm import deferred
@@ -12,3 +12,5 @@ class User(Base):
     name = Column(String)
     email = Column(String, unique=True, index=True)
     password = deferred(Column(String))
+    created_at = Column(DateTime)
+    updated_at = Column(DateTime)
