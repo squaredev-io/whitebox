@@ -5,7 +5,7 @@ from src.crud.base import CRUDBase
 from src.schemas import Client, ClientCreate, ClientUpdate
 from fastapi.encoders import jsonable_encoder
 from src.crud.apps import apps
-from src.models.Client import Client as ClientModel
+from src.models.Model import Client as ClientModel
 
 
 class CRUDClient(CRUDBase[Client, ClientCreate, ClientUpdate]):
