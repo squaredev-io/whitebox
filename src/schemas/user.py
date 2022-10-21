@@ -1,21 +1,22 @@
-from typing import Optional
+from typing import Optional, Union
 from pydantic import BaseModel
 from src.schemas.base import ItemInDbBase
 
 
 class UserBase(BaseModel):
     name: str
+    email: str
+    password: Union[str, None] = None
 
 
 class UserInDb(UserBase, ItemInDbBase):
     pass
 
 
-# class UserCreate(BaseModel):
-#     ext_id: str
-#     name: str
+class UserCreate(UserBase):
+    password: str
 
 
-# class UserUpdate(BaseModel):
-#     name: Optional[str]
-#     ext_id: Optional[str]
+class UserUpdate(UserBase):
+    name: Optional[str]
+    email: Optional[str]

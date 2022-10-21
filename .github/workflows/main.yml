@@ -1,0 +1,51 @@
+name: Test & Publish
+
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  Test:
+    runs-on: self-hosted
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_DB: ci
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - '5432:5432'
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          cache: 'pip' # caching pip dependencies
+      - run: sudo apt-get update && sudo apt-get install libpq-dev python-dev postgresql-client -y
+      - run: pip install -r requirements.txt
+      - name: Test
+        run: ENV="ci" pytest
+        timeout-minutes: 3
+
+  whitebox:
+    needs:
+      - Test
+    uses: squaredev-io/gh-workflows/.github/workflows/base_build_publish.yml@main
+    with:
+      image: whitebox
+      dockerfile: Dockerfile.whitebox
+    secrets:
+      docker_username: ${{ secrets.DOCKER_USERNAME }}
+      docker_access_token: ${{ secrets.DOCKER_ACCESS_TOKEN }}
