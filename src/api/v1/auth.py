@@ -1,12 +1,12 @@
 from requests import Session
-from fastapi import Depends, APIRouter, status
+from fastapi import Depends, APIRouter
 from fastapi.security import OAuth2PasswordRequestForm
 from src.core.db import get_db
 from src.utils.tokens import create_access_token
-from src.middleware.auth import get_current_client
-from src.crud.clients import client
+from src.middleware.auth import get_current_user
+from src.crud.users import user
 from src.schemas.auth import Token
-from src.schemas.client import Client
+from src.schemas.user import UserInDb
 from src.utils.errors import errors
 
 auth_router = APIRouter()
@@ -14,21 +14,21 @@ auth_router = APIRouter()
 
 @auth_router.post(
     "/auth/token",
-    tags=["auth"],
+    tags=["Auth"],
     summary="Get access token",
     response_model=Token,
 )
 async def get_access_token(
     db: Session = Depends(get_db), form_data: OAuth2PasswordRequestForm = Depends()
 ):
-    user = client.authenticate(
-        db, email=form_data.email, password=form_data.password
+    user_in_db = user.authenticate(
+        db, email=form_data.username, password=form_data.password
     )
-    if not user:
-        return errors.not_found("No client found")
+    if not user_in_db:
+        return errors.not_found("No user found")
 
     return {
-        "access_token": create_access_token(user),
+        "access_token": create_access_token(user_in_db),
         "token_type": "bearer",
     }
 
@@ -36,11 +36,11 @@ async def get_access_token(
 @auth_router.post(
     "/auth/me",
     tags=["Auth"],
-    summary="Get active client",
-    response_model=Client
+    summary="Get active user",
+    response_model=UserInDb
 )
-async def get_active_client(active_client: Client = Depends(get_current_client)):
-    if not active_client:
+async def get_active_user(active_user: UserInDb = Depends(get_current_user)):
+    if not active_user:
         return errors.unauthorized("Not logged in")
-    active_client["password"] = None
-    return active_client
+    active_user["password"] = None
+    return active_user

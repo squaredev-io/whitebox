@@ -49,10 +49,10 @@ def app_openapi():
         version=settings.VERSION,
         routes=app.routes,
     )
-    with open("src/assets/openapi.json", "r") as openapi:
-        openapi = json.load(openapi)
-        logo = openapi["info"]["x-logo"]
-    openapi_schema["info"]["x-logo"] = logo
+    # with open("src/assets/openapi.json", "r") as openapi:
+    #     openapi = json.load(openapi)
+    #     logo = openapi["info"]["x-logo"]
+    # openapi_schema["info"]["x-logo"] = logo
 
     app.openapi_schema = openapi_schema
     return app.openapi_schema

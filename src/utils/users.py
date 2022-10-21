@@ -1,4 +1,3 @@
-from src.schemas.app import App
 from src.schemas.user import User
 
 
