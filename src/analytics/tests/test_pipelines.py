@@ -1,8 +1,6 @@
-from os import access
 import pytest
 from src.analytics.metrics.pipelines import *
 from unittest import TestCase
-from typing import Dict,Union
 
 test_metrics_df=pd.read_csv('data/testing/metrics_test_data.csv')
 test_classification_df=pd.read_csv('data/testing/classification_test_data.csv')
