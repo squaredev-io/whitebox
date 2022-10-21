@@ -103,4 +103,3 @@ def confusion_for_multiclass(
         mult_dict["class{}".format(class_key)] = eval_dict
         class_key = class_key + 1
     return mult_dict
-
