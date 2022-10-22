@@ -51,25 +51,6 @@ def format_evaluation_metrics_binary(
     return formated_metrics_for_binary
 
 
-def confusion_for_multiclass(
-    test_set: pd.DataFrame, prediction_set: pd.DataFrame
-) -> Dict[str, Dict[str, int]]:
-    cm = multilabel_confusion_matrix(test_set, prediction_set)
-    mult_dict = {}
-    class_key = 0
-    for i in cm:
-        tn, fp, fn, tp = i.ravel()
-        eval_dict = {
-            "true_negative": tn,
-            "false_positive": fp,
-            "false_negative": fn,
-            "true_positive": tp,
-        }
-        mult_dict["class{}".format(class_key)] = eval_dict
-        class_key = class_key + 1
-    return mult_dict
-
-
 def format_evaluation_metrics_multiple(
     accuracy: float,
     precision_statistics: Dict[str, float],
@@ -86,3 +67,40 @@ def format_evaluation_metrics_multiple(
     }
 
     return formated_metrics_for_multiple
+
+
+def confusion_for_multiclass(
+    test_set: pd.DataFrame, prediction_set: pd.DataFrame
+) -> Dict[str, Dict[str, int]]:
+    """
+    Gets 2 datasets based on multiclass classification and calculates
+    the corresponding confusion matrix outputs tn, fp, fn, tp
+
+    Parameters
+    ----------
+    test_set : pd.DataFrame
+        Multiclass ground truth labels.
+
+    y_score : pd.DataFrame
+        Multiclass predicted labels.
+
+    Returns
+    -------
+    mult_dict : Dict
+
+    """
+    cm = multilabel_confusion_matrix(test_set, prediction_set)
+    mult_dict = {}
+    class_key = 0
+    for i in cm:
+        tn, fp, fn, tp = i.ravel()
+        eval_dict = {
+            "true_negative": tn,
+            "false_positive": fp,
+            "false_negative": fn,
+            "true_positive": tp,
+        }
+        mult_dict["class{}".format(class_key)] = eval_dict
+        class_key = class_key + 1
+    return mult_dict
+
