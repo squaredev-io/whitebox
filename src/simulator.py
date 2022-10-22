@@ -4,7 +4,6 @@ from src.api.simulator.v1 import endpoints
 from src.core.settings import get_simulator_settings
 from fastapi.openapi.utils import get_openapi
 import json
-from src.api.simulator.v1.docs import description, tags_metadata
 
 settings = get_simulator_settings()
 
@@ -21,8 +20,6 @@ def app_openapi():
         title="App Simulator API",
         version=settings.VERSION,
         routes=simulator_app.routes,
-        description=description,
-        tags=tags_metadata,
     )
     with open("src/assets/openapi_simulator.json", "r") as openapi:
         openapi = json.load(openapi)

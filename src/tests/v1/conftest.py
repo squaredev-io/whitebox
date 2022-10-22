@@ -6,8 +6,8 @@ import sqlalchemy
 from sqlalchemy.orm import sessionmaker
 from src.models.Base import Base
 from src.core.settings import get_settings
-from src.simulator import simulator_app
-from src.cron import cron_app
+# from src.simulator import simulator_app
+# from src.cron import cron_app
 
 settings = get_settings()
 test_order_map = {
@@ -43,16 +43,16 @@ async def db():
     Base.metadata.drop_all(engine)
 
 
-@fixture(scope="session")
-def simulator_client():
-    with TestClient(simulator_app) as simulator_client:
-        yield simulator_client
+# @fixture(scope="session")
+# def simulator_client():
+#     with TestClient(simulator_app) as simulator_client:
+#         yield simulator_client
 
 
-@fixture(scope="session")
-def cron_client():
-    with TestClient(cron_app) as cron_client:
-        yield cron_client
+# @fixture(scope="session")
+# def cron_client():
+#     with TestClient(cron_app) as cron_client:
+#         yield cron_client
 
 
 class DataHolder:
