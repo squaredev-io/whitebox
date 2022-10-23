@@ -8,10 +8,21 @@ Whitebox is an open source E2E ML monitoring platform with edge capabilities tha
 
 ## Why use Whitebox?
 
-- Deploying a machine learning model in production is not the end of the lifecycle. You need data to iterate and improve.
-- Solve data privacy by monitoring data at the edge and only return aggregated data for reporting and alerting.
+Deploying a machine learning model in production is not the end of the lifecycle. You need data to iterate and improve.
 
 # How to use
+
+## Run the server
+
+> 👉 Coming soon. You can use development environment described below until everything is ready
+
+## Using the SDK
+
+> 👉 Coming soon
+
+## High level diagram of model set up
+
+All you have to do is register a model and send inference data through the SDK.
 
 ```mermaid
 sequenceDiagram
@@ -33,7 +44,13 @@ sequenceDiagram
     whitebox-->>user: Get alerted
 ```
 
-# Version 1.0 features
+# Roadmap
+
+## Development status
+
+Whitebox is still in rapid development.
+
+## Planned features
 
 - API and SDK
 - Supported model types: Binary, Multi-class
