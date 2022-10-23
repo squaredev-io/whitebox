@@ -19,12 +19,12 @@ def create_feature_metrics_pipeline(
     ----------
     dataset : pd.DataFrame
         Given dataset for the calculation of metrics
-    
+
     Returns
     -------
     feature_metrics : Dict
 
-        The rerurned metrics are:
+        The returned metrics are:
             missing_count,
             non_missing_count,
             mean,
@@ -61,7 +61,7 @@ def create_binary_classification_evaluation_metrics_pipeline(
 ) -> Dict[str, Union[int, float]]:
 
     """
-    Binary classification evaluation metrics 
+    Binary classification evaluation metrics
 
     Calculates the evaluation metrics for binary classification
     given two datasets
@@ -70,7 +70,7 @@ def create_binary_classification_evaluation_metrics_pipeline(
     ----------
     test_set : pd.DataFrame
         Given ground truth dataset
-    
+
     prediction_set : pd.DataFrame
         Given predictions dataset
 
@@ -78,7 +78,7 @@ def create_binary_classification_evaluation_metrics_pipeline(
     -------
     evaluation_metrics : Dict
 
-        The rerurned metrics are:
+        The returned metrics are:
             accuracy,
             precision,
             recall,
@@ -105,7 +105,7 @@ def create_multiple_classification_evaluation_metrics_pipeline(
     test_set: pd.DataFrame, prediction_set: pd.DataFrame
 ) -> Dict[str, Union[float, Dict[str, Union[int, float]]]]:
     """
-    Multiclass classification evaluation metrics 
+    Multiclass classification evaluation metrics
 
     Calculates the evaluation metrics for multiclass classification
     given two datasets
@@ -114,7 +114,7 @@ def create_multiple_classification_evaluation_metrics_pipeline(
     ----------
     test_set : pd.DataFrame
         Given ground truth dataset
-    
+
     prediction_set : pd.DataFrame
         Given predictions dataset
 
@@ -122,7 +122,7 @@ def create_multiple_classification_evaluation_metrics_pipeline(
     -------
     evaluation_metrics : Dict
 
-        The rerurned metrics are:
+        The returned metrics are:
 
             accuracy,
 
