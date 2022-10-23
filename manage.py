@@ -49,30 +49,6 @@ def serve(
     os.system(f"ENV='{env}' uvicorn src.main:app --reload --host {host} --port {port}")
 
 
-@app.command("serve_simulator")
-def serve_app_simulator(
-    env: Optional[Environment] = Environment.dev,
-    host: str = "0.0.0.0",
-    port: int = 8001,
-):
-    typer.echo(f"\nRunning API | Environment: {env} 🚀 \n")
-    os.system(
-        f"ENV='{env}' uvicorn src.simulator:simulator_app --reload --host {host} --port {port}"
-    )
-
-
-@app.command("serve_cron")
-def serve_cron(
-    env: Optional[Environment] = Environment.dev,
-    host: str = "0.0.0.0",
-    port: int = 8002,
-):
-    typer.echo(f"\nRunning API | Environment: {env} 🚀 \n")
-    os.system(
-        f"ENV='{env}' uvicorn src.cron:cron_app --reload --host {host} --port {port}"
-    )
-
-
 @app.command()
 def test():
     os.system(f"ENV=test pytest -s")
