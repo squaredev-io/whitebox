@@ -1,4 +1,4 @@
-version: '3.10'
+version: "3.10"
 services:
   postgres:
     image: postgres:15
@@ -12,20 +12,23 @@ services:
         max-size: 10m
         max-file: "3"
     ports:
-      - '5432:5432'
+      - "5432:5432"
     volumes:
       - wb_data:/var/lib/postgresql/data
 
   whitebox:
-    profiles: [ 'whitebox' ]
+    profiles: ["whitebox"]
     build:
       context: .
-      dockerfile: Dockerfile.whitebox
+      dockerfile: Dockerfile
     restart: unless-stopped
     environment:
       - APP_NAME=Whitebox | Docker
       - POSTGRES_DB_URI=postgresql://postgres:postgres@postgres:5432/postgres
     ports:
-      - '8000:8000'
+      - "8000:8000"
     depends_on:
       - postgres
+
+volumes:
+  wb_data:
