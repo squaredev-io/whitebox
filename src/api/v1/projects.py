@@ -21,7 +21,7 @@ projects_router = APIRouter()
 async def create_project(form: ProjectCreate, db: Session = Depends(get_db)) -> Project:
     if form is not None:
         new_project = projects.create(db=db, obj_in=form)
-        return new_project.__dict__
+        return new_project
     else:
         return errors.bad_request("Form should not be empty")
 
@@ -30,6 +30,7 @@ async def create_project(form: ProjectCreate, db: Session = Depends(get_db)) -> 
     "/projects",
     tags=["Projects"],
     response_model=List[Project],
+    status_code=status.HTTP_200_OK,
     summary="Get all projects",
 )
 async def get_all_projects(db: Session = Depends(get_db)):
@@ -45,13 +46,14 @@ async def get_all_projects(db: Session = Depends(get_db)):
     tags=["Projects"],
     response_model=Project,
     summary="Get project by id",
+    status_code=status.HTTP_200_OK,
 )
 async def get_project(project_id: str, db: Session = Depends(get_db)):
     project = projects.get(db=db, _id=project_id)
     if not project:
         return errors.not_found("Project not found")
 
-    return project.__dict__
+    return project
 
 
 @projects_router.put(
@@ -59,6 +61,7 @@ async def get_project(project_id: str, db: Session = Depends(get_db)):
     tags=["Projects"],
     response_model=Project,
     summary="Update project",
+    status_code=status.HTTP_200_OK,
 )
 async def update_project(
     project_id: str,
@@ -80,6 +83,7 @@ async def update_project(
     tags=["Projects"],
     response_model=StatusCode,
     summary="Delete user",
+    status_code=status.HTTP_200_OK,
 )
 async def delete_user(
     project_id: str,

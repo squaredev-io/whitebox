@@ -27,13 +27,17 @@ async def create_user(form: UserCreate, db: Session = Depends(get_db)) -> User:
         else:
             form.password = hash_password(form.password)
             new_user = users.create(db=db, obj_in=form)
-            return new_user.__dict__
+            return new_user
     else:
         return errors.bad_request("Form should not be empty")
 
 
 @users_router.get(
-    "/users", tags=["Users"], response_model=List[User], summary="Get all users"
+    "/users",
+    tags=["Users"],
+    response_model=List[User],
+    status_code=status.HTTP_200_OK,
+    summary="Get all users",
 )
 async def get_all_users(db: Session = Depends(get_db)):
     users_in_db = [_.__dict__ for _ in users.get_all(db=db)]
@@ -44,18 +48,26 @@ async def get_all_users(db: Session = Depends(get_db)):
 
 
 @users_router.get(
-    "/users/{user_id}", tags=["Users"], response_model=User, summary="Get user by id"
+    "/users/{user_id}",
+    tags=["Users"],
+    status_code=status.HTTP_200_OK,
+    response_model=User,
+    summary="Get user by id",
 )
 async def get_user(user_id: str, db: Session = Depends(get_db)):
     user = users.get(db=db, _id=user_id)
     if not user:
         return errors.not_found("User not found")
 
-    return user.__dict__
+    return user
 
 
 @users_router.put(
-    "/users/{user_id}", tags=["Users"], response_model=User, summary="Update user"
+    "/users/{user_id}",
+    tags=["Users"],
+    status_code=status.HTTP_200_OK,
+    response_model=User,
+    summary="Update user",
 )
 async def update_user(
     user_id: str,
@@ -63,13 +75,17 @@ async def update_user(
     db: Session = Depends(get_db),
 ) -> User:
     if form is not None:
-        return users.update(db=db, db_obj=users.get(db, user_id), form=form).__dict__
+        return users.update(db=db, db_obj=users.get(db, user_id), form=form)
     else:
         return errors.bad_request("Form should not be empty")
 
 
 @users_router.delete(
-    "/users/{user_id}", tags=["Users"], response_model=StatusCode, summary="Delete user"
+    "/users/{user_id}",
+    tags=["Users"],
+    status_code=status.HTTP_200_OK,
+    response_model=StatusCode,
+    summary="Delete user",
 )
 async def delete_user(
     user_id: str,

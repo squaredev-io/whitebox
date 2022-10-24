@@ -21,13 +21,18 @@ models_router = APIRouter()
 async def create_model(form: ModelCreate, db: Session = Depends(get_db)) -> Model:
     if form is not None:
         new_model = models.create(db=db, obj_in=form)
-        return new_model.__dict__
+        print(type(new_model))
+        return new_model
     else:
         return errors.bad_request("Form should not be empty")
 
 
 @models_router.get(
-    "/models", tags=["Models"], response_model=List[Model], summary="Get all models"
+    "/models",
+    tags=["Models"],
+    response_model=List[Model],
+    summary="Get all models",
+    status_code=status.HTTP_200_OK,
 )
 async def get_all_models(db: Session = Depends(get_db)):
     models_in_db = [_.__dict__ for _ in models.get_all(db=db)]
@@ -41,6 +46,7 @@ async def get_all_models(db: Session = Depends(get_db)):
     "/models/{model_id}",
     tags=["Models"],
     response_model=Model,
+    status_code=status.HTTP_200_OK,
     summary="Get model by id",
 )
 async def get_model(model_id: str, db: Session = Depends(get_db)):
@@ -48,11 +54,15 @@ async def get_model(model_id: str, db: Session = Depends(get_db)):
     if not model:
         return errors.not_found("Model not found")
 
-    return model.__dict__
+    return model
 
 
 @models_router.put(
-    "/models/{model_id}", tags=["Models"], response_model=Model, summary="Update model"
+    "/models/{model_id}",
+    tags=["Models"],
+    response_model=Model,
+    summary="Update model",
+    status_code=status.HTTP_200_OK,
 )
 async def update_model(
     model_id: str,
@@ -63,7 +73,7 @@ async def update_model(
     if not model:
         return errors.not_found("Model not found")
     if form is not None:
-        return models.update(db=db, db_obj=model, obj_in=form).__dict__
+        return models.update(db=db, db_obj=model, obj_in=form)
     else:
         return errors.bad_request("Form should not be empty")
 
@@ -73,6 +83,7 @@ async def update_model(
     tags=["Models"],
     response_model=StatusCode,
     summary="Delete user",
+    status_code=status.HTTP_200_OK,
 )
 async def delete_user(
     model_id: str,

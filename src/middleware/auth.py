@@ -36,4 +36,4 @@ def get_current_user(
     user = users.user.get(db, _id=payload["id"])
     if not user:
         raise HTTPException(status.HTTP_401_UNAUTHORIZED, "No user found")
-    return user.__dict__
+    return user
