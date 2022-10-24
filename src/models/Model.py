@@ -10,6 +10,7 @@ class ModelType(enum.Enum):
     two = 2
     three = 3
 
+
 class Model(Base):
     __tablename__ = "models"
 
@@ -17,7 +18,7 @@ class Model(Base):
     project_id = Column(String, ForeignKey("projects.id", ondelete="CASCADE"))
     name = Column(String)
     type = Column("type", Enum(ModelType))
-    features =  Column(JSON)
+    features = Column(JSON)
     predictions = Column(JSON)
     labels = Column(String)
     feature_importance = Column(JSON)

@@ -17,9 +17,7 @@ class CRUDUser(CRUDBase[UserModel, UserCreate, UserUpdate]):
     def get_by_email(self, db: Session, *, email: str) -> Optional[User]:
         return db.query(UserModel).filter(UserModel.email == email).first()
 
-    def authenticate(
-        self, db: Session, *, email: str, password: str
-    ) -> Optional[User]:
+    def authenticate(self, db: Session, *, email: str, password: str) -> Optional[User]:
         user = self.get_by_email(db, email=email)
         if not user:
             return None

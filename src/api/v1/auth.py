@@ -34,10 +34,7 @@ async def get_access_token(
 
 
 @auth_router.post(
-    "/auth/me",
-    tags=["Auth"],
-    summary="Get active user",
-    response_model=User
+    "/auth/me", tags=["Auth"], summary="Get active user", response_model=User
 )
 async def get_active_user(active_user: User = Depends(get_current_user)):
     if not active_user:

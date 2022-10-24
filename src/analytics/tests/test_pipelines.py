@@ -122,4 +122,3 @@ class TestNodes:
             },
             multiple_confusion_matrix_class2,
         )
-

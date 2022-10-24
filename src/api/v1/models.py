@@ -12,10 +12,8 @@ models_router = APIRouter()
 
 
 @models_router.post(
-    "/models",
-    tags=["Models"],
-    response_model=Model,
-    summary="Create model")
+    "/models", tags=["Models"], response_model=Model, summary="Create model"
+)
 async def create_model(form: ModelCreate, db: Session = Depends(get_db)) -> Model:
     if form is not None:
         new_model = models.create(db=db, obj_in=form)
@@ -25,14 +23,9 @@ async def create_model(form: ModelCreate, db: Session = Depends(get_db)) -> Mode
 
 
 @models_router.get(
-    "/models",
-    tags=["Models"],
-    response_model=List[Model],
-    summary="Get all models"
+    "/models", tags=["Models"], response_model=List[Model], summary="Get all models"
 )
-async def get_all_models(
-    db: Session = Depends(get_db)
-):
+async def get_all_models(db: Session = Depends(get_db)):
     models_in_db = [_.__dict__ for _ in models.get_all(db=db)]
     if not models_in_db:
         return errors.not_found("No model found in database")
@@ -44,11 +37,9 @@ async def get_all_models(
     "/models/{model_id}",
     tags=["Models"],
     response_model=Model,
-    summary="Get model by id"
+    summary="Get model by id",
 )
-async def get_model(
-    model_id: str, db: Session = Depends(get_db)
-):
+async def get_model(model_id: str, db: Session = Depends(get_db)):
     model = models.get(db=db, _id=model_id)
     if not model:
         return errors.not_found("Model not found")
@@ -57,10 +48,7 @@ async def get_model(
 
 
 @models_router.put(
-    "/models/{model_id}",
-    tags=["Models"],
-    response_model=Model, 
-    summary="Update model"
+    "/models/{model_id}", tags=["Models"], response_model=Model, summary="Update model"
 )
 async def update_model(
     model_id: str,
@@ -70,10 +58,9 @@ async def update_model(
     model = models.get(db=db, _id=model_id)
     if not model:
         return errors.not_found("Model not found")
-        
+
     if form is not None:
-        return models.update(
-            db=db, db_obj=model, obj_in=form).__dict__
+        return models.update(db=db, db_obj=model, obj_in=form).__dict__
     else:
         return errors.bad_request("Form should not be empty")
 
@@ -82,7 +69,7 @@ async def update_model(
     "/models/{model_id}",
     tags=["Models"],
     response_model=StatusCode,
-    summary="Delete user"
+    summary="Delete user",
 )
 async def delete_user(
     model_id: str,
@@ -91,6 +78,6 @@ async def delete_user(
     model = models.get(db=db, _id=model_id)
     if not model:
         return errors.not_found("Model not found")
-    
+
     models.remove(db=db, _id=model_id)
-    return {"status_code": status.HTTP_200_OK }
+    return {"status_code": status.HTTP_200_OK}

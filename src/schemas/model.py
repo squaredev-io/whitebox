@@ -16,13 +16,15 @@ class ModelBase(BaseModel):
 class Model(ModelBase, ItemBase):
     pass
 
+
 class ModelCreate(ModelBase):
     pass
+
 
 class ModelUpdate(BaseModel):
     name: Optional[str]
     type: Optional[Any]
-    features:  Optional[Any]
-    predictions:  Optional[Any]
+    features: Optional[Any]
+    predictions: Optional[Any]
     labels: Optional[str]
     feature_importance: Optional[Any]

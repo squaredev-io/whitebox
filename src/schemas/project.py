@@ -11,8 +11,10 @@ class ProjectBase(BaseModel):
 class Project(ProjectBase, ItemBase):
     pass
 
+
 class ProjectCreate(ProjectBase):
     pass
+
 
 class ProjectUpdate(BaseModel):
     name: str
