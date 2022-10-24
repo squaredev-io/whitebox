@@ -1,19 +1,20 @@
 # from .Base import Base
-from sqlalchemy import Column, String, Boolean
+from sqlalchemy import Column, String, ForeignKey, DateTime, JSON, Enum
 from src.models.Base import Base
 from src.utils.id_gen import generate_uuid
 from sqlalchemy.orm import relationship
-from sqlalchemy.orm import deferred
 
 
-class Client(Base):
-    __tablename__ = "clients"
+class Model(Base):
+    __tablename__ = "models"
 
     id = Column(String, primary_key=True, unique=True, default=generate_uuid)
-    username = Column(String)
-    first_name = Column(String)
-    last_name = Column(String)
-    email = Column(String, unique=True, index=True)
-    password = deferred(Column(String))
-    verified = Column(Boolean, default=False)
-    apps = relationship("App", back_populates="client")
+    project_id = Column(String, ForeignKey("projects.id", ondelete="CASCADE"))
+    name = Column(String)
+    type = Column(Enum) # Define Enum
+    features =  Column(JSON)
+    predictions = Column(JSON)
+    labels = Column(String)
+    feature_importance = Column(JSON)
+    created_at = Column(DateTime)
+    updated_at = Column(DateTime)

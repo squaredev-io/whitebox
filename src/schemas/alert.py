@@ -1,7 +1,7 @@
 import datetime
 from typing import Any
 from pydantic import BaseModel
-from src.schemas.base import ItemInDbBase
+from src.schemas.base import ItemBase
 
 
 class AlertBase(BaseModel):
@@ -12,5 +12,5 @@ class AlertBase(BaseModel):
     description: str
 
 
-class AlertInDb(AlertBase, ItemInDbBase):
+class Alert(AlertBase, ItemBase):
     pass

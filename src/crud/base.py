@@ -41,9 +41,12 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
 
     def create(self, db: Session, *, obj_in: CreateSchemaType) -> ModelType:
         date_now = datetime.datetime.utcnow()
-        dates = jsonable_encoder({"created_at": date_now, "updated_at" : date_now})
         obj_in_data = jsonable_encoder(obj_in)
-        db_obj = self.model(**obj_in_data, **dates)  # type: ignore
+        db_obj = self.model(
+            **obj_in_data,
+            created_at=date_now,
+            updated_at=date_now
+        )
         db.add(db_obj)
         db.commit()
         db.refresh(db_obj)
@@ -56,14 +59,19 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         db_obj: ModelType,
         obj_in: Union[UpdateSchemaType, Dict[str, Any]]
     ) -> ModelType:
+        date_now = datetime.datetime.utcnow()
         obj_data = jsonable_encoder(db_obj)
-        if isinstance(obj_in, dict):
-            update_data = obj_in
+        #### Fix me
+        obj_in2 = jsonable_encoder(obj_in)
+        obj_in2 = {**obj_in2, "updated_at": date_now }
+        if isinstance(obj_in2, dict):
+            update_data = obj_in2
         else:
-            update_data = obj_in.dict(exclude_unset=True)
+            update_data = obj_in2.dict(exclude_unset=True)
         for field in obj_data:
             if field in update_data:
                 setattr(db_obj, field, update_data[field])
+        #######
         db.commit()
         db.refresh(db_obj)
         return db_obj

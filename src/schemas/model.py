@@ -1,12 +1,17 @@
-from typing import Optional
+from typing import Any, Optional
 from pydantic import BaseModel
-from src.schemas.base import ItemInDbBase
+from src.schemas.base import ItemBase
 
 
 class ModelBase(BaseModel):
-    user_id: str
+    project_id: str
     name: str
+    type: Any
+    features: Any
+    predictions: Any
+    labels: str
+    feature_importance: Any
 
 
-class ModelInDb(ModelBase, ItemInDbBase):
+class Model(ModelBase, ItemBase):
     pass
