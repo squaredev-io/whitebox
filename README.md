@@ -36,7 +36,7 @@ sequenceDiagram
     whitebox-->>user: model_id
     user->>whitebox: Register model training set
     user->>whitebox: Register model test set
-    user->>whitebox: Configure monitors so you can get alerts
+    user->>whitebox: Setup monitors
 
     note over user, whitebox: You can now start monitoring metrics and get alerts
     user->>whitebox: Log inferences
