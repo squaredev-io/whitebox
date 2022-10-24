@@ -1,4 +1,3 @@
-# from .Base import Base
 from sqlalchemy import Column, String, DateTime
 from src.models.Base import Base
 from src.utils.id_gen import generate_uuid

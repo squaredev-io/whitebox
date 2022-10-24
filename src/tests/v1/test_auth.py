@@ -8,7 +8,7 @@ access_token = ""
 @pytest.mark.order(test_order_map["auth"]["unauthorized_me"])
 def test_me(client):
     response = client.post("/v1/auth/me")
-    assert response.json() == {'error': 'Not authenticated', 'status_code': 401}
+    assert response.json() == {"error": "Not authenticated", "status_code": 401}
 
 
 # @pytest.mark.order(test_order_map["auth"]["login"])

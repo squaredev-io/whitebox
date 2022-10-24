@@ -15,7 +15,9 @@ projects_router = APIRouter()
     "/projects",
     tags=["Projects"],
     response_model=Project,
-    summary="Create project")
+    status_code=status.HTTP_201_CREATED,
+    summary="Create project",
+)
 async def create_project(form: ProjectCreate, db: Session = Depends(get_db)) -> Project:
     if form is not None:
         new_project = projects.create(db=db, obj_in=form)
@@ -28,11 +30,9 @@ async def create_project(form: ProjectCreate, db: Session = Depends(get_db)) -> 
     "/projects",
     tags=["Projects"],
     response_model=List[Project],
-    summary="Get all projects"
+    summary="Get all projects",
 )
-async def get_all_projects(
-    db: Session = Depends(get_db)
-):
+async def get_all_projects(db: Session = Depends(get_db)):
     projects_in_db = [_.__dict__ for _ in projects.get_all(db=db)]
     if not projects_in_db:
         return errors.not_found("No project found in database")
@@ -44,11 +44,9 @@ async def get_all_projects(
     "/projects/{project_id}",
     tags=["Projects"],
     response_model=Project,
-    summary="Get project by id"
+    summary="Get project by id",
 )
-async def get_project(
-    project_id: str, db: Session = Depends(get_db)
-):
+async def get_project(project_id: str, db: Session = Depends(get_db)):
     project = projects.get(db=db, _id=project_id)
     if not project:
         return errors.not_found("Project not found")
@@ -59,8 +57,8 @@ async def get_project(
 @projects_router.put(
     "/projects/{project_id}",
     tags=["Projects"],
-    response_model=Project, 
-    summary="Update project"
+    response_model=Project,
+    summary="Update project",
 )
 async def update_project(
     project_id: str,
@@ -70,10 +68,9 @@ async def update_project(
     project = projects.get(db=db, _id=project_id)
     if not project:
         return errors.not_found("Project not found")
-        
+
     if form is not None:
-        return projects.update(
-            db=db, db_obj=project, obj_in=form).__dict__
+        return projects.update(db=db, db_obj=project, obj_in=form).__dict__
     else:
         return errors.bad_request("Form should not be empty")
 
@@ -82,7 +79,7 @@ async def update_project(
     "/projects/{project_id}",
     tags=["Projects"],
     response_model=StatusCode,
-    summary="Delete user"
+    summary="Delete user",
 )
 async def delete_user(
     project_id: str,
@@ -91,6 +88,6 @@ async def delete_user(
     project = projects.get(db=db, _id=project_id)
     if not project:
         return errors.not_found("Project not found")
-    
+
     projects.remove(db=db, _id=project_id)
-    return {"status_code": status.HTTP_200_OK }
+    return {"status_code": status.HTTP_200_OK}
