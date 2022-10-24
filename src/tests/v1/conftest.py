@@ -16,7 +16,7 @@ test_order_map = {
     "health": 1,
     "auth": {"unauthorized_me": 2, "login": 3, "authorized_me": 4},
     "client": {"register": 5, "update": 6, "delete": 7},
-    "users": {"create": 8, "update": 9, "get": 10, "delete": 11},
+    "users": {"create": 8, "get_all": 9, "get": 10, "update": 11, "delete": 12},
 }
 
 

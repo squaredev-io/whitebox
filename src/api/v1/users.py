@@ -6,7 +6,6 @@ from sqlalchemy.orm import Session
 from src.core.db import get_db
 from src.schemas.utils import StatusCode
 from src.utils.passwords import hash_password
-from src.middleware.auth import get_current_user
 from src.utils.errors import errors
 
 users_router = APIRouter()
@@ -74,10 +73,7 @@ async def update_user(
     user_id: str,
     form: UserUpdate,
     db: Session = Depends(get_db),
-    # curr_user: User = Depends(get_current_user),
 ) -> User:
-    # if not curr_user:
-    #     return errors.unauthorized()
     if form is not None:
         return users.update(
             db=db, db_obj=users.get(db, user_id), form=form
@@ -95,10 +91,6 @@ async def update_user(
 async def delete_user(
     user_id: str,
     db: Session = Depends(get_db),
-    # curr_user: User = Depends(get_current_user)
 ) -> StatusCode:
-    users.remove(db=db,
-    _id=user_id
-    # _id=curr_user["id"]
-    )
+    users.remove(db=db, _id=user_id)
     return {"status_code": status.HTTP_200_OK}

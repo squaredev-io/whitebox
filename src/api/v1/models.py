@@ -1,11 +1,9 @@
 from typing import List
-from src.models.User import User
 from src.schemas.model import Model, ModelCreate, ModelUpdate
 from fastapi import APIRouter, Depends, status
 from src.crud.models import models
 from sqlalchemy.orm import Session
 from src.core.db import get_db
-from src.middleware.auth import get_current_user
 from src.schemas.utils import StatusCode
 from src.utils.errors import errors
 
@@ -68,10 +66,7 @@ async def update_model(
     model_id: str,
     form: ModelUpdate,
     db: Session = Depends(get_db),
-    # curr_user: User = Depends(get_current_user),
 ) -> Model:
-    # if not curr_user:
-    #     return errors.unauthorized()
     model = models.get(db=db, _id=model_id)
     if not model:
         return errors.not_found("Model not found")
@@ -92,10 +87,7 @@ async def update_model(
 async def delete_user(
     model_id: str,
     db: Session = Depends(get_db),
-    # curr_user: User = Depends(get_current_user)
 ) -> StatusCode:
-    # if not curr_user:
-    #     return errors.unauthorized()
     model = models.get(db=db, _id=model_id)
     if not model:
         return errors.not_found("Model not found")
