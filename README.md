@@ -44,32 +44,36 @@ sequenceDiagram
     whitebox-->>user: Get alerted
 ```
 
-# Roadmap
+# Features
 
-## Development status
+## Planned
 
-Whitebox is still in rapid development.
+- [ ] Minimum viable API
+- [ ] Supported model types: Binary classification, Multi-class classification
+- [ ] Supported data types: structured
+- [ ] Feature importance on inference using SHAP values (XAI)
+- [ ] Monitors set up through API
+- [ ] Alerts accessible through API via pull
+- [ ] Grafana integration
 
-## Planned features
+## Coming soon
 
-- API and SDK
-- Supported model types: Binary, Multi-class
-- Supported data types: tabular
-- XAI: Feature importance on inference
-- Available monitors through API
-  - Data drift per feature compared to training
-  - Prediction / concept drift per feature compared to training
-  - Missing values for model input data
-  - Model performance monitoring:
-    - Mean Squared Error
-    - Root Mean Squared Error
-    - Mean Absolute Error
-    - Precision
-    - Recall
-    - F1
-    - Accuracy
-    - Confusion matrix
-- Alerts accessible through API via pull
+- Whitebox UI
+- Regression models
+- Data segments
+- Edge / privacy features
+
+## Available metrics
+
+- Data drift per feature compared to training
+- Prediction / concept drift per feature compared to training
+- Missing values for model input data
+- Model performance monitoring (classification):
+  - Precision
+  - Recall
+  - F1
+  - Accuracy
+  - Confusion matrix
 
 # Set up locally for development
 
