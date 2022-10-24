@@ -1,15 +1,14 @@
 from typing import Optional, Union
 from pydantic import BaseModel
-from src.schemas.base import ItemInDbBase
+from src.schemas.base import ItemBase
 
 
 class UserBase(BaseModel):
     name: str
     email: str
-    password: Union[str, None] = None
 
 
-class UserInDb(UserBase, ItemInDbBase):
+class User(UserBase, ItemBase):
     pass
 
 
@@ -20,3 +19,4 @@ class UserCreate(UserBase):
 class UserUpdate(UserBase):
     name: Optional[str]
     email: Optional[str]
+    password: Union[str, None] = None

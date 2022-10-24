@@ -1,4 +1,4 @@
-from src.schemas.user import UserInDb
+from src.schemas.user import User
 from jose import jwt
 from datetime import timedelta, datetime
 from src.core.settings import get_settings
@@ -8,7 +8,7 @@ from src.schemas.auth import TokenPayload
 settings = get_settings()
 
 
-def create_access_token(user: UserInDb) -> str:
+def create_access_token(user: User) -> str:
     to_encode = dict(
         id=user.id,
         email=user.email,

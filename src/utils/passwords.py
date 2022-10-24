@@ -3,11 +3,11 @@ import secrets, string
 
 
 def to_utf8(ps):
-    return ps.encode('utf-8')
+    return ps.encode("utf-8")
 
 
 def hash_password(password):
-    return bcrypt.hashpw(to_utf8(password), bcrypt.gensalt()).decode('utf8')
+    return bcrypt.hashpw(to_utf8(password), bcrypt.gensalt()).decode("utf8")
 
 
 def passwords_match(hashed_password, password):
@@ -16,4 +16,4 @@ def passwords_match(hashed_password, password):
 
 def generate_app_secret():
     alphabet = string.ascii_letters + string.digits
-    return ''.join(secrets.choice(alphabet) for i in range(32))
+    return "".join(secrets.choice(alphabet) for i in range(32))
