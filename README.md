@@ -58,8 +58,6 @@ Whitebox is still in rapid development.
 - XAI: Feature importance on inference
 - Available monitors through API
   - Data drift per feature compared to training
-    - For numeric fields: Jensen–Shannon divergence
-    - For categorical fields: Hellinger distance
   - Prediction / concept drift per feature compared to training
   - Missing values for model input data
   - Model performance monitoring:
@@ -70,10 +68,7 @@ Whitebox is still in rapid development.
     - Recall
     - F1
     - Accuracy
-    - True Positive Count
-    - True Negative Count
-    - False Positive Count
-    - False Negative Count
+    - Confusion matrix
 - Alerts accessible through API via pull
 
 # Set up locally for development
@@ -96,3 +91,7 @@ Run tests:
 ```bash
 ENV=test pytest -s
 ```
+
+# Contributing
+
+We happily welcome contributions to Whitebox. Open issues with ideas
