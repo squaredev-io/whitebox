@@ -12,4 +12,4 @@ class Project(Base):
     name = Column(String)
     created_at = Column(DateTime)
     updated_at = Column(DateTime)
-    # models = relationship("Model")
+    models = relationship("Model")

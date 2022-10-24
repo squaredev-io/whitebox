@@ -1,3 +1,4 @@
+from typing import List
 from src.schemas.user import User, UserCreate, UserUpdate
 from fastapi import APIRouter, Depends, status
 from src.crud.users import users
@@ -29,6 +30,22 @@ async def create_user(form: UserCreate, db: Session = Depends(get_db)) -> User:
             return new_user.__dict__
     else:
         return errors.bad_request("Form should not be empty")
+
+
+@users_router.get(
+    "/users",
+    tags=["Users"],
+    response_model=List[User],
+    summary="Get all users"
+)
+async def get_all_users(
+    db: Session = Depends(get_db)
+):
+    users_in_db = [_.__dict__ for _ in users.get_all(db=db)]
+    if not users_in_db:
+        return errors.not_found("No user found in database")
+
+    return users_in_db
 
 
 @users_router.get(

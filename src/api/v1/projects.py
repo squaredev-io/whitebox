@@ -1,3 +1,4 @@
+from typing import List
 from src.models.User import User
 from src.schemas.project import Project, ProjectCreate, ProjectUpdate
 from fastapi import APIRouter, Depends, status
@@ -7,6 +8,7 @@ from src.core.db import get_db
 from src.middleware.auth import get_current_user
 from src.schemas.utils import StatusCode
 from src.utils.errors import errors
+
 
 projects_router = APIRouter()
 
@@ -22,6 +24,22 @@ async def create_project(form: ProjectCreate, db: Session = Depends(get_db)) -> 
         return new_project.__dict__
     else:
         return errors.bad_request("Form should not be empty")
+
+
+@projects_router.get(
+    "/projects",
+    tags=["Projects"],
+    response_model=List[Project],
+    summary="Get all projects"
+)
+async def get_all_projects(
+    db: Session = Depends(get_db)
+):
+    projects_in_db = [_.__dict__ for _ in projects.get_all(db=db)]
+    if not projects_in_db:
+        return errors.not_found("No project found in database")
+
+    return projects_in_db
 
 
 @projects_router.get(
