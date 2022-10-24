@@ -7,7 +7,7 @@ from src.schemas.user import User, UserCreate, UserUpdate
 from src.models.User import User as UserModel
 
 
-class CRUDUser(CRUDBase[UserModel, UserCreate, UserUpdate]):
+class CRUD(CRUDBase[UserModel, UserCreate, UserUpdate]):
     def update(self, db: Session, *, form: UserUpdate, db_obj: UserModel) -> User:
         if form.password:
             form.password = hash_password(form.password)
@@ -26,4 +26,4 @@ class CRUDUser(CRUDBase[UserModel, UserCreate, UserUpdate]):
         return user
 
 
-users = CRUDUser(UserModel)
+users = CRUD(UserModel)

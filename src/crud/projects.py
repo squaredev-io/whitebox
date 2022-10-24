@@ -6,8 +6,8 @@ from src.schemas.project import Project, ProjectCreate, ProjectUpdate
 from src.models.Project import Project as ProjectModel
 
 
-class CRUDUser(CRUDBase[ProjectModel, ProjectCreate, ProjectUpdate]):
+class CRUD(CRUDBase[ProjectModel, ProjectCreate, ProjectUpdate]):
     pass
 
 
-projects = CRUDUser(ProjectModel)
+projects = CRUD(ProjectModel)

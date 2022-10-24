@@ -12,7 +12,11 @@ models_router = APIRouter()
 
 
 @models_router.post(
-    "/models", tags=["Models"], response_model=Model, summary="Create model"
+    "/models",
+    tags=["Models"],
+    response_model=Model,
+    status_code=status.HTTP_201_CREATED,
+    summary="Create model",
 )
 async def create_model(form: ModelCreate, db: Session = Depends(get_db)) -> Model:
     if form is not None:
@@ -58,7 +62,6 @@ async def update_model(
     model = models.get(db=db, _id=model_id)
     if not model:
         return errors.not_found("Model not found")
-
     if form is not None:
         return models.update(db=db, db_obj=model, obj_in=form).__dict__
     else:

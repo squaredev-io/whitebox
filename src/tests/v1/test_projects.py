@@ -1,6 +1,5 @@
 from src.tests.v1.mock_data import (
     project_create_payload,
-    projects_in_db,
     project_update_payload,
 )
 import pytest
@@ -10,7 +9,6 @@ from fastapi import status
 
 @pytest.mark.order(test_order_map["projects"]["create"])
 def test_project_create(client):
-    print("state.client", state.client)
     response = client.post(
         "/v1/projects",
         json={**project_create_payload, "user_id": state.client["id"]},

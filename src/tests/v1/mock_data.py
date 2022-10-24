@@ -1,3 +1,5 @@
+from src.schemas.model import ModelType
+
 register_payload = dict(
     email="mark@knight.com",
     password="pass",
@@ -13,4 +15,8 @@ user_update_payload = dict(
 
 project_create_payload = dict(name="Project 1")
 projects_in_db = dict(amount=1)
-project_update_payload = dict(name="Projectara")
+project_update_payload = dict(name="Project 2")
+
+
+model_create_payload = dict(name="Model 1", type=ModelType.multi_class)
+model_update_payload = dict(name="Model 2", type=ModelType.binary)

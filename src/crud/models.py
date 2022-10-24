@@ -6,8 +6,8 @@ from src.schemas.model import Model, ModelCreate, ModelUpdate
 from src.models.Model import Model as ModelModel
 
 
-class CRUDUser(CRUDBase[ModelModel, ModelCreate, ModelUpdate]):
+class CRUD(CRUDBase[ModelModel, ModelCreate, ModelUpdate]):
     pass
 
 
-models = CRUDUser(ModelModel)
+models = CRUD(ModelModel)
