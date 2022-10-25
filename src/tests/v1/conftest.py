@@ -17,6 +17,7 @@ test_order_map = {
     "users": {"create": 5, "get_all": 6, "get": 7, "update": 8, "delete": 102},
     "projects": {"create": 9, "get_all": 13, "get": 14, "update": 15, "delete": 101},
     "models": {"create": 17, "get_all": 18, "get": 19, "update": 20, "delete": 100},
+    "inferences": {"create": 21, "get_all": 22, "get": 23},
 }
 
 
@@ -45,6 +46,8 @@ async def db():
 class TestsState:
     client: dict = {}
     project: dict = {}
+    model: dict = {}
+    inference: dict = {}
 
 
 state = TestsState()
