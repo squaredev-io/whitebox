@@ -3,11 +3,11 @@ from typing import Optional
 from sqlalchemy.orm import Session
 from src.crud.base import CRUDBase
 from src.schemas.model import Model, ModelCreate, ModelUpdate
-from src.models.Model import Model as ModelModel
+from src.entities.Model import Model
 
 
-class CRUD(CRUDBase[ModelModel, ModelCreate, ModelUpdate]):
+class CRUD(CRUDBase[Model, ModelCreate, ModelUpdate]):
     pass
 
 
-models = CRUD(ModelModel)
+models = CRUD(Model)

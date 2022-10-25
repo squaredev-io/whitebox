@@ -4,7 +4,7 @@ from typing import Optional
 from sqlalchemy.orm import Session
 from src.crud.base import CRUDBase
 from src.schemas.user import User, UserCreate, UserUpdate
-from src.models.User import User as UserModel
+from src.entities.User import User as UserModel
 
 
 class CRUD(CRUDBase[UserModel, UserCreate, UserUpdate]):

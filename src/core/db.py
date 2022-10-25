@@ -2,7 +2,7 @@ from src.core.settings import get_settings
 import databases
 import sqlalchemy
 from sqlalchemy.orm import sessionmaker
-from src.models.Base import Base
+from src.entities.Base import Base
 
 settings = get_settings()
 database = databases.Database(settings.POSTGRES_DB_URI)

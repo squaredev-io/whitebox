@@ -21,7 +21,6 @@ models_router = APIRouter()
 async def create_model(form: ModelCreate, db: Session = Depends(get_db)) -> Model:
     if form is not None:
         new_model = models.create(db=db, obj_in=form)
-        print(type(new_model))
         return new_model
     else:
         return errors.bad_request("Form should not be empty")

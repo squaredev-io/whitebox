@@ -1,5 +1,5 @@
 from sqlalchemy import Column, String, ForeignKey, DateTime
-from src.models.Base import Base
+from src.entities.Base import Base
 from src.utils.id_gen import generate_uuid
 from sqlalchemy.orm import relationship
 

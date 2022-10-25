@@ -4,7 +4,7 @@ from src.main import app
 import databases
 import sqlalchemy
 from sqlalchemy.orm import sessionmaker
-from src.models.Base import Base
+from src.entities.Base import Base
 from src.core.settings import get_settings
 
 
