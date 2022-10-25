@@ -90,11 +90,12 @@ Run the server:
 ENV=dev uvicorn src.main:app --reload
 ```
 
-Run tests:
+Tests:
 
-```bash
-ENV=test pytest -s
-```
+- Run: `ENV=test pytest -s`
+- Watch: `ENV=test ptw`
+- Run test coverage `ENV=test coverage run -m pytest`
+- Look at coverage report: `coverage report`
 
 # Contributing
 
