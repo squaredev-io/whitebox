@@ -13,4 +13,4 @@ class User(Base):
     password = deferred(Column(String))
     created_at = Column(DateTime)
     updated_at = Column(DateTime)
-    projects = relationship("Project")
+    models = relationship("Model")

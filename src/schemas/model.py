@@ -10,7 +10,7 @@ class ModelType(str, enum.Enum):
 
 
 class ModelBase(BaseModel):
-    project_id: str
+    user_id: str
     name: str
     type: ModelType
 
