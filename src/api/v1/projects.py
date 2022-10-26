@@ -34,7 +34,7 @@ async def create_project(form: ProjectCreate, db: Session = Depends(get_db)) -> 
     summary="Get all projects",
 )
 async def get_all_projects(db: Session = Depends(get_db)):
-    projects_in_db = [_.__dict__ for _ in projects.get_all(db=db)]
+    projects_in_db = projects.get_all(db=db)
     if not projects_in_db:
         return errors.not_found("No project found in database")
 

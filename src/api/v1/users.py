@@ -40,7 +40,7 @@ async def create_user(form: UserCreate, db: Session = Depends(get_db)) -> User:
     summary="Get all users",
 )
 async def get_all_users(db: Session = Depends(get_db)):
-    users_in_db = [_.__dict__ for _ in users.get_all(db=db)]
+    users_in_db = users.get_all(db=db)
     if not users_in_db:
         return errors.not_found("No user found in database")
 
