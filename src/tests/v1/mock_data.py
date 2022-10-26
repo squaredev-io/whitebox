@@ -26,3 +26,7 @@ model_update_payload = dict(name="Model 2", type=ModelType.binary)
 inference_create_payload = dict(
     timestamp=str(datetime.now()), inference={"a": 1, "b": 2}
 )
+inference_create_many_payload = list((
+    dict(timestamp=str(datetime.now()), inference={"c": 3, "d": 4}),
+    dict(timestamp=str(datetime.now()), inference={"e": 5, "f": 6})
+))

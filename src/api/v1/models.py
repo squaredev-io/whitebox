@@ -34,7 +34,7 @@ async def create_model(form: ModelCreate, db: Session = Depends(get_db)) -> Mode
     status_code=status.HTTP_200_OK,
 )
 async def get_all_models(db: Session = Depends(get_db)):
-    models_in_db = [_.__dict__ for _ in models.get_all(db=db)]
+    models_in_db = models.get_all(db=db)
     if not models_in_db:
         return errors.not_found("No model found in database")
 
