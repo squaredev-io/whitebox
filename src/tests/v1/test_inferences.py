@@ -1,4 +1,4 @@
-from src.tests.v1.mock_data import inference_create_payload
+from src.tests.v1.mock_data import inference_create_payload, inference_create_many_payload
 import pytest
 from src.tests.v1.conftest import test_order_map, state
 from fastapi import status
@@ -11,6 +11,16 @@ def test_inference_create(client):
         json={**inference_create_payload, "model_id": state.model["id"]},
     )
     state.inference = response.json()
+    assert response.status_code == status.HTTP_201_CREATED
+
+
+@pytest.mark.order(test_order_map["inferences"]["create_many"])
+def test_inference_create_many(client):
+    response = client.post(
+        "/v1/inferences/many",
+        json=list(map(lambda x: {**x, "model_id": state.model["id"]}, inference_create_many_payload))
+    )
+    print(response.json())
     assert response.status_code == status.HTTP_201_CREATED
 
 
