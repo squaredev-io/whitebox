@@ -16,7 +16,7 @@ test_order_map = {
     "auth": {"unauthorized_me": 2, "login": 3, "authorized_me": 4},
     "users": {"create": 5, "get_all": 6, "get": 7, "update": 8, "delete": 102},
     "models": {"create": 9, "get_all": 10, "get": 11, "update": 12, "delete": 100},
-    "inferences": {"create": 13, "get_all": 14, "get": 15},
+    "inferences": {"create": 13, "get_all": 14, "get": 15, "create_many": 16},
 }
 
 
