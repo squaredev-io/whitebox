@@ -11,7 +11,7 @@ def test_user_create(client):
         json=user_create_payload,
     )
     assert response.status_code == status.HTTP_201_CREATED
-    state.client = response.json()
+    state.user = response.json()
     assert response.json()["id"] is not None
     assert response.json()["name"] == user_create_payload["name"]
     assert response.json()["email"] == user_create_payload["email"]
@@ -26,7 +26,7 @@ def test_user_get_all(client):
 
 @pytest.mark.order(test_order_map["users"]["get"])
 def test_user_get(client):
-    response = client.get(f"/v1/users/{state.client['id']}")
+    response = client.get(f"/v1/users/{state.user['id']}")
     assert response.status_code == status.HTTP_200_OK
     assert response.json()["name"] == user_create_payload["name"]
     assert response.json()["email"] == user_create_payload["email"]
@@ -34,7 +34,7 @@ def test_user_get(client):
 
 @pytest.mark.order(test_order_map["users"]["update"])
 def test_user_update(client):
-    response = client.put(f"/v1/users/{state.client['id']}", json=user_update_payload)
+    response = client.put(f"/v1/users/{state.user['id']}", json=user_update_payload)
     assert response.status_code == status.HTTP_200_OK
     assert response.json()["name"] == user_update_payload["name"]
     assert response.json()["email"] == user_update_payload["email"]
@@ -43,6 +43,6 @@ def test_user_update(client):
 @pytest.mark.order(test_order_map["users"]["delete"])
 def test_user_delete(client):
     response = client.delete(
-        f"/v1/users/{state.client['id']}",
+        f"/v1/users/{state.user['id']}",
     )
     assert response.json() == {"status_code": str(status.HTTP_200_OK)}

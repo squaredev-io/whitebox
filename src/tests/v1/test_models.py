@@ -11,7 +11,7 @@ from fastapi import status
 def test_model_create(client):
     response = client.post(
         "/v1/models",
-        json={**model_create_payload, "project_id": state.project["id"]},
+        json={**model_create_payload, "user_id": state.user["id"]},
     )
 
     state.model = response.json()
