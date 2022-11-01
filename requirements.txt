@@ -33,7 +33,7 @@ databases==0.6.1
 decorator==5.1.1
 docopt==0.6.2
 ecdsa==0.18.0
-evidently==0.1.59
+evidently==0.1.59.dev0
 executing==1.1.1
 fastapi==0.85.0
 FLAML==1.0.13
