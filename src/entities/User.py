@@ -14,3 +14,4 @@ class User(Base):
     created_at = Column(DateTime)
     updated_at = Column(DateTime)
     models = relationship("Model")
+    datasets = relationship("Dataset")

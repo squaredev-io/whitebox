@@ -1,11 +1,11 @@
+from pydantic import BaseModel
 from datetime import datetime
 from typing import Any, Dict, Union
-from pydantic import BaseModel
 from src.schemas.base import ItemBase
 
 
-class InferenceBase(BaseModel):
-    model_id: str
+class DatasetRowBase(BaseModel):
+    dataset_id: str
     timestamp: Union[str, datetime]
     features: Dict[str, Any]
     raw: Dict[str, Any]
@@ -13,9 +13,9 @@ class InferenceBase(BaseModel):
     actuals: Dict[str, Any]
 
 
-class Inference(InferenceBase, ItemBase):
+class DatasetRow(DatasetRowBase, ItemBase):
     pass
 
 
-class InferenceCreate(InferenceBase):
+class DatasetRowCreate(DatasetRowBase):
     pass

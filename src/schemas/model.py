@@ -1,4 +1,4 @@
-from typing import Any, Optional
+from typing import Any, Dict, Optional
 from pydantic import BaseModel
 from src.schemas.base import ItemBase
 import enum
@@ -13,6 +13,9 @@ class ModelBase(BaseModel):
     user_id: str
     name: str
     type: ModelType
+    features: Dict[str, Any]
+    predictions: Dict[str, Any]
+    labels: Dict[str, Any]
 
 
 class Model(ModelBase, ItemBase):
