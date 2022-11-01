@@ -69,7 +69,6 @@ matplotlib-inline==0.1.6
 multidict==6.0.2
 munkres==1.1.4
 mypy-extensions==0.4.3
-nannyml==0.6.3
 numba==0.55.2
 numpy==1.22.4
 oauthlib==3.2.2
