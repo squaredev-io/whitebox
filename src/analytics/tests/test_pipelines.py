@@ -1,11 +1,16 @@
 import pytest
 from src.analytics.metrics.pipelines import *
 from unittest import TestCase
+from sklearn.datasets import fetch_california_housing
 
 test_metrics_df = pd.read_csv("src/analytics/data/testing/metrics_test_data.csv")
 test_classification_df = pd.read_csv(
     "src/analytics/data/testing/classification_test_data.csv"
 )
+drift_data = fetch_california_housing(as_frame=True)
+drift_data = drift_data.frame
+reference = drift_data.head(500)
+current = drift_data.iloc[1000:1200]
 
 
 class TestNodes:
@@ -122,3 +127,11 @@ class TestNodes:
             },
             multiple_confusion_matrix_class2,
         )
+
+    def test_create_data_drift_pipeline(self):
+        data_drift_report=create_data_drift_pipeline(reference,current)
+        assert list(data_drift_report.keys()) == ["timestamp","drift_summary"]
+        assert data_drift_report["drift_summary"]["number_of_columns"] == 9
+        assert data_drift_report["drift_summary"]["number_of_drifted_columns"] == 7
+        assert round(data_drift_report["drift_summary"]["drift_by_columns"]["Population"]["drift_score"],2) == 0.06
+        assert data_drift_report["drift_summary"]["drift_by_columns"]["Longitude"]["drift_detected"] == True
