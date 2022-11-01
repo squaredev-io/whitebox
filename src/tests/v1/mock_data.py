@@ -1,4 +1,6 @@
 from datetime import datetime
+
+import databases
 from src.schemas.model import ModelType
 
 register_payload = dict(
@@ -16,17 +18,15 @@ user_update_payload = dict(
 
 model_create_payload = dict(
     name="Model 1",
+    description="Model 1 description",
     type=ModelType.multi_class,
-    features={"feature": 1},
-    predictions={"prediction": 1},
-    labels={"label": 1}
+    features={"feature_1": "boolean", "feature_2": "categorical"},
+    labels=["label_1", "label_2"],
 )
 model_update_payload = dict(
     name="Model 2",
     type=ModelType.binary,
-    features={"feature": 2},
-    predictions={"prediction": 2},
-    labels={"label": 2}
+    description="Model 2 description",
 )
 
 
@@ -35,22 +35,24 @@ inference_create_payload = dict(
     features={"feature": 1},
     raw={"raw": 1},
     prediction={"prediction": 1},
-    actuals={"actual": 1}
+    actuals={"actual": 1},
 )
 
-inference_create_many_payload = list((
-    dict(
-        timestamp=str(datetime.now()),
-        features={"feature": 2},
-        raw={"raw": 2},
-        prediction={"prediction": 2},
-        actuals={"actual": 2}
-    ),
-    dict(
-        timestamp=str(datetime.now()),
-        features={"feature": 3},
-        raw={"raw": 3},
-        prediction={"prediction": 3},
-        actuals={"actual": 3}
+inference_create_many_payload = list(
+    (
+        dict(
+            timestamp=str(datetime.now()),
+            features={"feature": 2},
+            raw={"raw": 2},
+            prediction={"prediction": 2},
+            actuals={"actual": 2},
+        ),
+        dict(
+            timestamp=str(datetime.now()),
+            features={"feature": 3},
+            raw={"raw": 3},
+            prediction={"prediction": 3},
+            actuals={"actual": 3},
+        ),
     )
-))
+)
