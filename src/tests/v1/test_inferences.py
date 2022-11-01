@@ -20,7 +20,6 @@ def test_inference_create_many(client):
         "/v1/inferences/many",
         json=list(map(lambda x: {**x, "model_id": state.model["id"]}, inference_create_many_payload))
     )
-    print(response.json())
     assert response.status_code == status.HTTP_201_CREATED
 
 

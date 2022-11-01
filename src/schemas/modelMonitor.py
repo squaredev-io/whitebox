@@ -7,7 +7,7 @@ class ModelMonitorBase(BaseModel):
     model_id: str
     dataset_id: str
     name: str
-    metric: Any
+    # metric: Any #Enum
     threshold: Union[int, float]
 
 

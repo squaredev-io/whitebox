@@ -12,7 +12,7 @@ class ModelMonitor(Base):
     model_id = Column(String, ForeignKey("models.id", ondelete="CASCADE"))
     dataset_id = Column(String, ForeignKey("datasets.id", ondelete="CASCADE"))
     name = Column(String)
-    metric = Column(Any) # Define Enum
+    # metric = Column(Any) # Define Enum
     threshold = Column(Numeric)
     created_at = Column(DateTime)
     updated_at = Column(DateTime)
