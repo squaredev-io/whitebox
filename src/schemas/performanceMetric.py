@@ -35,7 +35,7 @@ class MultiClassificationMetrics(BaseModel):
     model_id: str
     timestamp: str
     accuracy: float
-    precision_statistics: DifferentStatistics
-    recall_statistics: DifferentStatistics
-    f1_statistics: DifferentStatistics
-    multiple_confusion_matrix: Dict[str, ConfusionMatrix]
+    precision: DifferentStatistics
+    recall: DifferentStatistics
+    f1: DifferentStatistics
+    confusion_matrix: Dict[str, ConfusionMatrix]
