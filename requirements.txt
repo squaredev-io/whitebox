@@ -86,7 +86,7 @@ plotly==5.10.0
 pluggy==1.0.0
 prompt-toolkit==3.0.31
 protobuf==4.21.8
-psycopg2==2.9.3
+psycopg2-binary==2.9.3
 ptyprocess==0.7.0
 pure-eval==0.2.2
 py==1.11.0
