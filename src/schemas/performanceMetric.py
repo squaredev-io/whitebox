@@ -1,22 +1,41 @@
 from pydantic import BaseModel
+from typing import Dict
 from src.schemas.base import ItemBase
 
+# TODO: Include comments of what each class represents
 
-class PerformanceMetricBase(BaseModel):
+
+class BinaryClassificationMetrics(BaseModel):
     model_id: str
+    timestamp: str
+    accuracy: float
     precision: float
     recall: float
     f1: float
+    true_negative: int
+    false_positive: int
+    false_negative: int
+    true_positive: int
+
+
+class DifferentStatistics(BaseModel):
+    micro: float
+    macro: float
+    weighted: float
+
+
+class ConfusionMatrix(BaseModel):
+    true_negative: int
+    false_positive: int
+    false_negative: int
+    true_positive: int
+
+
+class MultiClassificationMetrics(BaseModel):
+    model_id: str
+    timestamp: str
     accuracy: float
-    true_positives: int
-    true_negatives: int
-    false_positives: int
-    false_negatives: int
-
-
-class PerformanceMetric(PerformanceMetricBase, ItemBase):
-    pass
-
-
-class PerformanceMetricCreate(PerformanceMetricBase):
-    pass
+    precision_statistics: DifferentStatistics
+    recall_statistics: DifferentStatistics
+    f1_statistics: DifferentStatistics
+    multiple_confusion_matrix: Dict[str, ConfusionMatrix]

@@ -3,15 +3,18 @@ from pydantic import BaseModel
 from src.schemas.base import ItemBase
 
 
+class FeatureMetrics(BaseModel):
+    missing_count: Dict[str, int]
+    non_missing_count: Dict[str, int]
+    mean: Dict[str, float]
+    minimun: Dict[str, float]
+    maximum: Dict[str, float]
+    sum: Dict[str, float]
+    standard_deviation: Dict[str, float]
+    variance: Dict[str, float]
+
+
 class ModelIntegrityMetricBase(BaseModel):
     model_id: str
-    missing_values: float
-    feature_metrics: Dict[str, Any]
-
-
-class ModelIntegrityMetric(ModelIntegrityMetricBase, ItemBase):
-    pass
-
-
-class ModelIntegrityMetricCreate(ModelIntegrityMetricBase):
-    pass
+    timestamp: str
+    feature_metrics: FeatureMetrics
