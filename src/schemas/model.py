@@ -1,4 +1,4 @@
-from typing import Any, Dict, Optional
+from typing import Any, Dict, List, Optional
 from pydantic import BaseModel
 from src.schemas.base import ItemBase
 import enum
@@ -9,13 +9,21 @@ class ModelType(str, enum.Enum):
     multi_class = "multi_class"
 
 
+class FeatureTypes(str, enum.Enum):
+    categorical = "categorical"
+    boolean = "boolean"
+    string = "string"
+    datetime = "datetime"
+    numerical = "numerical"
+
+
 class ModelBase(BaseModel):
     user_id: str
     name: str
+    description: str
     type: ModelType
-    features: Dict[str, Any]
-    predictions: Dict[str, Any]
-    labels: Dict[str, Any]
+    features: Dict[str, FeatureTypes]
+    labels: Optional[List[str]]
 
 
 class Model(ModelBase, ItemBase):
@@ -28,4 +36,5 @@ class ModelCreate(ModelBase):
 
 class ModelUpdate(BaseModel):
     name: Optional[str]
+    description: Optional[str]
     type: Optional[ModelType]
