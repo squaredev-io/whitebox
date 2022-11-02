@@ -23,9 +23,9 @@ def test_inference_create_many(client):
     assert response.status_code == status.HTTP_201_CREATED
 
 
-@pytest.mark.order(test_order_map["inferences"]["get_all"])
-def test_inference_get_all(client):
-    response = client.get(f"/v1/inferences")
+@pytest.mark.order(test_order_map["inferences"]["get_model's_all"])
+def test_inference_get_models_all(client):
+    response = client.get(f"/v1/models/{state.model['id']}/inferences")
     assert response.status_code == status.HTTP_200_OK
 
 

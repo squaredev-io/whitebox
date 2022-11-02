@@ -18,9 +18,9 @@ models_router = APIRouter()
     status_code=status.HTTP_201_CREATED,
     summary="Create model",
 )
-async def create_model(form: ModelCreate, db: Session = Depends(get_db)) -> Model:
-    if form is not None:
-        new_model = models.create(db=db, obj_in=form)
+async def create_model(body: ModelCreate, db: Session = Depends(get_db)) -> Model:
+    if body is not None:
+        new_model = models.create(db=db, obj_in=body)
         return new_model
     else:
         return errors.bad_request("Form should not be empty")
@@ -65,14 +65,14 @@ async def get_model(model_id: str, db: Session = Depends(get_db)):
 )
 async def update_model(
     model_id: str,
-    form: ModelUpdate,
+    body: ModelUpdate,
     db: Session = Depends(get_db),
 ) -> Model:
     model = models.get(db=db, _id=model_id)
     if not model:
         return errors.not_found("Model not found")
-    if form is not None:
-        return models.update(db=db, db_obj=model, obj_in=form)
+    if body is not None:
+        return models.update(db=db, db_obj=model, obj_in=body)
     else:
         return errors.bad_request("Form should not be empty")
 
