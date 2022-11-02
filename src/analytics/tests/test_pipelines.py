@@ -1,5 +1,6 @@
 import pytest
 from src.analytics.metrics.pipelines import *
+from src.analytics.drift.pipelines import *
 from unittest import TestCase
 from sklearn.datasets import fetch_california_housing
 
@@ -129,9 +130,22 @@ class TestNodes:
         )
 
     def test_create_data_drift_pipeline(self):
-        data_drift_report=create_data_drift_pipeline(reference,current)
-        assert list(data_drift_report.keys()) == ["timestamp","drift_summary"]
+        data_drift_report = create_data_drift_pipeline(reference, current)
+        assert list(data_drift_report.keys()) == ["timestamp", "drift_summary"]
         assert data_drift_report["drift_summary"]["number_of_columns"] == 9
         assert data_drift_report["drift_summary"]["number_of_drifted_columns"] == 7
-        assert round(data_drift_report["drift_summary"]["drift_by_columns"]["Population"]["drift_score"],2) == 0.06
-        assert data_drift_report["drift_summary"]["drift_by_columns"]["Longitude"]["drift_detected"] == True
+        assert (
+            round(
+                data_drift_report["drift_summary"]["drift_by_columns"]["Population"][
+                    "drift_score"
+                ],
+                2,
+            )
+            == 0.06
+        )
+        assert (
+            data_drift_report["drift_summary"]["drift_by_columns"]["Longitude"][
+                "drift_detected"
+            ]
+            == True
+        )
