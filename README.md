@@ -95,7 +95,7 @@ Tests:
 - Run: `ENV=test pytest -s`
 - Watch: `ENV=test ptw`
 - Run test coverage `ENV=test coverage run -m pytest`
-- Look at coverage report: `coverage report`
+- Look at coverage report: `coverage report` or `coverage html` to generate an html. To view it in your browser open the `htmlcov/index.html` file.
 
 # Contributing
 
