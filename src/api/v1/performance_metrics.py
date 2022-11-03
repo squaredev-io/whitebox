@@ -4,7 +4,7 @@ from src.crud.performance_metrics import binary_classification_metrics, multi_cl
 from src.crud.models import models
 from sqlalchemy.orm import Session
 from src.core.db import get_db
-from src.schemas.performanceMetric import BinaryClassificationMetrics, BinaryClassificationMetricsBase, MultiClassificationMetrics
+from src.schemas.performanceMetric import BinaryClassificationMetrics, MultiClassificationMetrics
 from src.utils.errors import errors
 
 
