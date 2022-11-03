@@ -6,5 +6,5 @@ from .Inference import Inference
 from .Model import Model
 from .ModelIntegrityMetric import ModelIntegrityMetric
 from .ModelMonitor import ModelMonitor
-from .PerformanceMetric import PerformanceMetric
+from .PerformanceMetric import BinaryClassificationMetrics, MultiClassificationMetrics
 from .User import User

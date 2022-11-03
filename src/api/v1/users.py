@@ -19,14 +19,14 @@ users_router = APIRouter()
     status_code=status.HTTP_201_CREATED,
     summary="Create user",
 )
-async def create_user(form: UserCreate, db: Session = Depends(get_db)) -> User:
-    if form is not None:
-        is_registered = users.get_by_email(db=db, email=form.email) is not None
+async def create_user(body: UserCreate, db: Session = Depends(get_db)) -> User:
+    if body is not None:
+        is_registered = users.get_by_email(db=db, email=body.email) is not None
         if is_registered:
             return errors.content_exists("Already registered")
         else:
-            form.password = hash_password(form.password)
-            new_user = users.create(db=db, obj_in=form)
+            body.password = hash_password(body.password)
+            new_user = users.create(db=db, obj_in=body)
             return new_user
     else:
         return errors.bad_request("Form should not be empty")
@@ -71,11 +71,11 @@ async def get_user(user_id: str, db: Session = Depends(get_db)):
 )
 async def update_user(
     user_id: str,
-    form: UserUpdate,
+    body: UserUpdate,
     db: Session = Depends(get_db),
 ) -> User:
-    if form is not None:
-        return users.update(db=db, db_obj=users.get(db, user_id), form=form)
+    if body is not None:
+        return users.update(db=db, db_obj=users.get(db, user_id), body=body)
     else:
         return errors.bad_request("Form should not be empty")
 

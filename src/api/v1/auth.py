@@ -19,10 +19,10 @@ auth_router = APIRouter()
     response_model=Token,
 )
 async def get_access_token(
-    db: Session = Depends(get_db), form_data: OAuth2PasswordRequestForm = Depends()
+    db: Session = Depends(get_db), body: OAuth2PasswordRequestForm = Depends()
 ):
     user_in_db = users.authenticate(
-        db, email=form_data.username, password=form_data.password
+        db, email=body.username, password=body.password
     )
     if not user_in_db:
         return errors.not_found("No user found")

@@ -2,8 +2,8 @@ from fastapi.encoders import jsonable_encoder
 from typing import Any, List
 from sqlalchemy.orm import Session
 from src.crud.base import CRUDBase
-from src.schemas.inference import InferenceCreate
-from src.entities.Inference import Inference
+from src.schemas.inference import Inference, InferenceCreate
+from src.entities.Inference import Inference as InferenceEntity
 import datetime
 
 
@@ -16,5 +16,13 @@ class CRUD(CRUDBase[Inference, InferenceCreate, Any]):
         db.commit()
         return db_obj_list
 
+    def get_model_inferences(
+        self, db: Session, *, model_id: int
+    ) -> List[Inference]:
+        return (
+            db.query(self.model)
+            .filter(InferenceEntity.model_id == model_id)
+            .all()
+        )
 
-inferences = CRUD(Inference)
+inferences = CRUD(InferenceEntity)
