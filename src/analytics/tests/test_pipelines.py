@@ -11,6 +11,8 @@ drift_data = fetch_california_housing(as_frame=True)
 drift_data = drift_data.frame
 reference = drift_data.head(500)
 current = drift_data.iloc[1000:1200]
+reference_concept_drift = test_classification_df.head(5)
+current_concept_drift = test_classification_df.tail(5)
 
 
 class TestNodes:
@@ -135,3 +137,10 @@ class TestNodes:
         assert data_drift_report["drift_summary"]["number_of_drifted_columns"] == 7
         assert round(data_drift_report["drift_summary"]["drift_by_columns"]["Population"]["drift_score"],2) == 0.06
         assert data_drift_report["drift_summary"]["drift_by_columns"]["Longitude"]["drift_detected"] == True
+
+    def test_create_concept_drift_pipeline(self):
+        concept_drift_report=create_concept_drift_pipeline(reference_concept_drift,current_concept_drift,'y_testing_multi')
+        assert list(concept_drift_report.keys()) == ["timestamp","concept_drift_summary"]
+        assert round(concept_drift_report["concept_drift_summary"]["drift_score"],3) == 0.082
+        assert concept_drift_report["concept_drift_summary"]["drift_detected"] == False
+        assert concept_drift_report["concept_drift_summary"]["column_name"] == 'y_testing_multi'
