@@ -1,19 +1,20 @@
-from fastapi.encoders import jsonable_encoder
 from typing import Any, List
 from sqlalchemy.orm import Session
 from src.crud.base import CRUDBase
-from src.entities.PerformanceMetric import PerformanceMetric as PerformanceMetricEntity
-from src.schemas.performanceMetric import PerformanceMetric, PerformanceMetricCreate
+from src.entities.PerformanceMetric import BinaryClassificationMetrics as BinaryClassificationMetricsEntity, \
+    MultiClassificationMetrics as MultiClassificationMetricsEntity
+from src.schemas.performanceMetric import BinaryClassificationMetrics, MultiClassificationMetrics
 
-
-class CRUD(CRUDBase[PerformanceMetric, PerformanceMetricCreate, Any]):
+class CRUD(CRUDBase[BinaryClassificationMetrics | MultiClassificationMetrics, Any, Any]):
     def get_model_performance_metrics(
         self, db: Session, *, model_id: int
-    ) -> List[PerformanceMetric]:
+    ) -> List[BinaryClassificationMetrics] | List[MultiClassificationMetrics]:
         return (
             db.query(self.model)
-            .filter(PerformanceMetricEntity.model_id == model_id)
+            .filter(self.model.model_id == model_id)
             .all()
         )
 
-performance_metrics = CRUD(PerformanceMetricEntity)
+binary_classification_metrics = CRUD(BinaryClassificationMetricsEntity)
+multi_classification_metrics = CRUD(MultiClassificationMetricsEntity)
+

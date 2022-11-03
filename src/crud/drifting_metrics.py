@@ -3,13 +3,13 @@ from typing import Any, List
 from sqlalchemy.orm import Session
 from src.crud.base import CRUDBase
 from src.entities.DriftingMetric import DriftingMetric as DriftingMetricEntity
-from src.schemas.driftingMetric import DriftingMetric, DriftingMetricCreate
+from src.schemas.driftingMetric import DriftingMetricBase
 
 
-class CRUD(CRUDBase[DriftingMetric, DriftingMetricCreate, Any]):
+class CRUD(CRUDBase[DriftingMetricBase, Any, Any]):
     def get_model_drifting_metrics(
         self, db: Session, *, model_id: int
-    ) -> List[DriftingMetric]:
+    ) -> List[DriftingMetricBase]:
         return (
             db.query(self.model)
             .filter(DriftingMetricEntity.model_id == model_id)

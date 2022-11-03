@@ -19,7 +19,8 @@ class Model(Base):
     updated_at = Column(DateTime)
 
     inferences = relationship("Inference")
-    performance_metrics = relationship("PerformanceMetric")
+    binary_classification_metrics = relationship("BinaryClassificationMetrics")
+    multi_classification_metrics = relationship("MultiClassificationMetrics")
     drifting_metrics = relationship("DriftingMetric")
     model_integrity_metrics = relationship("ModelIntegrityMetric")
     model_monitors = relationship("ModelMonitor")
