@@ -5,7 +5,7 @@ from src.crud.models import models
 from sqlalchemy.orm import Session
 from src.core.db import get_db
 from src.schemas.driftingMetric import DriftingMetricBase
-from src.utils.errors import errors
+from src.utils.errors import add_error_responses, errors
 
 
 drifting_metrics_router = APIRouter()
@@ -17,6 +17,7 @@ drifting_metrics_router = APIRouter()
     response_model=List[DriftingMetricBase],
     summary="Get all model's drifting metrics",
     status_code=status.HTTP_200_OK,
+    responses=add_error_responses([404]),
 )
 async def get_all_models_drifting_metrics(model_id: str, db: Session = Depends(get_db)):
     model = models.get(db, model_id)
@@ -30,8 +31,9 @@ async def get_all_models_drifting_metrics(model_id: str, db: Session = Depends(g
     "/drifting_metrics/{drifting_metric_id}",
     tags=["Drifting Metrics"],
     response_model=DriftingMetricBase,
-    status_code=status.HTTP_200_OK,
     summary="Get drifting metric by id",
+    status_code=status.HTTP_200_OK,
+    responses=add_error_responses([404]),
 )
 async def get_drifting_metric(drifting_metric_id: str, db: Session = Depends(get_db)):
     drifting_metric = drifting_metrics.get(db=db, _id=drifting_metric_id)

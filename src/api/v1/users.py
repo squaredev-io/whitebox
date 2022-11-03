@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from src.core.db import get_db
 from src.schemas.utils import StatusCode
 from src.utils.passwords import hash_password
-from src.utils.errors import errors
+from src.utils.errors import add_error_responses, errors
 
 users_router = APIRouter()
 
@@ -16,8 +16,9 @@ users_router = APIRouter()
     "/users",
     tags=["Users"],
     response_model=User,
-    status_code=status.HTTP_201_CREATED,
     summary="Create user",
+    status_code=status.HTTP_201_CREATED,
+    responses=add_error_responses([400, 409]),
 )
 async def create_user(body: UserCreate, db: Session = Depends(get_db)) -> User:
     if body is not None:
@@ -36,8 +37,9 @@ async def create_user(body: UserCreate, db: Session = Depends(get_db)) -> User:
     "/users",
     tags=["Users"],
     response_model=List[User],
-    status_code=status.HTTP_200_OK,
     summary="Get all users",
+    status_code=status.HTTP_200_OK,
+    responses=add_error_responses([404]),
 )
 async def get_all_users(db: Session = Depends(get_db)):
     users_in_db = users.get_all(db=db)
@@ -50,9 +52,10 @@ async def get_all_users(db: Session = Depends(get_db)):
 @users_router.get(
     "/users/{user_id}",
     tags=["Users"],
-    status_code=status.HTTP_200_OK,
     response_model=User,
     summary="Get user by id",
+    status_code=status.HTTP_200_OK,
+    responses=add_error_responses([404]),
 )
 async def get_user(user_id: str, db: Session = Depends(get_db)):
     user = users.get(db=db, _id=user_id)
@@ -65,9 +68,10 @@ async def get_user(user_id: str, db: Session = Depends(get_db)):
 @users_router.put(
     "/users/{user_id}",
     tags=["Users"],
-    status_code=status.HTTP_200_OK,
     response_model=User,
     summary="Update user",
+    status_code=status.HTTP_200_OK,
+    responses=add_error_responses([400, 404]),
 )
 async def update_user(
     user_id: str,
@@ -83,9 +87,10 @@ async def update_user(
 @users_router.delete(
     "/users/{user_id}",
     tags=["Users"],
-    status_code=status.HTTP_200_OK,
     response_model=StatusCode,
     summary="Delete user",
+    status_code=status.HTTP_200_OK,
+    responses=add_error_responses([404]),
 )
 async def delete_user(
     user_id: str,

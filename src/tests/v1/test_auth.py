@@ -1,6 +1,7 @@
 import pytest
 from src.tests.v1.conftest import test_order_map
 from src.tests.v1.mock_data import login_payload, register_payload
+from fastapi import status
 
 access_token = ""
 
@@ -8,7 +9,7 @@ access_token = ""
 @pytest.mark.order(test_order_map["auth"]["unauthorized_me"])
 def test_me(client):
     response = client.post("/v1/auth/me")
-    assert response.json() == {"error": "Not authenticated", "status_code": 401}
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
 
 # @pytest.mark.order(test_order_map["auth"]["login"])

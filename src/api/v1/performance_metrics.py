@@ -5,7 +5,7 @@ from src.crud.models import models
 from sqlalchemy.orm import Session
 from src.core.db import get_db
 from src.schemas.performanceMetric import BinaryClassificationMetrics, MultiClassificationMetrics
-from src.utils.errors import errors
+from src.utils.errors import add_error_responses, errors
 
 
 performance_metrics_router = APIRouter()
@@ -17,6 +17,7 @@ performance_metrics_router = APIRouter()
     response_model=List[BinaryClassificationMetrics] | List[MultiClassificationMetrics],
     summary="Get all model's performance metrics",
     status_code=status.HTTP_200_OK,
+    responses=add_error_responses([404]),
 )
 async def get_all_models_performance_metrics(model_id: str, db: Session = Depends(get_db)):
     model = models.get(db, model_id)
