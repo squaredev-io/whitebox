@@ -5,7 +5,7 @@ from src.crud.inferences import inferences
 from src.crud.models import models
 from sqlalchemy.orm import Session
 from src.core.db import get_db
-from src.utils.errors import errors
+from src.utils.errors import add_error_responses, errors
 
 
 inferences_router = APIRouter()
@@ -15,8 +15,9 @@ inferences_router = APIRouter()
     "/inferences",
     tags=["Inferences"],
     response_model=Inference,
-    status_code=status.HTTP_201_CREATED,
     summary="Create inference",
+    status_code=status.HTTP_201_CREATED,
+    responses=add_error_responses([400, 409]),
 )
 async def create_inference(
     body: InferenceCreate, db: Session = Depends(get_db)
@@ -32,8 +33,9 @@ async def create_inference(
     "/inferences/many",
     tags=["Inferences"],
     response_model=List[Inference],
-    status_code=status.HTTP_201_CREATED,
     summary="Create many inference",
+    status_code=status.HTTP_201_CREATED,
+    responses=add_error_responses([400, 409]),
 )
 async def create_inference(
     body: List[InferenceCreate], db: Session = Depends(get_db)
@@ -51,6 +53,7 @@ async def create_inference(
     response_model=List[Inference],
     summary="Get all model's inferences",
     status_code=status.HTTP_200_OK,
+    responses=add_error_responses([404]),
 )
 async def get_all_models_inferences(model_id: str, db: Session = Depends(get_db)):
     model = models.get(db, model_id)
@@ -64,8 +67,9 @@ async def get_all_models_inferences(model_id: str, db: Session = Depends(get_db)
     "/inferences/{inference_id}",
     tags=["Inferences"],
     response_model=Inference,
-    status_code=status.HTTP_200_OK,
     summary="Get inference by id",
+    status_code=status.HTTP_200_OK,
+    responses=add_error_responses([404]),
 )
 async def get_inference(inference_id: str, db: Session = Depends(get_db)):
     inference = inferences.get(db=db, _id=inference_id)

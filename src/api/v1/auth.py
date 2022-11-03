@@ -1,5 +1,5 @@
 from requests import Session
-from fastapi import Depends, APIRouter
+from fastapi import Depends, APIRouter, status
 from fastapi.security import OAuth2PasswordRequestForm
 from src.core.db import get_db
 from src.utils.tokens import create_access_token
@@ -7,7 +7,7 @@ from src.middleware.auth import get_current_user
 from src.crud.users import users
 from src.schemas.auth import Token
 from src.schemas.user import User
-from src.utils.errors import errors
+from src.utils.errors import add_error_responses, errors
 
 auth_router = APIRouter()
 
@@ -15,8 +15,10 @@ auth_router = APIRouter()
 @auth_router.post(
     "/auth/token",
     tags=["Auth"],
-    summary="Get access token",
     response_model=Token,
+    summary="Get access token",
+    status_code=status.HTTP_200_OK,
+    responses=add_error_responses([404]),
 )
 async def get_access_token(
     db: Session = Depends(get_db), body: OAuth2PasswordRequestForm = Depends()
@@ -34,7 +36,12 @@ async def get_access_token(
 
 
 @auth_router.post(
-    "/auth/me", tags=["Auth"], summary="Get active user", response_model=User
+    "/auth/me",
+    tags=["Auth"],
+    response_model=User,
+    summary="Get active user",
+    status_code=status.HTTP_200_OK,
+    responses=add_error_responses([401])
 )
 async def get_active_user(active_user: User = Depends(get_current_user)):
     if not active_user:

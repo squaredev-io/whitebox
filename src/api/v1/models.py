@@ -5,7 +5,7 @@ from src.crud.models import models
 from sqlalchemy.orm import Session
 from src.core.db import get_db
 from src.schemas.utils import StatusCode
-from src.utils.errors import errors
+from src.utils.errors import add_error_responses, errors
 
 
 models_router = APIRouter()
@@ -15,8 +15,9 @@ models_router = APIRouter()
     "/models",
     tags=["Models"],
     response_model=Model,
-    status_code=status.HTTP_201_CREATED,
     summary="Create model",
+    status_code=status.HTTP_201_CREATED,
+    responses=add_error_responses([400, 409]),
 )
 async def create_model(body: ModelCreate, db: Session = Depends(get_db)) -> Model:
     if body is not None:
@@ -32,6 +33,7 @@ async def create_model(body: ModelCreate, db: Session = Depends(get_db)) -> Mode
     response_model=List[Model],
     summary="Get all models",
     status_code=status.HTTP_200_OK,
+    responses=add_error_responses([404]),
 )
 async def get_all_models(db: Session = Depends(get_db)):
     models_in_db = models.get_all(db=db)
@@ -45,8 +47,9 @@ async def get_all_models(db: Session = Depends(get_db)):
     "/models/{model_id}",
     tags=["Models"],
     response_model=Model,
-    status_code=status.HTTP_200_OK,
     summary="Get model by id",
+    status_code=status.HTTP_200_OK,
+    responses=add_error_responses([404]),
 )
 async def get_model(model_id: str, db: Session = Depends(get_db)):
     model = models.get(db=db, _id=model_id)
@@ -62,6 +65,7 @@ async def get_model(model_id: str, db: Session = Depends(get_db)):
     response_model=Model,
     summary="Update model",
     status_code=status.HTTP_200_OK,
+    responses=add_error_responses([400, 404]),
 )
 async def update_model(
     model_id: str,
@@ -83,6 +87,7 @@ async def update_model(
     response_model=StatusCode,
     summary="Delete user",
     status_code=status.HTTP_200_OK,
+    responses=add_error_responses([404]),
 )
 async def delete_user(
     model_id: str,

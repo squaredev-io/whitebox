@@ -2,7 +2,15 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from src.api.v1 import v1_router
 from fastapi.openapi.utils import get_openapi
-import json
+from src.api.v1.docs import (
+    tags_metadata,
+    validation_error,
+    authorization_error,
+    not_found_error,
+    conflict_error,
+    content_gone,
+    bad_request,
+)
 from src.core.settings import get_settings
 from src.core.db import connect, close
 from starlette.exceptions import HTTPException as StarletteHTTPException
@@ -48,11 +56,16 @@ def app_openapi():
         title="Whitebox",
         version=settings.VERSION,
         routes=app.routes,
+        # description=description,
+        tags=tags_metadata,
     )
-    # with open("src/assets/openapi.json", "r") as openapi:
-    #     openapi = json.load(openapi)
-    #     logo = openapi["info"]["x-logo"]
-    # openapi_schema["info"]["x-logo"] = logo
+
+    openapi_schema["components"]["schemas"]["HTTPValidationError"] = validation_error
+    openapi_schema["components"]["schemas"]["AuthorizationError"] = authorization_error
+    openapi_schema["components"]["schemas"]["NotFoundError"] = not_found_error
+    openapi_schema["components"]["schemas"]["ConflictError"] = conflict_error
+    openapi_schema["components"]["schemas"]["BadRequest"] = bad_request
+    openapi_schema["components"]["schemas"]["ContentGone"] = content_gone
 
     app.openapi_schema = openapi_schema
     return app.openapi_schema
