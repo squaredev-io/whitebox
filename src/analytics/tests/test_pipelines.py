@@ -6,9 +6,9 @@ from unittest import TestCase
 from sklearn.datasets import fetch_california_housing
 from sklearn.datasets import load_breast_cancer,load_wine
 
-test_metrics_df = pd.read_csv("data/testing/metrics_test_data.csv")
+test_metrics_df = pd.read_csv("src/analytics/data/testing/metrics_test_data.csv")
 test_classification_df = pd.read_csv(
-    "data/testing/classification_test_data.csv"
+    "src/analytics/data/testing/classification_test_data.csv"
 )
 drift_data = fetch_california_housing(as_frame=True)
 drift_data = drift_data.frame
@@ -16,7 +16,7 @@ reference = drift_data.head(500)
 current = drift_data.iloc[1000:1200]
 reference_concept_drift = test_classification_df.head(5)
 current_concept_drift = test_classification_df.tail(5)
-concept_drift_detected_dataset=pd.read_csv("data/testing/udemy_fin_adj.csv")
+concept_drift_detected_dataset=pd.read_csv("src/analytics/data/testing/udemy_fin_adj.csv")
 reference_concept_drift_detected = concept_drift_detected_dataset.head(1000)
 current_concept_drift_detected = concept_drift_detected_dataset.tail(1000)
 df_load_binary=load_breast_cancer()
