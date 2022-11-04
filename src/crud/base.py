@@ -39,6 +39,16 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
     ) -> List[ModelType]:
         return db.query(self.model).offset(skip).limit(limit).all()
 
+    #TODO Examine how this stands in the future!
+    def get_by_filter(
+        self, db: Session, **kwargs: Dict[str, str]
+    ) -> List[ModelType]:
+        return (
+            db.query(self.model)
+            .filter_by(**kwargs)
+            .all()
+        )
+
     def create(self, db: Session, *, obj_in: CreateSchemaType) -> ModelType:
         date_now = datetime.datetime.utcnow()
         obj_in_data = jsonable_encoder(obj_in)
@@ -47,6 +57,14 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         db.commit()
         db.refresh(db_obj)
         return db_obj
+
+    def create_many(self, db: Session, *, obj_list: List[CreateSchemaType]) -> List[ModelType]:
+        date_now = datetime.datetime.utcnow()
+        obj_list_in_data = jsonable_encoder(obj_list)
+        db_obj_list = list(map(lambda x: self.model(**x, created_at=date_now, updated_at=date_now), obj_list_in_data))
+        db.add_all(db_obj_list)
+        db.commit()
+        return db_obj_list
 
     def update(
         self,

@@ -20,8 +20,8 @@ test_order_map = {
     "performance_metrics": {"get_model's_all": 17},
     "drifting_metrics": {"get_model's_all": 18, "get": 19},
     "model_integrity_metrics": {"get_model's_all": 20, "get": 21},
-    "datasets": {"create": 22, "get": 23},
-    "dataset_rows": {"create": 24, "get_dataset's_all": 25},
+    "datasets": {"create": 22, "create_user_doesn't_exist": 23, "get": 24},
+    "dataset_rows": {"create": 25, "get_dataset's_all": 26, "create_dataset_doesn't_exist": 27},
 }
 
 

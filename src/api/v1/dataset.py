@@ -1,7 +1,8 @@
 from typing import List
 from src.schemas.dataset import Dataset, DatasetCreate
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, status, HTTPException
 from src.crud.datasets import datasets
+from src.crud.users import users
 from sqlalchemy.orm import Session
 from src.core.db import get_db
 from src.schemas.utils import StatusCode
@@ -17,14 +18,15 @@ datasets_router = APIRouter()
     response_model=Dataset,
     summary="Create dataset",
     status_code=status.HTTP_201_CREATED,
-    responses=add_error_responses([400, 409]),
+    responses=add_error_responses([400, 404, 409]),
 )
 async def create_dataset(body: DatasetCreate, db: Session = Depends(get_db)) -> Dataset:
-    if body is not None:
+    user = users.get(db=db, _id=body.__dict__["user_id"])
+    if user:
         new_dataset = datasets.create(db=db, obj_in=body)
         return new_dataset
     else:
-        return errors.bad_request("Form should not be empty")
+        return errors.not_found(f"User with id: {body.__dict__['user_id']} not found")
 
 
 @datasets_router.get(

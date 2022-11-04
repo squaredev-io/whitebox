@@ -17,16 +17,17 @@ dataset_rows_router = APIRouter()
     response_model=List[DatasetRow],
     summary="Create dataset rows",
     status_code=status.HTTP_201_CREATED,
-    responses=add_error_responses([400, 409]),
+    responses=add_error_responses([400, 404, 409]),
 )
 async def create_dataset_rows(
     body: List[DatasetRowCreate], db: Session = Depends(get_db)
 ) -> DatasetRow:
-    if body is not None:
+    dataset = datasets.get(db=db, _id=body[0].__dict__["dataset_id"])
+    if dataset:
         new_dataset_rows = dataset_rows.create_many(db=db, obj_list=body)
         return new_dataset_rows
     else:
-        return errors.bad_request("Form should not be empty")
+        return errors.not_found(f"Model with id: {body[0].__dict__['dataset_id']} not found")
 
 
 @dataset_rows_router.get(
