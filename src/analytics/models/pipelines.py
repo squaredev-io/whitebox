@@ -45,7 +45,7 @@ def create_binary_classification_training_model_pipeline(
     
     """
     clf=lgb.train(params,d_train,100)  #training the model on 100 epocs
-    joblib.dump(clf, 'models/trained_models/lgb_binary.pkl')
+    #joblib.dump(clf, 'models/trained_models/lgb_binary.pkl')
     """
     We make some predictions in the X_test and we find the class 
     there by rounding the output. After that we calculate the roc auc curve
@@ -106,7 +106,7 @@ def create_multiclass_classification_training_model_pipeline(
     
     """
     clf=lgb.train(params,d_train,100)  #training the model on 100 epocs
-    joblib.dump(clf, 'models/trained_models/lgb_multi.pkl')
+    #joblib.dump(clf, 'models/trained_models/lgb_multi.pkl')
     """
     We make some predictions in the X_test and we find the class with the higher 
     probability there. After that we calculate the precision_score
