@@ -19,6 +19,14 @@ tags_metadata = [
         "description": "This set of endpoints handles the models that a user creates.",
     },
     {
+        "name": "Datasets",
+        "description": "This set of endpoints handles a the user's datasets.",
+    },
+    {
+        "name": "Dataset Rows",
+        "description": "This set of endpoints handles a dataset's rows.",
+    },
+    {
         "name": "Inferences",
         "description": "This set of endpoints handles a model's inferences.",
     },

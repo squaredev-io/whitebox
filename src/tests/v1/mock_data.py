@@ -1,6 +1,4 @@
 from datetime import datetime
-
-import databases
 from src.schemas.model import ModelType
 
 register_payload = dict(
@@ -29,6 +27,28 @@ model_update_payload = dict(
     description="Model 2 description",
 )
 
+dataset_create_payload = dict(
+    name="Dataset 1"
+)
+
+dataset_rows_create_payload = list(
+    (
+        dict(
+            timestamp=str(datetime.now()),
+            features={"feature": 2},
+            raw={"raw": 2},
+            prediction={"prediction": 2},
+            actuals={"actual": 2},
+        ),
+        dict(
+            timestamp=str(datetime.now()),
+            features={"feature": 3},
+            raw={"raw": 3},
+            prediction={"prediction": 3},
+            actuals={"actual": 3},
+        ),
+    )
+)
 
 inference_create_payload = dict(
     timestamp=str(datetime.now()),

@@ -37,7 +37,7 @@ async def create_inference(
     status_code=status.HTTP_201_CREATED,
     responses=add_error_responses([400, 409]),
 )
-async def create_inference(
+async def create_many_inferences(
     body: List[InferenceCreate], db: Session = Depends(get_db)
 ) -> Inference:
     if body is not None:

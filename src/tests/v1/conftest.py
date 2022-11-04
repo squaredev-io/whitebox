@@ -18,8 +18,10 @@ test_order_map = {
     "models": {"create": 9, "get_all": 10, "get": 11, "update": 12, "delete": 100},
     "inferences": {"create": 13, "create_many": 14, "get_model's_all": 15, "get": 16},
     "performance_metrics": {"get_model's_all": 17},
-    "drifting_metrics": {"get_model's_all": 19, "get": 20},
-    "model_integrity_metrics": {"get_model's_all": 21, "get": 22}
+    "drifting_metrics": {"get_model's_all": 18, "get": 19},
+    "model_integrity_metrics": {"get_model's_all": 20, "get": 21},
+    "datasets": {"create": 22, "get": 23},
+    "dataset_rows": {"create": 24, "get_dataset's_all": 25},
 }
 
 
@@ -48,6 +50,7 @@ async def db():
 class TestsState:
     user: dict = {}
     model: dict = {}
+    dataset: dict = {}
     inference: dict = {}
 
 
