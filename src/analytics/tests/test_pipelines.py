@@ -1,12 +1,14 @@
 import pytest
 from src.analytics.metrics.pipelines import *
 from src.analytics.drift.pipelines import *
+from src.analytics.models.pipelines import *
 from unittest import TestCase
 from sklearn.datasets import fetch_california_housing
+from sklearn.datasets import load_breast_cancer,load_wine
 
-test_metrics_df = pd.read_csv("src/analytics/data/testing/metrics_test_data.csv")
+test_metrics_df = pd.read_csv("data/testing/metrics_test_data.csv")
 test_classification_df = pd.read_csv(
-    "src/analytics/data/testing/classification_test_data.csv"
+    "data/testing/classification_test_data.csv"
 )
 drift_data = fetch_california_housing(as_frame=True)
 drift_data = drift_data.frame
@@ -14,9 +16,15 @@ reference = drift_data.head(500)
 current = drift_data.iloc[1000:1200]
 reference_concept_drift = test_classification_df.head(5)
 current_concept_drift = test_classification_df.tail(5)
-concept_drift_detected_dataset=pd.read_csv("src/analytics/data/testing/udemy_fin_adj.csv")
+concept_drift_detected_dataset=pd.read_csv("data/testing/udemy_fin_adj.csv")
 reference_concept_drift_detected = concept_drift_detected_dataset.head(1000)
 current_concept_drift_detected = concept_drift_detected_dataset.tail(1000)
+df_load_binary=load_breast_cancer()
+df_binary=pd.DataFrame(df_load_binary.data,columns=df_load_binary.feature_names)
+df_binary['target']=df_load_binary.target
+df_load_multi=load_wine()
+df_multi=pd.DataFrame(df_load_multi.data,columns=df_load_multi.feature_names)
+df_multi['target']=df_load_multi.target
 
 
 class TestNodes:
@@ -156,3 +164,13 @@ class TestNodes:
         assert (round(concept_drift_report["concept_drift_summary"]["drift_score"],3) == 0.008)
         assert concept_drift_report["concept_drift_summary"]["drift_detected"] == True
         assert concept_drift_report["concept_drift_summary"]["column_name"] == 'discount_price__currency'
+    
+    def test_create_binary_classification_training_model_pipeline(self):
+        eval = create_binary_classification_training_model_pipeline(df_binary,'target')
+        eval_score = eval["roc_auc_score"]
+        assert (round(eval_score,3)) == 0.957
+
+    def test_create_multiclass_classification_training_model_pipeline(self):
+        eval = create_multiclass_classification_training_model_pipeline(df_multi,'target')
+        eval_score = eval["precision"]
+        assert (round(eval_score,2)) == 0.97
