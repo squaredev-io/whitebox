@@ -21,12 +21,12 @@ datasets_router = APIRouter()
     responses=add_error_responses([400, 404, 409]),
 )
 async def create_dataset(body: DatasetCreate, db: Session = Depends(get_db)) -> Dataset:
-    user = users.get(db=db, _id=body.__dict__["user_id"])
+    user = users.get(db=db, _id=dict(body)["user_id"])
     if user:
         new_dataset = datasets.create(db=db, obj_in=body)
         return new_dataset
     else:
-        return errors.not_found(f"User with id: {body.__dict__['user_id']} not found")
+        return errors.not_found(f"User with id: {dict(body)['user_id']} not found")
 
 
 @datasets_router.get(

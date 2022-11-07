@@ -22,12 +22,12 @@ dataset_rows_router = APIRouter()
 async def create_dataset_rows(
     body: List[DatasetRowCreate], db: Session = Depends(get_db)
 ) -> DatasetRow:
-    dataset = datasets.get(db=db, _id=body[0].__dict__["dataset_id"])
+    dataset = datasets.get(db=db, _id=dict(body[0])["dataset_id"])
     if dataset:
         new_dataset_rows = dataset_rows.create_many(db=db, obj_list=body)
         return new_dataset_rows
     else:
-        return errors.not_found(f"Model with id: {body[0].__dict__['dataset_id']} not found")
+        return errors.not_found(f"Model with id: {dict(body[0])['dataset_id']} not found")
 
 
 @dataset_rows_router.get(
