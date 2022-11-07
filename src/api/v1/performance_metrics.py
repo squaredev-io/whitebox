@@ -22,7 +22,7 @@ performance_metrics_router = APIRouter()
 async def get_all_models_performance_metrics(model_id: str, db: Session = Depends(get_db)):
     model = models.get(db, model_id)
     if model:
-        if dict(model)["type"] == "binary":
+        if model.__dict__["type"] == "binary":
             return binary_classification_metrics.get_model_performance_metrics(db=db, model_id=model_id)
         else:
             return multi_classification_metrics.get_model_performance_metrics(db=db, model_id=model_id)
