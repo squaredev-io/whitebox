@@ -9,3 +9,4 @@ __pycache__/
 check_data/
 *.ipynb_checkpoints
 *.db
+trained_models/
