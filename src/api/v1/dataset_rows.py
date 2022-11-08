@@ -1,5 +1,5 @@
 from typing import List
-from src.schemas.datasetRow import DatasetRow, DatasetRowCreate
+from src.schemas.dataset import DatasetRow, DatasetRowCreate
 from fastapi import APIRouter, Depends, status
 from src.crud.dataset_rows import dataset_rows
 from src.crud.datasets import datasets

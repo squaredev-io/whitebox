@@ -22,19 +22,26 @@ class ModelBase(BaseModel):
     name: str
     description: str
     type: ModelType
+
+    """Inference row metadata"""
+
+    # TODO do we need this?
     features: Dict[str, FeatureTypes]
-    labels: Optional[List[str]]
+    labels: Optional[Dict[str, int]]
+
+    prediction: str
+    proba: str
 
 
 class Model(ModelBase, ItemBase):
     pass
 
 
-class ModelCreate(ModelBase):
+class ModelCreateDto(ModelBase):
     pass
 
 
-class ModelUpdate(BaseModel):
+class ModelUpdateDto(BaseModel):
     name: Optional[str]
     description: Optional[str]
     type: Optional[ModelType]

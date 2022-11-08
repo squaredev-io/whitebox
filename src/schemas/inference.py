@@ -1,21 +1,22 @@
 from datetime import datetime
-from typing import Any, Dict, Union
+from typing import Any, Dict, Union, Optional
 from pydantic import BaseModel
 from src.schemas.base import ItemBase
 
 
-class InferenceBase(BaseModel):
+class InferenceRowBase(BaseModel):
     model_id: str
     timestamp: Union[str, datetime]
-    features: Dict[str, Any]
-    raw: Dict[str, Any]
-    prediction: Dict[str, Any]
-    actuals: Dict[str, Any]
+    # Prediction is included into nonprocessed & processed
+    nonprocessed: Dict[str, Any]
+    processed: Dict[str, float]
+
+    actual: Optional[Dict[str, Any]]
 
 
-class Inference(InferenceBase, ItemBase):
+class Inference(InferenceRowBase, ItemBase):
     pass
 
 
-class InferenceCreate(InferenceBase):
+class InferenceCreate(InferenceRowBase):
     pass

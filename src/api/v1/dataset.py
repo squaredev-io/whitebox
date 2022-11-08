@@ -1,5 +1,5 @@
 from typing import List
-from src.schemas.dataset import Dataset, DatasetCreate
+from src.schemas.dataset import Dataset, DatasetCreateDto
 from fastapi import APIRouter, Depends, status, HTTPException
 from src.crud.datasets import datasets
 from src.crud.users import users
@@ -20,7 +20,7 @@ datasets_router = APIRouter()
     status_code=status.HTTP_201_CREATED,
     responses=add_error_responses([400, 404, 409]),
 )
-async def create_dataset(body: DatasetCreate, db: Session = Depends(get_db)) -> Dataset:
+async def create_dataset(body: DatasetCreateDto, db: Session = Depends(get_db)) -> Dataset:
     user = users.get(db=db, _id=dict(body)["user_id"])
     if user:
         new_dataset = datasets.create(db=db, obj_in=body)
