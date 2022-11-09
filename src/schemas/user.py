@@ -12,11 +12,11 @@ class User(UserBase, ItemBase):
     pass
 
 
-class UserCreate(UserBase):
+class UserCreateDto(UserBase):
     password: str
 
 
-class UserUpdate(UserBase):
+class UserUpdateDto(UserBase):
     name: Optional[str]
     email: Optional[str]
     password: Union[str, None] = None

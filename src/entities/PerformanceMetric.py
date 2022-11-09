@@ -17,6 +17,8 @@ class BinaryClassificationMetrics(Base):
     false_positive = Column(Integer)    
     false_negative = Column(Integer)
     true_positive = Column(Integer)
+    created_at = Column(DateTime)
+    updated_at = Column(DateTime)
 
 
 class MultiClassificationMetrics(Base):
@@ -30,3 +32,5 @@ class MultiClassificationMetrics(Base):
     recall = Column(JSON)
     f1 = Column(JSON)
     confusion_matrix = Column(JSON)
+    created_at = Column(DateTime)
+    updated_at = Column(DateTime)

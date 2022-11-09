@@ -10,13 +10,12 @@ class InferenceRowBase(BaseModel):
     # Prediction is included into nonprocessed & processed
     nonprocessed: Dict[str, Any]
     processed: Dict[str, float]
-
     actual: Optional[Dict[str, Any]]
 
 
-class Inference(InferenceRowBase, ItemBase):
+class InferenceRow(InferenceRowBase, ItemBase):
     pass
 
 
-class InferenceCreate(InferenceRowBase):
+class InferenceRowCreateDto(InferenceRowBase):
     pass

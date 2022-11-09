@@ -11,3 +11,5 @@ class DriftingMetric(Base):
     timestamp = Column(DateTime)
     concept_drift_summary = Column(Float)
     data_drift_summary = Column(JSON)
+    created_at = Column(DateTime)
+    updated_at = Column(DateTime)

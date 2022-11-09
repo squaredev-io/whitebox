@@ -1,5 +1,6 @@
 from typing import Dict
 from pydantic import BaseModel
+from src.schemas.base import ItemBase
 
 class ColumnDataDriftMetrics(BaseModel):
     """One column drift metrics"""
@@ -19,10 +20,14 @@ class DataDriftTable(BaseModel):
     dataset_drift: bool
     drift_by_columns: Dict[str, ColumnDataDriftMetrics]
 
+
 # TODO: Need to include the class of the concept drift
 class DriftingMetricBase(BaseModel):
-    id: str
     model_id: str
     timestamp: str
     concept_drift_summary: float
     data_drift_summary: DataDriftTable
+
+
+class DriftingMetric(DriftingMetricBase, ItemBase):
+    pass

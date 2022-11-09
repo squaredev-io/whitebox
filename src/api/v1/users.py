@@ -1,5 +1,5 @@
 from typing import List
-from src.schemas.user import User, UserCreate, UserUpdate
+from src.schemas.user import User, UserCreateDto, UserUpdateDto
 from fastapi import APIRouter, Depends, status
 from src.crud.users import users
 from sqlalchemy.orm import Session
@@ -20,7 +20,7 @@ users_router = APIRouter()
     status_code=status.HTTP_201_CREATED,
     responses=add_error_responses([400, 409]),
 )
-async def create_user(body: UserCreate, db: Session = Depends(get_db)) -> User:
+async def create_user(body: UserCreateDto, db: Session = Depends(get_db)) -> User:
     if body is not None:
         is_registered = users.get_by_email(db=db, email=body.email) is not None
         if is_registered:
@@ -75,7 +75,7 @@ async def get_user(user_id: str, db: Session = Depends(get_db)):
 )
 async def update_user(
     user_id: str,
-    body: UserUpdate,
+    body: UserUpdateDto,
     db: Session = Depends(get_db),
 ) -> User:
     if body is not None:

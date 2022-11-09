@@ -30,7 +30,7 @@ class ModelBase(BaseModel):
     labels: Optional[Dict[str, int]]
 
     prediction: str
-    proba: str
+    probability: str
 
 
 class Model(ModelBase, ItemBase):

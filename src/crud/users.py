@@ -2,12 +2,12 @@ from src.utils.passwords import hash_password, passwords_match
 from typing import Optional
 from sqlalchemy.orm import Session
 from src.crud.base import CRUDBase
-from src.schemas.user import User, UserCreate, UserUpdate
+from src.schemas.user import User, UserCreateDto, UserUpdateDto
 from src.entities.User import User as UserEntity
 
 
-class CRUD(CRUDBase[User, UserCreate, UserUpdate]):
-    def update(self, db: Session, *, body: UserUpdate, db_obj: User) -> User:
+class CRUD(CRUDBase[User, UserCreateDto, UserUpdateDto]):
+    def update(self, db: Session, *, body: UserUpdateDto, db_obj: User) -> User:
         if body.password:
             body.password = hash_password(body.password)
 
