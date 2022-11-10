@@ -20,8 +20,7 @@ test_order_map = {
     "performance_metrics": {"get_model's_all": 17},
     "drifting_metrics": {"get_model's_all": 18, "get": 19},
     "model_integrity_metrics": {"get_model's_all": 20, "get": 21},
-    "datasets": {"create": 22, "create_user_doesn't_exist": 23, "get": 24},
-    "dataset_rows": {"create": 25, "get_dataset's_all": 26, "create_dataset_doesn't_exist": 27},
+    "dataset_rows": {"create": 25, "get_model's_all": 26, "create_model_doesn't_exist": 27},
 }
 
 
@@ -50,7 +49,6 @@ async def db():
 class TestsState:
     user: dict = {}
     model: dict = {}
-    dataset: dict = {}
     inference_row: dict = {}
 
 

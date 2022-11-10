@@ -7,7 +7,7 @@ class DatasetRow(Base):
     __tablename__ = "dataset_rows"
 
     id = Column(String, primary_key=True, unique=True, default=generate_uuid)
-    dataset_id = Column(String, ForeignKey("datasets.id", ondelete="CASCADE"))
+    model_id = Column(String, ForeignKey("models.id", ondelete="CASCADE"))
     nonprocessed = Column(JSON)
     processed = Column(JSON)
     created_at = Column(DateTime)

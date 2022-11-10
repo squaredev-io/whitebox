@@ -53,15 +53,15 @@ dataset_rows_create_payload = list(
     )
 )
 
-dataset_rows_create_wrong_dataset_payload = list(
+dataset_rows_create_wrong_model_payload = list(
     (
         dict(
-            dataset_id = "1234567890",
+            model_id = "1234567890",
             nonprocessed={"sex": "male"},
             processed={"sex": 0},
         ),
         dict(
-            dataset_id = "1234567890",
+            model_id = "1234567890",
             nonprocessed={"sex": "female"},
             processed={"sex": 1},
         ),

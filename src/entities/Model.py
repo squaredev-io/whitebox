@@ -20,6 +20,7 @@ class Model(Base):
     created_at = Column(DateTime)
     updated_at = Column(DateTime)
 
+    dataset_rows = relationship("DatasetRow")
     inference_rows = relationship("InferenceRow")
     binary_classification_metrics = relationship("BinaryClassificationMetrics")
     multi_classification_metrics = relationship("MultiClassificationMetrics")
