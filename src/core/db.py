@@ -32,16 +32,3 @@ async def close():
     """
     await database.disconnect()
     # logging.info("Closed connection with DB")
-
-
-# @app.on_event("startup")
-# async def startup():
-#     Base.metadata.create_all(engine)
-#     await database.connect()
-
-
-# @app.on_event("shutdown")
-# async def shutdown():
-#     # if settings.ENV in [__envs.TESTING]:
-#     #     Base.metadata.drop_all(engine)
-#     await database.disconnect()

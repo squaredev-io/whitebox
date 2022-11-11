@@ -1,6 +1,8 @@
+from datetime import datetime
 from typing import Dict
 from pydantic import BaseModel
 from src.schemas.base import ItemBase
+
 
 class ColumnDataDriftMetrics(BaseModel):
     """One column drift metrics"""
@@ -22,9 +24,9 @@ class DataDriftTable(BaseModel):
 
 
 # TODO: Need to include the class of the concept drift
-class DriftingMetricBase(BaseModel):
+class DriftingMetricBase(ItemBase):
     model_id: str
-    timestamp: str
+    timestamp: str | datetime
     concept_drift_summary: DataDriftTable
     data_drift_summary: DataDriftTable
 

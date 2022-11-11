@@ -8,12 +8,9 @@ from src.schemas.driftingMetric import DriftingMetricBase
 
 class CRUD(CRUDBase[DriftingMetricBase, Any, Any]):
     def get_model_drifting_metrics(
-        self, db: Session, *, model_id: int
+        self, db: Session, *, model_id: str
     ) -> List[DriftingMetricBase]:
-        return (
-            db.query(self.model)
-            .filter(DriftingMetricEntity.model_id == model_id)
-            .all()
-        )
+        return db.query(self.model).filter(self.model.model_id == model_id).all()
+
 
 drifting_metrics = CRUD(DriftingMetricEntity)
