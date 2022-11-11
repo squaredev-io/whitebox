@@ -25,7 +25,7 @@ class DataDriftTable(BaseModel):
 class DriftingMetricBase(BaseModel):
     model_id: str
     timestamp: str
-    concept_drift_summary: float
+    concept_drift_summary: DataDriftTable
     data_drift_summary: DataDriftTable
 
 

@@ -3,11 +3,11 @@ from typing import Dict, Union, Any
 import json
 from evidently.report import Report
 from evidently.metric_preset import DataDriftPreset, TargetDriftPreset
-
+from src.schemas.driftingMetric import DataDriftTable
 
 def create_data_drift_pipeline(
     reference_dataset: pd.DataFrame, current_dataset: pd.DataFrame
-) -> Dict[str, Union[DataDriftPreset, str]]:
+) -> DataDriftTable:
     """
     Two datasets are needed
     The reference dataset serves as a benchmark.
@@ -56,7 +56,7 @@ def create_data_drift_pipeline(
     data_drift_report["timestamp"] = initial_report["timestamp"]
     data_drift_report["drift_summary"] = initial_report["metrics"]["DataDriftTable"]
 
-    return data_drift_report
+    return data_drift_report["drift_summary"]
 
 def create_concept_drift_pipeline(
     reference_dataset: pd.DataFrame,current_dataset: pd.DataFrame,target_feature: str

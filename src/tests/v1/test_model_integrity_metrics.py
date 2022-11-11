@@ -7,6 +7,7 @@ model_integrity_metric_id = "1234567890"
 @pytest.mark.order(test_order_map["model_integrity_metrics"]["get_model's_all"])
 def test_model_integrity_metric_get_models_all(client):
     response = client.get(f"/v1/models/{state.model['id']}/model_integrity_metrics")
+    print(response.json())
     assert response.status_code == status.HTTP_200_OK
 
 
