@@ -2,11 +2,12 @@ from datetime import datetime
 from pydantic import BaseModel
 from typing import Dict, Union
 
+from src.schemas.base import ItemBase
+
 # TODO: Include comments of what each class represents
 
 
-class BinaryClassificationMetrics(BaseModel):
-    id: str
+class BinaryClassificationMetricsBase(BaseModel):
     model_id: str
     timestamp: Union[str, datetime]
     accuracy: float
@@ -17,6 +18,10 @@ class BinaryClassificationMetrics(BaseModel):
     false_positive: int
     false_negative: int
     true_positive: int
+
+
+class BinaryClassificationMetrics(BinaryClassificationMetricsBase, ItemBase):
+    pass
 
 
 class DifferentStatistics(BaseModel):
@@ -32,8 +37,7 @@ class ConfusionMatrix(BaseModel):
     true_positive: int
 
 
-class MultiClassificationMetrics(BaseModel):
-    id: str
+class MultiClassificationMetricsBase(BaseModel):
     model_id: str
     timestamp: Union[str, datetime]
     accuracy: float
@@ -41,3 +45,7 @@ class MultiClassificationMetrics(BaseModel):
     recall: DifferentStatistics
     f1: DifferentStatistics
     confusion_matrix: Dict[str, ConfusionMatrix]
+
+
+class MultiClassificationMetrics(MultiClassificationMetricsBase, ItemBase):
+    pass

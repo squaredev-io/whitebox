@@ -18,3 +18,7 @@ class ModelIntegrityMetricBase(BaseModel):
     model_id: str
     timestamp: str
     feature_metrics: FeatureMetrics
+
+
+class ModelIntegrityMetric(ModelIntegrityMetricBase, ItemBase):
+    pass

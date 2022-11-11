@@ -1,5 +1,5 @@
 from typing import List
-from src.schemas.model import Model, ModelCreate, ModelUpdate
+from src.schemas.model import Model, ModelCreateDto, ModelUpdateDto
 from fastapi import APIRouter, Depends, status
 from src.crud.models import models
 from sqlalchemy.orm import Session
@@ -19,7 +19,7 @@ models_router = APIRouter()
     status_code=status.HTTP_201_CREATED,
     responses=add_error_responses([400, 409]),
 )
-async def create_model(body: ModelCreate, db: Session = Depends(get_db)) -> Model:
+async def create_model(body: ModelCreateDto, db: Session = Depends(get_db)) -> Model:
     if body is not None:
         new_model = models.create(db=db, obj_in=body)
         return new_model
@@ -69,7 +69,7 @@ async def get_model(model_id: str, db: Session = Depends(get_db)):
 )
 async def update_model(
     model_id: str,
-    body: ModelUpdate,
+    body: ModelUpdateDto,
     db: Session = Depends(get_db),
 ) -> Model:
     model = models.get(db=db, _id=model_id)

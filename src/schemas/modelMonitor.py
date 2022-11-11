@@ -14,5 +14,5 @@ class ModelMonitorBase(BaseModel):
 class ModelMonitor(ModelMonitorBase, ItemBase):
     pass
 
-class ModelMonitorCreate(ModelMonitorBase):
+class ModelMonitorCreateDto(ModelMonitorBase):
     pass

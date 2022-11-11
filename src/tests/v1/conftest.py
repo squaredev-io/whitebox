@@ -16,12 +16,11 @@ test_order_map = {
     "auth": {"unauthorized_me": 2, "login": 3, "authorized_me": 4},
     "users": {"create": 5, "get_all": 6, "get": 7, "update": 8, "delete": 102},
     "models": {"create": 9, "get_all": 10, "get": 11, "update": 12, "delete": 100},
-    "inferences": {"create": 13, "create_many": 14, "get_model's_all": 15, "get": 16},
+    "inference_rows": {"create": 13, "create_many": 14, "get_model's_all": 15, "get": 16},
     "performance_metrics": {"get_model's_all": 17},
     "drifting_metrics": {"get_model's_all": 18, "get": 19},
     "model_integrity_metrics": {"get_model's_all": 20, "get": 21},
-    "datasets": {"create": 22, "create_user_doesn't_exist": 23, "get": 24},
-    "dataset_rows": {"create": 25, "get_dataset's_all": 26, "create_dataset_doesn't_exist": 27},
+    "dataset_rows": {"create": 25, "get_model's_all": 26, "create_model_doesn't_exist": 27},
 }
 
 
@@ -50,8 +49,7 @@ async def db():
 class TestsState:
     user: dict = {}
     model: dict = {}
-    dataset: dict = {}
-    inference: dict = {}
+    inference_row: dict = {}
 
 
 state = TestsState()

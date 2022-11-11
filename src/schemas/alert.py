@@ -25,5 +25,5 @@ class AlertBase(BaseModel):
 class Alert(AlertBase, ItemBase):
     pass
 
-class Alert(AlertBase):
+class AlertCreateDto(AlertBase):
     pass
