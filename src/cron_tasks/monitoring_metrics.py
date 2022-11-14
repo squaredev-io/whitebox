@@ -36,7 +36,6 @@ async def run_calculate_drifting_metrics_pipeline():
         training_df = await get_model_dataset_rows_df(db, model_id=model.id)
 
         data_drif_report = run_data_drift_pipeline(training_df, inference_df)
-        # TODO: Fix pipeline to return a DataDriftTable first
 
         new_drifting_metric = entities.DriftingMetric(
             timestamp=str(datetime.utcnow()),

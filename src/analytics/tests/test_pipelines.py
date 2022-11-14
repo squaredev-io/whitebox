@@ -135,21 +135,21 @@ class TestNodes:
         )
 
     def test_create_data_drift_pipeline(self):
-        data_drift_report = run_data_drift_pipeline(reference, current)
+        data_drift_report = dict(run_data_drift_pipeline(reference, current))
         assert data_drift_report["number_of_columns"] == 9
         assert data_drift_report["number_of_drifted_columns"] == 7
         assert (
             round(
-                data_drift_report["drift_by_columns"]["Population"]["drift_score"],
+                dict(data_drift_report["drift_by_columns"]["Population"])["drift_score"],
                 2,
             )
             == 0.06
         )
         assert (
-            data_drift_report["drift_by_columns"]["Longitude"]["drift_detected"] == True
+            dict(data_drift_report["drift_by_columns"]["Longitude"])["drift_detected"] == True
         )
         assert (
-            data_drift_report["drift_by_columns"]["AveBedrms"]["drift_detected"]
+            dict(data_drift_report["drift_by_columns"]["AveBedrms"])["drift_detected"]
             == False
         )
 

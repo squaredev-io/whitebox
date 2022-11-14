@@ -57,7 +57,9 @@ def run_data_drift_pipeline(
     data_drift_report["timestamp"] = initial_report["timestamp"]
     data_drift_report["drift_summary"] = initial_report["metrics"]["DataDriftTable"]
 
-    return data_drift_report["drift_summary"]
+    return DataDriftTable(
+        **data_drift_report["drift_summary"]
+    )
 
 
 def run_concept_drift_pipeline(
