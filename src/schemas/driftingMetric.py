@@ -23,11 +23,16 @@ class DataDriftTable(BaseModel):
     drift_by_columns: Dict[str, ColumnDataDriftMetrics]
 
 
+class ConseptDriftTable(BaseModel):
+    """Concept drift metrics"""
+
+
 # TODO: Need to include the class of the concept drift
 class DriftingMetricBase(ItemBase):
     model_id: str
     timestamp: str | datetime
-    concept_drift_summary: DataDriftTable
+    # TODO: The pipeline needs to return a DataDriftTable. If evidently does not provide it we should create it.
+    # concept_drift_summary: DataDriftTable
     data_drift_summary: DataDriftTable
 
 

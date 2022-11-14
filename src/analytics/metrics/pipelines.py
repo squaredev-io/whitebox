@@ -4,6 +4,7 @@ from sklearn import metrics
 from sklearn.metrics import confusion_matrix
 from src.analytics.metrics.functions import *
 from typing import Dict, Union, Any
+from src.schemas.performanceMetric import MultiClassificationMetricsPipelineResult
 
 
 def create_feature_metrics_pipeline(
@@ -103,7 +104,7 @@ def create_binary_classification_evaluation_metrics_pipeline(
 
 def create_multiple_classification_evaluation_metrics_pipeline(
     test_set: pd.DataFrame, prediction_set: pd.DataFrame
-) -> Dict[str, Union[float, Dict[str, Union[int, float]]]]:
+) -> MultiClassificationMetricsPipelineResult:
     """
     Multiclass classification evaluation metrics
 
@@ -174,6 +175,12 @@ def create_multiple_classification_evaluation_metrics_pipeline(
     f1_statistics = {"micro": micro_f1, "macro": macro_f1, "weighted": weighted_f1}
     conf_matrix = confusion_for_multiclass(test_set, prediction_set)
 
-    return format_evaluation_metrics_multiple(
-        accuracy, precision_statistics, recall_statistics, f1_statistics, conf_matrix
+    return MultiClassificationMetricsPipelineResult(
+        **format_evaluation_metrics_multiple(
+            accuracy,
+            precision_statistics,
+            recall_statistics,
+            f1_statistics,
+            conf_matrix,
+        )
     )

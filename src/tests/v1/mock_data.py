@@ -18,37 +18,31 @@ model_create_payload = dict(
     name="Model 1",
     description="Model 1 description",
     type=ModelType.multi_class,
-    features={"feature_1": "boolean", "feature_2": "categorical"},
-    labels={"age": 1, "gender": 2},
-    prediction="predicted",
-    probability="zero"
+    features={"y_testing_multi": "categorical"},
+    labels={"label_1": 1, "label_2": 2},
+    prediction="y_prediction_multi",
+    probability="n/a",
 )
 model_update_payload = dict(
-    name="Model 2",
-    type=ModelType.binary,
-    description="Model 2 description",
+    name="Model 1 - categorical",
+    description="Model 1 description",
 )
 
-dataset_create_payload = dict(
-    name="Dataset 1",
-    target="target"
-)
+dataset_create_payload = dict(name="Dataset 1", target="target")
 
 dataset_wrong_user_create_payload = dict(
-    user_id="1234567890",
-    name="Dataset 2",
-    target="target"
+    user_id="1234567890", name="Dataset 2", target="target"
 )
 
 dataset_rows_create_payload = list(
     (
         dict(
-            nonprocessed={"sex": "male"},
-            processed={"sex": 0},
+            nonprocessed={"y_testing_multi": 2, "y_prediction_multi": 2},
+            processed={"y_testing_multi": 2, "y_prediction_multi": 2},
         ),
         dict(
-            nonprocessed={"sex": "female"},
-            processed={"sex": 1},
+            nonprocessed={"y_testing_multi": 1, "y_prediction_multi": 1},
+            processed={"y_testing_multi": 1, "y_prediction_multi": 1},
         ),
     )
 )
@@ -56,12 +50,12 @@ dataset_rows_create_payload = list(
 dataset_rows_create_wrong_model_payload = list(
     (
         dict(
-            model_id = "1234567890",
+            model_id="1234567890",
             nonprocessed={"sex": "male"},
             processed={"sex": 0},
         ),
         dict(
-            model_id = "1234567890",
+            model_id="1234567890",
             nonprocessed={"sex": "female"},
             processed={"sex": 1},
         ),
@@ -70,24 +64,24 @@ dataset_rows_create_wrong_model_payload = list(
 
 inference_row_create_payload = dict(
     timestamp=str(datetime.now()),
-    nonprocessed={"sex": "female"},
-    processed={"sex": 1},
-    actual={"actual": 1},
+    nonprocessed={"y_testing_multi": 2, "y_prediction_multi": 2},
+    processed={"y_testing_multi": 2, "y_prediction_multi": 2},
+    actual={"y_prediction_multi": 2},
 )
 
 inference_row_create_many_payload = list(
     (
         dict(
             timestamp=str(datetime.now()),
-            nonprocessed={"sex": "male"},
-            processed={"sex": 0},
-            actual={"actual": 2},
+            nonprocessed={"y_testing_multi": 1, "y_prediction_multi": 1},
+            processed={"y_testing_multi": 1, "y_prediction_multi": 1},
+            actual={"y_prediction_multi": 1},
         ),
         dict(
             timestamp=str(datetime.now()),
-            nonprocessed={"sex": "non-binary"},
-            processed={"sex": 2},
-            actuals={"actual": 3},
+            nonprocessed={"y_testing_multi": 2, "y_prediction_multi": 1},
+            processed={"y_testing_multi": 2, "y_prediction_multi": 1},
+            actual={"y_prediction_multi": 2},
         ),
     )
 )

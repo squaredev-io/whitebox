@@ -1,6 +1,6 @@
 from datetime import datetime
 from pydantic import BaseModel
-from typing import Dict, Union
+from typing import Dict, Optional, Union
 
 from src.schemas.base import ItemBase
 
@@ -49,3 +49,13 @@ class MultiClassificationMetricsBase(BaseModel):
 
 class MultiClassificationMetrics(MultiClassificationMetricsBase, ItemBase):
     pass
+
+
+class MultiClassificationMetricsPipelineResult(BaseModel):
+    """This class is used to store the results of the pipeline that calculates the multi classification metrics"""
+
+    accuracy: float
+    precision: DifferentStatistics
+    recall: DifferentStatistics
+    f1: DifferentStatistics
+    confusion_matrix: Dict[str, ConfusionMatrix]
