@@ -16,6 +16,7 @@ from src.cron_tasks.shared import (
     get_model_inference_rows_df,
 )
 from src.schemas.model import ModelType
+from src.schemas.modelIntegrityMetric import ModelIntegrityMetricCreate
 
 settings = get_settings()
 db = SessionLocal()
@@ -49,7 +50,7 @@ async def run_calculate_drifting_metrics_pipeline():
 async def run_calculate_performance_metrics_pipeline():
     """
     Run the pipeline to calculate the perfomance metrics
-    After the metrics are calculated they are sabved in the database
+    After the metrics are calculated they are saved in the database
     """
     models = await get_all_models(db)
 
@@ -88,3 +89,27 @@ async def run_calculate_performance_metrics_pipeline():
             )
 
             crud.multi_classification_metrics.create(db, obj_in=new_performance_metric)
+
+
+async def run_calculate_feature_metrics_pipeline():
+    """
+    Run the pipeline to calculate the feature metrics
+    After the metrics are calculated they are saved in the database
+    """
+    models = await get_all_models(db)
+
+    for model in models:
+        processed_df, nonprocessed_df, actual_df = await get_model_inference_rows_df(
+            db, model_id=model.id
+        )
+
+        feature_metrics_report = create_feature_metrics_pipeline(processed_df)
+
+        if feature_metrics_report:
+            new_feature_metric = dict(
+                model_id=model.id,
+                timestamp=str(datetime.utcnow()),
+                feature_metrics = feature_metrics_report
+            )
+
+            crud.model_integrity_metrics.create(db, obj_in=ModelIntegrityMetricCreate(**new_feature_metric))

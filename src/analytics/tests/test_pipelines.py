@@ -31,7 +31,7 @@ df_multi["target"] = df_load_multi.target
 
 class TestNodes:
     def test_create_feature_metrics_pipeline(self):
-        features_metrics = create_feature_metrics_pipeline(test_metrics_df)
+        features_metrics = dict(create_feature_metrics_pipeline(test_metrics_df))
         missing_count = features_metrics["missing_count"]
         non_missing_count = features_metrics["non_missing_count"]
         mean = features_metrics["mean"]

@@ -5,11 +5,12 @@ from sklearn.metrics import confusion_matrix
 from src.analytics.metrics.functions import *
 from typing import Dict, Union, Any
 from src.schemas.performanceMetric import MultiClassificationMetricsPipelineResult
+from src.schemas.modelIntegrityMetric import FeatureMetrics
 
 
 def create_feature_metrics_pipeline(
     dataset: pd.DataFrame,
-) -> Dict[str, Union[int, float]]:
+) -> FeatureMetrics:
 
     """
     Feature metrics basic calculation
@@ -45,7 +46,8 @@ def create_feature_metrics_pipeline(
     standard_deviation = dataset.std(numeric_only=True).to_dict()
     variance = dataset.var(numeric_only=True).to_dict()
 
-    return format_feature_metrics(
+    return FeatureMetrics(
+        **format_feature_metrics(
         missing_count,
         non_missing_count,
         mean,
@@ -54,6 +56,7 @@ def create_feature_metrics_pipeline(
         sum,
         standard_deviation,
         variance,
+        )
     )
 
 

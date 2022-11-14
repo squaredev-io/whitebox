@@ -4,7 +4,7 @@ from src.crud.model_integrity_metrics import model_integrity_metrics
 from src.crud.models import models
 from sqlalchemy.orm import Session
 from src.core.db import get_db
-from src.schemas.modelIntegrityMetric import ModelIntegrityMetricBase
+from src.schemas.modelIntegrityMetric import ModelIntegrityMetric
 from src.utils.errors import add_error_responses, errors
 
 
@@ -14,7 +14,7 @@ model_integrity_metrics_router = APIRouter()
 @model_integrity_metrics_router.get(
     "/models/{model_id}/model_integrity_metrics",
     tags=["Model Integrity Metrics"],
-    response_model=List[ModelIntegrityMetricBase],
+    response_model=List[ModelIntegrityMetric],
     summary="Get all model's model integrity metrics",
     status_code=status.HTTP_200_OK,
     responses=add_error_responses([404]),
@@ -30,7 +30,7 @@ async def get_all_models_model_integrity_metrics(model_id: str, db: Session = De
 @model_integrity_metrics_router.get(
     "/model_integrity_metrics/{model_integrity_metric_id}",
     tags=["Model Integrity Metrics"],
-    response_model=ModelIntegrityMetricBase,
+    response_model=ModelIntegrityMetric,
     summary="Get model integrity metric by id",
     status_code=status.HTTP_200_OK,
     responses=add_error_responses([404]),

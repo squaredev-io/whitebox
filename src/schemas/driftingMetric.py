@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Dict
+from typing import Dict, Union
 from pydantic import BaseModel
 from src.schemas.base import ItemBase
 
@@ -30,7 +30,7 @@ class ConseptDriftTable(BaseModel):
 # TODO: Need to include the class of the concept drift
 class DriftingMetricBase(ItemBase):
     model_id: str
-    timestamp: str | datetime
+    timestamp: Union[str, datetime]
     # TODO: The pipeline needs to return a DataDriftTable. If evidently does not provide it we should create it.
     # concept_drift_summary: DataDriftTable
     data_drift_summary: DataDriftTable
