@@ -8,6 +8,7 @@ from .inference_rows import inference_rows_router
 from .performance_metrics import performance_metrics_router
 from .drifting_metrics import drifting_metrics_router
 from .model_integrity_metrics import model_integrity_metrics_router
+from .cron_tasks import cron_tasks_router
 
 
 v1_router = APIRouter()
@@ -22,3 +23,4 @@ v1_router.include_router(inference_rows_router, prefix=v1)
 v1_router.include_router(performance_metrics_router, prefix=v1)
 v1_router.include_router(drifting_metrics_router, prefix=v1)
 v1_router.include_router(model_integrity_metrics_router, prefix=v1)
+v1_router.include_router(cron_tasks_router, prefix=v1)

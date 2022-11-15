@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, ForeignKey, DateTime, JSON
+from sqlalchemy import Column, String, ForeignKey, DateTime, JSON, Float
 from src.entities.Base import Base
 from src.utils.id_gen import generate_uuid
 
@@ -11,7 +11,7 @@ class InferenceRow(Base):
     timestamp = Column(DateTime)
     nonprocessed = Column(JSON)
     processed = Column(JSON)
-    actual = Column(JSON, nullable=True)
+    actual = Column(Float, nullable=True)
 
     created_at = Column(DateTime)
     updated_at = Column(DateTime)

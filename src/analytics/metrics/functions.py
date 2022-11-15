@@ -60,10 +60,10 @@ def format_evaluation_metrics_multiple(
 ) -> Dict[str, Union[float, Dict[str, Union[int, float]]]]:
     formated_metrics_for_multiple = {
         "accuracy": accuracy,
-        "precision_statistics": precision_statistics,
-        "recall_statistics": recall_statistics,
-        "f1_statistics": f1_statistics,
-        "multiple_confusion_matrix": conf_matrix,
+        "precision": precision_statistics,
+        "recall": recall_statistics,
+        "f1": f1_statistics,
+        "confusion_matrix": conf_matrix,
     }
 
     return formated_metrics_for_multiple

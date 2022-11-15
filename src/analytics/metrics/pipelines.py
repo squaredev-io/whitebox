@@ -4,11 +4,16 @@ from sklearn import metrics
 from sklearn.metrics import confusion_matrix
 from src.analytics.metrics.functions import *
 from typing import Dict, Union, Any
+from src.schemas.performanceMetric import (
+    BinaryClassificationMetricsPipelineResult,
+    MultiClassificationMetricsPipelineResult,
+)
+from src.schemas.modelIntegrityMetric import FeatureMetrics
 
 
 def create_feature_metrics_pipeline(
     dataset: pd.DataFrame,
-) -> Dict[str, Union[int, float]]:
+) -> FeatureMetrics:
 
     """
     Feature metrics basic calculation
@@ -44,21 +49,23 @@ def create_feature_metrics_pipeline(
     standard_deviation = dataset.std(numeric_only=True).to_dict()
     variance = dataset.var(numeric_only=True).to_dict()
 
-    return format_feature_metrics(
-        missing_count,
-        non_missing_count,
-        mean,
-        minimum,
-        maximum,
-        sum,
-        standard_deviation,
-        variance,
+    return FeatureMetrics(
+        **format_feature_metrics(
+            missing_count,
+            non_missing_count,
+            mean,
+            minimum,
+            maximum,
+            sum,
+            standard_deviation,
+            variance,
+        )
     )
 
 
 def create_binary_classification_evaluation_metrics_pipeline(
-    test_set: pd.DataFrame, prediction_set: pd.DataFrame
-) -> Dict[str, Union[int, float]]:
+    test_set: pd.Series, prediction_set: pd.Series
+) -> BinaryClassificationMetricsPipelineResult:
 
     """
     Binary classification evaluation metrics
@@ -68,10 +75,10 @@ def create_binary_classification_evaluation_metrics_pipeline(
 
     Parameters
     ----------
-    test_set : pd.DataFrame
+    test_set : pd.Series
         Given ground truth dataset
 
-    prediction_set : pd.DataFrame
+    prediction_set : pd.Series
         Given predictions dataset
 
     Returns
@@ -96,14 +103,16 @@ def create_binary_classification_evaluation_metrics_pipeline(
     f1 = recall = metrics.f1_score(test_set, prediction_set)
     tn, fp, fn, tp = confusion_matrix(test_set, prediction_set).ravel()
 
-    return format_evaluation_metrics_binary(
-        accuracy, precision, recall, f1, tn, fp, fn, tp
+    return BinaryClassificationMetricsPipelineResult(
+        **format_evaluation_metrics_binary(
+            accuracy, precision, recall, f1, tn, fp, fn, tp
+        )
     )
 
 
 def create_multiple_classification_evaluation_metrics_pipeline(
-    test_set: pd.DataFrame, prediction_set: pd.DataFrame
-) -> Dict[str, Union[float, Dict[str, Union[int, float]]]]:
+    test_set: pd.Series, prediction_set: pd.Series
+) -> MultiClassificationMetricsPipelineResult:
     """
     Multiclass classification evaluation metrics
 
@@ -112,10 +121,10 @@ def create_multiple_classification_evaluation_metrics_pipeline(
 
     Parameters
     ----------
-    test_set : pd.DataFrame
+    test_set : pd.Series
         Given ground truth dataset
 
-    prediction_set : pd.DataFrame
+    prediction_set : pd.Series
         Given predictions dataset
 
     Returns
@@ -174,6 +183,12 @@ def create_multiple_classification_evaluation_metrics_pipeline(
     f1_statistics = {"micro": micro_f1, "macro": macro_f1, "weighted": weighted_f1}
     conf_matrix = confusion_for_multiclass(test_set, prediction_set)
 
-    return format_evaluation_metrics_multiple(
-        accuracy, precision_statistics, recall_statistics, f1_statistics, conf_matrix
+    return MultiClassificationMetricsPipelineResult(
+        **format_evaluation_metrics_multiple(
+            accuracy,
+            precision_statistics,
+            recall_statistics,
+            f1_statistics,
+            conf_matrix,
+        )
     )

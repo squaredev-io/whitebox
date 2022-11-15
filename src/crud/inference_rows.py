@@ -7,12 +7,9 @@ from src.entities.Inference import InferenceRow as InferenceEntity
 
 class CRUD(CRUDBase[InferenceRow, InferenceRowCreateDto, Any]):
     def get_model_inference_rows(
-        self, db: Session, *, model_id: int
+        self, db: Session, *, model_id: str
     ) -> List[InferenceRow]:
-        return (
-            db.query(self.model)
-            .filter(InferenceEntity.model_id == model_id)
-            .all()
-        )
+        return db.query(self.model).filter(InferenceEntity.model_id == model_id).all()
+
 
 inference_rows = CRUD(InferenceEntity)

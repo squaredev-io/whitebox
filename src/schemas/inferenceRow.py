@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Any, Dict, Union, Optional
+from typing import Any, Dict, Union, Optional, overload
 from pydantic import BaseModel
 from src.schemas.base import ItemBase
 
@@ -10,7 +10,7 @@ class InferenceRowBase(BaseModel):
     # Prediction is included into nonprocessed & processed
     nonprocessed: Dict[str, Any]
     processed: Dict[str, float]
-    actual: Optional[Dict[str, Any]]
+    actual: Optional[float]
 
 
 class InferenceRow(InferenceRowBase, ItemBase):

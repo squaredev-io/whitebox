@@ -3,11 +3,12 @@ from typing import Dict, Union, Any
 import json
 from evidently.report import Report
 from evidently.metric_preset import DataDriftPreset, TargetDriftPreset
+from src.schemas.driftingMetric import DataDriftTable
 
 
-def create_data_drift_pipeline(
+def run_data_drift_pipeline(
     reference_dataset: pd.DataFrame, current_dataset: pd.DataFrame
-) -> Dict[str, Union[DataDriftPreset, str]]:
+) -> DataDriftTable:
     """
     Two datasets are needed
     The reference dataset serves as a benchmark.
@@ -56,17 +57,20 @@ def create_data_drift_pipeline(
     data_drift_report["timestamp"] = initial_report["timestamp"]
     data_drift_report["drift_summary"] = initial_report["metrics"]["DataDriftTable"]
 
-    return data_drift_report
+    return DataDriftTable(
+        **data_drift_report["drift_summary"]
+    )
 
-def create_concept_drift_pipeline(
-    reference_dataset: pd.DataFrame,current_dataset: pd.DataFrame,target_feature: str
-)-> Dict[str, Union[TargetDriftPreset, str]]:
+
+def run_concept_drift_pipeline(
+    reference_dataset: pd.DataFrame, current_dataset: pd.DataFrame, target_feature: str
+) -> Dict[str, Union[TargetDriftPreset, str]]:
     """
     To estimate the categorical target drift, we compare the distribution of the target in the two datasets.
     This solution works for both binary and multi-class classification.
-    As this function works with keywords we have to explicitly define the target column. At the end of the function 
-    we return the initial name of the feature. 
-    
+    As this function works with keywords we have to explicitly define the target column. At the end of the function
+    we return the initial name of the feature.
+
     There is a default logic to choosing the appropriate statistical test, based on:
     - the number of observations in the reference dataset
     - the number of unique values in the target (n_unique)
@@ -76,19 +80,21 @@ def create_concept_drift_pipeline(
     - For binary categorical target (n_unique <= 2), we use the proportion difference test for independent samples based on Z-score.
 
     All tests use a 0.95 confidence level by default.
-    
+
     For larger data with > 1000 observations in the reference dataset we use Jensen–Shannon divergence with a threshold = 0.1.
 
     """
-    reference_dataset.rename(columns = {target_feature:'target'}, inplace = True)
-    current_dataset.rename(columns = {target_feature:'target'}, inplace = True)
+    reference_dataset.rename(columns={target_feature: "target"}, inplace=True)
+    current_dataset.rename(columns={target_feature: "target"}, inplace=True)
     drift_report = Report(metrics=[TargetDriftPreset()])
     drift_report.run(reference_data=reference_dataset, current_data=current_dataset)
-    initial_report=drift_report.json()
-    initial_report=json.loads(initial_report)
-    concept_drift_report={}
-    concept_drift_report["timestamp"]=initial_report["timestamp"]
-    concept_drift_report["concept_drift_summary"]=initial_report["metrics"]["ColumnDriftMetric"]
-    initial_report["metrics"]["ColumnDriftMetric"]["column_name"]=target_feature
-    
+    initial_report = drift_report.json()
+    initial_report = json.loads(initial_report)
+    concept_drift_report = {}
+    concept_drift_report["timestamp"] = initial_report["timestamp"]
+    concept_drift_report["concept_drift_summary"] = initial_report["metrics"][
+        "ColumnDriftMetric"
+    ]
+    initial_report["metrics"]["ColumnDriftMetric"]["column_name"] = target_feature
+
     return concept_drift_report

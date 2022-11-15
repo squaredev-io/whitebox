@@ -1,0 +1,11 @@
+[run]
+omit =
+        *__init__*
+        */usr/local/lib*
+        *test*
+
+[report]
+omit =
+        *test*
+        */usr/local/lib*
+        */__init__.py

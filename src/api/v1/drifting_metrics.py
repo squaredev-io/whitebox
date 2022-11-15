@@ -25,19 +25,3 @@ async def get_all_models_drifting_metrics(model_id: str, db: Session = Depends(g
         return drifting_metrics.get_model_drifting_metrics(db=db, model_id=model_id)
     else:
         return errors.not_found("Model not found")
-
-
-@drifting_metrics_router.get(
-    "/drifting_metrics/{drifting_metric_id}",
-    tags=["Drifting Metrics"],
-    response_model=DriftingMetricBase,
-    summary="Get drifting metric by id",
-    status_code=status.HTTP_200_OK,
-    responses=add_error_responses([404]),
-)
-async def get_drifting_metric(drifting_metric_id: str, db: Session = Depends(get_db)):
-    drifting_metric = drifting_metrics.get(db=db, _id=drifting_metric_id)
-    if not drifting_metric:
-        return errors.not_found("Drifting metric not found")
-
-    return drifting_metric
