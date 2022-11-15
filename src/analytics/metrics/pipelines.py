@@ -4,7 +4,7 @@ from sklearn import metrics
 from sklearn.metrics import confusion_matrix
 from src.analytics.metrics.functions import *
 from typing import Dict, Union, Any
-from src.schemas.performanceMetric import MultiClassificationMetricsPipelineResult
+from src.schemas.performanceMetric import BinaryClassificationMetricsPipelineResult, MultiClassificationMetricsPipelineResult
 from src.schemas.modelIntegrityMetric import FeatureMetrics
 
 
@@ -62,7 +62,7 @@ def create_feature_metrics_pipeline(
 
 def create_binary_classification_evaluation_metrics_pipeline(
     test_set: pd.DataFrame, prediction_set: pd.DataFrame
-) -> Dict[str, Union[int, float]]:
+) -> BinaryClassificationMetricsPipelineResult:
 
     """
     Binary classification evaluation metrics
@@ -100,8 +100,10 @@ def create_binary_classification_evaluation_metrics_pipeline(
     f1 = recall = metrics.f1_score(test_set, prediction_set)
     tn, fp, fn, tp = confusion_matrix(test_set, prediction_set).ravel()
 
-    return format_evaluation_metrics_binary(
+    return BinaryClassificationMetricsPipelineResult(
+        **format_evaluation_metrics_binary(
         accuracy, precision, recall, f1, tn, fp, fn, tp
+        )
     )
 
 

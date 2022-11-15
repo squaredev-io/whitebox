@@ -74,10 +74,11 @@ class TestNodes:
         )
 
     def test_create_binary_classification_evaluation_metrics_pipeline(self):
-        binary_metrics = create_binary_classification_evaluation_metrics_pipeline(
+        binary_metrics = dict(create_binary_classification_evaluation_metrics_pipeline(
             test_classification_df["y_testing_binary"],
             test_classification_df["y_prediction_binary"],
-        )
+        ))
+        
         assert binary_metrics["accuracy"] == 0.6
         assert binary_metrics["precision"] == 0.6
         assert binary_metrics["recall"] == 0.6

@@ -59,3 +59,13 @@ class MultiClassificationMetricsPipelineResult(BaseModel):
     recall: DifferentStatistics
     f1: DifferentStatistics
     confusion_matrix: Dict[str, ConfusionMatrix]
+
+class BinaryClassificationMetricsPipelineResult(BaseModel):
+    accuracy: float
+    precision: float
+    recall: float
+    f1: float
+    true_negative: int
+    false_positive: int
+    false_negative: int
+    true_positive: int

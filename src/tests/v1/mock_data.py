@@ -14,7 +14,17 @@ user_update_payload = dict(
     name="Userius", email="user@yahoo.com", password="1234567890"
 )
 
-model_create_payload = dict(
+model_binary_create_payload = dict(
+    name="Model 1",
+    description="Model 1 description",
+    type=ModelType.binary,
+    features={"y_testing_binary": "categorical"},
+    labels={"label_1": 1, "label_2": 2},
+    prediction="y_prediction_binary",
+    probability="n/a",
+)
+
+model_multi_create_payload = dict(
     name="Model 1",
     description="Model 1 description",
     type=ModelType.multi_class,
@@ -23,6 +33,7 @@ model_create_payload = dict(
     prediction="y_prediction_multi",
     probability="n/a",
 )
+
 model_update_payload = dict(
     name="Model 1 - categorical",
     description="Model 1 description",
@@ -69,7 +80,7 @@ inference_row_create_payload = dict(
     actual={"y_prediction_multi": 2},
 )
 
-inference_row_create_many_payload = list(
+inference_row_create_many_multi_payload = list(
     (
         dict(
             timestamp=str(datetime.now()),
@@ -82,6 +93,23 @@ inference_row_create_many_payload = list(
             nonprocessed={"y_testing_multi": 2, "y_prediction_multi": 1},
             processed={"y_testing_multi": 2, "y_prediction_multi": 1},
             actual={"y_prediction_multi": 2},
+        ),
+    )
+)
+
+inference_row_create_many_binary_payload = list(
+    (
+        dict(
+            timestamp=str(datetime.now()),
+            nonprocessed={"y_testing_binary": 0, "y_prediction_binary": 1},
+            processed={"y_testing_binary": 0, "y_prediction_binary": 1},
+            actual={"y_prediction_binary": 1},
+        ),
+        dict(
+            timestamp=str(datetime.now()),
+            nonprocessed={"y_testing_binary": 1, "y_prediction_binary": 1},
+            processed={"y_testing_binary": 1, "y_prediction_binary": 1},
+            actual={"y_prediction_binary": 1},
         ),
     )
 )

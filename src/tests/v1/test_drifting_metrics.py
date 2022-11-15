@@ -8,7 +8,7 @@ drifting_metric_id = "1234567890"
 
 @pytest.mark.order(test_order_map["drifting_metrics"]["get_model's_all"])
 def test_drifting_metric_get_models_all(client):
-    response = client.get(f"/v1/models/{state.model['id']}/drifting_metrics")
+    response = client.get(f"/v1/models/{state.model_multi['id']}/drifting_metrics")
     r = response.json()
     assert len(r) == 1
     assert response.status_code == status.HTTP_200_OK

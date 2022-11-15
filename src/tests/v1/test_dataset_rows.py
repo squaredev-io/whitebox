@@ -8,7 +8,7 @@ from fastapi import status
 def test_dataset_row_create_many(client):
     response = client.post(
         "/v1/dataset_rows",
-        json=list(map(lambda x: {**x, "model_id": state. model["id"]}, dataset_rows_create_payload))
+        json=list(map(lambda x: {**x, "model_id": state. model_multi["id"]}, dataset_rows_create_payload))
     )
     assert response.status_code == status.HTTP_201_CREATED
 
@@ -24,5 +24,5 @@ def test_dataset_row_create_model_not_exist(client):
 
 @pytest.mark.order(test_order_map["dataset_rows"]["get_model's_all"])
 def test_dataset_row_get_models_all(client):
-    response = client.get(f"/v1/{state.model['id']}/dataset_rows")
+    response = client.get(f"/v1/{state.model_multi['id']}/dataset_rows")
     assert response.status_code == status.HTTP_200_OK

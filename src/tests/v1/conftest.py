@@ -59,7 +59,8 @@ async def db():
 
 class TestsState:
     user: dict = {}
-    model: dict = {}
+    model_binary: dict = {}
+    model_multi: dict = {}
     inference_row: dict = {}
 
 

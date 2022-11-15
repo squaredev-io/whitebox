@@ -69,14 +69,22 @@ async def run_calculate_performance_metrics_pipeline(model: Model):
         db, model_id=model.id
     )
 
-    # feature_metrics_report = create_feature_metrics_pipeline(inference_df)
+    print(processed_df)
 
-    # if model.type == ModelType.binary:
-    #     binary_classification_metrics_report = (
-    #         create_binary_classification_evaluation_metrics_pipeline(
-    #             inference_df['actual'], inference_df['actual']
-    #         )
-    #     )
+    if model.type == ModelType.binary:
+        binary_classification_metrics_report = (
+            create_binary_classification_evaluation_metrics_pipeline(
+                processed_df["y_testing_binary"], processed_df["y_prediction_binary"]
+            )
+        )
+
+        print(binary_classification_metrics_report)
+
+        new_performance_metric = entities.BinaryClassificationMetrics(
+            model_id=model.id,
+            timestamp=str(datetime.utcnow()),
+            **dict(binary_classification_metrics_report)
+        )
 
     if model.type == ModelType.multi_class:
         multiclass_classification_metrics_report = (
