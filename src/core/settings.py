@@ -40,6 +40,7 @@ def get_simulator_settings():
 class CronSettings(Settings):
     APP_NAME_CRON: str
     API_KEY: str
+    METRICS_CRON: str
 
     class Config:
         env_file = f".env.{os.getenv('ENV')}" or ".env.dev"

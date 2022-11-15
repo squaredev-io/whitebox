@@ -20,10 +20,9 @@ from src.cron_tasks.shared import (
 from src.schemas.model import Model, ModelType
 from src.schemas.modelIntegrityMetric import ModelIntegrityMetricCreate
 from src.utils.logger import cronLogger as logger
-# from src.core.db import SessionLocal
+
 
 settings = get_settings()
-# db = SessionLocal()
 
 engine = create_engine(settings.POSTGRES_DB_URI)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
@@ -36,18 +35,24 @@ async def run_calculate_drifting_metrics_pipeline(model: Model):
     After the metrics are calculated they are sabved in the database
     """
 
-    inference_df = await get_model_processed_inference_rows_df(
+    processed_inference_df = await get_model_processed_inference_rows_df(
         db, model_id=model.id
     )
-    training_df = await get_model_dataset_rows_df(db, model_id=model.id)
+    processed_training_df = await get_model_dataset_rows_df(db, model_id=model.id)
 
-    if inference_df.empty or training_df.empty:
+    if processed_inference_df.empty or processed_training_df.empty:
         logger.info(f"Can't calculate data drift metrics for model {model.id}")
         return
 
     logger.info(f"Calculating drifting metrics for model {model.id}...")
 
-    data_drif_report = run_data_drift_pipeline(training_df, inference_df)
+    # We need to drop the target column from the data to calculate drfitting metrics
+    processed_inference_df = processed_inference_df.drop([model.prediction], axis=1)
+    processed_training_df = processed_training_df.drop([model.prediction], axis=1)
+
+    data_drif_report = run_data_drift_pipeline(
+        processed_training_df, processed_inference_df
+    )
 
     new_drifting_metric = entities.DriftingMetric(
         timestamp=str(datetime.utcnow()),
@@ -69,34 +74,32 @@ async def run_calculate_performance_metrics_pipeline(model: Model):
         db, model_id=model.id
     )
 
-    print(processed_df)
-
     if model.type == ModelType.binary:
         binary_classification_metrics_report = (
             create_binary_classification_evaluation_metrics_pipeline(
-                processed_df["y_testing_binary"], processed_df["y_prediction_binary"]
+                actual_df, processed_df[model.prediction]
             )
         )
-
-        print(binary_classification_metrics_report)
 
         new_performance_metric = entities.BinaryClassificationMetrics(
             model_id=model.id,
             timestamp=str(datetime.utcnow()),
-            **dict(binary_classification_metrics_report)
+            **dict(binary_classification_metrics_report),
         )
 
-    if model.type == ModelType.multi_class:
+        crud.binary_classification_metrics.create(db, obj_in=new_performance_metric)
+
+    elif model.type == ModelType.multi_class:
         multiclass_classification_metrics_report = (
             create_multiple_classification_evaluation_metrics_pipeline(
-                processed_df["y_testing_multi"], processed_df["y_prediction_multi"]
+                actual_df, processed_df[model.prediction]
             )
         )
 
         new_performance_metric = entities.MultiClassificationMetrics(
             model_id=model.id,
             timestamp=str(datetime.utcnow()),
-            **dict(multiclass_classification_metrics_report)
+            **dict(multiclass_classification_metrics_report),
         )
 
         crud.multi_classification_metrics.create(db, obj_in=new_performance_metric)
@@ -123,7 +126,7 @@ async def run_calculate_feature_metrics_pipeline(model: Model):
         new_feature_metric = ModelIntegrityMetricCreate(
             model_id=model.id,
             timestamp=str(datetime.utcnow()),
-            feature_metrics = feature_metrics_report
+            feature_metrics=feature_metrics_report,
         )
 
         crud.model_integrity_metrics.create(db, obj_in=new_feature_metric)

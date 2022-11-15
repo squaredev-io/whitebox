@@ -1,4 +1,5 @@
 from datetime import datetime
+from src.schemas import InferenceRowCreateDto
 from src.schemas.model import ModelType
 
 register_payload = dict(
@@ -39,13 +40,7 @@ model_update_payload = dict(
     description="Model 1 description",
 )
 
-dataset_create_payload = dict(name="Dataset 1", target="target")
-
-dataset_wrong_user_create_payload = dict(
-    user_id="1234567890", name="Dataset 2", target="target"
-)
-
-dataset_rows_create_payload = list(
+dataset_rows_create_multi_class_payload = list(
     (
         dict(
             nonprocessed={"y_testing_multi": 2, "y_prediction_multi": 2},
@@ -54,6 +49,20 @@ dataset_rows_create_payload = list(
         dict(
             nonprocessed={"y_testing_multi": 1, "y_prediction_multi": 1},
             processed={"y_testing_multi": 1, "y_prediction_multi": 1},
+        ),
+    )
+)
+
+
+dataset_rows_create_binary_payload = list(
+    (
+        dict(
+            nonprocessed={"y_testing_binary": 0, "y_prediction_binary": 0},
+            processed={"y_testing_binary": 0, "y_prediction_binary": 0},
+        ),
+        dict(
+            nonprocessed={"y_testing_binary": 1, "y_prediction_binary": 1},
+            processed={"y_testing_binary": 1, "y_prediction_binary": 1},
         ),
     )
 )
@@ -77,7 +86,7 @@ inference_row_create_payload = dict(
     timestamp=str(datetime.now()),
     nonprocessed={"y_testing_multi": 2, "y_prediction_multi": 2},
     processed={"y_testing_multi": 2, "y_prediction_multi": 2},
-    actual={"y_prediction_multi": 2},
+    actual=2,
 )
 
 inference_row_create_many_multi_payload = list(
@@ -86,30 +95,31 @@ inference_row_create_many_multi_payload = list(
             timestamp=str(datetime.now()),
             nonprocessed={"y_testing_multi": 1, "y_prediction_multi": 1},
             processed={"y_testing_multi": 1, "y_prediction_multi": 1},
-            actual={"y_prediction_multi": 1},
+            actual=1,
         ),
         dict(
             timestamp=str(datetime.now()),
             nonprocessed={"y_testing_multi": 2, "y_prediction_multi": 1},
             processed={"y_testing_multi": 2, "y_prediction_multi": 1},
-            actual={"y_prediction_multi": 2},
+            actual=2,
         ),
     )
 )
 
+# This is the body of the request coming from the sdk
 inference_row_create_many_binary_payload = list(
     (
         dict(
             timestamp=str(datetime.now()),
             nonprocessed={"y_testing_binary": 0, "y_prediction_binary": 1},
             processed={"y_testing_binary": 0, "y_prediction_binary": 1},
-            actual={"y_prediction_binary": 1},
+            actual=1,
         ),
         dict(
             timestamp=str(datetime.now()),
             nonprocessed={"y_testing_binary": 1, "y_prediction_binary": 1},
             processed={"y_testing_binary": 1, "y_prediction_binary": 1},
-            actual={"y_prediction_binary": 1},
+            actual=0,
         ),
     )
 )

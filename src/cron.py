@@ -2,11 +2,13 @@ from fastapi import FastAPI, Depends
 import asyncio
 import json
 from src.utils.logger import cronLogger as logger
+
 # from src.api.cron.v1 import endpoints
 from src.core.settings import get_cron_settings
 from src.middleware.authorize_client import get_api_key
 from src.cron_tasks.tasks import task_manager
 from fastapi.openapi.utils import get_openapi
+
 # from src.api.cron.v1.docs import description, tags_metadata
 
 
@@ -19,6 +21,7 @@ cron_app = FastAPI(
 
 @cron_app.on_event("startup")
 async def init():
+    # Start task amanager
     asyncio.get_event_loop().create_task(task_manager.run())
 
 
