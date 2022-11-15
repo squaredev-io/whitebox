@@ -1,16 +1,13 @@
 import os
 from src.core.manager import get_task_manager
+from src.cron_tasks.monitoring_metrics import run_calculate_metrics_pipeline
 
 task_manager = get_task_manager()
 
-print_job_param = os.getenv("CATALOG_REFRESH_CRON") or "* * * * *"
-
-async def print_job():
-    print("Hello!")
-    return
+metrics_cron = os.getenv("METRICS_CRON") or "*/15 * * * *"
 
 task_manager.register(
-    name="print_job",
-    async_callable=print_job,
-    crontab=print_job_param,
+    name="metrics_cron",
+    async_callable=run_calculate_metrics_pipeline,
+    crontab=metrics_cron,
 )
