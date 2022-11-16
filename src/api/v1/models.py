@@ -89,7 +89,7 @@ async def update_model(
     status_code=status.HTTP_200_OK,
     responses=add_error_responses([404]),
 )
-async def delete_user(
+async def delete_model(
     model_id: str,
     db: Session = Depends(get_db),
 ) -> StatusCode:

@@ -19,16 +19,12 @@ tags_metadata = [
         "description": "This set of endpoints handles the models that a user creates.",
     },
     {
-        "name": "Datasets",
-        "description": "This set of endpoints handles a the user's datasets.",
-    },
-    {
         "name": "Dataset Rows",
-        "description": "This set of endpoints handles a dataset's rows.",
+        "description": "This set of endpoints handles the dataset rows.",
     },
     {
-        "name": "Inferences",
-        "description": "This set of endpoints handles a model's inferences.",
+        "name": "Inference Rows",
+        "description": "This set of endpoints handles a model's inference rows.",
     },
     {
         "name": "Performance Metrics",
@@ -41,6 +37,10 @@ tags_metadata = [
     {
         "name": "Model Integrity Metrics",
         "description": "This set of endpoints handles a model's integrity metrics.",
+    },
+    {
+        "name": "Cron Tasks",
+        "description": "This is a helper endpoint to trigger cron tasks for tests.",
     },
 ]
 
