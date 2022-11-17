@@ -61,7 +61,7 @@ class Task_Manager:
         name = name or async_callable.__name__
         if name in self._definitions:
             raise Exception(f"Task <{name}> already exists.")
-        
+
         definition = TaskDefinition(
             name=name, async_callable=async_callable, crontab=crontab, enabled=True
         )

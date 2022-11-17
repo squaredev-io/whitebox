@@ -9,7 +9,6 @@ class StatusCode(BaseModel):
     status_code: str
 
 
-
 class ErrorProps(BaseModel):
     error: str
     status_code: int

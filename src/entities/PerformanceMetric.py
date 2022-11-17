@@ -14,7 +14,7 @@ class BinaryClassificationMetrics(Base):
     recall = Column(Float)
     f1 = Column(Float)
     true_negative = Column(Integer)
-    false_positive = Column(Integer)    
+    false_positive = Column(Integer)
     false_negative = Column(Integer)
     true_positive = Column(Integer)
     created_at = Column(DateTime)

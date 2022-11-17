@@ -4,9 +4,11 @@ from typing import Any, Union
 from pydantic import BaseModel
 from src.schemas.base import ItemBase
 
+
 class AlertStatus(str, enum.Enum):
     open = "open"
     closed = "closed"
+
 
 class AlertSeverity(str, enum.Enum):
     low = "low"
@@ -24,6 +26,7 @@ class AlertBase(BaseModel):
 
 class Alert(AlertBase, ItemBase):
     pass
+
 
 class AlertCreateDto(AlertBase):
     pass

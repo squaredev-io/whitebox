@@ -10,7 +10,9 @@ from src.utils.logger import log
 
 
 class CustomError(BaseException):
-    async def http_exception_handler(self, _: Request, exc: StarletteHTTPException) -> ErrorProps:
+    async def http_exception_handler(
+        self, _: Request, exc: StarletteHTTPException
+    ) -> ErrorProps:
         log.error(f"{exc.status_code}: {exc.detail}")
         return JSONResponse(
             status_code=exc.status_code,
@@ -29,7 +31,9 @@ class CustomError(BaseException):
         else:
             responsible_value = exc.errors()[0]["loc"][0]
         reason = exc.errors()[0]["msg"]
-        log.error(f"{status.HTTP_400_BAD_REQUEST}: ({str(responsible_value)}) {str(reason)}")
+        log.error(
+            f"{status.HTTP_400_BAD_REQUEST}: ({str(responsible_value)}) {str(reason)}"
+        )
         return JSONResponse(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
             content=jsonable_encoder(
@@ -85,7 +89,9 @@ class CustomError(BaseException):
             ),
         )
 
-    def unknown_error(self, msg: str = "An unknown error was encountered") -> ErrorProps:
+    def unknown_error(
+        self, msg: str = "An unknown error was encountered"
+    ) -> ErrorProps:
         log.error(f"{status.HTTP_500_INTERNAL_SERVER_ERROR}: {str(msg)}")
         return JSONResponse(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -119,37 +125,49 @@ def add_error_responses(status_codes) -> List[ErrorProps]:
         400: {
             "description": "Bad Request",
             "content": {
-                "application/json": {"schema": {"$ref": "#/components/schemas/BadRequest"}}
+                "application/json": {
+                    "schema": {"$ref": "#/components/schemas/BadRequest"}
+                }
             },
         },
         401: {
             "description": "Authorization Error",
             "content": {
-                "application/json": {"schema": {"$ref": "#/components/schemas/AuthorizationError"}}
+                "application/json": {
+                    "schema": {"$ref": "#/components/schemas/AuthorizationError"}
+                }
             },
         },
         404: {
             "description": "Not Found Error",
             "content": {
-                "application/json": {"schema": {"$ref": "#/components/schemas/NotFoundError"}}
+                "application/json": {
+                    "schema": {"$ref": "#/components/schemas/NotFoundError"}
+                }
             },
         },
         409: {
             "description": "Conflict Error",
             "content": {
-                "application/json": {"schema": {"$ref": "#/components/schemas/ConflictError"}}
+                "application/json": {
+                    "schema": {"$ref": "#/components/schemas/ConflictError"}
+                }
             },
         },
         410: {
             "description": "Content Gone",
             "content": {
-                "application/json": {"schema": {"$ref": "#/components/schemas/ContenGone"}}
+                "application/json": {
+                    "schema": {"$ref": "#/components/schemas/ContenGone"}
+                }
             },
         },
         422: {
             "description": "Validation Error",
             "content": {
-                "application/json": {"schema": {"$ref": "#/components/schemas/HTTPValidationError"}}
+                "application/json": {
+                    "schema": {"$ref": "#/components/schemas/HTTPValidationError"}
+                }
             },
         },
     }
