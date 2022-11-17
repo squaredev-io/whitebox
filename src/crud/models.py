@@ -9,4 +9,5 @@ from src.entities.Model import Model as ModelEntity
 class CRUD(CRUDBase[Model, ModelCreateDto, ModelUpdateDto]):
     pass
 
+
 models = CRUD(ModelEntity)

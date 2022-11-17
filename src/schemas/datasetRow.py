@@ -10,8 +10,10 @@ class DatasetRowBase(BaseModel):
     # Before model entry
     processed: Dict[str, float]
 
+
 class DatasetRow(DatasetRowBase, ItemBase):
     pass
+
 
 class DatasetRowCreate(DatasetRowBase):
     pass

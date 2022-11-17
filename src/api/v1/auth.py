@@ -23,9 +23,7 @@ auth_router = APIRouter()
 async def get_access_token(
     db: Session = Depends(get_db), body: OAuth2PasswordRequestForm = Depends()
 ):
-    user_in_db = users.authenticate(
-        db, email=body.username, password=body.password
-    )
+    user_in_db = users.authenticate(db, email=body.username, password=body.password)
     if not user_in_db:
         return errors.not_found("No user found")
 
@@ -41,7 +39,7 @@ async def get_access_token(
     response_model=User,
     summary="Get active user",
     status_code=status.HTTP_200_OK,
-    responses=add_error_responses([401])
+    responses=add_error_responses([401]),
 )
 async def get_active_user(active_user: User = Depends(get_current_user)):
     if not active_user:

@@ -24,5 +24,6 @@ class ModelIntegrityMetricBase(BaseModel):
 class ModelIntegrityMetric(ModelIntegrityMetricBase, ItemBase):
     pass
 
+
 class ModelIntegrityMetricCreate(ModelIntegrityMetricBase):
     pass

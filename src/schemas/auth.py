@@ -14,6 +14,7 @@ class OAuth2RequestForm:
         self.email = email
         self.password = password
 
+
 class Token(BaseModel):
     access_token: str
     token_type: str

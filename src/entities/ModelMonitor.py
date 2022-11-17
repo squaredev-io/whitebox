@@ -15,5 +15,5 @@ class ModelMonitor(Base):
     threshold = Column(Numeric)
     created_at = Column(DateTime)
     updated_at = Column(DateTime)
-    
+
     alerts = relationship("Alert")

@@ -74,11 +74,13 @@ class TestNodes:
         )
 
     def test_create_binary_classification_evaluation_metrics_pipeline(self):
-        binary_metrics = dict(create_binary_classification_evaluation_metrics_pipeline(
-            test_classification_df["y_testing_binary"],
-            test_classification_df["y_prediction_binary"],
-        ))
-        
+        binary_metrics = dict(
+            create_binary_classification_evaluation_metrics_pipeline(
+                test_classification_df["y_testing_binary"],
+                test_classification_df["y_prediction_binary"],
+            )
+        )
+
         assert binary_metrics["accuracy"] == 0.6
         assert binary_metrics["precision"] == 0.6
         assert binary_metrics["recall"] == 0.6
@@ -141,13 +143,16 @@ class TestNodes:
         assert data_drift_report["number_of_drifted_columns"] == 7
         assert (
             round(
-                dict(data_drift_report["drift_by_columns"]["Population"])["drift_score"],
+                dict(data_drift_report["drift_by_columns"]["Population"])[
+                    "drift_score"
+                ],
                 2,
             )
             == 0.06
         )
         assert (
-            dict(data_drift_report["drift_by_columns"]["Longitude"])["drift_detected"] == True
+            dict(data_drift_report["drift_by_columns"]["Longitude"])["drift_detected"]
+            == True
         )
         assert (
             dict(data_drift_report["drift_by_columns"]["AveBedrms"])["drift_detected"]
