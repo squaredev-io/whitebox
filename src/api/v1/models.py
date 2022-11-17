@@ -1,7 +1,8 @@
-from typing import List
+from typing import List, Union
 from src.schemas.model import Model, ModelCreateDto, ModelUpdateDto
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, status, Header
 from src.crud.models import models
+from src.crud.users import users
 from sqlalchemy.orm import Session
 from src.core.db import get_db
 from src.schemas.utils import StatusCode
@@ -17,10 +18,18 @@ models_router = APIRouter()
     response_model=Model,
     summary="Create model",
     status_code=status.HTTP_201_CREATED,
-    responses=add_error_responses([400, 409]),
+    responses=add_error_responses([400, 401, 409]),
 )
-async def create_model(body: ModelCreateDto, db: Session = Depends(get_db)) -> Model:
+async def create_model(
+    body: ModelCreateDto,
+    db: Session = Depends(get_db),
+    api_key: Union[str, None] = Header(default=None),
+) -> Model:
+    authenticated = users.match_api_key(db, api_key=api_key)
+    if not authenticated:
+        return errors.unauthorized()
     if body is not None:
+        body.user_id = authenticated.id
         new_model = models.create(db=db, obj_in=body)
         return new_model
     else:

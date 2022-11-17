@@ -8,9 +8,8 @@ class User(Base):
     __tablename__ = "users"
 
     id = Column(String, unique=True, primary_key=True, default=generate_uuid)
-    name = Column(String)
-    email = Column(String, unique=True, index=True)
-    password = deferred(Column(String))
+    username = Column(String)
+    api_key = deferred(Column(String))
     created_at = Column(DateTime)
     updated_at = Column(DateTime)
 

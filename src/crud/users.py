@@ -24,5 +24,13 @@ class CRUD(CRUDBase[User, UserCreateDto, UserUpdateDto]):
             return None
         return user
 
+    def match_api_key(self, db: Session, *, api_key: str) -> Optional[User]:
+        if not api_key:
+            return None
+        admin = self.get_first_by_filter(db, username="admin")
+        if not passwords_match(admin.api_key, api_key):
+            return None
+        return admin
+
 
 users = CRUD(UserEntity)
