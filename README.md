@@ -6,12 +6,7 @@
 
 Whitebox is an open source E2E ML monitoring platform with edge capabilities that plays nicely with kubernetes.
 
-<p align="center">
-  <video width="50%" controls>
-    <source src="assets/ui-prototype-demo.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-  </video>
-</p>
+https://squaredevio-my.sharepoint.com/:v:/g/personal/kostas_siabanis_squaredev_io/ES9qVWbM_QlHlQWJa9RKNY4B3iFcJ0fPyB2R36O_CcSGEg?e=p1cXsk
 
 ## Why use Whitebox?
 
