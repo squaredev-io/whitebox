@@ -6,21 +6,25 @@
 
 Whitebox is an open source E2E ML monitoring platform with edge capabilities that plays nicely with kubernetes.
 
-https://squaredevio-my.sharepoint.com/:v:/g/personal/kostas_siabanis_squaredev_io/ES9qVWbM_QlHlQWJa9RKNY4B3iFcJ0fPyB2R36O_CcSGEg?e=p1cXsk
-
 ## Why use Whitebox?
 
 Deploying a machine learning model in production is not the end of the lifecycle. You need data to iterate and improve.
+
+<p align="center"><img src="assets/ui-prototype-demo.gif" width="50%" alt="whitebox logo" /></p>
 
 # How to use
 
 ## Run the server
 
-> 👉 Coming soon. You can use development environment described below until everything is ready
+The project is still in rapid development so to run the server clone the repo and run:
 
-## Using the SDK
+```bash
+python -m venv .venv
+pip install -r requirements.txt
+ENV=dev uvicorn src.main:app --reload
+```
 
-> 👉 Coming soon
+In the near future you will be able to `pip install whitebox` and run `whitebox serve` to run whitebox.
 
 ## High level diagram of model set up
 
@@ -32,50 +36,27 @@ sequenceDiagram
     participant whitebox
 
     user->>user: Import sdk
+
     note over user, whitebox: Configure model and monitors
-    user->>whitebox: Create project
-    user->>whitebox: Register model via SDK
-    whitebox-->>user: model_id
-    user->>whitebox: Register model training set
-    user->>whitebox: Register model test set
-    user->>whitebox: Setup monitors
+    user->>whitebox: Register model and training set via SDK
+    whitebox-->>user: Model ID
+    user->>whitebox: Log model inferences and actuals
 
     note over user, whitebox: You can now start monitoring metrics and get alerts
-    user->>whitebox: Log inferences
-    whitebox-->>user: Monitor metrics
-    whitebox-->>user: Get alerted
+    user->>whitebox: Setup monitors to get specific alert
+    whitebox-->>user: Get alerted when an anomaly occurs
 ```
 
 # Features
 
-## Planned
-
-- [ ] Minimum viable API
-- [ ] Supported model types: Binary classification, Multi-class classification
-- [ ] Supported data types: structured
-- [ ] Feature importance on inference using SHAP values (XAI)
-- [ ] Monitors set up through API
-- [ ] Alerts accessible through API via pull
-- [ ] Grafana integration
+You can see all planned features on our [v1.0 milestone](https://github.com/squaredev-io/whitebox/milestone/1).
 
 ## Coming soon
 
-- Whitebox UI
-- Regression models
-- Data segments
-- Edge / privacy features
-
-## Available metrics
-
-- Data drift per feature compared to training
-- Prediction / concept drift per feature compared to training
-- Missing values for model input data
-- Model performance monitoring (classification):
-  - Precision
-  - Recall
-  - F1
-  - Accuracy
-  - Confusion matrix
+- 📖 Docs
+- 💻 Whitebox UI
+- 📈 Regression models
+- 🤖 Edge / privacy features
 
 # Set up locally for development
 
@@ -101,4 +82,4 @@ Tests:
 
 # Contributing
 
-We happily welcome contributions to Whitebox. Open issues with ideas
+We happily welcome contributions to Whitebox. You can start by opening a new issue!
