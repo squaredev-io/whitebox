@@ -11,7 +11,6 @@ from src.utils.errors import add_error_responses, errors
 users_router = APIRouter()
 
 
-# TODO Reject requests from already logged in users
 @users_router.post(
     "/users",
     tags=["Users"],
