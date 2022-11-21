@@ -7,12 +7,6 @@ from src.entities.User import User as UserEntity
 
 
 class CRUD(CRUDBase[User, UserCreateDto, UserUpdateDto]):
-    def update(self, db: Session, *, body: UserUpdateDto, db_obj: User) -> User:
-        if body.password:
-            body.password = hash_password(body.password)
-
-        return super().update(db=db, db_obj=db_obj, obj_in=body)
-
     def get_by_email(self, db: Session, *, email: str) -> Optional[User]:
         return db.query(UserEntity).filter(UserEntity.email == email).first()
 

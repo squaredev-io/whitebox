@@ -12,5 +12,3 @@ class User(Base):
     api_key = deferred(Column(String))
     created_at = Column(DateTime)
     updated_at = Column(DateTime)
-
-    models = relationship("Model")

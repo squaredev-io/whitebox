@@ -6,7 +6,6 @@ v1_test_order_map = [
     "users_create",
     "users_get_all",
     "users_get",
-    "users_update",
     "models_create",
     "models_get_all",
     "models_get",
@@ -26,5 +25,6 @@ v1_test_order_map = [
     "model_integrity_metrics_get_model_multi_class_all",
     "model_integrity_metrics_get_model_binary_all",
     "models_delete",
+    "users_update",
     "users_delete",
 ]

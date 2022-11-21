@@ -19,6 +19,7 @@ def test_dataset_row_create_many(client):
                 dataset_rows_create_multi_class_payload,
             )
         ),
+        headers={"api-key": state.api_key},
     )
 
     response_model_binary = client.post(
@@ -29,6 +30,7 @@ def test_dataset_row_create_many(client):
                 dataset_rows_create_binary_payload,
             )
         ),
+        headers={"api-key": state.api_key},
     )
 
     assert response_model_multi.status_code == status.HTTP_201_CREATED
@@ -42,14 +44,21 @@ def test_dataset_row_create_model_not_exist(client):
     response = client.post(
         "/v1/dataset_rows",
         json=(dataset_rows_create_wrong_model_payload),
+        headers={"api-key": state.api_key},
     )
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
 @pytest.mark.order(get_order_number("dataset_rows_get_model's_all"))
 def test_dataset_row_get_models_all(client):
-    response_model_multi = client.get(f"/v1/{state.model_multi['id']}/dataset_rows")
-    response_model_binary = client.get(f"/v1/{state.model_binary['id']}/dataset_rows")
+    response_model_multi = client.get(
+        f"/v1/{state.model_multi['id']}/dataset_rows",
+        headers={"api-key": state.api_key},
+    )
+    response_model_binary = client.get(
+        f"/v1/{state.model_binary['id']}/dataset_rows",
+        headers={"api-key": state.api_key},
+    )
     assert response_model_multi.status_code == status.HTTP_200_OK
     assert response_model_binary.status_code == status.HTTP_200_OK
     validated = [schemas.DatasetRow(**m) for m in response_model_multi.json()]

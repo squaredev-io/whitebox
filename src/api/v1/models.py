@@ -29,7 +29,6 @@ async def create_model(
     if not authenticated:
         return errors.unauthorized()
     if body is not None:
-        body.user_id = authenticated.id
         new_model = models.create(db=db, obj_in=body)
         return new_model
     else:
@@ -42,9 +41,14 @@ async def create_model(
     response_model=List[Model],
     summary="Get all models",
     status_code=status.HTTP_200_OK,
-    responses=add_error_responses([404]),
+    responses=add_error_responses([401, 404]),
 )
-async def get_all_models(db: Session = Depends(get_db)):
+async def get_all_models(
+    db: Session = Depends(get_db), api_key: Union[str, None] = Header(default=None)
+):
+    authenticated = users.match_api_key(db, api_key=api_key)
+    if not authenticated:
+        return errors.unauthorized()
     models_in_db = models.get_all(db=db)
     if not models_in_db:
         return errors.not_found("No model found in database")
@@ -58,9 +62,16 @@ async def get_all_models(db: Session = Depends(get_db)):
     response_model=Model,
     summary="Get model by id",
     status_code=status.HTTP_200_OK,
-    responses=add_error_responses([404]),
+    responses=add_error_responses([401, 404]),
 )
-async def get_model(model_id: str, db: Session = Depends(get_db)):
+async def get_model(
+    model_id: str,
+    db: Session = Depends(get_db),
+    api_key: Union[str, None] = Header(default=None),
+):
+    authenticated = users.match_api_key(db, api_key=api_key)
+    if not authenticated:
+        return errors.unauthorized()
     model = models.get(db=db, _id=model_id)
     if not model:
         return errors.not_found("Model not found")
@@ -74,13 +85,18 @@ async def get_model(model_id: str, db: Session = Depends(get_db)):
     response_model=Model,
     summary="Update model",
     status_code=status.HTTP_200_OK,
-    responses=add_error_responses([400, 404]),
+    responses=add_error_responses([400, 401, 404]),
 )
 async def update_model(
     model_id: str,
     body: ModelUpdateDto,
     db: Session = Depends(get_db),
+    api_key: Union[str, None] = Header(default=None),
 ) -> Model:
+    authenticated = users.match_api_key(db, api_key=api_key)
+    if not authenticated:
+        return errors.unauthorized()
+
     model = models.get(db=db, _id=model_id)
     if not model:
         return errors.not_found("Model not found")
@@ -96,12 +112,17 @@ async def update_model(
     response_model=StatusCode,
     summary="Delete user",
     status_code=status.HTTP_200_OK,
-    responses=add_error_responses([404]),
+    responses=add_error_responses([401, 404]),
 )
 async def delete_model(
     model_id: str,
     db: Session = Depends(get_db),
+    api_key: Union[str, None] = Header(default=None),
 ) -> StatusCode:
+    authenticated = users.match_api_key(db, api_key=api_key)
+    if not authenticated:
+        return errors.unauthorized()
+
     model = models.get(db=db, _id=model_id)
     if not model:
         return errors.not_found("Model not found")

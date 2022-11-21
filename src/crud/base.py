@@ -27,9 +27,8 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         if self.model.__tablename__ in ["users"]:
             return (
                 db.query(self.model)
-                .options(defer("password"))
-                .filter(self.model.id == _id)
-                .first()
+                # .options(defer("password"))
+                .filter(self.model.id == _id).first()
             )
         else:
             return db.query(self.model).filter(self.model.id == _id).first()

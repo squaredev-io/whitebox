@@ -13,12 +13,14 @@ from fastapi import status
 def test_model_create(client):
     response_binary = client.post(
         "/v1/models",
-        json={**model_binary_create_payload, "user_id": state.user["id"]},
+        json={**model_binary_create_payload},
+        headers={"api-key": state.api_key},
     )
 
     response_multi = client.post(
         "/v1/models",
-        json={**model_multi_create_payload, "user_id": state.user["id"]},
+        json={**model_multi_create_payload},
+        headers={"api-key": state.api_key},
     )
 
     state.model_binary = response_binary.json()
@@ -31,14 +33,16 @@ def test_model_create(client):
 
 @pytest.mark.order(get_order_number("models_get_all"))
 def test_model_get_all(client):
-    response = client.get(f"/v1/models")
+    response = client.get(f"/v1/models", headers={"api-key": state.api_key})
     assert response.status_code == status.HTTP_200_OK
     validated = [schemas.Model(**m) for m in response.json()]
 
 
 @pytest.mark.order(get_order_number("models_get"))
 def test_model_get(client):
-    response = client.get(f"/v1/models/{state.model_multi['id']}")
+    response = client.get(
+        f"/v1/models/{state.model_multi['id']}", headers={"api-key": state.api_key}
+    )
     assert response.status_code == status.HTTP_200_OK
     validated = schemas.Model(**response.json())
 
@@ -46,7 +50,9 @@ def test_model_get(client):
 @pytest.mark.order(get_order_number("models_update"))
 def test_model_update(client):
     response = client.put(
-        f"/v1/models/{state.model_multi['id']}", json=model_update_payload
+        f"/v1/models/{state.model_multi['id']}",
+        json=model_update_payload,
+        headers={"api-key": state.api_key},
     )
     assert response.status_code == status.HTTP_200_OK
     validated = schemas.Model(**response.json())
@@ -55,6 +61,6 @@ def test_model_update(client):
 @pytest.mark.order(get_order_number("models_delete"))
 def test_model_delete(client):
     response = client.delete(
-        f"/v1/models/{state.model_multi['id']}",
+        f"/v1/models/{state.model_multi['id']}", headers={"api-key": state.api_key}
     )
     assert response.status_code == status.HTTP_200_OK
