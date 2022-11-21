@@ -1,9 +1,7 @@
 from typing import List, Union
 from src.schemas.datasetRow import DatasetRow, DatasetRowCreate
 from fastapi import APIRouter, Depends, status, Header
-from src.crud.dataset_rows import dataset_rows
-from src.crud.models import models
-from src.crud.users import users
+from src import crud
 from sqlalchemy.orm import Session
 from src.core.db import get_db
 from src.utils.errors import add_error_responses, errors
@@ -25,13 +23,13 @@ async def create_dataset_rows(
     db: Session = Depends(get_db),
     api_key: Union[str, None] = Header(default=None),
 ) -> DatasetRow:
-    authenticated = users.match_api_key(db, api_key=api_key)
+    authenticated = crud.users.authenticate(db, api_key=api_key)
     if not authenticated:
         return errors.unauthorized()
 
-    model = models.get(db=db, _id=dict(body[0])["model_id"])
+    model = crud.models.get(db=db, _id=dict(body[0])["model_id"])
     if model:
-        new_dataset_rows = dataset_rows.create_many(db=db, obj_list=body)
+        new_dataset_rows = crud.dataset_rows.create_many(db=db, obj_list=body)
         return new_dataset_rows
     else:
         return errors.not_found(f"Model with id: {dict(body[0])['model_id']} not found")
@@ -50,12 +48,12 @@ async def get_all_dataset_rows(
     db: Session = Depends(get_db),
     api_key: Union[str, None] = Header(default=None),
 ):
-    authenticated = users.match_api_key(db, api_key=api_key)
+    authenticated = crud.users.authenticate(db, api_key=api_key)
     if not authenticated:
         return errors.unauthorized()
 
-    model = models.get(db, model_id)
+    model = crud.models.get(db, model_id)
     if model:
-        return dataset_rows.get_dataset_rows(db=db, model_id=model_id)
+        return crud.dataset_rows.get_dataset_rows(db=db, model_id=model_id)
     else:
         return errors.not_found("Model not found")

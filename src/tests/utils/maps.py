@@ -1,8 +1,5 @@
 v1_test_order_map = [
     "health",
-    "auth_unauthorized_me",
-    "auth_login",
-    "auth_authorized_me",
     "users_create",
     "users_get_all",
     "users_get",

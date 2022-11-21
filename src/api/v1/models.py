@@ -1,8 +1,7 @@
 from typing import List, Union
 from src.schemas.model import Model, ModelCreateDto, ModelUpdateDto
 from fastapi import APIRouter, Depends, status, Header
-from src.crud.models import models
-from src.crud.users import users
+from src import crud
 from sqlalchemy.orm import Session
 from src.core.db import get_db
 from src.schemas.utils import StatusCode
@@ -25,11 +24,11 @@ async def create_model(
     db: Session = Depends(get_db),
     api_key: Union[str, None] = Header(default=None),
 ) -> Model:
-    authenticated = users.match_api_key(db, api_key=api_key)
+    authenticated = crud.users.authenticate(db, api_key=api_key)
     if not authenticated:
         return errors.unauthorized()
     if body is not None:
-        new_model = models.create(db=db, obj_in=body)
+        new_model = crud.models.create(db=db, obj_in=body)
         return new_model
     else:
         return errors.bad_request("Form should not be empty")
@@ -46,10 +45,10 @@ async def create_model(
 async def get_all_models(
     db: Session = Depends(get_db), api_key: Union[str, None] = Header(default=None)
 ):
-    authenticated = users.match_api_key(db, api_key=api_key)
+    authenticated = crud.users.authenticate(db, api_key=api_key)
     if not authenticated:
         return errors.unauthorized()
-    models_in_db = models.get_all(db=db)
+    models_in_db = crud.models.get_all(db=db)
     if not models_in_db:
         return errors.not_found("No model found in database")
 
@@ -69,10 +68,10 @@ async def get_model(
     db: Session = Depends(get_db),
     api_key: Union[str, None] = Header(default=None),
 ):
-    authenticated = users.match_api_key(db, api_key=api_key)
+    authenticated = crud.users.authenticate(db, api_key=api_key)
     if not authenticated:
         return errors.unauthorized()
-    model = models.get(db=db, _id=model_id)
+    model = crud.models.get(db=db, _id=model_id)
     if not model:
         return errors.not_found("Model not found")
 
@@ -93,15 +92,15 @@ async def update_model(
     db: Session = Depends(get_db),
     api_key: Union[str, None] = Header(default=None),
 ) -> Model:
-    authenticated = users.match_api_key(db, api_key=api_key)
+    authenticated = crud.users.authenticate(db, api_key=api_key)
     if not authenticated:
         return errors.unauthorized()
 
-    model = models.get(db=db, _id=model_id)
+    model = crud.models.get(db=db, _id=model_id)
     if not model:
         return errors.not_found("Model not found")
     if body is not None:
-        return models.update(db=db, db_obj=model, obj_in=body)
+        return crud.models.update(db=db, db_obj=model, obj_in=body)
     else:
         return errors.bad_request("Form should not be empty")
 
@@ -119,13 +118,13 @@ async def delete_model(
     db: Session = Depends(get_db),
     api_key: Union[str, None] = Header(default=None),
 ) -> StatusCode:
-    authenticated = users.match_api_key(db, api_key=api_key)
+    authenticated = crud.users.authenticate(db, api_key=api_key)
     if not authenticated:
         return errors.unauthorized()
 
-    model = models.get(db=db, _id=model_id)
+    model = crud.models.get(db=db, _id=model_id)
     if not model:
         return errors.not_found("Model not found")
 
-    models.remove(db=db, _id=model_id)
+    crud.models.remove(db=db, _id=model_id)
     return {"status_code": status.HTTP_200_OK}

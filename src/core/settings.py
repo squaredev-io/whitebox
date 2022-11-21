@@ -6,8 +6,6 @@ import os
 class Settings(BaseSettings):
     APP_NAME: str = ""
     ENV: str = ""
-    ACCESS_TOKEN_LIFE_IN_HOURS: str = ""
-    ALGORITHM: str = ""
     POSTGRES_DB_URI: str = ""
     VERSION: str = ""
 

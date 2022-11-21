@@ -1,9 +1,7 @@
 from typing import List, Union
 from src.schemas.inferenceRow import InferenceRow, InferenceRowCreateDto
 from fastapi import APIRouter, Depends, status, Header
-from src.crud.inference_rows import inference_rows
-from src.crud.models import models
-from src.crud.users import users
+from src import crud
 from sqlalchemy.orm import Session
 from src.core.db import get_db
 from src.utils.errors import add_error_responses, errors
@@ -25,11 +23,11 @@ async def create_row(
     db: Session = Depends(get_db),
     api_key: Union[str, None] = Header(default=None),
 ) -> InferenceRow:
-    authenticated = users.match_api_key(db, api_key=api_key)
+    authenticated = crud.users.authenticate(db, api_key=api_key)
     if not authenticated:
         return errors.unauthorized()
     if body is not None:
-        new_inference_row = inference_rows.create(db=db, obj_in=body)
+        new_inference_row = crud.inference_rows.create(db=db, obj_in=body)
         return new_inference_row
     else:
         return errors.bad_request("Body should not be empty")
@@ -48,12 +46,12 @@ async def create_many_inference_rows(
     db: Session = Depends(get_db),
     api_key: Union[str, None] = Header(default=None),
 ) -> InferenceRow:
-    authenticated = users.match_api_key(db, api_key=api_key)
+    authenticated = crud.users.authenticate(db, api_key=api_key)
     if not authenticated:
         return errors.unauthorized()
 
     if body is not None:
-        new_inference_rows = inference_rows.create_many(db=db, obj_list=body)
+        new_inference_rows = crud.inference_rows.create_many(db=db, obj_list=body)
         return new_inference_rows
     else:
         return errors.bad_request("Form should not be empty")
@@ -72,13 +70,13 @@ async def get_all_models_inference_rows(
     db: Session = Depends(get_db),
     api_key: Union[str, None] = Header(default=None),
 ):
-    authenticated = users.match_api_key(db, api_key=api_key)
+    authenticated = crud.users.authenticate(db, api_key=api_key)
     if not authenticated:
         return errors.unauthorized()
 
-    model = models.get(db, model_id)
+    model = crud.models.get(db, model_id)
     if model:
-        return inference_rows.get_model_inference_rows(db=db, model_id=model_id)
+        return crud.inference_rows.get_model_inference_rows(db=db, model_id=model_id)
     else:
         return errors.not_found("Model not found")
 
@@ -96,11 +94,11 @@ async def get_inference_row(
     db: Session = Depends(get_db),
     api_key: Union[str, None] = Header(default=None),
 ):
-    authenticated = users.match_api_key(db, api_key=api_key)
+    authenticated = crud.users.authenticate(db, api_key=api_key)
     if not authenticated:
         return errors.unauthorized()
 
-    inference_row = inference_rows.get(db=db, _id=inference_row_id)
+    inference_row = crud.inference_rows.get(db=db, _id=inference_row_id)
     if not inference_row:
         return errors.not_found("Inference not found")
 

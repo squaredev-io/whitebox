@@ -4,7 +4,8 @@ import sqlalchemy
 from sqlalchemy.orm import sessionmaker
 from src.entities.Base import Base
 from src.schemas.user import UserCreateDto
-from src.crud.users import users
+
+from src import crud
 from src.utils.passwords import hash_password
 from src.utils.logger import cronLogger as logger
 import os
@@ -32,11 +33,11 @@ async def connect():
     Base.metadata.create_all(engine)
     db = SessionLocal()
     if not os.getenv("ENV") == "test":
-        admin_exists = users.get_first_by_filter(db=db, username="admin")
+        admin_exists = crud.users.get_first_by_filter(db=db, username="admin")
         if not admin_exists:
             api_key = token_hex(32)
             obj_in = UserCreateDto(username="admin", api_key=hash_password(api_key))
-            users.create(db=db, obj_in=obj_in)
+            crud.users.create(db=db, obj_in=obj_in)
             logger.info(f"Created username: admin, API key: {api_key}")
     await database.connect()
 

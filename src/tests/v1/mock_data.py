@@ -1,12 +1,6 @@
 from datetime import datetime
 from src.schemas.model import ModelType
 
-register_payload = dict(
-    username="user",
-    password="pass",
-)
-login_payload = dict(username="user", password="pass")
-
 user_create_payload = dict(username="admin")
 users_in_db = dict(amount=1)
 user_update_payload = dict(username="admin1")

@@ -7,10 +7,6 @@ tags_metadata = [
         "description": "Health endpoints are used for checking the status of the service",
     },
     {
-        "name": "Auth",
-        "description": "This set of endpoints handles everything that has to do with authentication / authorization.",
-    },
-    {
         "name": "Users",
         "description": "This set of endpoints handles the users of the app.",
     },

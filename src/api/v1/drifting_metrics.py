@@ -1,8 +1,6 @@
 from typing import List, Union
 from fastapi import APIRouter, Depends, status, Header
-from src.crud.drifting_metrics import drifting_metrics
-from src.crud.models import models
-from src.crud.users import users
+from src import crud
 from sqlalchemy.orm import Session
 from src.core.db import get_db
 from src.schemas.driftingMetric import DriftingMetricBase
@@ -25,12 +23,14 @@ async def get_all_models_drifting_metrics(
     db: Session = Depends(get_db),
     api_key: Union[str, None] = Header(default=None),
 ):
-    authenticated = users.match_api_key(db, api_key=api_key)
+    authenticated = crud.users.authenticate(db, api_key=api_key)
     if not authenticated:
         return errors.unauthorized()
 
-    model = models.get(db, model_id)
+    model = crud.models.get(db, model_id)
     if model:
-        return drifting_metrics.get_model_drifting_metrics(db=db, model_id=model_id)
+        return crud.drifting_metrics.get_model_drifting_metrics(
+            db=db, model_id=model_id
+        )
     else:
         return errors.not_found("Model not found")
