@@ -11,7 +11,7 @@ dataset_rows_router = APIRouter()
 
 
 @dataset_rows_router.post(
-    "/dataset_rows",
+    "/dataset-rows",
     tags=["Dataset Rows"],
     response_model=List[DatasetRow],
     summary="Create dataset rows",
@@ -36,7 +36,7 @@ async def create_dataset_rows(
 
 
 @dataset_rows_router.get(
-    "/{model_id}/dataset_rows",
+    "/{model_id}/dataset-rows",
     tags=["Dataset Rows"],
     response_model=List[DatasetRow],
     summary="Get all model's dataset rows",

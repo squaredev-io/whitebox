@@ -11,7 +11,7 @@ drifting_metrics_router = APIRouter()
 
 
 @drifting_metrics_router.get(
-    "/models/{model_id}/drifting_metrics",
+    "/models/{model_id}/drifting-metrics",
     tags=["Drifting Metrics"],
     response_model=List[DriftingMetricBase],
     summary="Get all model's drifting metrics",

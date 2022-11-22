@@ -11,7 +11,7 @@ inference_rows_router = APIRouter()
 
 
 @inference_rows_router.post(
-    "/inference_rows",
+    "/inference-rows",
     tags=["Inference Rows"],
     response_model=InferenceRow,
     summary="Create an inference row",
@@ -34,7 +34,7 @@ async def create_row(
 
 
 @inference_rows_router.post(
-    "/inference_rows/many",
+    "/inference-rows/many",
     tags=["Inference Rows"],
     response_model=List[InferenceRow],
     summary="Create many inference rows",
@@ -58,7 +58,7 @@ async def create_many_inference_rows(
 
 
 @inference_rows_router.get(
-    "/models/{model_id}/inference_rows",
+    "/models/{model_id}/inference-rows",
     tags=["Inference Rows"],
     response_model=List[InferenceRow],
     summary="Get all model's inference rows",
@@ -82,7 +82,7 @@ async def get_all_models_inference_rows(
 
 
 @inference_rows_router.get(
-    "/inference_rows/{inference_row_id}",
+    "/inference-rows/{inference_row_id}",
     tags=["Inference Rows"],
     response_model=InferenceRow,
     summary="Get inference row by id",

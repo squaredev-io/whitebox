@@ -14,7 +14,7 @@ performance_metrics_router = APIRouter()
 
 
 @performance_metrics_router.get(
-    "/models/{model_id}/performance_metrics",
+    "/models/{model_id}/performance-metrics",
     tags=["Performance Metrics"],
     response_model=List[BinaryClassificationMetrics] | List[MultiClassificationMetrics],
     summary="Get all model's performance metrics",

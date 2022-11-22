@@ -11,7 +11,7 @@ model_integrity_metrics_router = APIRouter()
 
 
 @model_integrity_metrics_router.get(
-    "/models/{model_id}/model_integrity_metrics",
+    "/models/{model_id}/model-integrity-metrics",
     tags=["Model Integrity Metrics"],
     response_model=List[ModelIntegrityMetric],
     summary="Get all model's model integrity metrics",
