@@ -1,10 +1,12 @@
-from typing import List, Union
+from typing import List
+from src.middleware.auth import authenticate_user
 from src.schemas.model import Model, ModelCreateDto, ModelUpdateDto
-from fastapi import APIRouter, Depends, status, Header
+from fastapi import APIRouter, Depends, status
 from src import crud
 from sqlalchemy.orm import Session
 from src.core.db import get_db
 from src.schemas.utils import StatusCode
+from src.schemas.user import User
 from src.utils.errors import add_error_responses, errors
 
 
@@ -22,11 +24,9 @@ models_router = APIRouter()
 async def create_model(
     body: ModelCreateDto,
     db: Session = Depends(get_db),
-    api_key: Union[str, None] = Header(default=None),
+    authenticated: bool = Depends(authenticate_user),
 ) -> Model:
-    authenticated = crud.users.authenticate(db, api_key=api_key)
-    if not authenticated:
-        return errors.unauthorized()
+
     if body is not None:
         new_model = crud.models.create(db=db, obj_in=body)
         return new_model
@@ -43,11 +43,9 @@ async def create_model(
     responses=add_error_responses([401, 404]),
 )
 async def get_all_models(
-    db: Session = Depends(get_db), api_key: Union[str, None] = Header(default=None)
+    db: Session = Depends(get_db), authenticated: User = Depends(authenticate_user)
 ):
-    authenticated = crud.users.authenticate(db, api_key=api_key)
-    if not authenticated:
-        return errors.unauthorized()
+
     models_in_db = crud.models.get_all(db=db)
     if not models_in_db:
         return errors.not_found("No model found in database")
@@ -66,11 +64,9 @@ async def get_all_models(
 async def get_model(
     model_id: str,
     db: Session = Depends(get_db),
-    api_key: Union[str, None] = Header(default=None),
+    authenticated: bool = Depends(authenticate_user),
 ):
-    authenticated = crud.users.authenticate(db, api_key=api_key)
-    if not authenticated:
-        return errors.unauthorized()
+
     model = crud.models.get(db=db, _id=model_id)
     if not model:
         return errors.not_found("Model not found")
@@ -90,11 +86,8 @@ async def update_model(
     model_id: str,
     body: ModelUpdateDto,
     db: Session = Depends(get_db),
-    api_key: Union[str, None] = Header(default=None),
+    authenticated: bool = Depends(authenticate_user),
 ) -> Model:
-    authenticated = crud.users.authenticate(db, api_key=api_key)
-    if not authenticated:
-        return errors.unauthorized()
 
     model = crud.models.get(db=db, _id=model_id)
     if not model:
@@ -116,11 +109,8 @@ async def update_model(
 async def delete_model(
     model_id: str,
     db: Session = Depends(get_db),
-    api_key: Union[str, None] = Header(default=None),
+    authenticated: bool = Depends(authenticate_user),
 ) -> StatusCode:
-    authenticated = crud.users.authenticate(db, api_key=api_key)
-    if not authenticated:
-        return errors.unauthorized()
 
     model = crud.models.get(db=db, _id=model_id)
     if not model:

@@ -1,6 +1,7 @@
-from typing import List, Union
+from typing import List
+from src.middleware.auth import authenticate_user
 from src.schemas.inferenceRow import InferenceRow, InferenceRowCreateDto
-from fastapi import APIRouter, Depends, status, Header
+from fastapi import APIRouter, Depends, status
 from src import crud
 from sqlalchemy.orm import Session
 from src.core.db import get_db
@@ -21,11 +22,9 @@ inference_rows_router = APIRouter()
 async def create_row(
     body: InferenceRowCreateDto,
     db: Session = Depends(get_db),
-    api_key: Union[str, None] = Header(default=None),
+    authenticated: bool = Depends(authenticate_user),
 ) -> InferenceRow:
-    authenticated = crud.users.authenticate(db, api_key=api_key)
-    if not authenticated:
-        return errors.unauthorized()
+
     if body is not None:
         new_inference_row = crud.inference_rows.create(db=db, obj_in=body)
         return new_inference_row
@@ -44,11 +43,8 @@ async def create_row(
 async def create_many_inference_rows(
     body: List[InferenceRowCreateDto],
     db: Session = Depends(get_db),
-    api_key: Union[str, None] = Header(default=None),
+    authenticated: bool = Depends(authenticate_user),
 ) -> InferenceRow:
-    authenticated = crud.users.authenticate(db, api_key=api_key)
-    if not authenticated:
-        return errors.unauthorized()
 
     if body is not None:
         new_inference_rows = crud.inference_rows.create_many(db=db, obj_list=body)
@@ -68,11 +64,8 @@ async def create_many_inference_rows(
 async def get_all_models_inference_rows(
     model_id: str,
     db: Session = Depends(get_db),
-    api_key: Union[str, None] = Header(default=None),
+    authenticated: bool = Depends(authenticate_user),
 ):
-    authenticated = crud.users.authenticate(db, api_key=api_key)
-    if not authenticated:
-        return errors.unauthorized()
 
     model = crud.models.get(db, model_id)
     if model:
@@ -92,11 +85,8 @@ async def get_all_models_inference_rows(
 async def get_inference_row(
     inference_row_id: str,
     db: Session = Depends(get_db),
-    api_key: Union[str, None] = Header(default=None),
+    authenticated: bool = Depends(authenticate_user),
 ):
-    authenticated = crud.users.authenticate(db, api_key=api_key)
-    if not authenticated:
-        return errors.unauthorized()
 
     inference_row = crud.inference_rows.get(db=db, _id=inference_row_id)
     if not inference_row:
