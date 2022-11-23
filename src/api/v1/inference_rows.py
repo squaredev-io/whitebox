@@ -1,6 +1,7 @@
 from typing import List
 from src.middleware.auth import authenticate_user
 from src.schemas.inferenceRow import InferenceRow, InferenceRowCreateDto
+from src.schemas.user import User
 from fastapi import APIRouter, Depends, status
 from src import crud
 from sqlalchemy.orm import Session
@@ -22,7 +23,7 @@ inference_rows_router = APIRouter()
 async def create_row(
     body: InferenceRowCreateDto,
     db: Session = Depends(get_db),
-    authenticated: bool = Depends(authenticate_user),
+    authenticated_user: User = Depends(authenticate_user),
 ) -> InferenceRow:
 
     if body is not None:
@@ -43,7 +44,7 @@ async def create_row(
 async def create_many_inference_rows(
     body: List[InferenceRowCreateDto],
     db: Session = Depends(get_db),
-    authenticated: bool = Depends(authenticate_user),
+    authenticated_user: User = Depends(authenticate_user),
 ) -> InferenceRow:
 
     if body is not None:
@@ -64,7 +65,7 @@ async def create_many_inference_rows(
 async def get_all_models_inference_rows(
     model_id: str,
     db: Session = Depends(get_db),
-    authenticated: bool = Depends(authenticate_user),
+    authenticated_user: User = Depends(authenticate_user),
 ):
 
     model = crud.models.get(db, model_id)
@@ -85,7 +86,7 @@ async def get_all_models_inference_rows(
 async def get_inference_row(
     inference_row_id: str,
     db: Session = Depends(get_db),
-    authenticated: bool = Depends(authenticate_user),
+    authenticated_user: User = Depends(authenticate_user),
 ):
 
     inference_row = crud.inference_rows.get(db=db, _id=inference_row_id)

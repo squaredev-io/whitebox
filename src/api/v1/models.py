@@ -24,7 +24,7 @@ models_router = APIRouter()
 async def create_model(
     body: ModelCreateDto,
     db: Session = Depends(get_db),
-    authenticated: bool = Depends(authenticate_user),
+    authenticated_user: User = Depends(authenticate_user),
 ) -> Model:
 
     if body is not None:
@@ -43,7 +43,7 @@ async def create_model(
     responses=add_error_responses([401, 404]),
 )
 async def get_all_models(
-    db: Session = Depends(get_db), authenticated: User = Depends(authenticate_user)
+    db: Session = Depends(get_db), authenticated_user: User = Depends(authenticate_user)
 ):
 
     models_in_db = crud.models.get_all(db=db)
@@ -64,7 +64,7 @@ async def get_all_models(
 async def get_model(
     model_id: str,
     db: Session = Depends(get_db),
-    authenticated: bool = Depends(authenticate_user),
+    authenticated_user: User = Depends(authenticate_user),
 ):
 
     model = crud.models.get(db=db, _id=model_id)
@@ -86,7 +86,7 @@ async def update_model(
     model_id: str,
     body: ModelUpdateDto,
     db: Session = Depends(get_db),
-    authenticated: bool = Depends(authenticate_user),
+    authenticated_user: User = Depends(authenticate_user),
 ) -> Model:
 
     model = crud.models.get(db=db, _id=model_id)
@@ -109,7 +109,7 @@ async def update_model(
 async def delete_model(
     model_id: str,
     db: Session = Depends(get_db),
-    authenticated: bool = Depends(authenticate_user),
+    authenticated_user: User = Depends(authenticate_user),
 ) -> StatusCode:
 
     model = crud.models.get(db=db, _id=model_id)

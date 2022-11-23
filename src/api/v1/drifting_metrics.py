@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 from src.core.db import get_db
 from src.middleware.auth import authenticate_user
 from src.schemas.driftingMetric import DriftingMetricBase
+from src.schemas.user import User
 from src.utils.errors import add_error_responses, errors
 
 
@@ -22,7 +23,7 @@ drifting_metrics_router = APIRouter()
 async def get_all_models_drifting_metrics(
     model_id: str,
     db: Session = Depends(get_db),
-    authenticated: bool = Depends(authenticate_user),
+    authenticated_user: User = Depends(authenticate_user),
 ):
 
     model = crud.models.get(db, model_id)

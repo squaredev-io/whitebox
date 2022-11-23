@@ -1,6 +1,7 @@
 from typing import List
 from src.middleware.auth import authenticate_user
 from src.schemas.datasetRow import DatasetRow, DatasetRowCreate
+from src.schemas.user import User
 from fastapi import APIRouter, Depends, status
 from src import crud
 from sqlalchemy.orm import Session
@@ -22,7 +23,7 @@ dataset_rows_router = APIRouter()
 async def create_dataset_rows(
     body: List[DatasetRowCreate],
     db: Session = Depends(get_db),
-    authenticated: bool = Depends(authenticate_user),
+    authenticated_user: User = Depends(authenticate_user),
 ) -> DatasetRow:
 
     model = crud.models.get(db=db, _id=dict(body[0])["model_id"])
@@ -44,7 +45,7 @@ async def create_dataset_rows(
 async def get_all_dataset_rows(
     model_id: str,
     db: Session = Depends(get_db),
-    authenticated: bool = Depends(authenticate_user),
+    authenticated_user: User = Depends(authenticate_user),
 ):
 
     model = crud.models.get(db, model_id)
