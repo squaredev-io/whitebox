@@ -3,7 +3,6 @@ from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from src.core.db import Base
-from sqlalchemy.orm import defer
 import datetime
 
 ModelType = TypeVar("ModelType", bound=Base)
@@ -25,12 +24,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
 
     def get(self, db: Session, _id: str) -> Optional[ModelType]:
         if self.model.__tablename__ in ["users"]:
-            return (
-                db.query(self.model)
-                .options(defer("password"))
-                .filter(self.model.id == _id)
-                .first()
-            )
+            return db.query(self.model).filter(self.model.id == _id).first()
         else:
             return db.query(self.model).filter(self.model.id == _id).first()
 
@@ -39,9 +33,8 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
     ) -> List[ModelType]:
         return db.query(self.model).offset(skip).limit(limit).all()
 
-    # TODO Examine how this stands in the future!
-    def get_by_filter(self, db: Session, **kwargs: Dict[str, str]) -> List[ModelType]:
-        return db.query(self.model).filter_by(**kwargs).all()
+    def get_first_by_filter(self, db: Session, **kwargs: Dict[str, str]) -> ModelType:
+        return db.query(self.model).filter_by(**kwargs).first()
 
     def create(self, db: Session, *, obj_in: CreateSchemaType) -> ModelType:
         date_now = datetime.datetime.utcnow()

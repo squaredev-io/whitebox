@@ -8,6 +8,7 @@ from src.core.settings import get_settings
 from src.entities.Base import Base
 from src.main import app
 from src.tests.utils.maps import v1_test_order_map
+from secrets import token_hex
 
 settings = get_settings()
 
@@ -40,6 +41,7 @@ async def db():
 
 class TestsState:
     user: dict = {}
+    api_key: str = token_hex(32)
     model_binary: dict = {}
     model_multi: dict = {}
     inference_row: dict = {}

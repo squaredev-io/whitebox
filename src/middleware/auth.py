@@ -1,39 +1,24 @@
-from fastapi import Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer
-from src.entities.User import User
+from typing import Union
+from fastapi import Depends, HTTPException, status, Header
 from sqlalchemy.orm import Session
-
-# import schemas
-from src.schemas.auth import TokenPayload
-
-# import crud
-from src.crud import users
-from datetime import datetime
+from src import crud
+from src.schemas.user import User
 from src.core.db import get_db
-from src.utils.tokens import decode_access_token
+from src.utils.passwords import passwords_match
 
 
-def is_expired(decoded: TokenPayload) -> bool:
-    if not decoded:
-        raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Unauthorized")
-    expiration = datetime.strptime(
-        decoded["expiration"].split(".")[0], "%Y-%m-%d %H:%M:%S"
-    )
-    if not expiration > datetime.utcnow():
-        raise True
-    return False
-
-
-reusable_oauth2 = OAuth2PasswordBearer(tokenUrl="v1/auth/token")
-
-
-def get_current_user(
-    db: Session = Depends(get_db), token: str = Depends(reusable_oauth2)
+async def authenticate_user(
+    api_key: Union[str, None] = Header(default=None),
+    db: Session = Depends(get_db),
 ) -> User:
-    payload = decode_access_token(token)
-    if is_expired(payload):
-        raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Token expired")
-    user = users.user.get(db, _id=payload["id"])
-    if not user:
-        raise HTTPException(status.HTTP_401_UNAUTHORIZED, "No user found")
+    if not api_key:
+        raise HTTPException(
+            detail="No API key provided", status_code=status.HTTP_401_UNAUTHORIZED
+        )
+
+    user = crud.users.get_first_by_filter(db, username="admin")
+    if not passwords_match(user.api_key, api_key):
+        raise HTTPException(
+            detail="Invalid API key", status_code=status.HTTP_401_UNAUTHORIZED
+        )
     return user

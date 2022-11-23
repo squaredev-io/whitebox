@@ -12,8 +12,3 @@ def hash_password(password):
 
 def passwords_match(hashed_password, password):
     return bcrypt.checkpw(to_utf8(password), to_utf8(hashed_password))
-
-
-def generate_app_secret():
-    alphabet = string.ascii_letters + string.digits
-    return "".join(secrets.choice(alphabet) for i in range(32))

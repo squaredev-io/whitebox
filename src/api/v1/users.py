@@ -1,7 +1,7 @@
 from typing import List
 from src.schemas.user import User, UserCreateDto, UserUpdateDto
 from fastapi import APIRouter, Depends, status
-from src.crud.users import users
+from src import crud
 from sqlalchemy.orm import Session
 from src.core.db import get_db
 from src.schemas.utils import StatusCode
@@ -11,7 +11,6 @@ from src.utils.errors import add_error_responses, errors
 users_router = APIRouter()
 
 
-# TODO Reject requests from already logged in users
 @users_router.post(
     "/users",
     tags=["Users"],
@@ -22,13 +21,9 @@ users_router = APIRouter()
 )
 async def create_user(body: UserCreateDto, db: Session = Depends(get_db)) -> User:
     if body is not None:
-        is_registered = users.get_by_email(db=db, email=body.email) is not None
-        if is_registered:
-            return errors.content_exists("Already registered")
-        else:
-            body.password = hash_password(body.password)
-            new_user = users.create(db=db, obj_in=body)
-            return new_user
+        body.api_key = hash_password(body.api_key)
+        new_user = crud.users.create(db=db, obj_in=body)
+        return new_user
     else:
         return errors.bad_request("Form should not be empty")
 
@@ -42,7 +37,7 @@ async def create_user(body: UserCreateDto, db: Session = Depends(get_db)) -> Use
     responses=add_error_responses([404]),
 )
 async def get_all_users(db: Session = Depends(get_db)):
-    users_in_db = users.get_all(db=db)
+    users_in_db = crud.users.get_all(db=db)
     if not users_in_db:
         return errors.not_found("No user found in database")
 
@@ -58,7 +53,7 @@ async def get_all_users(db: Session = Depends(get_db)):
     responses=add_error_responses([404]),
 )
 async def get_user(user_id: str, db: Session = Depends(get_db)):
-    user = users.get(db=db, _id=user_id)
+    user = crud.users.get(db=db, _id=user_id)
     if not user:
         return errors.not_found("User not found")
 
@@ -79,7 +74,7 @@ async def update_user(
     db: Session = Depends(get_db),
 ) -> User:
     if body is not None:
-        return users.update(db=db, db_obj=users.get(db, user_id), body=body)
+        return crud.users.update(db=db, db_obj=crud.users.get(db, user_id), obj_in=body)
     else:
         return errors.bad_request("Form should not be empty")
 
@@ -96,5 +91,5 @@ async def delete_user(
     user_id: str,
     db: Session = Depends(get_db),
 ) -> StatusCode:
-    users.remove(db=db, _id=user_id)
+    crud.users.remove(db=db, _id=user_id)
     return {"status_code": status.HTTP_200_OK}

@@ -1,4 +1,3 @@
-from fastapi.encoders import jsonable_encoder
 from typing import Any, List
 from sqlalchemy.orm import Session
 from src.crud.base import CRUDBase

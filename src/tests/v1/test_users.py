@@ -9,13 +9,12 @@ from fastapi import status
 def test_user_create(client):
     response = client.post(
         "/v1/users",
-        json=user_create_payload,
+        json={**user_create_payload, "api_key": state.api_key},
     )
     assert response.status_code == status.HTTP_201_CREATED
     state.user = response.json()
     assert response.json()["id"] is not None
-    assert response.json()["name"] == user_create_payload["name"]
-    assert response.json()["email"] == user_create_payload["email"]
+    assert response.json()["username"] == user_create_payload["username"]
     validated = schemas.User(**response.json())
 
 
@@ -31,8 +30,7 @@ def test_user_get_all(client):
 def test_user_get(client):
     response = client.get(f"/v1/users/{state.user['id']}")
     assert response.status_code == status.HTTP_200_OK
-    assert response.json()["name"] == user_create_payload["name"]
-    assert response.json()["email"] == user_create_payload["email"]
+    assert response.json()["username"] == user_create_payload["username"]
     validated = schemas.User(**response.json())
 
 
@@ -40,8 +38,7 @@ def test_user_get(client):
 def test_user_update(client):
     response = client.put(f"/v1/users/{state.user['id']}", json=user_update_payload)
     assert response.status_code == status.HTTP_200_OK
-    assert response.json()["name"] == user_update_payload["name"]
-    assert response.json()["email"] == user_update_payload["email"]
+    assert response.json()["username"] == user_update_payload["username"]
     validated = schemas.User(**response.json())
 
 

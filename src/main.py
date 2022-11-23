@@ -56,7 +56,6 @@ def app_openapi():
         title="Whitebox",
         version=settings.VERSION,
         routes=app.routes,
-        # description=description,
         tags=tags_metadata,
     )
 

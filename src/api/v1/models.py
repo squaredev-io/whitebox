@@ -1,10 +1,12 @@
 from typing import List
+from src.middleware.auth import authenticate_user
 from src.schemas.model import Model, ModelCreateDto, ModelUpdateDto
 from fastapi import APIRouter, Depends, status
-from src.crud.models import models
+from src import crud
 from sqlalchemy.orm import Session
 from src.core.db import get_db
 from src.schemas.utils import StatusCode
+from src.schemas.user import User
 from src.utils.errors import add_error_responses, errors
 
 
@@ -17,11 +19,16 @@ models_router = APIRouter()
     response_model=Model,
     summary="Create model",
     status_code=status.HTTP_201_CREATED,
-    responses=add_error_responses([400, 409]),
+    responses=add_error_responses([400, 401, 409]),
 )
-async def create_model(body: ModelCreateDto, db: Session = Depends(get_db)) -> Model:
+async def create_model(
+    body: ModelCreateDto,
+    db: Session = Depends(get_db),
+    authenticated_user: User = Depends(authenticate_user),
+) -> Model:
+
     if body is not None:
-        new_model = models.create(db=db, obj_in=body)
+        new_model = crud.models.create(db=db, obj_in=body)
         return new_model
     else:
         return errors.bad_request("Form should not be empty")
@@ -33,10 +40,13 @@ async def create_model(body: ModelCreateDto, db: Session = Depends(get_db)) -> M
     response_model=List[Model],
     summary="Get all models",
     status_code=status.HTTP_200_OK,
-    responses=add_error_responses([404]),
+    responses=add_error_responses([401, 404]),
 )
-async def get_all_models(db: Session = Depends(get_db)):
-    models_in_db = models.get_all(db=db)
+async def get_all_models(
+    db: Session = Depends(get_db), authenticated_user: User = Depends(authenticate_user)
+):
+
+    models_in_db = crud.models.get_all(db=db)
     if not models_in_db:
         return errors.not_found("No model found in database")
 
@@ -49,10 +59,15 @@ async def get_all_models(db: Session = Depends(get_db)):
     response_model=Model,
     summary="Get model by id",
     status_code=status.HTTP_200_OK,
-    responses=add_error_responses([404]),
+    responses=add_error_responses([401, 404]),
 )
-async def get_model(model_id: str, db: Session = Depends(get_db)):
-    model = models.get(db=db, _id=model_id)
+async def get_model(
+    model_id: str,
+    db: Session = Depends(get_db),
+    authenticated_user: User = Depends(authenticate_user),
+):
+
+    model = crud.models.get(db=db, _id=model_id)
     if not model:
         return errors.not_found("Model not found")
 
@@ -65,18 +80,20 @@ async def get_model(model_id: str, db: Session = Depends(get_db)):
     response_model=Model,
     summary="Update model",
     status_code=status.HTTP_200_OK,
-    responses=add_error_responses([400, 404]),
+    responses=add_error_responses([400, 401, 404]),
 )
 async def update_model(
     model_id: str,
     body: ModelUpdateDto,
     db: Session = Depends(get_db),
+    authenticated_user: User = Depends(authenticate_user),
 ) -> Model:
-    model = models.get(db=db, _id=model_id)
+
+    model = crud.models.get(db=db, _id=model_id)
     if not model:
         return errors.not_found("Model not found")
     if body is not None:
-        return models.update(db=db, db_obj=model, obj_in=body)
+        return crud.models.update(db=db, db_obj=model, obj_in=body)
     else:
         return errors.bad_request("Form should not be empty")
 
@@ -87,15 +104,17 @@ async def update_model(
     response_model=StatusCode,
     summary="Delete user",
     status_code=status.HTTP_200_OK,
-    responses=add_error_responses([404]),
+    responses=add_error_responses([401, 404]),
 )
 async def delete_model(
     model_id: str,
     db: Session = Depends(get_db),
+    authenticated_user: User = Depends(authenticate_user),
 ) -> StatusCode:
-    model = models.get(db=db, _id=model_id)
+
+    model = crud.models.get(db=db, _id=model_id)
     if not model:
         return errors.not_found("Model not found")
 
-    models.remove(db=db, _id=model_id)
+    crud.models.remove(db=db, _id=model_id)
     return {"status_code": status.HTTP_200_OK}

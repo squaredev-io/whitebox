@@ -9,7 +9,7 @@ cron_tasks_router = APIRouter()
 
 
 @cron_tasks_router.post(
-    "/cron_tasks/run",
+    "/cron-tasks/run",
     tags=["Cron Tasks"],
     summary="Helper endpoint",
     status_code=status.HTTP_200_OK,

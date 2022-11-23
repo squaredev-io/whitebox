@@ -18,7 +18,6 @@ class FeatureTypes(str, enum.Enum):
 
 
 class ModelBase(BaseModel):
-    user_id: str
     name: str
     description: str
     type: ModelType
