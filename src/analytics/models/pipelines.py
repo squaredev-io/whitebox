@@ -65,7 +65,7 @@ def create_binary_classification_training_model_pipeline(
     binary_evaluation_report = {}
     binary_evaluation_report["roc_auc_score"] = roc_score
 
-    return binary_evaluation_report
+    return clf, binary_evaluation_report
 
 
 def create_multiclass_classification_training_model_pipeline(
@@ -127,4 +127,4 @@ def create_multiclass_classification_training_model_pipeline(
     multi_evaluation_report = {}
     multi_evaluation_report["precision"] = prec_score
 
-    return multi_evaluation_report
+    return clf, multi_evaluation_report
