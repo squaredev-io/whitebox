@@ -24,4 +24,6 @@ v1_test_order_map = [
     "models_delete",
     "users_update",
     "users_delete",
+    # SDK tests
+    "sdk",
 ]
