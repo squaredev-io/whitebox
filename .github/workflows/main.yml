@@ -33,7 +33,7 @@ jobs:
         with:
           python-version: "3.10"
           cache: "pip" # caching pip dependencies
-      - run: sudo apt-get update && sudo apt-get install libpq-dev python-dev postgresql-client -y
+      - run: sudo apt-get update && sudo apt-get install libpq-dev postgresql-client -y
       - run: pip install -r requirements.txt
       - name: Test
         run: ENV="ci" pytest
