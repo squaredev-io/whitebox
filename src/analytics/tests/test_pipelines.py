@@ -212,6 +212,9 @@ class TestNodes:
             df_multi, "target"
         )
         eval_score = eval["precision"]
-        assert (round(eval_score, 2)) == 0.33
+        assert (round(eval_score, 2)) == 0.97
 
+        def test_create_xai_pipeline_classification(self):
+            binary_class_report = create_xai_pipeline_classification(df_binary,"target",df_binary_inference,"binary_classification")
+            multi_class_report = create_xai_pipeline_classification(df_multi,"target",df_multi_inference,"multiclass_classification")
 

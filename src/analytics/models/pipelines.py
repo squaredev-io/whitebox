@@ -1,6 +1,7 @@
 import pandas as pd
 from typing import Dict, Union, Any
 import numpy as np
+import lightgbm as lgb
 from lightgbm import LGBMClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import roc_auc_score, precision_score
@@ -69,7 +70,8 @@ def create_multiclass_classification_training_model_pipeline(
     X = training_dataset.drop(columns=[target])
     """
     We split to test and training set by using a random_state of 0 in order our code to be 
-    reproducible.
+    reproducible. 
+    We load the dataset to lightgbm library.
     WARNING: We assume that the given dataset is preprocessed. That means than no preprocessing will be performed 
     by us. We have to revisit this step in the near future.
     
@@ -78,17 +80,30 @@ def create_multiclass_classification_training_model_pipeline(
     X_train, X_test, y_train, y_test = train_test_split(
         X, Y, test_size=0.3, random_state=0
     )
+    d_train = lgb.Dataset(X_train, label=y_train)
     """
     We use a set of parameters which produce good results with our baseline dataset.
-    WARNING: In the near future we have to grid-search for the optimal parameters for training dataset
+    WARNING: In the near future we have to grid-search for the optimal parameters for training datasets
+    
+    """
 
+    params = {}
+    params["verbose"] = -1  # Remove logs
+    params["learning_rate"] = 0.03
+    params["boosting_type"] = "gbdt"  # GradientBoostingDecisionTree
+    params["objective"] = "multiclass"  # Multi-class target feature
+    params["metric"] = "multi_logloss"  # metric for multi-class
+    params["max_depth"] = 10
+    params[
+        "num_class"
+    ] = 3  # no.of unique values in the target class not inclusive of the end value
+    """
     We train our model in 100 epochs - locally this took less than 2 seconds.
     Also we temp save the model in a pkl format.
     WARNING: We have to revisit this step for optimise the resources cost.
     
     """
-    clf=LGBMClassifier()
-    clf.fit(X_train,y_train)
+    clf = lgb.train(params, d_train, 100)  # training the model on 100 epocs
     if save_to_path != None:
         joblib.dump(clf, '{}/lgb_multi.pkl'.format(save_to_path))
     """
