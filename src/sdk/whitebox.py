@@ -1,7 +1,6 @@
-from typing import Dict, Optional
-
-import requests
 from src.schemas.model import FeatureTypes, ModelCreateDto, ModelType
+from typing import Dict, Optional
+import requests
 import logging
 
 logger = logging.getLogger(__name__)
@@ -44,11 +43,23 @@ class Whitebox:
         logger.info(result.json())
         return result.json()
 
-    def get_model(self):
-        pass
+    def get_model(self, model_id: str):
+        result = requests.get(
+            url=f"{self.host}/v1/models/{model_id}", headers={"api-key": self.api_key}
+        )
+        model = result.json()
+        return model
 
-    def delete_model(self):
-        pass
+    def delete_model(self, model_id: str):
+        result = requests.get(
+            url=f"{self.host}/v1/models/{model_id}", headers={"api-key": self.api_key}
+        )
+        response = result.json()
+
+        if response["status"] == "success":
+            return True
+
+        return False
 
     def log_training_dataset(self):
         pass

@@ -25,5 +25,7 @@ v1_test_order_map = [
     "users_update",
     "users_delete",
     # SDK tests
-    "sdk",
+    "sdk_init",
+    "sdk_create_model",
+    "sdk_get_model",
 ]
