@@ -214,7 +214,22 @@ class TestNodes:
         eval_score = eval["precision"]
         assert (round(eval_score, 2)) == 0.97
 
-        def test_create_xai_pipeline_classification(self):
-            binary_class_report = create_xai_pipeline_classification(df_binary,"target",df_binary_inference,"binary_classification")
-            multi_class_report = create_xai_pipeline_classification(df_multi,"target",df_multi_inference,"multiclass_classification")
+    def test_create_xai_pipeline_classification(self):
+        binary_class_report = create_xai_pipeline_classification(df_binary,"target",df_binary_inference,"binary_classification")
+        multi_class_report = create_xai_pipeline_classification(df_multi,"target",df_multi_inference,"multiclass_classification")
+
+        # TODO: Find a way to make the results of LIME reproducable. I added random state in the explainer but this didn't solve the problem.
+
+        # binary_contribution_check_one = binary_class_report["row0"]["worst perimeter"]
+        # binary_contribution_check_two = binary_class_report["row5"]["worst perimeter"]
+        # multi_contribution_check_one = multi_class_report["row0"]["hue"]
+        # multi_contribution_check_two = multi_class_report["row9"]["proanthocyanins"]
+        
+        assert (len(binary_class_report)) == len(df_binary_inference)
+        assert (len(multi_class_report)) == len(df_multi_inference)
+        
+        # assert (round(binary_contribution_check_one, 3)) == 0.243
+        # assert (round(binary_contribution_check_two, 2)) == -0.48
+        # assert (round(multi_contribution_check_one, 2)) == -0.11
+        # assert (round(multi_contribution_check_two, 3)) == 0.017
 
