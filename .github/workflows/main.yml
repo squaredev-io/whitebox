@@ -12,7 +12,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   Test:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     services:
       postgres:
         image: postgres
@@ -46,6 +46,7 @@ jobs:
     with:
       image: whitebox
       dockerfile: Dockerfile
+      runs-on: ubuntu-latest
     secrets:
       docker_username: ${{ secrets.DOCKER_USERNAME }}
       docker_access_token: ${{ secrets.DOCKER_ACCESS_TOKEN }}
