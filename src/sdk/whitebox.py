@@ -2,6 +2,7 @@ from src.schemas.model import FeatureTypes, ModelCreateDto, ModelType
 from typing import Dict, Optional
 import requests
 import logging
+from fastapi import status
 
 logger = logging.getLogger(__name__)
 
@@ -51,17 +52,17 @@ class Whitebox:
         return model
 
     def delete_model(self, model_id: str):
-        result = requests.get(
+        result = requests.delete(
             url=f"{self.host}/v1/models/{model_id}", headers={"api-key": self.api_key}
         )
         response = result.json()
 
-        if response["status"] == "success":
+        if response["status_code"] == status.HTTP_200_OK:
             return True
 
         return False
 
-    def log_training_dataset(self):
+    def log_training_dataset(self, model_id: str):
         pass
 
     def log_inference(self):

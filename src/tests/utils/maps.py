@@ -28,4 +28,5 @@ v1_test_order_map = [
     "sdk_init",
     "sdk_create_model",
     "sdk_get_model",
+    "sdk_delete_model",
 ]

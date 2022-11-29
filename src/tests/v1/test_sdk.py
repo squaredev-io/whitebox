@@ -3,6 +3,7 @@ from src.sdk import Whitebox
 from src.tests.v1.conftest import get_order_number, state, state_sdk
 from src.tests.v1.mock_data import model_multi_create_payload
 import requests_mock
+from fastapi import status
 
 
 @pytest.mark.order(get_order_number("sdk_init"))
@@ -37,12 +38,39 @@ def test_sdk_create_model(client):
 
 @pytest.mark.order(get_order_number("sdk_get_model"))
 def test_sdk_get_model(client):
+    mock_model_id = "mock_model_id"
     with requests_mock.Mocker() as m:
         m.get(
-            url=f"{state_sdk.wb.host}/v1/models/{model_multi_create_payload['id']}",
+            url=f"{state_sdk.wb.host}/v1/models/{mock_model_id}",
             headers={"api-key": state_sdk.wb.api_key},
+            json=state.model_multi,
         )
 
-        model = state_sdk.wb.get_model(model_id=model_multi_create_payload["id"])
+        model = state_sdk.wb.get_model(model_id=mock_model_id)
 
-        assert model == model_multi_create_payload
+        assert model == state.model_multi
+
+
+@pytest.mark.order(get_order_number("sdk_delete_model"))
+def test_sdk_delete_model(client):
+    mock_model_id = "mock_model_id"
+
+    with requests_mock.Mocker() as m:
+        m.delete(
+            url=f"{state_sdk.wb.host}/v1/models/{mock_model_id}",
+            headers={"api-key": state_sdk.wb.api_key},
+            json={"status_code": status.HTTP_200_OK},
+        )
+
+        result = state_sdk.wb.delete_model(model_id=mock_model_id)
+        assert result == True
+
+    with requests_mock.Mocker() as m:
+        m.delete(
+            url=f"{state_sdk.wb.host}/v1/models/{mock_model_id}",
+            headers={"api-key": state_sdk.wb.api_key},
+            json={"status_code": status.HTTP_400_BAD_REQUEST},
+        )
+
+        result = state_sdk.wb.delete_model(model_id=mock_model_id)
+        assert result == False
