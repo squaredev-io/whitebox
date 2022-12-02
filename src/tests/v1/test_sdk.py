@@ -114,6 +114,13 @@ def test_sdk_log_training_dataset(client):
         )
         assert sad_result == False
 
+    # drop a row in df to test the dataframe length error handling
+    df2 = df.drop(df.index[0])
+    with pytest.raises(Exception) as e_info:
+        state_sdk.wb.log_inferences(
+            model_id=mock_model_id, processed=df, non_processed=df2
+        )
+
 
 @pytest.mark.order(get_order_number("sdk_log_inferences"))
 def test_sdk_log_inferences(client):
@@ -142,3 +149,10 @@ def test_sdk_log_inferences(client):
             model_id=mock_model_id, processed=df, non_processed=df
         )
         assert sad_result == False
+
+    # drop a row in df to test the dataframe length error handling
+    df2 = df.drop(df.index[0])
+    with pytest.raises(Exception) as e_info:
+        state_sdk.wb.log_inferences(
+            model_id=mock_model_id, processed=df, non_processed=df2
+        )
