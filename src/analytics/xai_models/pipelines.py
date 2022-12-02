@@ -34,6 +34,7 @@ def create_xai_pipeline_classification_per_inference_row(training_set: pd.DataFr
 
         if load_from_path != None:
             model = joblib.load('{}/lgb_multi.pkl'.format(load_from_path))
+            explainer = lime.lime_tabular.LimeTabularExplainer(xai_dataset.values, feature_names=xai_dataset.columns.values.tolist(), mode="classification",random_state=1)
         else:
             model, eval = create_multiclass_classification_training_model_pipeline(training_set, target)
             explainer = lime.lime_tabular.LimeTabularExplainer(xai_dataset.values, feature_names=xai_dataset.columns.values.tolist(), mode="classification",random_state=1)
@@ -51,6 +52,7 @@ def create_xai_pipeline_classification_per_inference_row(training_set: pd.DataFr
 
         if load_from_path != None:
             model = joblib.load('{}/lgb_binary.pkl'.format(load_from_path))
+            explainer = lime.lime_tabular.LimeTabularExplainer(xai_dataset.values, feature_names=xai_dataset.columns.values.tolist(), mode="classification",random_state=1)
         else:
             model, eval = create_binary_classification_training_model_pipeline(training_set, target) 
             explainer = lime.lime_tabular.LimeTabularExplainer(xai_dataset.values, feature_names=xai_dataset.columns.values.tolist(), mode="classification",random_state=1)
