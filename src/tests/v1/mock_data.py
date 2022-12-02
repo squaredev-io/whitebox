@@ -2,7 +2,7 @@ from datetime import datetime
 from src.schemas.model import ModelType
 
 user_create_payload = dict(username="admin")
-users_in_db = dict(amount=2)
+users_in_db = dict(amount=1)
 user_update_payload = dict(username="admin1")
 
 model_binary_create_payload = dict(
