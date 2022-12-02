@@ -1,5 +1,8 @@
+from datetime import datetime
+import pandas as pd
+from src.schemas.datasetRow import DatasetRowCreate
 from src.schemas.model import FeatureTypes, ModelCreateDto, ModelType
-from typing import Dict, Optional
+from typing import Dict, List, Optional
 import requests
 import logging
 from fastapi import status
@@ -55,18 +58,65 @@ class Whitebox:
         result = requests.delete(
             url=f"{self.host}/v1/models/{model_id}", headers={"api-key": self.api_key}
         )
-        response = result.json()
 
-        if response["status_code"] == status.HTTP_200_OK:
+        if result.status_code == status.HTTP_200_OK:
             return True
 
         return False
 
-    def log_training_dataset(self, model_id: str):
-        pass
+    def log_training_dataset(
+        self, model_id: str, non_processed: pd.DataFrame, processed: pd.DataFrame
+    ):
+        non_processed_json = non_processed.to_dict(orient="records")
+        processed_json = processed.to_dict(orient="records")
 
-    def log_inference(self):
-        pass
+        dataset_rows = []
+        for i in range(len(non_processed)):
+            dataset_rows.append(
+                dict(
+                    model_id=model_id,
+                    nonprocessed=non_processed_json[i],
+                    processed=processed_json[i],
+                )
+            )
 
-    def log_actual(self):
-        pass
+        result = requests.post(
+            url=f"{self.host}/v1/dataset-rows",
+            headers={"api-key": self.api_key},
+            json=dataset_rows,
+        )
+        if result.status_code == status.HTTP_200_OK:
+            return True
+
+        return False
+
+    def log_inferences(
+        self,
+        model_id: str,
+        non_processed: pd.DataFrame,
+        processed: pd.DataFrame,
+        timestamp: str = datetime.now().isoformat(),
+    ):
+        non_processed_json = non_processed.to_dict(orient="records")
+        processed_json = processed.to_dict(orient="records")
+
+        inference_rows = []
+        for i in range(len(non_processed)):
+            inference_rows.append(
+                dict(
+                    model_id=model_id,
+                    nonprocessed=non_processed_json[i],
+                    processed=processed_json[i],
+                    timestamp=timestamp,
+                )
+            )
+
+        result = requests.post(
+            url=f"{self.host}/v1/inference-rows/batch",
+            headers={"api-key": self.api_key},
+            json=inference_rows,
+        )
+        if result.status_code == status.HTTP_200_OK:
+            return True
+
+        return False
