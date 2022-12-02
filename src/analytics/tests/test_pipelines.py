@@ -7,9 +7,9 @@ from unittest import TestCase
 from sklearn.datasets import fetch_california_housing
 from sklearn.datasets import load_breast_cancer, load_wine
 
-test_metrics_df = pd.read_csv("src/analytics/data/testing/metrics_test_data.csv")
+test_metrics_df = pd.read_csv("data/testing/metrics_test_data.csv")
 test_classification_df = pd.read_csv(
-    "src/analytics/data/testing/classification_test_data.csv"
+    "data/testing/classification_test_data.csv"
 )
 drift_data = fetch_california_housing(as_frame=True)
 drift_data = drift_data.frame
@@ -18,7 +18,7 @@ current = drift_data.iloc[1000:1200]
 reference_concept_drift = test_classification_df.head(5)
 current_concept_drift = test_classification_df.tail(5)
 concept_drift_detected_dataset = pd.read_csv(
-    "src/analytics/data/testing/udemy_fin_adj.csv"
+    "data/testing/udemy_fin_adj.csv"
 )
 reference_concept_drift_detected = concept_drift_detected_dataset.head(1000)
 current_concept_drift_detected = concept_drift_detected_dataset.tail(1000)
@@ -27,11 +27,15 @@ df_binary = pd.DataFrame(df_load_binary.data, columns=df_load_binary.feature_nam
 df_binary["target"] = df_load_binary.target
 df_binary_inference=df_binary.drop(columns=['target'])
 df_binary_inference=df_binary_inference.tail(10)
+df_binary_inference_row1=df_binary_inference.iloc[7]
+df_binary_inference_row2=df_binary_inference.iloc[3]
 df_load_multi = load_wine()
 df_multi = pd.DataFrame(df_load_multi.data, columns=df_load_multi.feature_names)
 df_multi["target"] = df_load_multi.target
 df_multi_inference=df_multi.drop(columns=['target'])
 df_multi_inference=df_multi_inference.tail(10)
+df_multi_inference_row1=df_multi_inference.iloc[4]
+df_multi_inference_row2=df_multi_inference.iloc[2]
 
 
 class TestNodes:
@@ -214,22 +218,40 @@ class TestNodes:
         eval_score = eval["precision"]
         assert (round(eval_score, 2)) == 0.97
 
-    def test_create_xai_pipeline_classification(self):
-        binary_class_report = create_xai_pipeline_classification(df_binary,"target",df_binary_inference,"binary_classification")
-        multi_class_report = create_xai_pipeline_classification(df_multi,"target",df_multi_inference,"multiclass_classification")
 
-        # TODO: Find a way to make the results of LIME reproducable. I added random state in the explainer but this didn't solve the problem.
+    def test_create_xai_pipeline_classification_per_inference_row(self):
+        binary_class_report1 = create_xai_pipeline_classification_per_inference_row(df_binary,"target",df_binary_inference_row1,"binary_classification")
+        multi_class_report1 = create_xai_pipeline_classification_per_inference_row(df_multi,"target",df_multi_inference_row1,"multiclass_classification")
+        binary_class_report2 = create_xai_pipeline_classification_per_inference_row(df_binary,"target",df_binary_inference_row2,"binary_classification")
+        multi_class_report2 = create_xai_pipeline_classification_per_inference_row(df_multi,"target",df_multi_inference_row2,"multiclass_classification")
 
-        binary_contribution_check_one = binary_class_report["row0"]["worst perimeter"]
-        binary_contribution_check_two = binary_class_report["row2"]['worst texture']
-        multi_contribution_check_one = multi_class_report["row0"]["hue"]
-        multi_contribution_check_two = multi_class_report["row9"]["proanthocyanins"]
+        binary_contribution_check_one = binary_class_report1["worst perimeter"]
+        binary_contribution_check_two = binary_class_report2['worst texture']
+        multi_contribution_check_one = multi_class_report1["hue"]
+        multi_contribution_check_two = multi_class_report2["alcohol"]
         
-        assert (len(binary_class_report)) == len(df_binary_inference)
-        assert (len(multi_class_report)) == len(df_multi_inference)
         
-        assert (round(binary_contribution_check_one, 3)) == 0.253
-        assert (round(binary_contribution_check_two, 2)) == -0.09
-        assert (round(multi_contribution_check_one, 2)) == -0.08
-        assert (round(multi_contribution_check_two, 3)) == -0.023
+        assert (round(binary_contribution_check_one, 3)) == -0.464
+        assert (round(binary_contribution_check_two, 1)) == -0.1
+        assert (round(multi_contribution_check_one, 2)) == -0.09
+        assert (round(multi_contribution_check_two, 3)) == 0.076  
+    
+    
+    # The below unit tests are not activate for now. Performs testing on explainability pipeline per inference dataset.
+    # def test_create_xai_pipeline_classification_per_inference_dataset(self):
+    #     binary_class_report = create_xai_pipeline_classification(df_binary,"target",df_binary_inference,"binary_classification")
+    #     multi_class_report = create_xai_pipeline_classification(df_multi,"target",df_multi_inference,"multiclass_classification")
+
+    #     binary_contribution_check_one = binary_class_report["row0"]["worst perimeter"]
+    #     binary_contribution_check_two = binary_class_report["row2"]['worst texture']
+    #     multi_contribution_check_one = multi_class_report["row0"]["hue"]
+    #     multi_contribution_check_two = multi_class_report["row9"]["proanthocyanins"]
+        
+    #     assert (len(binary_class_report)) == len(df_binary_inference)
+    #     assert (len(multi_class_report)) == len(df_multi_inference)
+        
+    #     assert (round(binary_contribution_check_one, 3)) == 0.253
+    #     assert (round(binary_contribution_check_two, 2)) == -0.09
+    #     assert (round(multi_contribution_check_one, 2)) == -0.08
+    #     assert (round(multi_contribution_check_two, 3)) == -0.023
 
