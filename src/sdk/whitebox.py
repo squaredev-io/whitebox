@@ -48,13 +48,21 @@ class Whitebox:
         return result.json()
 
     def get_model(self, model_id: str):
+        """
+        Returns a model by its id. If the model does not exist, returns None.
+        """
         result = requests.get(
             url=f"{self.host}/v1/models/{model_id}", headers={"api-key": self.api_key}
         )
-        model = result.json()
-        return model
+        if result.status_code == status.HTTP_404_NOT_FOUND:
+            return None
+
+        return result.json()
 
     def delete_model(self, model_id: str):
+        """
+        Deletes a model by its id. If any error occurs, returns False.
+        """
         result = requests.delete(
             url=f"{self.host}/v1/models/{model_id}", headers={"api-key": self.api_key}
         )
@@ -67,6 +75,12 @@ class Whitebox:
     def log_training_dataset(
         self, model_id: str, non_processed: pd.DataFrame, processed: pd.DataFrame
     ):
+        """
+        Logs a training dataset for a model.
+
+        Non processed is a dataframe with the raw data.
+        Processed is a dataframe with the data after it has been processed and before it has entered the model.
+        """
         non_processed_json = non_processed.to_dict(orient="records")
         processed_json = processed.to_dict(orient="records")
 
@@ -97,6 +111,12 @@ class Whitebox:
         processed: pd.DataFrame,
         timestamp: str = datetime.now().isoformat(),
     ):
+        """
+        Logs a inferences of a model.
+
+        Non processed is a dataframe with the raw data.
+        Processed is a dataframe with the data after it has been processed and before it has entered the model.
+        """
         non_processed_json = non_processed.to_dict(orient="records")
         processed_json = processed.to_dict(orient="records")
 

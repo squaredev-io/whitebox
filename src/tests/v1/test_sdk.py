@@ -44,6 +44,16 @@ def test_sdk_get_model(client):
         m.get(
             url=f"{state_sdk.wb.host}/v1/models/{mock_model_id}",
             headers={"api-key": state_sdk.wb.api_key},
+            status_code=status.HTTP_404_NOT_FOUND,
+        )
+
+        not_found_result = state_sdk.wb.get_model(model_id=mock_model_id)
+
+        assert not_found_result == None
+
+        m.get(
+            url=f"{state_sdk.wb.host}/v1/models/{mock_model_id}",
+            headers={"api-key": state_sdk.wb.api_key},
             json=state.model_multi,
         )
 
