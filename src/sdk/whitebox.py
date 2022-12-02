@@ -81,6 +81,7 @@ class Whitebox:
         Non processed is a dataframe with the raw data.
         Processed is a dataframe with the data after it has been processed and before it has entered the model.
         """
+        self._check_processed_and_non_processed_length(processed, non_processed)
         non_processed_json = non_processed.to_dict(orient="records")
         processed_json = processed.to_dict(orient="records")
 
@@ -117,6 +118,7 @@ class Whitebox:
         Non processed is a dataframe with the raw data.
         Processed is a dataframe with the data after it has been processed and before it has entered the model.
         """
+        self._check_processed_and_non_processed_length(processed, non_processed)
         non_processed_json = non_processed.to_dict(orient="records")
         processed_json = processed.to_dict(orient="records")
 
@@ -140,3 +142,15 @@ class Whitebox:
             return True
 
         return False
+
+    def _check_processed_and_non_processed_length(
+        self, processed: pd.DataFrame, non_processed: pd.DataFrame
+    ) -> bool:
+        """
+        Checks if the processed and non processed dataframes have the same number of rows.
+        """
+        if len(processed) != len(non_processed):
+            raise ValueError(
+                "Processed and non processed dataframes must have the same length."
+            )
+        return True
