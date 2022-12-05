@@ -1,4 +1,5 @@
 from datetime import datetime
+from enum import Enum
 import pandas as pd
 from src.schemas.datasetRow import DatasetRowCreate
 from src.schemas.model import FeatureTypes, ModelCreateDto, ModelType
@@ -7,14 +8,26 @@ import requests
 import logging
 from fastapi import status
 
+
+class APiVersion(str, Enum):
+    v1 = "v1"
+
+
 logger = logging.getLogger(__name__)
 
 
 class Whitebox:
-    def __init__(self, host: str, api_key: str, verbose: bool = False):
+    def __init__(
+        self,
+        host: str,
+        api_key: str,
+        verbose: bool = False,
+        api_version: APiVersion = APiVersion.v1,
+    ):
         self.host = host
         self.api_key = api_key
         self.verbose = verbose
+        self.api_version = api_version
 
     def create_model(
         self,
@@ -39,7 +52,7 @@ class Whitebox:
             probability=probability,
         )
         result = requests.post(
-            url=f"{self.host}/v1/models",
+            url=f"{self.host}/{self.api_version}/models",
             json=new_model.dict(),
             headers={"api-key": self.api_key},
         )
@@ -52,7 +65,8 @@ class Whitebox:
         Returns a model by its id. If the model does not exist, returns None.
         """
         result = requests.get(
-            url=f"{self.host}/v1/models/{model_id}", headers={"api-key": self.api_key}
+            url=f"{self.host}/{self.api_version}/models/{model_id}",
+            headers={"api-key": self.api_key},
         )
         if result.status_code == status.HTTP_404_NOT_FOUND:
             return None
@@ -64,7 +78,8 @@ class Whitebox:
         Deletes a model by its id. If any error occurs, returns False.
         """
         result = requests.delete(
-            url=f"{self.host}/v1/models/{model_id}", headers={"api-key": self.api_key}
+            url=f"{self.host}/{self.api_version}/models/{model_id}",
+            headers={"api-key": self.api_key},
         )
 
         if result.status_code == status.HTTP_200_OK:
@@ -96,7 +111,7 @@ class Whitebox:
             )
 
         result = requests.post(
-            url=f"{self.host}/v1/dataset-rows",
+            url=f"{self.host}/{self.api_version}/dataset-rows",
             headers={"api-key": self.api_key},
             json=dataset_rows,
         )
@@ -118,7 +133,7 @@ class Whitebox:
         Non processed is a dataframe with the raw data.
         Processed is a dataframe with the data after it has been processed and before it has entered the model.
         """
-        self._check_processed_and_non_processed_length(processed, non_processed
+        self._check_processed_and_non_processed_length(processed, non_processed)
         non_processed_json = non_processed.to_dict(orient="records")
         processed_json = processed.to_dict(orient="records")
 
@@ -134,7 +149,7 @@ class Whitebox:
             )
 
         result = requests.post(
-            url=f"{self.host}/v1/inference-rows/batch",
+            url=f"{self.host}/{self.api_version}/inference-rows/batch",
             headers={"api-key": self.api_key},
             json=inference_rows,
         )
