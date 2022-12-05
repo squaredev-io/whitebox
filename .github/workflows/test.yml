@@ -11,7 +11,7 @@ jobs:
       postgres:
         image: postgres
         env:
-          POSTGRES_DB: ci
+          POSTGRES_DB: test
           POSTGRES_PASSWORD: postgres
         ports:
           - '5432:5432'
