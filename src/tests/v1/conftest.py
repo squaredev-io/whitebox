@@ -7,6 +7,7 @@ from sqlalchemy.orm import sessionmaker
 from src.core.settings import get_settings
 from src.entities.Base import Base
 from src.main import app
+from src.sdk.whitebox import Whitebox
 from src.tests.utils.maps import v1_test_order_map
 from secrets import token_hex
 
@@ -48,3 +49,10 @@ class TestsState:
 
 
 state = TestsState()
+
+
+class TestsSDKState:
+    wb: Whitebox
+
+
+state_sdk = TestsSDKState()

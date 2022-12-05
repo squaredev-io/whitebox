@@ -24,4 +24,11 @@ v1_test_order_map = [
     "models_delete",
     "users_update",
     "users_delete",
+    # SDK tests
+    "sdk_init",
+    "sdk_create_model",
+    "sdk_get_model",
+    "sdk_delete_model",
+    "sdk_log_training_dataset",
+    "sdk_log_inferences",
 ]
