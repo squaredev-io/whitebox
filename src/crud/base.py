@@ -58,6 +58,8 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         )
         db.add_all(db_obj_list)
         db.commit()
+        for obj in db_obj_list:
+            db.refresh(obj)
         return db_obj_list
 
     def update(
