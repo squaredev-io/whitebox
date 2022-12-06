@@ -36,6 +36,7 @@ async def create_dataset_rows(
     model = crud.models.get(db=db, _id=dict(body[0])["model_id"])
     if model:
         new_dataset_rows = crud.dataset_rows.create_many(db=db, obj_list=body)
+        # TODO Use returned dataset_rows and not body
         inserted_dataset_rows = jsonable_encoder(body)
         processed_dataset_rows = [x["processed"] for x in inserted_dataset_rows]
         processed_dataset_rows_pd = pd.DataFrame(processed_dataset_rows)
