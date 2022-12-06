@@ -67,13 +67,9 @@ def create_binary_classification_training_model_pipeline(
     y_pred_1 = y_pred_1.round(0)
     y_pred_1 = y_pred_1.astype(int)
 
+    roc_score = roc_auc_score(y_pred_1, y_test)
     binary_evaluation_report = {}
-    # TODO Remove Try Except (Probably find better mock data for dataset_rows)
-    try:
-        roc_score = roc_auc_score(y_pred_1, y_test)
-        binary_evaluation_report["roc_auc_score"] = roc_score
-    except ValueError:
-        pass
+    binary_evaluation_report["roc_auc_score"] = roc_score
 
     return clf, binary_evaluation_report
 

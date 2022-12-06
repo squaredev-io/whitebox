@@ -1,5 +1,8 @@
 from datetime import datetime
 from src.schemas.model import ModelType
+from sklearn.datasets import load_breast_cancer
+import pandas as pd
+import random
 
 user_create_payload = dict(username="admin")
 users_in_db = dict(amount=1)
@@ -95,107 +98,15 @@ dataset_rows_create_multi_class_payload = list(
     )
 )
 
+df_load_binary = load_breast_cancer()
+df_binary = pd.DataFrame(df_load_binary.data, columns=df_load_binary.feature_names)
+df_binary["target"] = df_load_binary.target
+df_binary = df_binary.tail(100)
 
-dataset_rows_create_binary_payload = list(
-    (
-        dict(
-            nonprocessed={
-                "target": 0,
-                "feature1": 0,
-                "feature2": 1,
-                "feature3": 1,
-                "feature4": 0,
-            },
-            processed={
-                "target": 0,
-                "feature1": 0,
-                "feature2": 1,
-                "feature3": 1,
-                "feature4": 0,
-            },
-        ),
-        dict(
-            nonprocessed={
-                "target": 1,
-                "feature1": 0,
-                "feature2": 0,
-                "feature3": 0,
-                "feature4": 0,
-            },
-            processed={
-                "target": 1,
-                "feature1": 0,
-                "feature2": 0,
-                "feature3": 0,
-                "feature4": 0,
-            },
-        ),
-        dict(
-            nonprocessed={
-                "target": 1,
-                "feature1": 1,
-                "feature2": 1,
-                "feature3": 1,
-                "feature4": 0,
-            },
-            processed={
-                "target": 1,
-                "feature1": 1,
-                "feature2": 1,
-                "feature3": 1,
-                "feature4": 0,
-            },
-        ),
-        dict(
-            nonprocessed={
-                "target": 0,
-                "feature1": 1,
-                "feature2": 1,
-                "feature3": 1,
-                "feature4": 1,
-            },
-            processed={
-                "target": 0,
-                "feature1": 1,
-                "feature2": 1,
-                "feature3": 1,
-                "feature4": 1,
-            },
-        ),
-        dict(
-            nonprocessed={
-                "target": 1,
-                "feature1": 1,
-                "feature2": 1,
-                "feature3": 1,
-                "feature4": 0,
-            },
-            processed={
-                "target": 1,
-                "feature1": 1,
-                "feature2": 1,
-                "feature3": 1,
-                "feature4": 0,
-            },
-        ),
-        dict(
-            nonprocessed={
-                "target": 1,
-                "feature1": 1,
-                "feature2": 1,
-                "feature3": 1,
-                "feature4": 1,
-            },
-            processed={
-                "target": 1,
-                "feature1": 1,
-                "feature2": 1,
-                "feature3": 1,
-                "feature4": 1,
-            },
-        ),
-    )
-)
+dict_data = df_binary.to_dict(orient="records")
+dataset_rows_create_binary_payload = [
+    {"processed": x, "nonprocessed": x} for x in dict_data
+]
 
 dataset_rows_create_wrong_model_payload = list(
     (
@@ -273,43 +184,15 @@ inference_row_create_many_multi_payload = list(
 )
 
 # This is the body of the request coming from the sdk
-inference_row_create_many_binary_payload = list(
-    (
-        dict(
-            timestamp=str(datetime.now()),
-            nonprocessed={
-                "target": 0,
-                "feature1": 0,
-                "feature2": 1,
-                "feature3": 1,
-                "feature4": 0,
-            },
-            processed={
-                "target": 0,
-                "feature1": 0,
-                "feature2": 1,
-                "feature3": 1,
-                "feature4": 0,
-            },
-            actual=1,
-        ),
-        dict(
-            timestamp=str(datetime.now()),
-            nonprocessed={
-                "target": 1,
-                "feature1": 1,
-                "feature2": 1,
-                "feature3": 1,
-                "feature4": 1,
-            },
-            processed={
-                "target": 1,
-                "feature1": 1,
-                "feature2": 1,
-                "feature3": 1,
-                "feature4": 1,
-            },
-            actual=0,
-        ),
-    )
-)
+df_binary_inference = df_binary.tail(10)
+
+dict_inferences = df_binary_inference.to_dict(orient="records")
+inference_row_create_many_binary_payload = [
+    {
+        "timestamp": str(datetime.now()),
+        "processed": x,
+        "nonprocessed": x,
+        "actual": random.randint(0, 1),
+    }
+    for x in dict_inferences
+]
