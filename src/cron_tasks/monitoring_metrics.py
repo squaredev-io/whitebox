@@ -35,7 +35,7 @@ async def run_calculate_drifting_metrics_pipeline(
 ):
     """
     Run the pipeline to calculate the drifting metrics
-    After the metrics are calculated they are sabved in the database
+    After the metrics are calculated they are saved in the database
     """
 
     processed_training_df = await get_model_dataset_rows_df(db, model_id=model.id)

@@ -8,6 +8,7 @@ class Settings(BaseSettings):
     ENV: str = ""
     POSTGRES_DB_URI: str = ""
     VERSION: str = ""
+    MODEL_PATH: str = ""
 
     class Config:
         env_file = f".env.{os.getenv('ENV')}" or ".env.dev"

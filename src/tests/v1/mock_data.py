@@ -9,9 +9,15 @@ model_binary_create_payload = dict(
     name="Model 1",
     description="Model 1 description",
     type=ModelType.binary,
-    features={"y_testing_binary": "categorical"},
-    labels={"label_1": 1, "label_2": 2},
-    prediction="y_prediction_binary",
+    features={
+        "feature1": "numerical",
+        "feature2": "numerical",
+        "feature3": "numerical",
+        "feature4": "numerical",
+        "target": "numerical",
+    },
+    labels={"label_1": 0, "label_2": 1},
+    prediction="target",
     probability="n/a",
 )
 
@@ -19,9 +25,15 @@ model_multi_create_payload = dict(
     name="Model 1",
     description="Model 1 description",
     type=ModelType.multi_class,
-    features={"y_testing_multi": "categorical"},
-    labels={"label_1": 1, "label_2": 2},
-    prediction="y_prediction_multi",
+    features={
+        "feature1": "numerical",
+        "feature2": "numerical",
+        "feature3": "numerical",
+        "feature4": "numerical",
+        "target": "numerical",
+    },
+    labels={"label_1": 0, "label_2": 1, "label_3": 2},
+    prediction="target",
     probability="n/a",
 )
 
@@ -33,12 +45,52 @@ model_update_payload = dict(
 dataset_rows_create_multi_class_payload = list(
     (
         dict(
-            nonprocessed={"y_testing_multi": 2, "y_prediction_multi": 2},
-            processed={"y_testing_multi": 2, "y_prediction_multi": 2},
+            nonprocessed={
+                "target": 2,
+                "feature1": 0,
+                "feature2": 1,
+                "feature3": 1,
+                "feature4": 0,
+            },
+            processed={
+                "target": 2,
+                "feature1": 0,
+                "feature2": 1,
+                "feature3": 1,
+                "feature4": 0,
+            },
         ),
         dict(
-            nonprocessed={"y_testing_multi": 1, "y_prediction_multi": 1},
-            processed={"y_testing_multi": 1, "y_prediction_multi": 1},
+            nonprocessed={
+                "target": 1,
+                "feature1": 0,
+                "feature2": 1,
+                "feature3": 1,
+                "feature4": 0,
+            },
+            processed={
+                "target": 1,
+                "feature1": 0,
+                "feature2": 1,
+                "feature3": 1,
+                "feature4": 0,
+            },
+        ),
+        dict(
+            nonprocessed={
+                "target": 0,
+                "feature1": 0,
+                "feature2": 1,
+                "feature3": 1,
+                "feature4": 0,
+            },
+            processed={
+                "target": 0,
+                "feature1": 0,
+                "feature2": 1,
+                "feature3": 1,
+                "feature4": 0,
+            },
         ),
     )
 )
@@ -47,12 +99,100 @@ dataset_rows_create_multi_class_payload = list(
 dataset_rows_create_binary_payload = list(
     (
         dict(
-            nonprocessed={"y_testing_binary": 0, "y_prediction_binary": 0},
-            processed={"y_testing_binary": 0, "y_prediction_binary": 0},
+            nonprocessed={
+                "target": 0,
+                "feature1": 0,
+                "feature2": 1,
+                "feature3": 1,
+                "feature4": 0,
+            },
+            processed={
+                "target": 0,
+                "feature1": 0,
+                "feature2": 1,
+                "feature3": 1,
+                "feature4": 0,
+            },
         ),
         dict(
-            nonprocessed={"y_testing_binary": 1, "y_prediction_binary": 1},
-            processed={"y_testing_binary": 1, "y_prediction_binary": 1},
+            nonprocessed={
+                "target": 1,
+                "feature1": 0,
+                "feature2": 0,
+                "feature3": 0,
+                "feature4": 0,
+            },
+            processed={
+                "target": 1,
+                "feature1": 0,
+                "feature2": 0,
+                "feature3": 0,
+                "feature4": 0,
+            },
+        ),
+        dict(
+            nonprocessed={
+                "target": 1,
+                "feature1": 1,
+                "feature2": 1,
+                "feature3": 1,
+                "feature4": 0,
+            },
+            processed={
+                "target": 1,
+                "feature1": 1,
+                "feature2": 1,
+                "feature3": 1,
+                "feature4": 0,
+            },
+        ),
+        dict(
+            nonprocessed={
+                "target": 0,
+                "feature1": 1,
+                "feature2": 1,
+                "feature3": 1,
+                "feature4": 1,
+            },
+            processed={
+                "target": 0,
+                "feature1": 1,
+                "feature2": 1,
+                "feature3": 1,
+                "feature4": 1,
+            },
+        ),
+        dict(
+            nonprocessed={
+                "target": 1,
+                "feature1": 1,
+                "feature2": 1,
+                "feature3": 1,
+                "feature4": 0,
+            },
+            processed={
+                "target": 1,
+                "feature1": 1,
+                "feature2": 1,
+                "feature3": 1,
+                "feature4": 0,
+            },
+        ),
+        dict(
+            nonprocessed={
+                "target": 1,
+                "feature1": 1,
+                "feature2": 1,
+                "feature3": 1,
+                "feature4": 1,
+            },
+            processed={
+                "target": 1,
+                "feature1": 1,
+                "feature2": 1,
+                "feature3": 1,
+                "feature4": 1,
+            },
         ),
     )
 )
@@ -74,8 +214,20 @@ dataset_rows_create_wrong_model_payload = list(
 
 inference_row_create_payload = dict(
     timestamp=str(datetime.now()),
-    nonprocessed={"y_testing_multi": 2, "y_prediction_multi": 2},
-    processed={"y_testing_multi": 2, "y_prediction_multi": 2},
+    nonprocessed={
+        "target": 2,
+        "feature1": 0,
+        "feature2": 1,
+        "feature3": 1,
+        "feature4": 0,
+    },
+    processed={
+        "target": 2,
+        "feature1": 0,
+        "feature2": 1,
+        "feature3": 1,
+        "feature4": 0,
+    },
     actual=2,
 )
 
@@ -83,14 +235,38 @@ inference_row_create_many_multi_payload = list(
     (
         dict(
             timestamp=str(datetime.now()),
-            nonprocessed={"y_testing_multi": 1, "y_prediction_multi": 1},
-            processed={"y_testing_multi": 1, "y_prediction_multi": 1},
+            nonprocessed={
+                "target": 1,
+                "feature1": 0,
+                "feature2": 1,
+                "feature3": 1,
+                "feature4": 0,
+            },
+            processed={
+                "target": 1,
+                "feature1": 0,
+                "feature2": 1,
+                "feature3": 1,
+                "feature4": 0,
+            },
             actual=1,
         ),
         dict(
             timestamp=str(datetime.now()),
-            nonprocessed={"y_testing_multi": 2, "y_prediction_multi": 1},
-            processed={"y_testing_multi": 2, "y_prediction_multi": 1},
+            nonprocessed={
+                "target": 1,
+                "feature1": 0,
+                "feature2": 1,
+                "feature3": 1,
+                "feature4": 0,
+            },
+            processed={
+                "target": 1,
+                "feature1": 0,
+                "feature2": 1,
+                "feature3": 1,
+                "feature4": 0,
+            },
             actual=2,
         ),
     )
@@ -101,14 +277,38 @@ inference_row_create_many_binary_payload = list(
     (
         dict(
             timestamp=str(datetime.now()),
-            nonprocessed={"y_testing_binary": 0, "y_prediction_binary": 1},
-            processed={"y_testing_binary": 0, "y_prediction_binary": 1},
+            nonprocessed={
+                "target": 0,
+                "feature1": 0,
+                "feature2": 1,
+                "feature3": 1,
+                "feature4": 0,
+            },
+            processed={
+                "target": 0,
+                "feature1": 0,
+                "feature2": 1,
+                "feature3": 1,
+                "feature4": 0,
+            },
             actual=1,
         ),
         dict(
             timestamp=str(datetime.now()),
-            nonprocessed={"y_testing_binary": 1, "y_prediction_binary": 1},
-            processed={"y_testing_binary": 1, "y_prediction_binary": 1},
+            nonprocessed={
+                "target": 1,
+                "feature1": 1,
+                "feature2": 1,
+                "feature3": 1,
+                "feature4": 1,
+            },
+            processed={
+                "target": 1,
+                "feature1": 1,
+                "feature2": 1,
+                "feature3": 1,
+                "feature4": 1,
+            },
             actual=0,
         ),
     )

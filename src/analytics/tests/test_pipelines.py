@@ -8,6 +8,9 @@ from sklearn.datasets import fetch_california_housing
 from sklearn.datasets import load_breast_cancer, load_wine
 import os
 
+settings = get_settings()
+test_model_path = settings.MODEL_PATH
+
 test_metrics_df = pd.read_csv("src/analytics/data/testing/metrics_test_data.csv")
 test_classification_df = pd.read_csv(
     "src/analytics/data/testing/classification_test_data.csv"
@@ -26,17 +29,17 @@ current_concept_drift_detected = concept_drift_detected_dataset.tail(1000)
 df_load_binary = load_breast_cancer()
 df_binary = pd.DataFrame(df_load_binary.data, columns=df_load_binary.feature_names)
 df_binary["target"] = df_load_binary.target
-df_binary_inference=df_binary.drop(columns=['target'])
-df_binary_inference=df_binary_inference.tail(10)
-df_binary_inference_row1=df_binary_inference.iloc[7]
-df_binary_inference_row2=df_binary_inference.iloc[3]
+df_binary_inference = df_binary.drop(columns=["target"])
+df_binary_inference = df_binary_inference.tail(10)
+df_binary_inference_row1 = df_binary_inference.iloc[7]
+df_binary_inference_row2 = df_binary_inference.iloc[3]
 df_load_multi = load_wine()
 df_multi = pd.DataFrame(df_load_multi.data, columns=df_load_multi.feature_names)
 df_multi["target"] = df_load_multi.target
-df_multi_inference=df_multi.drop(columns=['target'])
-df_multi_inference=df_multi_inference.tail(10)
-df_multi_inference_row1=df_multi_inference.iloc[4]
-df_multi_inference_row2=df_multi_inference.iloc[2]
+df_multi_inference = df_multi.drop(columns=["target"])
+df_multi_inference = df_multi_inference.tail(10)
+df_multi_inference_row1 = df_multi_inference.iloc[4]
+df_multi_inference_row2 = df_multi_inference.iloc[2]
 
 
 class TestNodes:
@@ -208,40 +211,49 @@ class TestNodes:
         )
 
     def test_create_binary_classification_training_model_pipeline(self):
-        model, eval = create_binary_classification_training_model_pipeline(df_binary, "target","src/analytics/models/trained_models_for_test")
+        model, eval = create_binary_classification_training_model_pipeline(
+            df_binary, "target"
+        )
         eval_score = eval["roc_auc_score"]
         assert (round(eval_score, 3)) == 0.986
 
     def test_create_multiclass_classification_training_model_pipeline(self):
         model, eval = create_multiclass_classification_training_model_pipeline(
-            df_multi, "target", "src/analytics/models/trained_models_for_test"
+            df_multi,
+            "target",
         )
         eval_score = eval["precision"]
         assert (round(eval_score, 2)) == 0.97
 
-
     def test_create_xai_pipeline_classification_per_inference_row(self):
-        binary_class_report1 = create_xai_pipeline_classification_per_inference_row(df_binary,"target",df_binary_inference_row1,"binary_classification", "src/analytics/models/trained_models_for_test")
-        multi_class_report1 = create_xai_pipeline_classification_per_inference_row(df_multi,"target",df_multi_inference_row1,"multiclass_classification", "src/analytics/models/trained_models_for_test")
-        binary_class_report2 = create_xai_pipeline_classification_per_inference_row(df_binary,"target",df_binary_inference_row2,"binary_classification", "src/analytics/models/trained_models_for_test")
-        multi_class_report2 = create_xai_pipeline_classification_per_inference_row(df_multi,"target",df_multi_inference_row2,"multiclass_classification", "src/analytics/models/trained_models_for_test")
+        binary_class_report1 = create_xai_pipeline_classification_per_inference_row(
+            df_binary, "target", df_binary_inference_row1, "binary"
+        )
+        multi_class_report1 = create_xai_pipeline_classification_per_inference_row(
+            df_multi, "target", df_multi_inference_row1, "multi_class"
+        )
+        binary_class_report2 = create_xai_pipeline_classification_per_inference_row(
+            df_binary, "target", df_binary_inference_row2, "binary"
+        )
+        multi_class_report2 = create_xai_pipeline_classification_per_inference_row(
+            df_multi, "target", df_multi_inference_row2, "multi_class"
+        )
 
         binary_contribution_check_one = binary_class_report1["worst perimeter"]
-        binary_contribution_check_two = binary_class_report2['worst texture']
+        binary_contribution_check_two = binary_class_report2["worst texture"]
         multi_contribution_check_one = multi_class_report1["hue"]
         multi_contribution_check_two = multi_class_report2["alcohol"]
-        
-        
-        # We delete the models created by the create models for classification pipelines
-        os.remove("./src/analytics/models/trained_models_for_test/lgb_binary.pkl")
-        os.remove("./src/analytics/models/trained_models_for_test/lgb_multi.pkl")
+
+        # We delete the models and the directory created by the create models for classification pipelines
+        os.remove(f"{test_model_path}/lgb_binary.pkl")
+        os.remove(f"{test_model_path}/lgb_multi.pkl")
+        os.rmdir(test_model_path)
 
         assert (round(binary_contribution_check_one, 3)) == -0.464
         assert (round(binary_contribution_check_two, 1)) == -0.1
         assert (round(multi_contribution_check_one, 2)) == -0.09
         assert (round(multi_contribution_check_two, 3)) == 0.076
-    
-    
+
     # The below unit tests are not activate for now. Performs testing on explainability pipeline per inference dataset.
     # def test_create_xai_pipeline_classification_per_inference_dataset(self):
     #     binary_class_report = create_xai_pipeline_classification(df_binary,"target",df_binary_inference,"binary_classification")
@@ -251,12 +263,11 @@ class TestNodes:
     #     binary_contribution_check_two = binary_class_report["row2"]['worst texture']
     #     multi_contribution_check_one = multi_class_report["row0"]["hue"]
     #     multi_contribution_check_two = multi_class_report["row9"]["proanthocyanins"]
-        
+
     #     assert (len(binary_class_report)) == len(df_binary_inference)
     #     assert (len(multi_class_report)) == len(df_multi_inference)
-        
+
     #     assert (round(binary_contribution_check_one, 3)) == 0.253
     #     assert (round(binary_contribution_check_two, 2)) == -0.09
     #     assert (round(multi_contribution_check_one, 2)) == -0.08
     #     assert (round(multi_contribution_check_two, 3)) == -0.023
-
