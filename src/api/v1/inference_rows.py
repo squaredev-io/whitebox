@@ -38,7 +38,7 @@ async def create_row(
 
 
 @inference_rows_router.post(
-    "/inference-rows/many",
+    "/inference-rows/batch",
     tags=["Inference Rows"],
     response_model=List[InferenceRow],
     summary="Create many inference rows",

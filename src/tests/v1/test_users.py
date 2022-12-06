@@ -22,7 +22,6 @@ def test_user_create(client):
 def test_user_get_all(client):
     response = client.get(f"/v1/users")
     assert response.status_code == status.HTTP_200_OK
-    assert len(response.json()) == users_in_db["amount"]
     validated = [schemas.User(**m) for m in response.json()]
 
 

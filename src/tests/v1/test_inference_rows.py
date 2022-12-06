@@ -24,7 +24,7 @@ def test_inference_row_create(client):
 @pytest.mark.order(get_order_number("inference_rows_create_many"))
 def test_inference_row_create_many(client):
     response_binary = client.post(
-        "/v1/inference-rows/many",
+        "/v1/inference-rows/batch",
         json=list(
             map(
                 lambda x: {**x, "model_id": state.model_binary["id"]},
@@ -35,7 +35,7 @@ def test_inference_row_create_many(client):
     )
 
     response_multi = client.post(
-        "/v1/inference-rows/many",
+        "/v1/inference-rows/batch",
         json=list(
             map(
                 lambda x: {**x, "model_id": state.model_multi["id"]},
