@@ -82,11 +82,13 @@ async def run_calculate_performance_metrics_pipeline(
         )
         return
 
+    labels = list(model.labels.values())
+
     logger.info(f"Calculating performance metrics for model {model.id}")
     if model.type == ModelType.binary:
         binary_classification_metrics_report = (
             create_binary_classification_evaluation_metrics_pipeline(
-                actual_df, processed_df[model.prediction]
+                actual_df, processed_df[model.prediction], labels
             )
         )
 
@@ -101,7 +103,7 @@ async def run_calculate_performance_metrics_pipeline(
     elif model.type == ModelType.multi_class:
         multiclass_classification_metrics_report = (
             create_multiple_classification_evaluation_metrics_pipeline(
-                actual_df, processed_df[model.prediction]
+                actual_df, processed_df[model.prediction], labels
             )
         )
 
