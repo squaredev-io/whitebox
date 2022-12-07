@@ -253,21 +253,3 @@ class TestNodes:
         assert (round(binary_contribution_check_two, 1)) == -0.1
         assert (round(multi_contribution_check_one, 2)) == -0.09
         assert (round(multi_contribution_check_two, 3)) == 0.076
-
-    # The below unit tests are not activate for now. Performs testing on explainability pipeline per inference dataset.
-    # def test_create_xai_pipeline_classification_per_inference_dataset(self):
-    #     binary_class_report = create_xai_pipeline_classification(df_binary,"target",df_binary_inference,"binary_classification")
-    #     multi_class_report = create_xai_pipeline_classification(df_multi,"target",df_multi_inference,"multiclass_classification")
-
-    #     binary_contribution_check_one = binary_class_report["row0"]["worst perimeter"]
-    #     binary_contribution_check_two = binary_class_report["row2"]['worst texture']
-    #     multi_contribution_check_one = multi_class_report["row0"]["hue"]
-    #     multi_contribution_check_two = multi_class_report["row9"]["proanthocyanins"]
-
-    #     assert (len(binary_class_report)) == len(df_binary_inference)
-    #     assert (len(multi_class_report)) == len(df_multi_inference)
-
-    #     assert (round(binary_contribution_check_one, 3)) == 0.253
-    #     assert (round(binary_contribution_check_two, 2)) == -0.09
-    #     assert (round(multi_contribution_check_one, 2)) == -0.08
-    #     assert (round(multi_contribution_check_two, 3)) == -0.023
