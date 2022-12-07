@@ -91,9 +91,20 @@ class TestNodes:
             create_binary_classification_evaluation_metrics_pipeline(
                 test_classification_df["y_testing_binary"],
                 test_classification_df["y_prediction_binary"],
+                labels=[0,1]
             )
         )
 
+        binary_metrics_edge_case = dict(
+            create_binary_classification_evaluation_metrics_pipeline(
+                test_classification_df["y_testing_binary"].tail(1),
+                test_classification_df["y_prediction_binary"].tail(1),
+                labels=[0,1]
+            )
+        )
+
+        
+        assert binary_metrics_edge_case["true_positive"] == 1
         assert binary_metrics["accuracy"] == 0.6
         assert binary_metrics["precision"] == 0.6
         assert binary_metrics["recall"] == 0.6
@@ -107,8 +118,26 @@ class TestNodes:
         multi_metrics = create_multiple_classification_evaluation_metrics_pipeline(
             test_classification_df["y_testing_multi"],
             test_classification_df["y_prediction_multi"],
+            labels=[0,1,2]
         )
+
+        multi_metrics_edge_case = create_multiple_classification_evaluation_metrics_pipeline(
+            test_classification_df["y_testing_multi"].tail(1),
+            test_classification_df["y_prediction_multi"].tail(1),
+            labels=[0,1,2]
+        )        
+
         assert multi_metrics.accuracy == 0.6
+
+        TestCase().assertDictEqual(
+            {
+                "true_negative": 0,
+                "false_positive": 0,
+                "false_negative": 0,
+                "true_positive": 1,
+            },
+            multi_metrics_edge_case.confusion_matrix["class1"].dict(),
+        )
 
         TestCase().assertDictEqual(
             {"micro": 0.6, "macro": 0.6444444444444445, "weighted": 0.64},
