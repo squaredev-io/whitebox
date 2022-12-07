@@ -5,6 +5,7 @@ from src.schemas.base import ItemBase
 
 
 class AlertBase(BaseModel):
+    model_id: str
     model_monitor_id: str
     timestamp: Union[str, datetime]
     description: str

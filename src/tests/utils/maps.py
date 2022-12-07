@@ -23,6 +23,7 @@ v1_test_order_map = [
     "drifting_metrics_get_model_binary_all",
     "model_integrity_metrics_get_model_multi_class_all",
     "model_integrity_metrics_get_model_binary_all",
+    "alerts_get_model_all",
     "models_delete",
     "users_update",
     "users_delete",
