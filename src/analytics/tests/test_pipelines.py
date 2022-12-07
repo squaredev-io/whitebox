@@ -1,4 +1,3 @@
-import pytest
 from src.analytics.metrics.pipelines import *
 from src.analytics.drift.pipelines import *
 from src.analytics.models.pipelines import *

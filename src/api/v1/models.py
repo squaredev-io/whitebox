@@ -31,7 +31,7 @@ async def create_model(
         new_model = crud.models.create(db=db, obj_in=body)
         return new_model
     else:
-        return errors.bad_request("Form should not be empty")
+        return errors.bad_request("Body should not be empty")
 
 
 @models_router.get(
@@ -95,7 +95,7 @@ async def update_model(
     if body is not None:
         return crud.models.update(db=db, db_obj=model, obj_in=body)
     else:
-        return errors.bad_request("Form should not be empty")
+        return errors.bad_request("Body should not be empty")
 
 
 @models_router.delete(

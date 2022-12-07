@@ -55,7 +55,7 @@ async def create_many_inference_rows(
         new_inference_rows = crud.inference_rows.create_many(db=db, obj_list=body)
         return new_inference_rows
     else:
-        return errors.bad_request("Form should not be empty")
+        return errors.bad_request("Body should not be empty")
 
 
 @inference_rows_router.get(
@@ -74,7 +74,7 @@ async def get_all_models_inference_rows(
 
     model = crud.models.get(db, model_id)
     if model:
-        return crud.inference_rows.get_model_inference_rows(db=db, model_id=model_id)
+        return crud.inference_rows.get_inference_rows_by_model(db=db, model_id=model_id)
     else:
         return errors.not_found("Model not found")
 
@@ -116,7 +116,9 @@ async def create_dataset_rows(
     try:
         inference_row = crud.inference_rows.get(db=db, _id=inference_row_id)
         model = crud.models.get(db=db, _id=inference_row.model_id)
-        dataset_rows = crud.dataset_rows.get_dataset_rows(db=db, model_id=model.id)
+        dataset_rows = crud.dataset_rows.get_dataset_rows_by_model(
+            db=db, model_id=model.id
+        )
 
         xai_report = create_xai_pipeline_classification_per_inference_row(
             training_set=pd.DataFrame(dataset_rows),

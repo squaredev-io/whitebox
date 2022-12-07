@@ -25,7 +25,7 @@ async def create_user(body: UserCreateDto, db: Session = Depends(get_db)) -> Use
         new_user = crud.users.create(db=db, obj_in=body)
         return new_user
     else:
-        return errors.bad_request("Form should not be empty")
+        return errors.bad_request("Body should not be empty")
 
 
 @users_router.get(
@@ -76,7 +76,7 @@ async def update_user(
     if body is not None:
         return crud.users.update(db=db, db_obj=crud.users.get(db, user_id), obj_in=body)
     else:
-        return errors.bad_request("Form should not be empty")
+        return errors.bad_request("Body should not be empty")
 
 
 @users_router.delete(

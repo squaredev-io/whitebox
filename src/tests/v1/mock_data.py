@@ -4,6 +4,8 @@ from sklearn.datasets import load_breast_cancer
 import pandas as pd
 import random
 
+from src.schemas.modelMonitor import AlertSeverity, MonitorMetrics, MonitorStatus
+
 user_create_payload = dict(username="admin")
 users_in_db = dict(amount=1)
 user_update_payload = dict(username="admin1")
@@ -96,6 +98,15 @@ dataset_rows_create_multi_class_payload = list(
             },
         ),
     )
+)
+
+model_monitor_create_payload = dict(
+    name="Model Monitor 1",
+    status=MonitorStatus.open,
+    metric=MonitorMetrics.accuracy,
+    threshold=0.85,
+    severity=AlertSeverity.low,
+    email="example@whitebox.io",
 )
 
 df_load_binary = load_breast_cancer()

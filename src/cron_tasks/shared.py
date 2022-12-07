@@ -10,7 +10,9 @@ from src.schemas.model import Model
 
 
 async def get_model_dataset_rows_df(db: Session, model_id: str) -> pd.DataFrame:
-    dataset_rows_in_db = dataset_rows.get_dataset_rows(db=db, model_id=model_id)
+    dataset_rows_in_db = dataset_rows.get_dataset_rows_by_model(
+        db=db, model_id=model_id
+    )
     dataset_rows_processed = [x.processed for x in dataset_rows_in_db]
     dataset_df = pd.DataFrame(dataset_rows_processed)
     return dataset_df
@@ -19,7 +21,7 @@ async def get_model_dataset_rows_df(db: Session, model_id: str) -> pd.DataFrame:
 async def get_model_processed_inference_rows_df(
     db: Session, model_id: str
 ) -> pd.DataFrame:
-    inference_rows_in_db = inference_rows.get_model_inference_rows(
+    inference_rows_in_db = inference_rows.get_inference_rows_by_model(
         db=db, model_id=model_id
     )
     inference_rows_processed = [x.processed for x in inference_rows_in_db]
@@ -30,7 +32,7 @@ async def get_model_processed_inference_rows_df(
 async def get_model_inference_rows_df(
     db: Session, model_id: str
 ) -> tuple[pd.DataFrame, pd.DataFrame, pd.Series]:
-    inference_rows_in_db = inference_rows.get_model_inference_rows(
+    inference_rows_in_db = inference_rows.get_inference_rows_by_model(
         db=db, model_id=model_id
     )
     inference_rows_processed = [x.processed for x in inference_rows_in_db]

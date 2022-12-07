@@ -76,6 +76,6 @@ async def get_all_dataset_rows(
 
     model = crud.models.get(db, model_id)
     if model:
-        return crud.dataset_rows.get_dataset_rows(db=db, model_id=model_id)
+        return crud.dataset_rows.get_dataset_rows_by_model(db=db, model_id=model_id)
     else:
         return errors.not_found("Model not found")
