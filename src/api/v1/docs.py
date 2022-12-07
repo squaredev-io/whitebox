@@ -35,6 +35,14 @@ tags_metadata = [
         "description": "This set of endpoints handles a model's integrity metrics.",
     },
     {
+        "name": "Model Monitors",
+        "description": "This set of endpoints handles a model's model monitors.",
+    },
+    {
+        "name": "Alerts",
+        "description": "This set of endpoints handles a model's alerts.",
+    },
+    {
         "name": "Cron Tasks",
         "description": "This is a helper endpoint to trigger cron tasks for tests.",
     },
