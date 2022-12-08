@@ -26,7 +26,7 @@ class ModelBase(BaseModel):
 
     # TODO do we need this?
     features: Dict[str, FeatureTypes]
-    labels: Optional[Dict[str, int]]
+    labels: Dict[str, int]
 
     prediction: str
     probability: str
