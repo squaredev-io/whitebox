@@ -4,8 +4,8 @@ from src.schemas.base import ItemBase
 
 
 class MonitorStatus(str, enum.Enum):
-    open = "open"
-    closed = "closed"
+    active = "active"
+    inactive = "inactive"
 
 
 class MonitorMetrics(str, enum.Enum):

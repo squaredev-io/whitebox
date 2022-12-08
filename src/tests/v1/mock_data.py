@@ -102,7 +102,7 @@ dataset_rows_create_multi_class_payload = list(
 
 model_monitor_create_payload = dict(
     name="Model Monitor 1",
-    status=MonitorStatus.open,
+    status=MonitorStatus.active,
     metric=MonitorMetrics.accuracy,
     threshold=0.85,
     severity=AlertSeverity.low,

@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union
 from src.middleware.auth import authenticate_user
 from src.schemas.modelMonitor import ModelMonitor, ModelMonitorCreateDto
 from fastapi import APIRouter, Depends, status
@@ -34,7 +34,7 @@ async def create_model_monitor(
 
 
 @model_monitors_router.get(
-    "/models/{model_id}/model-monitors",
+    "/model-monitors",
     tags=["Model Monitors"],
     response_model=List[ModelMonitor],
     summary="Get all model's model monitors",
@@ -42,13 +42,17 @@ async def create_model_monitor(
     responses=add_error_responses([401, 404]),
 )
 async def get_all_models_model_monitors(
-    model_id: str,
+    model_id: Union[str, None] = None,
     db: Session = Depends(get_db),
     authenticated_user: User = Depends(authenticate_user),
 ):
-
-    model = crud.models.get(db, model_id)
-    if model:
-        return crud.model_monitors.get_model_monitors_by_model(db=db, model_id=model_id)
+    if model_id:
+        model = crud.models.get(db, model_id)
+        if model:
+            return crud.model_monitors.get_model_monitors_by_model(
+                db=db, model_id=model_id
+            )
+        else:
+            return errors.not_found("Model not found")
     else:
-        return errors.not_found("Model not found")
+        return crud.model_monitors.get_all(db=db)

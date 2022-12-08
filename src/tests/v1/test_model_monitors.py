@@ -20,7 +20,7 @@ def test_model_monitor_create(client):
 @pytest.mark.order(get_order_number("model_monitors_get_model_all"))
 def test_model_monitors_get_model_all(client):
     r = response = client.get(
-        f"/v1/models/{state.model_multi['id']}/model-monitors",
+        f"/v1/model-monitors?model_id={state.model_multi['id']}",
         headers={"api-key": state.api_key},
     )
     assert len(response.json()) == 1

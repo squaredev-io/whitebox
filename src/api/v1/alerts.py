@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union
 from fastapi import APIRouter, Depends, status
 from src import crud
 from sqlalchemy.orm import Session
@@ -13,21 +13,23 @@ alerts_router = APIRouter()
 
 
 @alerts_router.get(
-    "/models/{model_id}/alerts",
+    "/alerts",
     tags=["Alerts"],
     response_model=List[Alert],
     summary="Get all model's alerts",
     status_code=status.HTTP_200_OK,
     responses=add_error_responses([401, 404]),
 )
-async def get_all_models_alerts(
-    model_id: str,
+async def get_alerts(
+    model_id: Union[str, None] = None,
     db: Session = Depends(get_db),
     authenticated_user: User = Depends(authenticate_user),
 ):
-
-    model = crud.models.get(db, model_id)
-    if model:
-        return crud.alerts.get_model_alerts_by_model(db=db, model_id=model_id)
+    if model_id:
+        model = crud.models.get(db, model_id)
+        if model:
+            return crud.alerts.get_model_alerts_by_model(db=db, model_id=model_id)
+        else:
+            return errors.not_found("Model not found")
     else:
-        return errors.not_found("Model not found")
+        return crud.alerts.get_all(db=db)
