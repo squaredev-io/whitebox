@@ -3,7 +3,7 @@ import numpy as np
 from sklearn import metrics
 from sklearn.metrics import confusion_matrix
 from src.analytics.metrics.functions import *
-from typing import Dict, Union, Any
+from typing import Dict, Union, Any, List
 from src.schemas.performanceMetric import (
     BinaryClassificationMetricsPipelineResult,
     MultiClassificationMetricsPipelineResult,
@@ -64,7 +64,7 @@ def create_feature_metrics_pipeline(
 
 
 def create_binary_classification_evaluation_metrics_pipeline(
-    test_set: pd.Series, prediction_set: pd.Series
+    test_set: pd.Series, prediction_set: pd.Series, labels: List[int]
 ) -> BinaryClassificationMetricsPipelineResult:
 
     """
@@ -101,7 +101,7 @@ def create_binary_classification_evaluation_metrics_pipeline(
     precision = metrics.precision_score(test_set, prediction_set)
     recall = metrics.recall_score(test_set, prediction_set)
     f1 = recall = metrics.f1_score(test_set, prediction_set)
-    tn, fp, fn, tp = confusion_matrix(test_set, prediction_set).ravel()
+    tn, fp, fn, tp = confusion_matrix(test_set, prediction_set, labels=labels).ravel()
 
     return BinaryClassificationMetricsPipelineResult(
         **format_evaluation_metrics_binary(
@@ -111,7 +111,7 @@ def create_binary_classification_evaluation_metrics_pipeline(
 
 
 def create_multiple_classification_evaluation_metrics_pipeline(
-    test_set: pd.Series, prediction_set: pd.Series
+    test_set: pd.Series, prediction_set: pd.Series, labels: List[int]
 ) -> MultiClassificationMetricsPipelineResult:
     """
     Multiclass classification evaluation metrics
@@ -181,7 +181,7 @@ def create_multiple_classification_evaluation_metrics_pipeline(
     macro_f1 = metrics.f1_score(test_set, prediction_set, average="macro")
     weighted_f1 = metrics.f1_score(test_set, prediction_set, average="weighted")
     f1_statistics = {"micro": micro_f1, "macro": macro_f1, "weighted": weighted_f1}
-    conf_matrix = confusion_for_multiclass(test_set, prediction_set)
+    conf_matrix = confusion_for_multiclass(test_set, prediction_set, labels)
 
     return MultiClassificationMetricsPipelineResult(
         **format_evaluation_metrics_multiple(

@@ -1,6 +1,6 @@
 from sklearn.metrics import multilabel_confusion_matrix
 import pandas as pd
-from typing import Dict, Union
+from typing import Dict, Union, List
 
 
 def format_feature_metrics(
@@ -70,7 +70,7 @@ def format_evaluation_metrics_multiple(
 
 
 def confusion_for_multiclass(
-    test_set: pd.DataFrame, prediction_set: pd.DataFrame
+    test_set: pd.DataFrame, prediction_set: pd.DataFrame, labels: List[int]
 ) -> Dict[str, Dict[str, int]]:
     """
     Gets 2 datasets based on multiclass classification and calculates
@@ -89,7 +89,7 @@ def confusion_for_multiclass(
     mult_dict : Dict
 
     """
-    cm = multilabel_confusion_matrix(test_set, prediction_set)
+    cm = multilabel_confusion_matrix(test_set, prediction_set, labels=labels)
     mult_dict = {}
     class_key = 0
     for i in cm:
