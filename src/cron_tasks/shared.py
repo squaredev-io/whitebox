@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 from src import crud
 from src.schemas.model import Model, ModelType
 from src.schemas.modelMonitor import ModelMonitor
+from src.schemas.driftingMetric import DriftingMetric
 from src.schemas.performanceMetric import (
     BinaryClassificationMetrics,
     MultiClassificationMetrics,
@@ -65,11 +66,24 @@ async def get_latest_performance_metrics_report(
     db: Session, model: Model
 ) -> Union[BinaryClassificationMetrics, MultiClassificationMetrics]:
     if model.type == ModelType.binary:
-        last_report_in_db = crud.binary_classification_metrics.get_latest_model_performance_metric_by_model(
-            db, model_id=model.id
+        last_report_in_db = (
+            crud.binary_classification_metrics.get_latest_report_by_model(
+                db, model_id=model.id
+            )
         )
     else:
-        last_report_in_db = crud.multi_classification_metrics.get_latest_model_performance_metric_by_model(
-            db, model_id=model.id
+        last_report_in_db = (
+            crud.multi_classification_metrics.get_latest_report_by_model(
+                db, model_id=model.id
+            )
         )
+    return last_report_in_db
+
+
+async def get_latest_data_drift_metrics_report(
+    db: Session, model: Model
+) -> DriftingMetric:
+    last_report_in_db = crud.drifting_metrics.get_latest_report_by_model(
+        db, model_id=model.id
+    )
     return last_report_in_db

@@ -1,8 +1,7 @@
 from src.schemas.utils import HealthCheck
 from fastapi import APIRouter, status
-from src.cron_tasks.monitoring_metrics import (
-    run_calculate_metrics_pipeline,
-)
+from src.cron_tasks.monitoring_metrics import run_calculate_metrics_pipeline
+from src.cron_tasks.monitoring_alerts import run_create_alerts_pipeline
 
 
 cron_tasks_router = APIRouter()
@@ -16,5 +15,6 @@ cron_tasks_router = APIRouter()
     response_description="Result of cron tasks",
 )
 async def run_cron():
-    run_calculate_metrics_pipeline_result = await run_calculate_metrics_pipeline()
+    await run_calculate_metrics_pipeline()
+    await run_create_alerts_pipeline()
     return HealthCheck(status="OK")

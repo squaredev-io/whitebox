@@ -14,7 +14,7 @@ class CRUD(CRUDBase[DriftingMetric, Any, Any]):
             db.query(self.model).filter(DriftingMetricEntity.model_id == model_id).all()
         )
 
-    def get_latest_difting_metric_by_model(
+    def get_latest_report_by_model(
         self, db: Session, *, model_id: int
     ) -> DriftingMetric:
         return (

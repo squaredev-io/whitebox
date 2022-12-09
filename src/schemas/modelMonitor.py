@@ -1,3 +1,4 @@
+from typing import Optional
 from pydantic import BaseModel
 import enum
 from src.schemas.base import ItemBase
@@ -29,7 +30,8 @@ class ModelMonitorBase(BaseModel):
     name: str
     status: MonitorStatus
     metric: MonitorMetrics
-    threshold: float
+    feature: Optional[str]
+    threshold: Optional[float]
     severity: AlertSeverity
     email: str
 

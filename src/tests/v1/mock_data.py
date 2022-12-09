@@ -100,11 +100,29 @@ dataset_rows_create_multi_class_payload = list(
     )
 )
 
-model_monitor_create_payload = dict(
-    name="Model Monitor 1",
+model_monitor_accuracy_create_payload = dict(
+    name="accuracy monitor ",
     status=MonitorStatus.active,
     metric=MonitorMetrics.accuracy,
     threshold=0.85,
+    severity=AlertSeverity.low,
+    email="example@whitebox.io",
+)
+
+model_monitor_f1_create_payload = dict(
+    name="f1 Monitor",
+    status=MonitorStatus.active,
+    metric=MonitorMetrics.f1,
+    threshold=0.85,
+    severity=AlertSeverity.low,
+    email="example@whitebox.io",
+)
+
+model_monitor_data_drift_create_payload = dict(
+    name="data drift monitor",
+    status=MonitorStatus.active,
+    metric=MonitorMetrics.data_drift,
+    feature="concavity error",
     severity=AlertSeverity.low,
     email="example@whitebox.io",
 )
