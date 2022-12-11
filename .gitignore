@@ -10,3 +10,6 @@ check_data/
 /models/
 *.ipynb_checkpoints
 *.db
+build
+dist
+**egg-info

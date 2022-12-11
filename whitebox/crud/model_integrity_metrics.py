@@ -1,0 +1,25 @@
+from fastapi.encoders import jsonable_encoder
+from typing import Any, List
+from sqlalchemy.orm import Session
+from whitebox.crud.base import CRUDBase
+from whitebox.entities.ModelIntegrityMetric import (
+    ModelIntegrityMetric as ModelIntegrityMetricEntity,
+)
+from whitebox.schemas.modelIntegrityMetric import (
+    ModelIntegrityMetricCreate,
+    ModelIntegrityMetric,
+)
+
+
+class CRUD(CRUDBase[ModelIntegrityMetric, ModelIntegrityMetricCreate, Any]):
+    def get_model_model_integrity_metrics(
+        self, db: Session, *, model_id: str
+    ) -> List[ModelIntegrityMetricCreate]:
+        return (
+            db.query(self.model)
+            .filter(ModelIntegrityMetricEntity.model_id == model_id)
+            .all()
+        )
+
+
+model_integrity_metrics = CRUD(ModelIntegrityMetricEntity)
