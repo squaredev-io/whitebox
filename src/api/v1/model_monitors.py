@@ -26,11 +26,8 @@ async def create_model_monitor(
     authenticated_user: User = Depends(authenticate_user),
 ) -> ModelMonitor:
 
-    if body is not None:
-        new_model_monitor = crud.model_monitors.create(db=db, obj_in=body)
-        return new_model_monitor
-    else:
-        return errors.bad_request("Body should not be empty")
+    new_model_monitor = crud.model_monitors.create(db=db, obj_in=body)
+    return new_model_monitor
 
 
 @model_monitors_router.get(

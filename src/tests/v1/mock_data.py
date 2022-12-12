@@ -104,7 +104,7 @@ model_monitor_accuracy_create_payload = dict(
     name="accuracy monitor ",
     status=MonitorStatus.active,
     metric=MonitorMetrics.accuracy,
-    threshold=0.85,
+    lower_threshold=0.85,
     severity=AlertSeverity.low,
     email="example@whitebox.io",
 )
@@ -113,7 +113,7 @@ model_monitor_f1_create_payload = dict(
     name="f1 Monitor",
     status=MonitorStatus.active,
     metric=MonitorMetrics.f1,
-    threshold=0.85,
+    lower_threshold=0.85,
     severity=AlertSeverity.low,
     email="example@whitebox.io",
 )

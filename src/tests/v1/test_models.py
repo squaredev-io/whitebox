@@ -60,7 +60,11 @@ def test_model_update(client):
 
 @pytest.mark.order(get_order_number("models_delete"))
 def test_model_delete(client):
-    response = client.delete(
+    response_multi = client.delete(
         f"/v1/models/{state.model_multi['id']}", headers={"api-key": state.api_key}
     )
-    assert response.status_code == status.HTTP_200_OK
+    response_binary = client.delete(
+        f"/v1/models/{state.model_binary['id']}", headers={"api-key": state.api_key}
+    )
+    assert response_multi.status_code == status.HTTP_200_OK
+    assert response_binary.status_code == status.HTTP_200_OK

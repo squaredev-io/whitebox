@@ -39,12 +39,12 @@ async def run_create_performance_metric_alert_pipeline(
     else:
         metric_value = vars(last_performance_metrics_report)[monitor.metric]["weighted"]
 
-    if metric_value < monitor.threshold:
+    if metric_value < monitor.lower_threshold:
         new_alert = entities.Alert(
             model_id=model.id,
             model_monitor_id=monitor.id,
             timestamp=str(datetime.utcnow()),
-            description=f"{monitor.metric} fell below the threshold of {monitor.threshold} at value {metric_value}.",
+            description=f"{monitor.metric} fell below the threshold of {monitor.lower_threshold} at value {metric_value}.",
         )
         crud.alerts.create(db, obj_in=new_alert)
         logger.info(f"Created alert for monitor {monitor.id}!")

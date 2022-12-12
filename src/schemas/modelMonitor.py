@@ -31,7 +31,7 @@ class ModelMonitorBase(BaseModel):
     status: MonitorStatus
     metric: MonitorMetrics
     feature: Optional[str]
-    threshold: Optional[float]
+    lower_threshold: Optional[float]
     severity: AlertSeverity
     email: str
 

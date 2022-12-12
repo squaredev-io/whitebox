@@ -14,7 +14,7 @@ class ModelMonitor(Base):
     status = Column("status", Enum(MonitorStatus))
     metric = Column("metric", Enum(MonitorMetrics))
     feature = Column(String, nullable=True)
-    threshold = Column(Numeric, nullable=True)
+    lower_threshold = Column(Numeric, nullable=True)
     severity = Column("severity", Enum(AlertSeverity))
     email = Column(String)
     created_at = Column(DateTime)
