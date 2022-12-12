@@ -32,11 +32,11 @@ async def get_all_models_performance_metrics(
     model = crud.models.get(db, model_id)
     if model:
         if model.__dict__["type"] == "binary":
-            return crud.binary_classification_metrics.get_model_performance_metrics(
+            return crud.binary_classification_metrics.get_by_model(
                 db=db, model_id=model_id
             )
         else:
-            return crud.multi_classification_metrics.get_model_performance_metrics(
+            return crud.multi_classification_metrics.get_by_model(
                 db=db, model_id=model_id
             )
     else:

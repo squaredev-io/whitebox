@@ -28,7 +28,7 @@ async def get_all_models_model_integrity_metrics(
 
     model = crud.models.get(db, model_id)
     if model:
-        return crud.model_integrity_metrics.get_model_model_integrity_metrics(
+        return crud.model_integrity_metrics.get_model_integrity_metrics_by_model(
             db=db, model_id=model_id
         )
     else:

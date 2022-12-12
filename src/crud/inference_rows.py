@@ -6,7 +6,7 @@ from src.entities.Inference import InferenceRow as InferenceRowEntity
 
 
 class CRUD(CRUDBase[InferenceRow, InferenceRowCreateDto, Any]):
-    def get_model_inference_rows(
+    def get_inference_rows_by_model(
         self, db: Session, *, model_id: str
     ) -> List[InferenceRow]:
         return (

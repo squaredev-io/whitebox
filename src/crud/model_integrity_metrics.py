@@ -1,4 +1,3 @@
-from fastapi.encoders import jsonable_encoder
 from typing import Any, List
 from sqlalchemy.orm import Session
 from src.crud.base import CRUDBase
@@ -12,9 +11,9 @@ from src.schemas.modelIntegrityMetric import (
 
 
 class CRUD(CRUDBase[ModelIntegrityMetric, ModelIntegrityMetricCreate, Any]):
-    def get_model_model_integrity_metrics(
+    def get_model_integrity_metrics_by_model(
         self, db: Session, *, model_id: str
-    ) -> List[ModelIntegrityMetricCreate]:
+    ) -> List[ModelIntegrityMetric]:
         return (
             db.query(self.model)
             .filter(ModelIntegrityMetricEntity.model_id == model_id)

@@ -28,7 +28,7 @@ async def get_all_models_drifting_metrics(
 
     model = crud.models.get(db, model_id)
     if model:
-        return crud.drifting_metrics.get_model_drifting_metrics(
+        return crud.drifting_metrics.get_drifting_metrics_by_model(
             db=db, model_id=model_id
         )
     else:

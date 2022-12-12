@@ -3,8 +3,6 @@ from src import schemas
 from src.tests.v1.conftest import get_order_number, state
 from fastapi import status
 
-model_integrity_metric_id = "1234567890"
-
 
 @pytest.mark.order(
     get_order_number("model_integrity_metrics_get_model_multi_class_all")
