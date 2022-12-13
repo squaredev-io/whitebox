@@ -112,8 +112,8 @@ async def create_inference_row_xai_report(
     authenticated_user: User = Depends(authenticate_user),
 ):
     """
-    Given a specific inference row id, this endpoint produces an explainability report fot this inference.
-    \nThe xai pipeline requires a set of dataset rows as a training set, a model and the infernce row.
+    Given a specific inference row id, this endpoint produces an explainability report for this inference.
+    \nThe XAI pipeline requires a set of dataset rows as a training set, a model and the inference row.
     If one of those three is not found in the database, a 404 error is returned.
     """
 
