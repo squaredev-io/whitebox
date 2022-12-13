@@ -25,6 +25,7 @@ async def create_model_monitor(
     db: Session = Depends(get_db),
     authenticated_user: User = Depends(authenticate_user),
 ) -> ModelMonitor:
+    """Inserts a model monitor into the database."""
 
     new_model_monitor = crud.model_monitors.create(db=db, obj_in=body)
     return new_model_monitor
@@ -43,6 +44,12 @@ async def get_all_models_model_monitors(
     db: Session = Depends(get_db),
     authenticated_user: User = Depends(authenticate_user),
 ):
+    """
+    Fetches model monitors from the databse.
+    \n If a model id is provided, only the monitors for the specific model will be fetched.
+    \n If a model id is not provided then all monitors from the database will be fetched.
+    """
+
     if model_id:
         model = crud.models.get(db, model_id)
         if model:

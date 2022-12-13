@@ -7,8 +7,6 @@ import random
 from src.schemas.modelMonitor import AlertSeverity, MonitorMetrics, MonitorStatus
 
 user_create_payload = dict(username="admin")
-users_in_db = dict(amount=1)
-user_update_payload = dict(username="admin1")
 
 model_binary_create_payload = dict(
     name="Model 1",
@@ -98,33 +96,6 @@ dataset_rows_create_multi_class_payload = list(
             },
         ),
     )
-)
-
-model_monitor_accuracy_create_payload = dict(
-    name="accuracy monitor ",
-    status=MonitorStatus.active,
-    metric=MonitorMetrics.accuracy,
-    lower_threshold=0.85,
-    severity=AlertSeverity.low,
-    email="example@whitebox.io",
-)
-
-model_monitor_f1_create_payload = dict(
-    name="f1 Monitor",
-    status=MonitorStatus.active,
-    metric=MonitorMetrics.f1,
-    lower_threshold=0.85,
-    severity=AlertSeverity.low,
-    email="example@whitebox.io",
-)
-
-model_monitor_data_drift_create_payload = dict(
-    name="data drift monitor",
-    status=MonitorStatus.active,
-    metric=MonitorMetrics.data_drift,
-    feature="concavity error",
-    severity=AlertSeverity.low,
-    email="example@whitebox.io",
 )
 
 df_load_binary = load_breast_cancer()
@@ -225,3 +196,30 @@ inference_row_create_many_binary_payload = [
     }
     for x in dict_inferences
 ]
+
+model_monitor_accuracy_create_payload = dict(
+    name="accuracy monitor ",
+    status=MonitorStatus.active,
+    metric=MonitorMetrics.accuracy,
+    lower_threshold=0.85,
+    severity=AlertSeverity.low,
+    email="example@whitebox.io",
+)
+
+model_monitor_f1_create_payload = dict(
+    name="f1 Monitor",
+    status=MonitorStatus.active,
+    metric=MonitorMetrics.f1,
+    lower_threshold=0.85,
+    severity=AlertSeverity.low,
+    email="example@whitebox.io",
+)
+
+model_monitor_data_drift_create_payload = dict(
+    name="data drift monitor",
+    status=MonitorStatus.active,
+    metric=MonitorMetrics.data_drift,
+    feature="concavity error",
+    severity=AlertSeverity.low,
+    email="example@whitebox.io",
+)

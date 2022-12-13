@@ -16,7 +16,7 @@ def test_inference_row_create(client):
         json={**inference_row_create_payload, "model_id": state.model_multi["id"]},
         headers={"api-key": state.api_key},
     )
-    state.inference_row = response.json()
+    state.inference_row_multi = response.json()
     assert response.status_code == status.HTTP_201_CREATED
     validated = schemas.InferenceRow(**response.json())
 
@@ -33,6 +33,8 @@ def test_inference_row_create_many(client):
         ),
         headers={"api-key": state.api_key},
     )
+
+    state.inference_row_binary = response_binary.json()[0]
 
     response_multi = client.post(
         "/v1/inference-rows/batch",
@@ -54,11 +56,11 @@ def test_inference_row_create_many(client):
 @pytest.mark.order(get_order_number("inference_rows_get_model's_all"))
 def test_inference_row_get_models_all(client):
     response_multi = client.get(
-        f"/v1/models/{state.model_multi['id']}/inference-rows",
+        f"/v1/inference-rows?model_id={state.model_multi['id']}",
         headers={"api-key": state.api_key},
     )
     response_binary = client.get(
-        f"/v1/models/{state.model_binary['id']}/inference-rows",
+        f"/v1/inference-rows?model_id={state.model_binary['id']}",
         headers={"api-key": state.api_key},
     )
     assert response_multi.status_code == status.HTTP_200_OK
@@ -70,8 +72,18 @@ def test_inference_row_get_models_all(client):
 @pytest.mark.order(get_order_number("inference_rows_get"))
 def test_inference_row_get(client):
     response = client.get(
-        f"/v1/inference-rows/{state.inference_row['id']}",
+        f"/v1/inference-rows/{state.inference_row_multi['id']}",
         headers={"api-key": state.api_key},
     )
     assert response.status_code == status.HTTP_200_OK
     validated = schemas.InferenceRow(**response.json())
+
+
+@pytest.mark.order(get_order_number("inference_rows_xai"))
+def test_inference_row_xai(client):
+    response = client.get(
+        f"/v1/inference-rows/{state.inference_row_binary['id']}/xai",
+        headers={"api-key": state.api_key},
+    )
+
+    assert response.status_code == status.HTTP_200_OK

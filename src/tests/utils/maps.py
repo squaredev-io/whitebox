@@ -1,8 +1,6 @@
 v1_test_order_map = [
     "health",
     "users_create",
-    "users_get_all",
-    "users_get",
     "models_create",
     "models_get_all",
     "models_get",
@@ -14,6 +12,7 @@ v1_test_order_map = [
     "inference_rows_create_many",
     "inference_rows_get_model's_all",
     "inference_rows_get",
+    "inference_rows_xai",
     "model_monitor_create",
     "model_monitors_get_model_all",
     "cron_tasks_run",
@@ -25,7 +24,6 @@ v1_test_order_map = [
     "model_integrity_metrics_get_model_binary_all",
     "alerts_get_model_all",
     "models_delete",
-    "users_update",
     "users_delete",
     # SDK tests
     "sdk_init",

@@ -15,6 +15,8 @@ cron_tasks_router = APIRouter()
     response_description="Result of cron tasks",
 )
 async def run_cron():
+    """A helper endpoint that triggers the metrics and alerts pipelines while testing."""
+
     await run_calculate_metrics_pipeline()
     await run_create_alerts_pipeline()
     return HealthCheck(status="OK")

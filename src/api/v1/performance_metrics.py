@@ -16,7 +16,7 @@ performance_metrics_router = APIRouter()
 
 
 @performance_metrics_router.get(
-    "/models/{model_id}/performance-metrics",
+    "/performance-metrics",
     tags=["Performance Metrics"],
     response_model=List[BinaryClassificationMetrics] | List[MultiClassificationMetrics],
     summary="Get all model's performance metrics",
@@ -28,10 +28,11 @@ async def get_all_models_performance_metrics(
     db: Session = Depends(get_db),
     authenticated_user: User = Depends(authenticate_user),
 ):
+    """Fetches the performance metrics of a specific model. A model id is required."""
 
     model = crud.models.get(db, model_id)
     if model:
-        if model.__dict__["type"] == "binary":
+        if vars(model)["type"] == "binary":
             return crud.binary_classification_metrics.get_by_model(
                 db=db, model_id=model_id
             )
