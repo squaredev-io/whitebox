@@ -1,6 +1,6 @@
 from datetime import datetime
 from src.schemas.model import ModelType
-from sklearn.datasets import load_breast_cancer
+from sklearn.datasets import load_breast_cancer, load_wine
 import pandas as pd
 import random
 
@@ -47,58 +47,16 @@ model_update_payload = dict(
     description="Model 1 description",
 )
 
-dataset_rows_create_multi_class_payload = list(
-    (
-        dict(
-            nonprocessed={
-                "target": 2,
-                "feature1": 0,
-                "feature2": 1,
-                "feature3": 1,
-                "feature4": 0,
-            },
-            processed={
-                "target": 2,
-                "feature1": 0,
-                "feature2": 1,
-                "feature3": 1,
-                "feature4": 0,
-            },
-        ),
-        dict(
-            nonprocessed={
-                "target": 1,
-                "feature1": 0,
-                "feature2": 1,
-                "feature3": 1,
-                "feature4": 0,
-            },
-            processed={
-                "target": 1,
-                "feature1": 0,
-                "feature2": 1,
-                "feature3": 1,
-                "feature4": 0,
-            },
-        ),
-        dict(
-            nonprocessed={
-                "target": 0,
-                "feature1": 0,
-                "feature2": 1,
-                "feature3": 1,
-                "feature4": 0,
-            },
-            processed={
-                "target": 0,
-                "feature1": 0,
-                "feature2": 1,
-                "feature3": 1,
-                "feature4": 0,
-            },
-        ),
-    )
-)
+# dataset rows data for both binary and multiclass models
+df_load_multi = load_wine()
+df_multi = pd.DataFrame(df_load_multi.data, columns=df_load_multi.feature_names)
+df_multi["target"] = df_load_multi.target
+df_multi = df_multi.tail(100)
+
+dict_multi_data = df_multi.to_dict(orient="records")
+dataset_rows_create_multi_class_payload = [
+    {"processed": x, "nonprocessed": x} for x in dict_multi_data
+]
 
 model_monitor_accuracy_create_payload = dict(
     name="accuracy monitor ",
@@ -132,9 +90,9 @@ df_binary = pd.DataFrame(df_load_binary.data, columns=df_load_binary.feature_nam
 df_binary["target"] = df_load_binary.target
 df_binary = df_binary.tail(100)
 
-dict_data = df_binary.to_dict(orient="records")
+dict_binary_data = df_binary.to_dict(orient="records")
 dataset_rows_create_binary_payload = [
-    {"processed": x, "nonprocessed": x} for x in dict_data
+    {"processed": x, "nonprocessed": x} for x in dict_binary_data
 ]
 
 dataset_rows_create_wrong_model_payload = list(
@@ -152,65 +110,22 @@ dataset_rows_create_wrong_model_payload = list(
     )
 )
 
-inference_row_create_payload = dict(
-    timestamp=str(datetime.now()),
-    nonprocessed={
-        "target": 2,
-        "feature1": 0,
-        "feature2": 1,
-        "feature3": 1,
-        "feature4": 0,
-    },
-    processed={
-        "target": 2,
-        "feature1": 0,
-        "feature2": 1,
-        "feature3": 1,
-        "feature4": 0,
-    },
-    actual=2,
-)
 
-inference_row_create_many_multi_payload = list(
-    (
-        dict(
-            timestamp=str(datetime.now()),
-            nonprocessed={
-                "target": 1,
-                "feature1": 0,
-                "feature2": 1,
-                "feature3": 1,
-                "feature4": 0,
-            },
-            processed={
-                "target": 1,
-                "feature1": 0,
-                "feature2": 1,
-                "feature3": 1,
-                "feature4": 0,
-            },
-            actual=1,
-        ),
-        dict(
-            timestamp=str(datetime.now()),
-            nonprocessed={
-                "target": 1,
-                "feature1": 0,
-                "feature2": 1,
-                "feature3": 1,
-                "feature4": 0,
-            },
-            processed={
-                "target": 1,
-                "feature1": 0,
-                "feature2": 1,
-                "feature3": 1,
-                "feature4": 0,
-            },
-            actual=2,
-        ),
-    )
-)
+# inference rows data for both binary and multiclaas models
+df_multi_inference = df_multi.tail(10)
+
+dict_inferences = df_multi_inference.to_dict(orient="records")
+inference_row_create_many_multi_payload = [
+    {
+        "timestamp": str(datetime.now()),
+        "processed": x,
+        "nonprocessed": x,
+        "actual": random.randint(0, 1),
+    }
+    for x in dict_inferences
+]
+
+inference_row_create_single_row_payload = inference_row_create_many_multi_payload[0]
 
 # This is the body of the request coming from the sdk
 df_binary_inference = df_binary.tail(10)

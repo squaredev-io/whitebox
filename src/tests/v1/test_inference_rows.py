@@ -1,5 +1,5 @@
 from src.tests.v1.mock_data import (
-    inference_row_create_payload,
+    inference_row_create_single_row_payload,
     inference_row_create_many_binary_payload,
     inference_row_create_many_multi_payload,
 )
@@ -13,7 +13,10 @@ from fastapi import status
 def test_inference_row_create(client):
     response = client.post(
         "/v1/inference-rows",
-        json={**inference_row_create_payload, "model_id": state.model_multi["id"]},
+        json={
+            **inference_row_create_single_row_payload,
+            "model_id": state.model_multi["id"],
+        },
         headers={"api-key": state.api_key},
     )
     state.inference_row = response.json()
