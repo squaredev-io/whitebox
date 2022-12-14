@@ -29,12 +29,10 @@ async def create_row(
     db: Session = Depends(get_db),
     authenticated_user: User = Depends(authenticate_user),
 ) -> InferenceRow:
+    """Inserts an inference row into the database."""
 
-    if body is not None:
-        new_inference_row = crud.inference_rows.create(db=db, obj_in=body)
-        return new_inference_row
-    else:
-        return errors.bad_request("Body should not be empty")
+    new_inference_row = crud.inference_rows.create(db=db, obj_in=body)
+    return new_inference_row
 
 
 @inference_rows_router.post(
@@ -50,16 +48,14 @@ async def create_many_inference_rows(
     db: Session = Depends(get_db),
     authenticated_user: User = Depends(authenticate_user),
 ) -> List[InferenceRow]:
+    """Inserts a set of inference rows into the database."""
 
-    if body is not None:
-        new_inference_rows = crud.inference_rows.create_many(db=db, obj_list=body)
-        return new_inference_rows
-    else:
-        return errors.bad_request("Body should not be empty")
+    new_inference_rows = crud.inference_rows.create_many(db=db, obj_list=body)
+    return new_inference_rows
 
 
 @inference_rows_router.get(
-    "/models/{model_id}/inference-rows",
+    "/inference-rows",
     tags=["Inference Rows"],
     response_model=List[InferenceRow],
     summary="Get all model's inference rows",
@@ -71,6 +67,7 @@ async def get_all_models_inference_rows(
     db: Session = Depends(get_db),
     authenticated_user: User = Depends(authenticate_user),
 ):
+    """Fetches the inference rows of a specific model. A model id is required."""
 
     model = crud.models.get(db, model_id)
     if model:
@@ -92,6 +89,7 @@ async def get_inference_row(
     db: Session = Depends(get_db),
     authenticated_user: User = Depends(authenticate_user),
 ):
+    """Fetches a specific inference row. An inference row id is required."""
 
     inference_row = crud.inference_rows.get(db=db, _id=inference_row_id)
     if not inference_row:
@@ -108,26 +106,41 @@ async def get_inference_row(
     status_code=status.HTTP_200_OK,
     responses=add_error_responses([401, 404]),
 )
-async def create_dataset_rows(
+async def create_inference_row_xai_report(
     inference_row_id: str,
     db: Session = Depends(get_db),
     authenticated_user: User = Depends(authenticate_user),
 ):
-    try:
-        inference_row = crud.inference_rows.get(db=db, _id=inference_row_id)
-        model = crud.models.get(db=db, _id=inference_row.model_id)
-        dataset_rows = crud.dataset_rows.get_dataset_rows_by_model(
-            db=db, model_id=model.id
+    """
+    Given a specific inference row id, this endpoint produces an explainability report for this inference.
+    \nThe XAI pipeline requires a set of dataset rows as a training set, a model and the inference row.
+    If one of those three is not found in the database, a 404 error is returned.
+    """
+
+    inference_row = crud.inference_rows.get(db=db, _id=inference_row_id)
+    if not inference_row:
+        return errors.not_found(f"Inference row with id {inference_row_id} not found")
+
+    inference_row_df = pd.DataFrame([inference_row.processed])
+    inference_row_series = inference_row_df.drop(columns=["target"]).iloc[0]
+
+    model = crud.models.get(db=db, _id=inference_row.model_id)
+    if not model:
+        return errors.not_found(f"Model with id {inference_row.model_id} not found")
+
+    dataset_rows = crud.dataset_rows.get_dataset_rows_by_model(db=db, model_id=model.id)
+    if not dataset_rows:
+        return errors.not_found(
+            f"Dataset rows for model with id {inference_row.model_id} not found"
         )
 
-        xai_report = create_xai_pipeline_classification_per_inference_row(
-            training_set=pd.DataFrame(dataset_rows),
-            target=model.prediction,
-            inference_row=pd.DataFrame(inference_row),
-            type_of_task=model.type,
-        )
-        return xai_report
-    except:
-        return errors.not_found(
-            f"Couldn't create the explainability report because some data are missing!"
-        )
+    dataset_rows_processed = [x.processed for x in dataset_rows]
+
+    xai_report = create_xai_pipeline_classification_per_inference_row(
+        training_set=pd.DataFrame(dataset_rows_processed),
+        target=model.prediction,
+        inference_row=inference_row_series,
+        type_of_task=model.type,
+    )
+
+    return xai_report

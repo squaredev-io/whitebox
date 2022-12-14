@@ -26,12 +26,10 @@ async def create_model(
     db: Session = Depends(get_db),
     authenticated_user: User = Depends(authenticate_user),
 ) -> Model:
+    """Inserts a model into the database"""
 
-    if body is not None:
-        new_model = crud.models.create(db=db, obj_in=body)
-        return new_model
-    else:
-        return errors.bad_request("Body should not be empty")
+    new_model = crud.models.create(db=db, obj_in=body)
+    return new_model
 
 
 @models_router.get(
@@ -45,8 +43,10 @@ async def create_model(
 async def get_all_models(
     db: Session = Depends(get_db), authenticated_user: User = Depends(authenticate_user)
 ):
+    """Fetches all models from the database"""
 
     models_in_db = crud.models.get_all(db=db)
+
     if not models_in_db:
         return errors.not_found("No model found in database")
 
@@ -66,8 +66,10 @@ async def get_model(
     db: Session = Depends(get_db),
     authenticated_user: User = Depends(authenticate_user),
 ):
+    """Fetches the model with the specified id from the database"""
 
     model = crud.models.get(db=db, _id=model_id)
+
     if not model:
         return errors.not_found("Model not found")
 
@@ -88,14 +90,14 @@ async def update_model(
     db: Session = Depends(get_db),
     authenticated_user: User = Depends(authenticate_user),
 ) -> Model:
+    """Updates record of the model with the specified id"""
 
     model = crud.models.get(db=db, _id=model_id)
+
     if not model:
         return errors.not_found("Model not found")
-    if body is not None:
-        return crud.models.update(db=db, db_obj=model, obj_in=body)
-    else:
-        return errors.bad_request("Body should not be empty")
+
+    return crud.models.update(db=db, db_obj=model, obj_in=body)
 
 
 @models_router.delete(
@@ -111,6 +113,7 @@ async def delete_model(
     db: Session = Depends(get_db),
     authenticated_user: User = Depends(authenticate_user),
 ) -> StatusCode:
+    """Deletes the model with the specified id from the database"""
 
     model = crud.models.get(db=db, _id=model_id)
     if not model:

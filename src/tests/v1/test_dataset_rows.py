@@ -52,11 +52,11 @@ def test_dataset_row_create_model_not_exist(client):
 @pytest.mark.order(get_order_number("dataset_rows_get_model's_all"))
 def test_dataset_row_get_models_all(client):
     response_model_multi = client.get(
-        f"/v1/{state.model_multi['id']}/dataset-rows",
+        f"/v1/dataset-rows?model_id={state.model_multi['id']}",
         headers={"api-key": state.api_key},
     )
     response_model_binary = client.get(
-        f"/v1/{state.model_binary['id']}/dataset-rows",
+        f"/v1/dataset-rows?model_id={state.model_binary['id']}",
         headers={"api-key": state.api_key},
     )
     assert response_model_multi.status_code == status.HTTP_200_OK

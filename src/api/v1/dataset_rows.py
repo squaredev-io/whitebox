@@ -32,6 +32,10 @@ async def create_dataset_rows(
     db: Session = Depends(get_db),
     authenticated_user: User = Depends(authenticate_user),
 ) -> DatasetRow:
+    """
+    Inserts a set of dataset rows into the database.
+    \nWhen the dataset rows are successfully saved, the pipeline for training the model is triggered.
+    """
 
     model = crud.models.get(db=db, _id=dict(body[0])["model_id"])
     if model:
@@ -61,7 +65,7 @@ async def create_dataset_rows(
 
 
 @dataset_rows_router.get(
-    "/{model_id}/dataset-rows",
+    "/dataset-rows",
     tags=["Dataset Rows"],
     response_model=List[DatasetRow],
     summary="Get all model's dataset rows",
@@ -73,6 +77,7 @@ async def get_all_dataset_rows(
     db: Session = Depends(get_db),
     authenticated_user: User = Depends(authenticate_user),
 ):
+    """Fetches the dataset rows of a specific model. A model id is required."""
 
     model = crud.models.get(db, model_id)
     if model:

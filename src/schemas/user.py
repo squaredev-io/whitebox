@@ -13,7 +13,3 @@ class User(UserBase, ItemBase):
 
 class UserCreateDto(UserBase):
     api_key: str
-
-
-class UserUpdateDto(UserBase):
-    username: Optional[str]

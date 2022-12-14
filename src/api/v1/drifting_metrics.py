@@ -13,7 +13,7 @@ drifting_metrics_router = APIRouter()
 
 
 @drifting_metrics_router.get(
-    "/models/{model_id}/drifting-metrics",
+    "/drifting-metrics",
     tags=["Drifting Metrics"],
     response_model=List[DriftingMetricBase],
     summary="Get all model's drifting metrics",
@@ -25,6 +25,7 @@ async def get_all_models_drifting_metrics(
     db: Session = Depends(get_db),
     authenticated_user: User = Depends(authenticate_user),
 ):
+    """Fetches the drifting metrics of a specific model. A model id is required."""
 
     model = crud.models.get(db, model_id)
     if model:

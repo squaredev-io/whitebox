@@ -25,6 +25,12 @@ async def get_alerts(
     db: Session = Depends(get_db),
     authenticated_user: User = Depends(authenticate_user),
 ):
+    """
+    Fetches alerts from the databse.
+    \n If a model id is provided, only the alerts for the specific model will be fetched.
+    \n If a model id is not provided then all alerts from the database will be fetched.
+    """
+
     if model_id:
         model = crud.models.get(db, model_id)
         if model:

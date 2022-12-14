@@ -8,13 +8,9 @@ from src.utils.passwords import passwords_match
 
 
 async def authenticate_user(
-    api_key: Union[str, None] = Header(default=None),
+    api_key: str = Header(),
     db: Session = Depends(get_db),
 ) -> User:
-    if not api_key:
-        raise HTTPException(
-            detail="No API key provided", status_code=status.HTTP_401_UNAUTHORIZED
-        )
 
     user = crud.users.get_first_by_filter(db, username="admin")
     if not passwords_match(user.api_key, api_key):

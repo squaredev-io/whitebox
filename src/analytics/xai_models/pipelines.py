@@ -13,7 +13,7 @@ settings = get_settings()
 def create_xai_pipeline_classification_per_inference_row(
     training_set: pd.DataFrame,
     target: str,
-    inference_row: pd.DataFrame,
+    inference_row: pd.Series,
     type_of_task: str,
 ) -> Dict[str, float]:
 

@@ -13,7 +13,7 @@ model_integrity_metrics_router = APIRouter()
 
 
 @model_integrity_metrics_router.get(
-    "/models/{model_id}/model-integrity-metrics",
+    "/model-integrity-metrics",
     tags=["Model Integrity Metrics"],
     response_model=List[ModelIntegrityMetric],
     summary="Get all model's model integrity metrics",
@@ -25,6 +25,7 @@ async def get_all_models_model_integrity_metrics(
     db: Session = Depends(get_db),
     authenticated_user: User = Depends(authenticate_user),
 ):
+    """Fetches the model integrity metrics of a specific model. A model id is required."""
 
     model = crud.models.get(db, model_id)
     if model:

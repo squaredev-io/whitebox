@@ -54,14 +54,14 @@ async def run_calculate_drifting_metrics_pipeline(
         [model.prediction], axis=1
     )
 
-    data_drif_report = run_data_drift_pipeline(
+    data_drift_report = run_data_drift_pipeline(
         processed_training_dropped_target_df, processed_inference_dropped_target_df
     )
 
     new_drifting_metric = entities.DriftingMetric(
         timestamp=str(datetime.utcnow()),
         model_id=model.id,
-        data_drift_summary=data_drif_report,
+        data_drift_summary=data_drift_report,
     )
 
     crud.drifting_metrics.create(db, obj_in=new_drifting_metric)

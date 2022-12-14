@@ -1,4 +1,4 @@
-from src.tests.v1.mock_data import user_create_payload, users_in_db, user_update_payload
+from src.tests.v1.mock_data import user_create_payload
 import pytest
 from src import schemas
 from src.tests.v1.conftest import get_order_number, state
@@ -15,29 +15,6 @@ def test_user_create(client):
     state.user = response.json()
     assert response.json()["id"] is not None
     assert response.json()["username"] == user_create_payload["username"]
-    validated = schemas.User(**response.json())
-
-
-@pytest.mark.order(get_order_number("users_get_all"))
-def test_user_get_all(client):
-    response = client.get(f"/v1/users")
-    assert response.status_code == status.HTTP_200_OK
-    validated = [schemas.User(**m) for m in response.json()]
-
-
-@pytest.mark.order(get_order_number("users_get"))
-def test_user_get(client):
-    response = client.get(f"/v1/users/{state.user['id']}")
-    assert response.status_code == status.HTTP_200_OK
-    assert response.json()["username"] == user_create_payload["username"]
-    validated = schemas.User(**response.json())
-
-
-@pytest.mark.order(get_order_number("users_update"))
-def test_user_update(client):
-    response = client.put(f"/v1/users/{state.user['id']}", json=user_update_payload)
-    assert response.status_code == status.HTTP_200_OK
-    assert response.json()["username"] == user_update_payload["username"]
     validated = schemas.User(**response.json())
 
 

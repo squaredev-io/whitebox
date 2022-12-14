@@ -7,10 +7,6 @@ tags_metadata = [
         "description": "Health endpoints are used for checking the status of the service",
     },
     {
-        "name": "Users",
-        "description": "This set of endpoints handles the users of the app.",
-    },
-    {
         "name": "Models",
         "description": "This set of endpoints handles the models that a user creates.",
     },
@@ -41,6 +37,10 @@ tags_metadata = [
     {
         "name": "Alerts",
         "description": "This set of endpoints handles a model's alerts.",
+    },
+    {
+        "name": "Users",
+        "description": "This is a helper endpoint to create and delete an admin user in tests.",
     },
     {
         "name": "Cron Tasks",
