@@ -19,7 +19,7 @@ from src.schemas.task import (
     TaskRealTimeInfo,
     EventType,
 )
-from typing import Callable, Optional, Coroutine, List, Dict, Deque
+from typing import Callable, Optional, Coroutine, List, Dict, Deque, Union
 
 from functools import lru_cache
 import datetime
@@ -55,8 +55,8 @@ class Task_Manager:
     def register(
         self,
         async_callable: Callable[[], Coroutine],
-        crontab: str = None,
-        name: str = None,
+        crontab: Union[str, None] = None,
+        name: Union[str, None] = None,
     ):
         name = name or async_callable.__name__
         if name in self._definitions:
@@ -72,7 +72,9 @@ class Task_Manager:
 
         self._log_event("task_registered", definition.name)
 
-    def _log_event(self, event_type: EventType, task_name: str, error: str = None):
+    def _log_event(
+        self, event_type: EventType, task_name: str, error: Union[str, None] = None
+    ):
         self._log_queue.append(
             TaskLog(
                 event_type=event_type,
@@ -254,7 +256,7 @@ class Task_Manager:
         self._log_event("task_started", definition.name)
         await self.on_task_started(task_name)
 
-    async def run(self, state: State = None):
+    async def run(self, state: Union[State, None] = None):
         if self._is_running:
             logger.warning("Ignoring current calling of run(). Already running.")
             return

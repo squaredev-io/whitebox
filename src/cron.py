@@ -3,17 +3,13 @@ import asyncio
 import json
 from src.utils.logger import cronLogger as logger
 
-# from src.api.cron.v1 import endpoints
 from src.core.settings import get_cron_settings
 from src.cron_tasks.tasks import task_manager
 from fastapi.openapi.utils import get_openapi
 
-# from src.api.cron.v1.docs import description, tags_metadata
-
 
 settings = get_cron_settings()
 cron_app = FastAPI(title=settings.APP_NAME_CRON, redoc_url="/")
-# cron_app.include_router(endpoints.v1)
 
 
 @cron_app.on_event("startup")
