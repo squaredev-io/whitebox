@@ -22,7 +22,7 @@ inference_rows_router = APIRouter()
     response_model=InferenceRow,
     summary="Create an inference row",
     status_code=status.HTTP_201_CREATED,
-    responses=add_error_responses([400, 401, 409]),
+    responses=add_error_responses([400, 401]),
 )
 async def create_row(
     body: InferenceRowCreateDto,
@@ -41,7 +41,7 @@ async def create_row(
     response_model=List[InferenceRow],
     summary="Create many inference rows",
     status_code=status.HTTP_201_CREATED,
-    responses=add_error_responses([400, 401, 409]),
+    responses=add_error_responses([400, 401]),
 )
 async def create_many_inference_rows(
     body: List[InferenceRowCreateDto],
