@@ -66,8 +66,13 @@ def test_inference_row_get_models_all(client):
         f"/v1/inference-rows?model_id={state.model_binary['id']}",
         headers={"api-key": state.api_key},
     )
+    response_wrong_model = client.get(
+        f"/v1/inference-rows?model_id=wrong_model_id",
+        headers={"api-key": state.api_key},
+    )
     assert response_multi.status_code == status.HTTP_200_OK
     assert response_binary.status_code == status.HTTP_200_OK
+    assert response_wrong_model.status_code == status.HTTP_404_NOT_FOUND
     validated = [schemas.InferenceRow(**m) for m in response_multi.json()]
     validated = [schemas.InferenceRow(**m) for m in response_binary.json()]
 
@@ -78,7 +83,12 @@ def test_inference_row_get(client):
         f"/v1/inference-rows/{state.inference_row_multi['id']}",
         headers={"api-key": state.api_key},
     )
+    response_wrong_inference = client.get(
+        f"/v1/inference-rows/wrong_inference_id",
+        headers={"api-key": state.api_key},
+    )
     assert response.status_code == status.HTTP_200_OK
+    assert response_wrong_inference.status_code == status.HTTP_404_NOT_FOUND
     validated = schemas.InferenceRow(**response.json())
 
 
@@ -89,4 +99,10 @@ def test_inference_row_xai(client):
         headers={"api-key": state.api_key},
     )
 
+    response_wrong_inference = client.get(
+        f"/v1/inference-rows/wrong_inference_id/xai",
+        headers={"api-key": state.api_key},
+    )
+
     assert response.status_code == status.HTTP_200_OK
+    assert response_wrong_inference.status_code == status.HTTP_404_NOT_FOUND

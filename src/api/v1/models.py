@@ -46,10 +46,6 @@ async def get_all_models(
     """Fetches all models from the database"""
 
     models_in_db = crud.models.get_all(db=db)
-
-    if not models_in_db:
-        return errors.not_found("No model found in database")
-
     return models_in_db
 
 
