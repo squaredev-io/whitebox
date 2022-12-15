@@ -8,7 +8,8 @@ from sklearn.datasets import load_breast_cancer, load_wine
 import os
 
 settings = get_settings()
-test_model_path = settings.MODEL_PATH
+test_model_id = "test_model_id"
+test_model_path = f"{settings.MODEL_PATH}/{test_model_id}"
 
 test_metrics_df = pd.read_csv("src/analytics/data/testing/metrics_test_data.csv")
 test_classification_df = pd.read_csv(
@@ -90,7 +91,7 @@ class TestNodes:
             create_binary_classification_evaluation_metrics_pipeline(
                 test_classification_df["y_testing_binary"],
                 test_classification_df["y_prediction_binary"],
-                labels=[0,1]
+                labels=[0, 1],
             )
         )
 
@@ -98,11 +99,10 @@ class TestNodes:
             create_binary_classification_evaluation_metrics_pipeline(
                 test_classification_df["y_testing_binary"].tail(1),
                 test_classification_df["y_prediction_binary"].tail(1),
-                labels=[0,1]
+                labels=[0, 1],
             )
         )
 
-        
         assert binary_metrics_edge_case["true_positive"] == 1
         assert binary_metrics["accuracy"] == 0.6
         assert binary_metrics["precision"] == 0.6
@@ -117,14 +117,16 @@ class TestNodes:
         multi_metrics = create_multiple_classification_evaluation_metrics_pipeline(
             test_classification_df["y_testing_multi"],
             test_classification_df["y_prediction_multi"],
-            labels=[0,1,2]
+            labels=[0, 1, 2],
         )
 
-        multi_metrics_edge_case = create_multiple_classification_evaluation_metrics_pipeline(
-            test_classification_df["y_testing_multi"].tail(1),
-            test_classification_df["y_prediction_multi"].tail(1),
-            labels=[0,1,2]
-        )        
+        multi_metrics_edge_case = (
+            create_multiple_classification_evaluation_metrics_pipeline(
+                test_classification_df["y_testing_multi"].tail(1),
+                test_classification_df["y_prediction_multi"].tail(1),
+                labels=[0, 1, 2],
+            )
+        )
 
         assert multi_metrics.accuracy == 0.6
 
@@ -240,31 +242,30 @@ class TestNodes:
 
     def test_create_binary_classification_training_model_pipeline(self):
         model, eval = create_binary_classification_training_model_pipeline(
-            df_binary, "target"
+            df_binary, "target", test_model_id
         )
         eval_score = eval["roc_auc_score"]
         assert (round(eval_score, 3)) == 0.986
 
     def test_create_multiclass_classification_training_model_pipeline(self):
         model, eval = create_multiclass_classification_training_model_pipeline(
-            df_multi,
-            "target",
+            df_multi, "target", test_model_id
         )
         eval_score = eval["precision"]
         assert (round(eval_score, 2)) == 0.97
 
     def test_create_xai_pipeline_classification_per_inference_row(self):
         binary_class_report1 = create_xai_pipeline_classification_per_inference_row(
-            df_binary, "target", df_binary_inference_row1, "binary"
+            df_binary, "target", df_binary_inference_row1, "binary", test_model_id
         )
         multi_class_report1 = create_xai_pipeline_classification_per_inference_row(
-            df_multi, "target", df_multi_inference_row1, "multi_class"
+            df_multi, "target", df_multi_inference_row1, "multi_class", test_model_id
         )
         binary_class_report2 = create_xai_pipeline_classification_per_inference_row(
-            df_binary, "target", df_binary_inference_row2, "binary"
+            df_binary, "target", df_binary_inference_row2, "binary", test_model_id
         )
         multi_class_report2 = create_xai_pipeline_classification_per_inference_row(
-            df_multi, "target", df_multi_inference_row2, "multi_class"
+            df_multi, "target", df_multi_inference_row2, "multi_class", test_model_id
         )
 
         binary_contribution_check_one = binary_class_report1["worst perimeter"]

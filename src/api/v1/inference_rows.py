@@ -141,6 +141,7 @@ async def create_inference_row_xai_report(
         target=model.prediction,
         inference_row=inference_row_series,
         type_of_task=model.type,
+        model_id=model.id,
     )
 
     return xai_report

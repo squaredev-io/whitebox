@@ -36,7 +36,7 @@ class Whitebox:
         features: Dict[str, FeatureTypes],
         prediction: str,
         probability: str,
-        labels: Optional[Dict[str, int]],
+        labels: Dict[str, int],
         description: str = "",
     ):
         """
@@ -115,7 +115,7 @@ class Whitebox:
             headers={"api-key": self.api_key},
             json=dataset_rows,
         )
-        if result.status_code == status.HTTP_200_OK:
+        if result.status_code == status.HTTP_201_CREATED:
             return True
 
         return False
@@ -125,7 +125,7 @@ class Whitebox:
         model_id: str,
         non_processed: pd.DataFrame,
         processed: pd.DataFrame,
-        timestamp: str = datetime.now().isoformat(),
+        timestamp: str = datetime.utcnow().isoformat(),
     ):
         """
         Logs a inferences of a model.
@@ -153,7 +153,7 @@ class Whitebox:
             headers={"api-key": self.api_key},
             json=inference_rows,
         )
-        if result.status_code == status.HTTP_200_OK:
+        if result.status_code == status.HTTP_201_CREATED:
             return True
 
         return False

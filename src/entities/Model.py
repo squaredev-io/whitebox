@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, ForeignKey, DateTime, JSON, Enum
+from sqlalchemy import Column, String, DateTime, JSON, Enum
 from src.entities.Base import Base
 from src.utils.id_gen import generate_uuid
 from sqlalchemy.orm import relationship
