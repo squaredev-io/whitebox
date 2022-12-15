@@ -19,7 +19,7 @@ models_router = APIRouter()
     response_model=Model,
     summary="Create model",
     status_code=status.HTTP_201_CREATED,
-    responses=add_error_responses([400, 401, 409]),
+    responses=add_error_responses([400, 401]),
 )
 async def create_model(
     body: ModelCreateDto,
@@ -38,7 +38,7 @@ async def create_model(
     response_model=List[Model],
     summary="Get all models",
     status_code=status.HTTP_200_OK,
-    responses=add_error_responses([401, 404]),
+    responses=add_error_responses([401]),
 )
 async def get_all_models(
     db: Session = Depends(get_db), authenticated_user: User = Depends(authenticate_user)
@@ -46,10 +46,6 @@ async def get_all_models(
     """Fetches all models from the database"""
 
     models_in_db = crud.models.get_all(db=db)
-
-    if not models_in_db:
-        return errors.not_found("No model found in database")
-
     return models_in_db
 
 

@@ -1,4 +1,3 @@
-from typing import Union
 from fastapi import Depends, HTTPException, status, Header
 from sqlalchemy.orm import Session
 from src import crud

@@ -43,7 +43,13 @@ def test_model_get(client):
     response = client.get(
         f"/v1/models/{state.model_multi['id']}", headers={"api-key": state.api_key}
     )
+    response_wrong_model = client.get(
+        f"/v1/models/wrong_model_id", headers={"api-key": state.api_key}
+    )
+
     assert response.status_code == status.HTTP_200_OK
+    assert response_wrong_model.status_code == status.HTTP_404_NOT_FOUND
+
     validated = schemas.Model(**response.json())
 
 
@@ -54,7 +60,15 @@ def test_model_update(client):
         json=model_update_payload,
         headers={"api-key": state.api_key},
     )
+    response_wrong_model = client.put(
+        f"/v1/models/wrong_model_id",
+        json=model_update_payload,
+        headers={"api-key": state.api_key},
+    )
+
     assert response.status_code == status.HTTP_200_OK
+    assert response_wrong_model.status_code == status.HTTP_404_NOT_FOUND
+
     validated = schemas.Model(**response.json())
 
 
@@ -66,5 +80,10 @@ def test_model_delete(client):
     response_binary = client.delete(
         f"/v1/models/{state.model_binary['id']}", headers={"api-key": state.api_key}
     )
+    response_no_model = client.delete(
+        f"/v1/models/{state.model_binary['id']}", headers={"api-key": state.api_key}
+    )
+
     assert response_multi.status_code == status.HTTP_200_OK
     assert response_binary.status_code == status.HTTP_200_OK
+    assert response_no_model.status_code == status.HTTP_404_NOT_FOUND

@@ -15,13 +15,11 @@ def create_xai_pipeline_classification_per_inference_row(
     target: str,
     inference_row: pd.Series,
     type_of_task: str,
+    model_id: str,
 ) -> Dict[str, float]:
 
     model_base_path = settings.MODEL_PATH
-    if os.getenv("ENV") == "test":
-        model_path = model_base_path
-    else:
-        model_path = f"{model_base_path}/{dict(inference_row)['model_id']}"
+    model_path = f"{model_base_path}/{model_id}"
 
     xai_dataset = training_set.drop(columns=[target])
     explainability_report = {}

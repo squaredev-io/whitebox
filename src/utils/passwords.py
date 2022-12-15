@@ -1,5 +1,4 @@
 import bcrypt
-import secrets, string
 
 
 def to_utf8(ps):

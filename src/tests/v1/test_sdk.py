@@ -95,7 +95,7 @@ def test_sdk_log_training_dataset(client):
         m.post(
             url=f"{state_sdk.wb.host}/v1/dataset-rows",
             headers={"api-key": state_sdk.wb.api_key},
-            status_code=status.HTTP_200_OK,
+            status_code=status.HTTP_201_CREATED,
         )
 
         happy_result = state_sdk.wb.log_training_dataset(
@@ -131,7 +131,7 @@ def test_sdk_log_inferences(client):
         m.post(
             url=f"{state_sdk.wb.host}/v1/inference-rows/batch",
             headers={"api-key": state_sdk.wb.api_key},
-            status_code=status.HTTP_200_OK,
+            status_code=status.HTTP_201_CREATED,
         )
 
         happy_result = state_sdk.wb.log_inferences(

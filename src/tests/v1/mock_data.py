@@ -69,12 +69,12 @@ dataset_rows_create_binary_payload = [
 dataset_rows_create_wrong_model_payload = list(
     (
         dict(
-            model_id="1234567890",
+            model_id="wrong_model_id",
             nonprocessed={"sex": "male"},
             processed={"sex": 0},
         ),
         dict(
-            model_id="1234567890",
+            model_id="wrong_model_id",
             nonprocessed={"sex": "female"},
             processed={"sex": 1},
         ),

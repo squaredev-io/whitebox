@@ -15,13 +15,10 @@ model_base_path = settings.MODEL_PATH
 
 
 def create_binary_classification_training_model_pipeline(
-    training_dataset: pd.DataFrame, target: str, model_id: str = None
+    training_dataset: pd.DataFrame, target: str, model_id: str
 ) -> Dict[str, float]:
 
-    if os.getenv("ENV") == "test":
-        model_path = model_base_path
-    else:
-        model_path = f"{model_base_path}/{model_id}"
+    model_path = f"{model_base_path}/{model_id}"
 
     # Create directory if it doesn't exist
     os.makedirs(model_path, exist_ok=True)
@@ -75,13 +72,10 @@ def create_binary_classification_training_model_pipeline(
 
 
 def create_multiclass_classification_training_model_pipeline(
-    training_dataset: pd.DataFrame, target: str, model_id: str = None
+    training_dataset: pd.DataFrame, target: str, model_id: str
 ) -> Dict[str, float]:
 
-    if os.getenv("ENV") == "test":
-        model_path = model_base_path
-    else:
-        model_path = f"{model_base_path}/{model_id}"
+    model_path = f"{model_base_path}/{model_id}"
 
     # Create directory if it doesn't exist
     os.makedirs(model_path, exist_ok=True)
