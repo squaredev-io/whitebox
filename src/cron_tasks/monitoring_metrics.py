@@ -15,7 +15,6 @@ from src.core.settings import get_settings
 from src.cron_tasks.shared import (
     get_all_models,
     get_model_dataset_rows_df,
-    get_model_processed_inference_rows_df,
     get_model_inference_rows_df,
 )
 from src.schemas.model import Model, ModelType
@@ -31,26 +30,26 @@ db: Session = SessionLocal()
 
 
 async def run_calculate_drifting_metrics_pipeline(
-    model: Model, processed_inference_df: pd.DataFrame
+    model: Model, inference_processed_df: pd.DataFrame
 ):
     """
     Run the pipeline to calculate the drifting metrics
     After the metrics are calculated they are saved in the database
     """
 
-    processed_training_df = await get_model_dataset_rows_df(db, model_id=model.id)
+    training_processed_df = await get_model_dataset_rows_df(db, model_id=model.id)
 
-    if processed_inference_df.empty or processed_training_df.empty:
+    if training_processed_df.empty:
         logger.info(f"Can't calculate data drift metrics for model {model.id}")
         return
 
     logger.info(f"Calculating drifting metrics for model {model.id}...")
 
     # We need to drop the target column from the data to calculate drfitting metrics
-    processed_inference_dropped_target_df = processed_inference_df.drop(
+    processed_inference_dropped_target_df = inference_processed_df.drop(
         [model.prediction], axis=1
     )
-    processed_training_dropped_target_df = processed_training_df.drop(
+    processed_training_dropped_target_df = training_processed_df.drop(
         [model.prediction], axis=1
     )
 
@@ -69,7 +68,7 @@ async def run_calculate_drifting_metrics_pipeline(
 
 
 async def run_calculate_performance_metrics_pipeline(
-    model: Model, processed_df: pd.DataFrame, actual_df: pd.DataFrame
+    model: Model, inference_processed_df: pd.DataFrame, actual_df: pd.DataFrame
 ):
     """
     Run the pipeline to calculate the perfomance metrics
@@ -88,7 +87,7 @@ async def run_calculate_performance_metrics_pipeline(
     if model.type == ModelType.binary:
         binary_classification_metrics_report = (
             create_binary_classification_evaluation_metrics_pipeline(
-                actual_df, processed_df[model.prediction], labels
+                actual_df, inference_processed_df[model.prediction], labels
             )
         )
 
@@ -103,7 +102,7 @@ async def run_calculate_performance_metrics_pipeline(
     elif model.type == ModelType.multi_class:
         multiclass_classification_metrics_report = (
             create_multiple_classification_evaluation_metrics_pipeline(
-                actual_df, processed_df[model.prediction], labels
+                actual_df, inference_processed_df[model.prediction], labels
             )
         )
 
@@ -119,19 +118,15 @@ async def run_calculate_performance_metrics_pipeline(
 
 
 async def run_calculate_feature_metrics_pipeline(
-    model: Model, processed_df: pd.DataFrame
+    model: Model, inference_processed_df: pd.DataFrame
 ):
     """
     Run the pipeline to calculate the feature metrics
     After the metrics are calculated they are saved in the database
     """
 
-    if processed_df.empty:
-        logger.info(f"No inferences found for model {model.id}!")
-        return
-
     logger.info(f"Calculating feature metrics for model {model.id}")
-    feature_metrics_report = create_feature_metrics_pipeline(processed_df)
+    feature_metrics_report = create_feature_metrics_pipeline(inference_processed_df)
 
     if feature_metrics_report:
         new_feature_metric = ModelIntegrityMetricCreate(
@@ -155,23 +150,23 @@ async def run_calculate_metrics_pipeline():
     else:
         for model in models:
             (
-                processed_df,
-                nonprocessed_df,
+                inference_processed_df,
+                inference_nonprocessed_df,
                 actual_df,
             ) = await get_model_inference_rows_df(db, model_id=model.id)
-            if processed_df.empty:
+            if inference_processed_df.empty:
                 logger.info(
                     f"No inferences found for model {model.id}! Continuing with next model..."
                 )
                 continue
             logger.info(f"Executing Metrics pipeline for model {model.id}...")
-            await run_calculate_drifting_metrics_pipeline(model, processed_df)
+            await run_calculate_drifting_metrics_pipeline(model, inference_processed_df)
 
             await run_calculate_performance_metrics_pipeline(
-                model, processed_df, actual_df
+                model, inference_processed_df, actual_df
             )
 
-            await run_calculate_feature_metrics_pipeline(model, processed_df)
+            await run_calculate_feature_metrics_pipeline(model, inference_processed_df)
 
             logger.info(f"Ended Metrics pipeline for model {model.id}...")
 
