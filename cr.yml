@@ -1,2 +1,3 @@
 # Config file for the helm chart-releaser
 pages-branch: helm-charts
+pages-index-path: docs/index.yaml
