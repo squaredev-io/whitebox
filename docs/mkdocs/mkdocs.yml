@@ -1,0 +1,43 @@
+site_name: Whitebox
+
+theme:
+  name: material
+  logo: img/logo-white.png
+  favicon: img/favicon.png
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: cyan
+      accent: blue
+      toggle:
+        icon: material/weather-sunny 
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: cyan
+      accent: blue
+      toggle:
+        icon: material/weather-night
+        name: Switch to light mode
+  icon:
+    repo: fontawesome/brands/git-alt
+repo_url: https://github.com/squaredev-io/whitebox
+repo_name: squaredev/whitebox
+edit_uri: ""
+nav:
+  - Whitebox: index.md
+  - Feaures: features.md
+  - ML Monitoring: ml-monitoring.md
+  - Metrics: metrics.md
+  - Tutorial: tutorial.md
+  - Deploymemt: deployment.md
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - admonition
+  - pymdownx.details
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - toc:
+      permalink: true
