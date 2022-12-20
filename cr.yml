@@ -1,0 +1,2 @@
+# Config file for the helm chart-releaser
+pages-branch: helm-charts
