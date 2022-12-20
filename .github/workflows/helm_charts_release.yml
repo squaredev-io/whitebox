@@ -8,6 +8,7 @@ on:
     branches: [main]
     paths:
       - 'docs/helm_charts/**'
+      - '.cr.yaml'
 
 jobs:
   release_charts:
