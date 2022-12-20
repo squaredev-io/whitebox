@@ -10,7 +10,7 @@ on:
       - 'docs/helm_charts/**'
 
 jobs:
-  release:
+  release_charts:
     permissions:
       contents: write
     runs-on: ubuntu-latest
@@ -36,4 +36,4 @@ jobs:
           CR_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
         with:
           charts_dir: 'docs/helm_charts'
-          # charts_repo_url: 'https://squaredev-io.github.io/whitebox/charts'
+          dry_run: true
