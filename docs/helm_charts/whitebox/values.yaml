@@ -4,4 +4,4 @@ name: whitebox
 postgresql:
   user: whitebox
   password: whitebox
-  enabled: false
+  enabled: true
