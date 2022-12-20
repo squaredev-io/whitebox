@@ -50,20 +50,6 @@ class CustomError(BaseException):
             ),
         )
 
-    def unknown_error(
-        self, msg: str = "An unknown error was encountered"
-    ) -> ErrorProps:  # pragma: no cover
-        log.error(f"{status.HTTP_500_INTERNAL_SERVER_ERROR}: {str(msg)}")
-        return JSONResponse(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            content=jsonable_encoder(
-                {
-                    "error": str(msg),
-                    "status_code": status.HTTP_500_INTERNAL_SERVER_ERROR,
-                }
-            ),
-        )
-
 
 errors = CustomError()
 
