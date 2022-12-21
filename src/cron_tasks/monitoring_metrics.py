@@ -75,11 +75,20 @@ async def run_calculate_performance_metrics_pipeline(
     After the metrics are calculated they are saved in the database
     """
 
-    if actual_df.empty:
+    cleaned_actuals_df = actual_df.dropna()
+
+    if cleaned_actuals_df.empty:
         logger.info(
             f"Can't calculate performance metrics for model {model.id} because no actuals were found!"
         )
         return
+
+    if len(cleaned_actuals_df.index) != len(actual_df.index):
+        logger.info(
+            f"Performance metrics will be calculates only for a portion of rows for model: {model.id}\
+                because actuals were not provided for all inference rows!"
+        )
+        inference_processed_df = inference_processed_df.iloc[cleaned_actuals_df.index]
 
     labels = list(model.labels.values())
 
@@ -87,7 +96,7 @@ async def run_calculate_performance_metrics_pipeline(
     if model.type == ModelType.binary:
         binary_classification_metrics_report = (
             create_binary_classification_evaluation_metrics_pipeline(
-                actual_df, inference_processed_df[model.prediction], labels
+                cleaned_actuals_df, inference_processed_df[model.prediction], labels
             )
         )
 
@@ -102,7 +111,7 @@ async def run_calculate_performance_metrics_pipeline(
     elif model.type == ModelType.multi_class:
         multiclass_classification_metrics_report = (
             create_multiple_classification_evaluation_metrics_pipeline(
-                actual_df, inference_processed_df[model.prediction], labels
+                cleaned_actuals_df, inference_processed_df[model.prediction], labels
             )
         )
 

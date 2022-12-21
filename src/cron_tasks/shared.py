@@ -30,9 +30,7 @@ async def get_model_inference_rows_df(
     )
     inference_rows_processed = [x.processed for x in inference_rows_in_db]
     inference_rows_nonprocessed = [x.nonprocessed for x in inference_rows_in_db]
-    inference_rows_actual = [
-        x.actual for x in inference_rows_in_db if x.actual is not None
-    ]
+    inference_rows_actual = [x.actual for x in inference_rows_in_db]
     processed_df = pd.DataFrame(inference_rows_processed)
     nonprocessed_df = pd.DataFrame(inference_rows_nonprocessed)
     actual_df = pd.Series(inference_rows_actual)
