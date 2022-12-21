@@ -10,4 +10,5 @@ check_data/
 /models/
 *.ipynb_checkpoints
 *.db
+site/
 notebooks/
