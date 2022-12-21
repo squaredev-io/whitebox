@@ -3,6 +3,7 @@ from src.schemas.model import ModelType
 from sklearn.datasets import load_breast_cancer, load_wine
 import pandas as pd
 import random
+from copy import deepcopy
 
 from src.schemas.modelMonitor import AlertSeverity, MonitorMetrics, MonitorStatus
 
@@ -25,8 +26,24 @@ model_binary_create_payload = dict(
 )
 
 model_multi_create_payload = dict(
-    name="Model 1",
-    description="Model 1 description",
+    name="Model 2",
+    description="Model 2 description",
+    type=ModelType.multi_class,
+    features={
+        "feature1": "numerical",
+        "feature2": "numerical",
+        "feature3": "numerical",
+        "feature4": "numerical",
+        "target": "numerical",
+    },
+    labels={"label_1": 0, "label_2": 1, "label_3": 2},
+    prediction="target",
+    probability="n/a",
+)
+
+model_multi_2_create_payload = dict(
+    name="Model 3",
+    description="Model 3 description",
     type=ModelType.multi_class,
     features={
         "feature1": "numerical",
@@ -97,6 +114,11 @@ inference_row_create_many_multi_payload = [
 ]
 
 inference_row_create_single_row_payload = inference_row_create_many_multi_payload[0]
+inference_row_create_many_multi_no_actual_payload = deepcopy(
+    inference_row_create_many_multi_payload
+)
+for x in inference_row_create_many_multi_no_actual_payload:
+    del x["actual"]
 
 # This is the body of the request coming from the sdk
 df_binary_inference = df_binary.tail(10)
@@ -135,6 +157,15 @@ model_monitor_data_drift_create_payload = dict(
     status=MonitorStatus.active,
     metric=MonitorMetrics.data_drift,
     feature="concavity error",
+    severity=AlertSeverity.low,
+    email="example@whitebox.io",
+)
+
+model_monitor_precision_create_payload = dict(
+    name="precision monitor",
+    status=MonitorStatus.active,
+    metric=MonitorMetrics.precision,
+    lower_threshold=0.85,
     severity=AlertSeverity.low,
     email="example@whitebox.io",
 )

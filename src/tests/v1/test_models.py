@@ -1,6 +1,7 @@
 from src.tests.v1.mock_data import (
     model_binary_create_payload,
     model_multi_create_payload,
+    model_multi_2_create_payload,
     model_update_payload,
 )
 import pytest
@@ -23,8 +24,15 @@ def test_model_create(client):
         headers={"api-key": state.api_key},
     )
 
+    response_multi_2 = client.post(
+        "/v1/models",
+        json={**model_multi_2_create_payload},
+        headers={"api-key": state.api_key},
+    )
+
     state.model_binary = response_binary.json()
     state.model_multi = response_multi.json()
+    state.model_multi_2 = response_multi_2.json()
     assert response_binary.status_code == status.HTTP_201_CREATED
     assert response_multi.status_code == status.HTTP_201_CREATED
     validated = schemas.Model(**response_binary.json())
@@ -76,6 +84,9 @@ def test_model_update(client):
 def test_model_delete(client):
     response_multi = client.delete(
         f"/v1/models/{state.model_multi['id']}", headers={"api-key": state.api_key}
+    )
+    response_multi = client.delete(
+        f"/v1/models/{state.model_multi_2['id']}", headers={"api-key": state.api_key}
     )
     response_binary = client.delete(
         f"/v1/models/{state.model_binary['id']}", headers={"api-key": state.api_key}

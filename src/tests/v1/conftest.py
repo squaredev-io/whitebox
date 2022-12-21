@@ -45,6 +45,7 @@ class TestsState:
     api_key: str = token_hex(32)
     model_binary: dict = {}
     model_multi: dict = {}
+    model_multi_2: dict = {}
     inference_row_multi: dict = {}
     inference_row_binary: dict = {}
 
