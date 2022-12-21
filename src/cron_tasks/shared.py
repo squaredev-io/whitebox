@@ -22,17 +22,6 @@ async def get_model_dataset_rows_df(db: Session, model_id: str) -> pd.DataFrame:
     return dataset_df
 
 
-async def get_model_processed_inference_rows_df(
-    db: Session, model_id: str
-) -> pd.DataFrame:
-    inference_rows_in_db = crud.inference_rows.get_inference_rows_by_model(
-        db=db, model_id=model_id
-    )
-    inference_rows_processed = [x.processed for x in inference_rows_in_db]
-    inference_df = pd.DataFrame(inference_rows_processed)
-    return inference_df
-
-
 async def get_model_inference_rows_df(
     db: Session, model_id: str
 ) -> tuple[pd.DataFrame, pd.DataFrame, pd.Series]:
@@ -41,7 +30,9 @@ async def get_model_inference_rows_df(
     )
     inference_rows_processed = [x.processed for x in inference_rows_in_db]
     inference_rows_nonprocessed = [x.nonprocessed for x in inference_rows_in_db]
-    inference_rows_actual = [x.actual for x in inference_rows_in_db]
+    inference_rows_actual = [
+        x.actual for x in inference_rows_in_db if x.actual is not None
+    ]
     processed_df = pd.DataFrame(inference_rows_processed)
     nonprocessed_df = pd.DataFrame(inference_rows_nonprocessed)
     actual_df = pd.Series(inference_rows_actual)

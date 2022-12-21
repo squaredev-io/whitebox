@@ -2,6 +2,7 @@ from src.tests.v1.mock_data import (
     inference_row_create_single_row_payload,
     inference_row_create_many_binary_payload,
     inference_row_create_many_multi_payload,
+    inference_row_create_many_multi_no_actual_payload,
 )
 import pytest
 from src import schemas
@@ -45,6 +46,17 @@ def test_inference_row_create_many(client):
             map(
                 lambda x: {**x, "model_id": state.model_multi["id"]},
                 inference_row_create_many_multi_payload,
+            )
+        ),
+        headers={"api-key": state.api_key},
+    )
+
+    response_multi = client.post(
+        "/v1/inference-rows/batch",
+        json=list(
+            map(
+                lambda x: {**x, "model_id": state.model_multi_2["id"]},
+                inference_row_create_many_multi_no_actual_payload,
             )
         ),
         headers={"api-key": state.api_key},
