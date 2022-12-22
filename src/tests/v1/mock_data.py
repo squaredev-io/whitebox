@@ -57,6 +57,22 @@ model_multi_2_create_payload = dict(
     probability="n/a",
 )
 
+model_multi_3_create_payload = dict(
+    name="Model 4",
+    description="Model 4 description",
+    type=ModelType.multi_class,
+    features={
+        "feature1": "numerical",
+        "feature2": "numerical",
+        "feature3": "numerical",
+        "feature4": "numerical",
+        "target": "numerical",
+    },
+    labels={"label_1": 0, "label_2": 1, "label_3": 2},
+    prediction="target",
+    probability="n/a",
+)
+
 model_update_payload = dict(
     name="Model 1 - categorical",
     description="Model 1 description",
@@ -119,6 +135,11 @@ inference_row_create_many_multi_no_actual_payload = deepcopy(
 )
 for x in inference_row_create_many_multi_no_actual_payload:
     del x["actual"]
+
+inference_row_create_many_multi_mixed_actuals_payload = (
+    inference_row_create_many_multi_no_actual_payload
+    + inference_row_create_many_multi_payload
+)
 
 # This is the body of the request coming from the sdk
 df_binary_inference = df_binary.tail(10)
