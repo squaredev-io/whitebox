@@ -85,10 +85,13 @@ async def run_calculate_performance_metrics_pipeline(
 
     if len(cleaned_actuals_df.index) != len(actual_df.index):
         logger.info(
-            f"Performance metrics will be calculates only for a portion of rows for model: {model.id}\
+            f"Performance metrics will be calculated only for a portion of rows for model: {model.id}\
                 because actuals were not provided for all inference rows!"
         )
         inference_processed_df = inference_processed_df.iloc[cleaned_actuals_df.index]
+
+    inference_processed_df = inference_processed_df.reset_index(drop=True)
+    cleaned_actuals_df = cleaned_actuals_df.reset_index(drop=True)
 
     labels = list(model.labels.values())
 
