@@ -28,15 +28,25 @@ nav:
   - Feaures: features.md
   - ML Monitoring: ml-monitoring.md
   - Metrics: metrics.md
-  - Tutorial: tutorial.md
+  - Tutorial - User Guide: 
+    - tutorial/index.md
   - Deploymemt: deployment.md
+  - SDK Documantation: sdk-docs.md
 markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true
   - admonition
   - pymdownx.details
+  - pymdownx.highlight
   - pymdownx.inlinehilite
   - pymdownx.snippets
   - pymdownx.superfences
+  - pymdownx.extra
   - toc:
       permalink: true
+extra_css:
+- css/termynal.css
+- css/custom.css
+extra_javascript:
+- js/termynal.js
+- js/custom.js
