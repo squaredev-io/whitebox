@@ -148,3 +148,35 @@ wb.log_inferences(
 !!! warning
 
     Make sure you add the actuals if you already know them, because as of now, there's no ability to add them at a later time by updating the inference rows.
+
+## Metrics Calculation
+
+The metrics are automatically calculated in a set interval for all models in the database.
+
+### Metric Requirements
+
+All metrics require that inferences are provided for the specific model. If not, the whole process is skipped. Each metric though has different requirements that need to be fulfilled in order to be calculated:
+
+#### Drifting Metrics
+
+- Inferences
+- Training Dataset
+
+#### Performance Metrics
+
+- Inferences
+- Actuals for the inferences
+
+!!! note
+
+    If actuals aren't provided for all inferences, then **ONLY the inferences that have actuals** will be used for the calculation of the drifting metrics.
+
+#### Feature Metrics
+
+- Inferences
+
+### Monitors
+
+### Alerts
+
+Once the metrics reports have been produced, the monitoring alert pipeline is triggered. This means that if you have created any model monitors for a specific metric, alerts will be created if certain criteria are met, based on the thresholds and the monitor types you have specified.
