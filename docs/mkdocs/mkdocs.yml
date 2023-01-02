@@ -36,12 +36,12 @@ markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true
   - admonition
+  - def_list
   - pymdownx.details
   - pymdownx.highlight
   - pymdownx.inlinehilite
   - pymdownx.snippets
   - pymdownx.superfences
-  - pymdownx.extra
   - toc:
       permalink: true
 extra_css:

@@ -38,11 +38,11 @@ Deletes the model with the specified ID from the database.
 
 Inserts a set of dataset rows into the database. When the dataset rows are successfully saved, the pipeline for training the model is triggered. Then, the trained model is saved in the `/models/your_model's_id` folder of whitebox's root directory.
 
-<!-- | Parameter         | Type           | Description                         |
+| Parameter         | Type           | Description                         |
 | ----------------- | -------------- | ----------------------------------- |
 | **model_id**      | `str`          | The ID of the model.                |
 | **non_processed** | `pd.DataFrame` | The non processed training dataset. |
-| **processed**     | `pd.DataFrame` | The processed training dataset.     | -->
+| **processed**     | `pd.DataFrame` | The processed training dataset.     |
 
 **Parameteres:**
 
