@@ -44,17 +44,6 @@ Inserts a set of dataset rows into the database. When the dataset rows are succe
 | **non_processed** | `pd.DataFrame` | The non processed training dataset. |
 | **processed**     | `pd.DataFrame` | The processed training dataset.     |
 
-**Parameteres:**
-
-`model_id`
-: A `string` that represents the ID if the model.
-
-`non_processed`
-: A `pd.DataFrame` that represents the non processed training dataset.
-
-`processed`
-: A `pd.DataFrame` that represents the processed training dataset.
-
 !!! info
 
     The non processed and processed dataframes must have the same length.
