@@ -2,7 +2,7 @@ import pandas as pd
 import pytest
 from src.sdk import Whitebox
 from src.tests.v1.conftest import get_order_number, state, state_sdk
-from src.tests.v1.mock_data import model_multi_create_payload
+from src.tests.v1.mock_data import model_multi_create_payload, timestamps, mixed_actuals
 import requests_mock
 from fastapi import status
 
@@ -135,7 +135,11 @@ def test_sdk_log_inferences(client):
         )
 
         happy_result = state_sdk.wb.log_inferences(
-            model_id=mock_model_id, processed=df, non_processed=df
+            model_id=mock_model_id,
+            processed=df,
+            non_processed=df,
+            timestamps=timestamps,
+            actuals=mixed_actuals,
         )
         assert happy_result == True
 
@@ -146,7 +150,10 @@ def test_sdk_log_inferences(client):
         )
 
         sad_result = state_sdk.wb.log_inferences(
-            model_id=mock_model_id, processed=df, non_processed=df
+            model_id=mock_model_id,
+            processed=df,
+            non_processed=df,
+            timestamps=timestamps,
         )
         assert sad_result == False
 
@@ -154,5 +161,9 @@ def test_sdk_log_inferences(client):
     df2 = df.drop(df.index[0])
     with pytest.raises(Exception) as e_info:
         state_sdk.wb.log_inferences(
-            model_id=mock_model_id, processed=df, non_processed=df2
+            model_id=mock_model_id,
+            processed=df,
+            non_processed=df2,
+            timestamps=timestamps,
+            actuals=mixed_actuals,
         )

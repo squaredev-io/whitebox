@@ -155,6 +155,9 @@ inference_row_create_many_binary_payload = [
     for x in dict_inferences
 ]
 
+timestamps = pd.Series(["2022-12-22T12:13:27.879738"] * 10)
+mixed_actuals = pd.Series([0, 1, None, 1, 0, None, None, 1, 0, None])
+
 model_monitor_accuracy_create_payload = dict(
     name="accuracy monitor ",
     status=MonitorStatus.active,
