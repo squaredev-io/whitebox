@@ -45,7 +45,7 @@ async def run_calculate_drifting_metrics_pipeline(
 
     logger.info(f"Calculating drifting metrics for model {model.id}...")
 
-    # We need to drop the target column from the data to calculate drfitting metrics
+    # We need to drop the target column from the data to calculate drifting metrics
     processed_inference_dropped_target_df = inference_processed_df.drop(
         [model.prediction], axis=1
     )
@@ -64,14 +64,14 @@ async def run_calculate_drifting_metrics_pipeline(
     )
 
     crud.drifting_metrics.create(db, obj_in=new_drifting_metric)
-    logger.info("Drifting metrics calcutated!")
+    logger.info("Drifting metrics calculated!")
 
 
 async def run_calculate_performance_metrics_pipeline(
     model: Model, inference_processed_df: pd.DataFrame, actual_df: pd.DataFrame
 ):
     """
-    Run the pipeline to calculate the perfomance metrics
+    Run the pipeline to calculate the performance metrics
     After the metrics are calculated they are saved in the database
     """
 
@@ -126,7 +126,7 @@ async def run_calculate_performance_metrics_pipeline(
 
         crud.multi_classification_metrics.create(db, obj_in=new_performance_metric)
 
-    logger.info("Performance metrics calcutated!")
+    logger.info("Performance metrics calculated!")
 
 
 async def run_calculate_feature_metrics_pipeline(
@@ -148,7 +148,7 @@ async def run_calculate_feature_metrics_pipeline(
         )
 
         crud.model_integrity_metrics.create(db, obj_in=new_feature_metric)
-        logger.info("Feature metrics calcutated!")
+        logger.info("Feature metrics calculated!")
 
 
 async def run_calculate_metrics_pipeline():
