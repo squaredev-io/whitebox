@@ -13,6 +13,7 @@ v1_test_order_map = [
     "inference_rows_create_many",
     "inference_rows_get_model's_all",
     "inference_rows_get",
+    "dataset_rows_wrong_training_dataset",
     "dataset_rows_create",
     "dataset_rows_get_model's_all",
     "inference_rows_xai",

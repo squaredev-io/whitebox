@@ -41,6 +41,15 @@ class CustomError(BaseException):
             ),
         )
 
+    def bad_request(self, msg: str = "Bad request") -> ErrorProps:
+        log.error(f"{status.HTTP_400_BAD_REQUEST}: {str(msg)}")
+        return JSONResponse(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            content=jsonable_encoder(
+                {"error": str(msg), "status_code": status.HTTP_400_BAD_REQUEST}
+            ),
+        )
+
     def not_found(self, msg: str = "Content not found") -> ErrorProps:
         log.error(f"{status.HTTP_404_NOT_FOUND}: {str(msg)}")
         return JSONResponse(
