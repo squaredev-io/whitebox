@@ -9,7 +9,7 @@ from src.cron_tasks.shared import (
     get_all_models,
     get_latest_data_drift_metrics_report,
     get_latest_performance_metrics_report,
-    get_model_monitors,
+    get_active_model_monitors,
 )
 from src.schemas.model import Model, ModelType
 from src.schemas.modelMonitor import ModelMonitor, MonitorMetrics
@@ -83,7 +83,7 @@ async def run_create_alerts_pipeline():
         logger.info("No models found! Skipping pipeline")
     else:
         for model in models:
-            model_monitors = await get_model_monitors(db, model_id=model.id)
+            model_monitors = await get_active_model_monitors(db, model_id=model.id)
             for monitor in model_monitors:
                 if monitor.metric in [
                     MonitorMetrics.accuracy,
