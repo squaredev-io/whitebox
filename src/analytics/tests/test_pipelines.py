@@ -209,6 +209,7 @@ class TestNodes:
         assert list(concept_drift_report.keys()) == [
             "timestamp",
             "concept_drift_summary",
+            "column_correlation",
         ]
         assert (
             round(concept_drift_report["concept_drift_summary"]["drift_score"], 3)
