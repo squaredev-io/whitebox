@@ -34,6 +34,12 @@ async def run_create_performance_metric_alert_pipeline(
         db, model
     )
 
+    if not last_performance_metrics_report:
+        logger.info(
+            f"No alert created for monitor: {monitor.id} because no performance report was found!"
+        )
+        return
+
     if model.type == ModelType.binary or monitor.metric == MonitorMetrics.accuracy:
         metric_value = vars(last_performance_metrics_report)[monitor.metric]
     else:
@@ -58,7 +64,13 @@ async def run_create_data_drift_alert_pipeline(model: Model, monitor: ModelMonit
 
     last_data_drift_report = await get_latest_data_drift_metrics_report(db, model)
 
-    data_drift = last_data_drift_report.data_drift_summary["drift_by_columns"][
+    if not last_data_drift_report:
+        logger.info(
+            f"No alert created for monitor: {monitor.id} because no data drift report was found!"
+        )
+        return
+
+    data_drift: bool = last_data_drift_report.data_drift_summary["drift_by_columns"][
         monitor.feature
     ]["drift_detected"]
 
