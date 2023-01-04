@@ -12,3 +12,4 @@ check_data/
 *.db
 site/
 notebooks/
+test.ipynb

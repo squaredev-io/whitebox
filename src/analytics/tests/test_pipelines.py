@@ -209,16 +209,13 @@ class TestNodes:
         assert list(concept_drift_report.keys()) == [
             "timestamp",
             "concept_drift_summary",
+            "column_correlation",
         ]
         assert (
             round(concept_drift_report["concept_drift_summary"]["drift_score"], 3)
             == 0.082
         )
         assert concept_drift_report["concept_drift_summary"]["drift_detected"] == False
-        assert (
-            concept_drift_report["concept_drift_summary"]["column_name"]
-            == "y_testing_multi"
-        )
 
     def test_create_concept_drift_pipeline_drift_detected(self):
         concept_drift_report = run_concept_drift_pipeline(
@@ -229,16 +226,13 @@ class TestNodes:
         assert list(concept_drift_report.keys()) == [
             "timestamp",
             "concept_drift_summary",
+            "column_correlation",
         ]
         assert (
             round(concept_drift_report["concept_drift_summary"]["drift_score"], 3)
             == 0.008
         )
         assert concept_drift_report["concept_drift_summary"]["drift_detected"] == True
-        assert (
-            concept_drift_report["concept_drift_summary"]["column_name"]
-            == "discount_price__currency"
-        )
 
     def test_create_binary_classification_training_model_pipeline(self):
         model, eval = create_binary_classification_training_model_pipeline(
