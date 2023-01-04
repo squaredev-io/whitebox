@@ -55,7 +55,7 @@ def run_data_drift_pipeline(
 
     data_drift_report = {}
     data_drift_report["timestamp"] = initial_report["timestamp"]
-    data_drift_report["drift_summary"] = initial_report["metrics"]["DataDriftTable"]
+    data_drift_report["drift_summary"] = initial_report["metrics"][1]["result"]
 
     return DataDriftTable(**data_drift_report["drift_summary"])
 
@@ -90,9 +90,9 @@ def run_concept_drift_pipeline(
     initial_report = json.loads(initial_report)
     concept_drift_report = {}
     concept_drift_report["timestamp"] = initial_report["timestamp"]
-    concept_drift_report["concept_drift_summary"] = initial_report["metrics"][
-        "ColumnDriftMetric"
+    concept_drift_report["concept_drift_summary"] = initial_report["metrics"][1][
+        "result"
     ]
-    initial_report["metrics"]["ColumnDriftMetric"]["column_name"] = target_feature
+    initial_report["metrics"][1]["result"]["column_name"] = target_feature
 
     return concept_drift_report
