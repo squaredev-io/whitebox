@@ -90,9 +90,9 @@ def run_concept_drift_pipeline(
     initial_report = json.loads(initial_report)
     concept_drift_report = {}
     concept_drift_report["timestamp"] = initial_report["timestamp"]
-    concept_drift_report["concept_drift_summary"] = initial_report["metrics"][1][
+    concept_drift_report["concept_drift_summary"] = initial_report["metrics"][0][
         "result"
     ]
-    initial_report["metrics"][1]["result"]["column_name"] = target_feature
+    concept_drift_report["column_correlation"] = initial_report["metrics"][1]["result"]
 
     return concept_drift_report
