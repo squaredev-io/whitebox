@@ -44,8 +44,8 @@ async def get_all_models(db: Session) -> List[Model]:
     return models_in_db
 
 
-async def get_model_monitors(db: Session, model_id: str) -> List[ModelMonitor]:
-    model_monitors_in_db = crud.model_monitors.get_model_monitors_by_model(
+async def get_active_model_monitors(db: Session, model_id: str) -> List[ModelMonitor]:
+    model_monitors_in_db = crud.model_monitors.get_active_model_monitors_by_model(
         db=db, model_id=model_id
     )
     return model_monitors_in_db

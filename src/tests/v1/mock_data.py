@@ -79,6 +79,36 @@ model_update_payload = dict(
 )
 
 # dataset rows data for both binary and multiclass models
+dataset_rows_single_row_column_payload = [
+    {
+        "nonprocessed": {},
+        "processed": {"additionalProp1": 0, "additionalProp2": 0, "target": 1},
+    }
+]
+
+dataset_rows_no_prediction_column_payload = [
+    {
+        "nonprocessed": {},
+        "processed": {"additionalProp1": 0, "additionalProp2": 0},
+    },
+    {
+        "nonprocessed": {},
+        "processed": {"additionalProp1": 1, "additionalProp2": 0},
+    },
+]
+
+dataset_rows_one_prediction_value_payload = [
+    {
+        "nonprocessed": {},
+        "processed": {"additionalProp1": 0, "additionalProp2": 0, "target": 0},
+    },
+    {
+        "nonprocessed": {},
+        "processed": {"additionalProp1": 1, "additionalProp2": 0, "target": 0},
+    },
+]
+
+
 df_load_multi = load_wine()
 df_multi = pd.DataFrame(df_load_multi.data, columns=df_load_multi.feature_names)
 df_multi["target"] = df_load_multi.target

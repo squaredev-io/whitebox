@@ -21,7 +21,6 @@ def get_settings():
 
 class CronSettings(Settings):
     APP_NAME_CRON: str
-    API_KEY: str
     METRICS_CRON: str
 
     class Config:

@@ -37,8 +37,23 @@ async def create_dataset_rows(
     \nWhen the dataset rows are successfully saved, the pipeline for training the model is triggered.
     """
 
+    if len(body) <= 1:
+        return errors.bad_request("Training dataset should be longer that 1 row!")
+
     model = crud.models.get(db=db, _id=dict(body[0])["model_id"])
     if model:
+        for row in body:
+            if not model.prediction in row.processed:
+                return errors.bad_request(
+                    f'Column "{model.prediction}" was not found in some or any of the rows in provided training dataset. Please try again!'
+                )
+
+        predictions = list(set(vars(x)["processed"][model.prediction] for x in body))
+        if len(predictions) <= 1:
+            return errors.bad_request(
+                f'Training dataset\'s "{model.prediction}" columns must have at least 2 different values!'
+            )
+
         new_dataset_rows = crud.dataset_rows.create_many(db=db, obj_list=body)
         processed_dataset_rows = [
             x["processed"] for x in jsonable_encoder(new_dataset_rows)

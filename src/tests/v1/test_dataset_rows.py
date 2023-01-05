@@ -1,4 +1,7 @@
 from src.tests.v1.mock_data import (
+    dataset_rows_single_row_column_payload,
+    dataset_rows_no_prediction_column_payload,
+    dataset_rows_one_prediction_value_payload,
     dataset_rows_create_multi_class_payload,
     dataset_rows_create_binary_payload,
     dataset_rows_create_wrong_model_payload,
@@ -7,6 +10,47 @@ import pytest
 from src import schemas
 from src.tests.v1.conftest import get_order_number, state
 from fastapi import status
+
+
+@pytest.mark.order(get_order_number("dataset_rows_wrong_training_dataset"))
+def test_dataset_rows_wrong_training_data(client):
+
+    response_single_row = client.post(
+        "/v1/dataset-rows",
+        json=list(
+            map(
+                lambda x: {**x, "model_id": state.model_multi["id"]},
+                dataset_rows_single_row_column_payload,
+            )
+        ),
+        headers={"api-key": state.api_key},
+    )
+
+    response_no_prediction = client.post(
+        "/v1/dataset-rows",
+        json=list(
+            map(
+                lambda x: {**x, "model_id": state.model_multi["id"]},
+                dataset_rows_no_prediction_column_payload,
+            )
+        ),
+        headers={"api-key": state.api_key},
+    )
+
+    response_one_prediction_value = client.post(
+        "/v1/dataset-rows",
+        json=list(
+            map(
+                lambda x: {**x, "model_id": state.model_multi["id"]},
+                dataset_rows_one_prediction_value_payload,
+            )
+        ),
+        headers={"api-key": state.api_key},
+    )
+
+    assert response_single_row.status_code == status.HTTP_400_BAD_REQUEST
+    assert response_no_prediction.status_code == status.HTTP_400_BAD_REQUEST
+    assert response_one_prediction_value.status_code == status.HTTP_400_BAD_REQUEST
 
 
 @pytest.mark.order(get_order_number("dataset_rows_create"))
