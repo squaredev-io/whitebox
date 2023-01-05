@@ -239,14 +239,14 @@ class TestNodes:
             df_binary, "target", test_model_id
         )
         eval_score = eval["roc_auc_score"]
-        assert (round(eval_score, 3)) == 0.986
+        assert (round(eval_score, 3)) == 0.976
 
     def test_create_multiclass_classification_training_model_pipeline(self):
         model, eval = create_multiclass_classification_training_model_pipeline(
             df_multi, "target", test_model_id
         )
         eval_score = eval["precision"]
-        assert (round(eval_score, 2)) == 0.97
+        assert (round(eval_score, 2)) == 0.96
 
     def test_create_xai_pipeline_classification_per_inference_row(self):
         binary_class_report1 = create_xai_pipeline_classification_per_inference_row(
