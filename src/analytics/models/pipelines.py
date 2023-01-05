@@ -64,7 +64,7 @@ def create_binary_classification_training_model_pipeline(
     y_pred_1 = y_pred_1.round(0)
     y_pred_1 = y_pred_1.astype(int)
 
-    roc_score = roc_auc_score(y_pred_1, y_test)
+    roc_score = roc_auc_score(y_test, y_pred_1)
     binary_evaluation_report = {}
     binary_evaluation_report["roc_auc_score"] = roc_score
 
@@ -132,7 +132,7 @@ def create_multiclass_classification_training_model_pipeline(
 
     y_pred_1 = clf.predict(X_test)
     y_pred_1 = [np.argmax(line) for line in y_pred_1]
-    prec_score = precision_score(y_pred_1, y_test, average=None).mean()
+    prec_score = precision_score(y_test, y_pred_1, average=None).mean()
 
     multi_evaluation_report = {}
     multi_evaluation_report["precision"] = prec_score
