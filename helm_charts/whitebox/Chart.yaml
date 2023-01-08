@@ -3,7 +3,7 @@ name: whitebox
 description: A Machine Learning monitoring platform
 
 type: application
-version: 0.2.0
+version: 0.1.0
 appVersion: '0.1.0'
 
 dependencies:
