@@ -1,6 +1,0 @@
-image:
-  tag: main
-name: whitebox
-postgresql:
-  user: whitebox
-  enabled: false

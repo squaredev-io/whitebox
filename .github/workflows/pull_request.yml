@@ -3,6 +3,8 @@ name: Test
 on:
   pull_request:
     branches: [main]
+    paths-ignore:
+      - 'docs/**'
 
   workflow_dispatch:
 
