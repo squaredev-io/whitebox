@@ -4,14 +4,14 @@ on:
   # release:
   #   types: [published]
   # workflow_dispatch:
-  push:
-    branches:
-      - main
+  pull_request:
+    branches: [main]
     paths:
       - 'docs/helm_charts/**'
+      - '.cr.yaml'
 
 jobs:
-  release:
+  release_charts:
     permissions:
       contents: write
     runs-on: ubuntu-latest
@@ -37,3 +37,4 @@ jobs:
           CR_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
         with:
           charts_dir: 'docs/helm_charts'
+          config: '.cr.yaml'
