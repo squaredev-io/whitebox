@@ -9,7 +9,7 @@ from src.cron_tasks.shared import (
     get_all_models,
     get_latest_data_drift_metrics_report,
     get_latest_performance_metrics_report,
-    get_model_monitors,
+    get_active_model_monitors,
 )
 from src.schemas.model import Model, ModelType
 from src.schemas.modelMonitor import ModelMonitor, MonitorMetrics
@@ -33,6 +33,12 @@ async def run_create_performance_metric_alert_pipeline(
     last_performance_metrics_report = await get_latest_performance_metrics_report(
         db, model
     )
+
+    if not last_performance_metrics_report:
+        logger.info(
+            f"No alert created for monitor: {monitor.id} because no performance report was found!"
+        )
+        return
 
     if model.type == ModelType.binary or monitor.metric == MonitorMetrics.accuracy:
         metric_value = vars(last_performance_metrics_report)[monitor.metric]
@@ -58,7 +64,13 @@ async def run_create_data_drift_alert_pipeline(model: Model, monitor: ModelMonit
 
     last_data_drift_report = await get_latest_data_drift_metrics_report(db, model)
 
-    data_drift = last_data_drift_report.data_drift_summary["drift_by_columns"][
+    if not last_data_drift_report:
+        logger.info(
+            f"No alert created for monitor: {monitor.id} because no data drift report was found!"
+        )
+        return
+
+    data_drift: bool = last_data_drift_report.data_drift_summary["drift_by_columns"][
         monitor.feature
     ]["drift_detected"]
 
@@ -83,7 +95,7 @@ async def run_create_alerts_pipeline():
         logger.info("No models found! Skipping pipeline")
     else:
         for model in models:
-            model_monitors = await get_model_monitors(db, model_id=model.id)
+            model_monitors = await get_active_model_monitors(db, model_id=model.id)
             for monitor in model_monitors:
                 if monitor.metric in [
                     MonitorMetrics.accuracy,

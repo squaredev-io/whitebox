@@ -23,10 +23,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         self.model = model
 
     def get(self, db: Session, _id: str) -> Optional[ModelType]:
-        if self.model.__tablename__ in ["users"]:
-            return db.query(self.model).filter(self.model.id == _id).first()
-        else:
-            return db.query(self.model).filter(self.model.id == _id).first()
+        return db.query(self.model).filter(self.model.id == _id).first()
 
     def get_all(
         self, db: Session, *, skip: int = 0, limit: int = 100

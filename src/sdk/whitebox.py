@@ -1,9 +1,8 @@
-from datetime import datetime
 from enum import Enum
+import numpy as np
 import pandas as pd
-from src.schemas.datasetRow import DatasetRowCreate
 from src.schemas.model import FeatureTypes, ModelCreateDto, ModelType
-from typing import Dict, List, Optional
+from typing import Dict
 import requests
 import logging
 from fastapi import status
@@ -125,10 +124,11 @@ class Whitebox:
         model_id: str,
         non_processed: pd.DataFrame,
         processed: pd.DataFrame,
-        timestamp: str = datetime.utcnow().isoformat(),
+        timestamps: pd.Series,
+        actuals: pd.Series = None,
     ):
         """
-        Logs a inferences of a model.
+        Logs inferences of a model.
 
         Non processed is a dataframe with the raw data.
         Processed is a dataframe with the data after it has been processed and before it has entered the model.
@@ -136,6 +136,13 @@ class Whitebox:
         self._check_processed_and_non_processed_length(processed, non_processed)
         non_processed_json = non_processed.to_dict(orient="records")
         processed_json = processed.to_dict(orient="records")
+        timestamps_list = timestamps.tolist()
+
+        if actuals is not None:
+            actuals = actuals.replace({np.nan: None})
+            actuals_list = actuals.tolist()
+        else:
+            actuals_list = actuals
 
         inference_rows = []
         for i in range(len(non_processed)):
@@ -144,7 +151,8 @@ class Whitebox:
                     model_id=model_id,
                     nonprocessed=non_processed_json[i],
                     processed=processed_json[i],
-                    timestamp=timestamp,
+                    timestamp=timestamps_list[i],
+                    actual=actuals_list[i] if actuals_list is not None else None,
                 )
             )
 

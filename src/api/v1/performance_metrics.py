@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union
 from fastapi import APIRouter, Depends, status
 from src import crud
 from sqlalchemy.orm import Session
@@ -18,7 +18,7 @@ performance_metrics_router = APIRouter()
 @performance_metrics_router.get(
     "/performance-metrics",
     tags=["Performance Metrics"],
-    response_model=List[BinaryClassificationMetrics] | List[MultiClassificationMetrics],
+    response_model=Union[List[BinaryClassificationMetrics],List[MultiClassificationMetrics]],
     summary="Get all model's performance metrics",
     status_code=status.HTTP_200_OK,
     responses=add_error_responses([401, 404]),

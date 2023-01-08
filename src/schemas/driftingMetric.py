@@ -23,8 +23,38 @@ class DataDriftTable(BaseModel):
     drift_by_columns: Dict[str, ColumnDataDriftMetrics]
 
 
-class ConseptDriftTable(BaseModel):
-    """Concept drift metrics"""
+class CramerV(BaseModel):
+    """CramerV statistics"""
+
+    column_name: str
+    kind: str
+    values: Dict[str, Dict[str, str]]
+
+
+class ColumnConceptDriftCorrelationMetrics(BaseModel):
+    """One column concept drift correlation metrics"""
+
+    column_name: str
+    current: CramerV
+    reference: CramerV
+
+
+class ColumnConceptDriftMetrics(BaseModel):
+    """One column concept drift metrics"""
+
+    column_name: str
+    column_type: str
+    stattest_name: str
+    drift_score: float
+    drift_detected: bool
+    stattest_threshold: float
+
+
+class ConceptDriftTable(BaseModel):
+    """Concept drift Table metrics"""
+
+    concept_drift_summary: ColumnConceptDriftMetrics
+    column_correlation: ColumnConceptDriftCorrelationMetrics
 
 
 # TODO: Need to include the class of the concept drift

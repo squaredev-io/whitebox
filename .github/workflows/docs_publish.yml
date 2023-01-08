@@ -1,0 +1,17 @@
+name: Publish docs
+on:
+  push:
+    branches:
+      - main
+permissions:
+  contents: write
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - run: pip install mkdocs-material 
+      - run: mkdocs gh-deploy --config-file docs/mkdocs/mkdocs.yml --force

@@ -26,13 +26,10 @@ class CustomError(BaseException):
         _: Request,
         exc: HTTPException,
     ) -> ErrorProps:
-        if len(exc.errors()[0]["loc"]) > 1:
-            responsible_value = exc.errors()[0]["loc"][1]
-        else:
-            responsible_value = exc.errors()[0]["loc"][0]
+        responsible_value = exc.errors()[0]["loc"][-1]
         reason = exc.errors()[0]["msg"]
         log.error(
-            f"{status.HTTP_400_BAD_REQUEST}: ({str(responsible_value)}) {str(reason)}"
+            f"{status.HTTP_422_UNPROCESSABLE_ENTITY}: ({str(responsible_value)}) {str(reason)}"
         )
         return JSONResponse(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
@@ -53,15 +50,6 @@ class CustomError(BaseException):
             ),
         )
 
-    def unauthorized(self, msg: str = "Unauthorized action") -> ErrorProps:
-        log.error(f"{status.HTTP_401_UNAUTHORIZED}: {str(msg)}")
-        return JSONResponse(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            content=jsonable_encoder(
-                {"error": str(msg), "status_code": status.HTTP_401_UNAUTHORIZED}
-            ),
-        )
-
     def not_found(self, msg: str = "Content not found") -> ErrorProps:
         log.error(f"{status.HTTP_404_NOT_FOUND}: {str(msg)}")
         return JSONResponse(
@@ -71,49 +59,8 @@ class CustomError(BaseException):
             ),
         )
 
-    def content_exists(self, msg: str = "This content exists already") -> ErrorProps:
-        log.error(f"{status.HTTP_409_CONFLICT}: {str(msg)}")
-        return JSONResponse(
-            status_code=status.HTTP_409_CONFLICT,
-            content=jsonable_encoder(
-                {"error": str(msg), "status_code": status.HTTP_409_CONFLICT}
-            ),
-        )
-
-    def content_gone(self, msg: str = "Content gone") -> ErrorProps:
-        log.error(f"{status.HTTP_410_GONE}: {str(msg)}")
-        return JSONResponse(
-            status_code=status.HTTP_410_GONE,
-            content=jsonable_encoder(
-                {"error": str(msg), "status_code": status.HTTP_410_GONE}
-            ),
-        )
-
-    def unknown_error(
-        self, msg: str = "An unknown error was encountered"
-    ) -> ErrorProps:
-        log.error(f"{status.HTTP_500_INTERNAL_SERVER_ERROR}: {str(msg)}")
-        return JSONResponse(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            content=jsonable_encoder(
-                {
-                    "error": str(msg),
-                    "status_code": status.HTTP_500_INTERNAL_SERVER_ERROR,
-                }
-            ),
-        )
-
 
 errors = CustomError()
-
-
-def formatError(e):
-    e = str(e.args[0])
-    if "DETAIL:" in e:
-        e = e.split(":")[1].strip()
-    else:
-        e = e.split("\n")[0].split(")")[1].strip().capitalize()
-    return e
 
 
 def add_error_responses(status_codes) -> List[ErrorProps]:

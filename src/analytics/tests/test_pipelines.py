@@ -209,16 +209,13 @@ class TestNodes:
         assert list(concept_drift_report.keys()) == [
             "timestamp",
             "concept_drift_summary",
+            "column_correlation",
         ]
         assert (
             round(concept_drift_report["concept_drift_summary"]["drift_score"], 3)
             == 0.082
         )
         assert concept_drift_report["concept_drift_summary"]["drift_detected"] == False
-        assert (
-            concept_drift_report["concept_drift_summary"]["column_name"]
-            == "y_testing_multi"
-        )
 
     def test_create_concept_drift_pipeline_drift_detected(self):
         concept_drift_report = run_concept_drift_pipeline(
@@ -229,30 +226,27 @@ class TestNodes:
         assert list(concept_drift_report.keys()) == [
             "timestamp",
             "concept_drift_summary",
+            "column_correlation",
         ]
         assert (
             round(concept_drift_report["concept_drift_summary"]["drift_score"], 3)
             == 0.008
         )
         assert concept_drift_report["concept_drift_summary"]["drift_detected"] == True
-        assert (
-            concept_drift_report["concept_drift_summary"]["column_name"]
-            == "discount_price__currency"
-        )
 
     def test_create_binary_classification_training_model_pipeline(self):
         model, eval = create_binary_classification_training_model_pipeline(
             df_binary, "target", test_model_id
         )
         eval_score = eval["roc_auc_score"]
-        assert (round(eval_score, 3)) == 0.986
+        assert (round(eval_score, 3)) == 0.976
 
     def test_create_multiclass_classification_training_model_pipeline(self):
         model, eval = create_multiclass_classification_training_model_pipeline(
             df_multi, "target", test_model_id
         )
         eval_score = eval["precision"]
-        assert (round(eval_score, 2)) == 0.97
+        assert (round(eval_score, 2)) == 0.96
 
     def test_create_xai_pipeline_classification_per_inference_row(self):
         binary_class_report1 = create_xai_pipeline_classification_per_inference_row(

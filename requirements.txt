@@ -34,7 +34,7 @@ databases==0.6.1
 decorator==5.1.1
 docopt==0.6.2
 ecdsa==0.18.0
-evidently==0.1.59.dev0
+evidently==0.2.1
 executing==1.1.1
 fastapi==0.85.0
 FLAML==1.0.13
@@ -70,6 +70,7 @@ llvmlite==0.38.1
 MarkupSafe==2.1.1
 matplotlib==3.6.0
 matplotlib-inline==0.1.6
+mkdocs-material==8.5.11
 multidict==6.0.2
 munkres==1.1.4
 mypy-extensions==0.4.3
