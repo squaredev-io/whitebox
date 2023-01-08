@@ -1,7 +1,7 @@
 import yaml
 import sys
 
-with open("helm_charts/christmas-package/Chart.yaml", "r") as f:
+with open("helm_charts/whitebox/Chart.yaml", "r") as f:
     chart = yaml.safe_load(f)
 
 if len(sys.argv) < 2:
