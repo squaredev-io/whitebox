@@ -13,7 +13,7 @@ attrs==22.1.0
 backcall==0.2.0
 backports.functools-lru-cache==1.6.4
 bcrypt==3.2.2
-black==22.6.0
+black==22.10.0
 botocore==1.27.59
 brotlipy==0.7.0
 cachetools==5.2.0
@@ -91,6 +91,7 @@ pip==22.3
 platformdirs==2.5.2
 plotly==5.10.0
 pluggy==1.0.0
+pre-commi==2.21.0
 prompt-toolkit==3.0.31
 protobuf==4.21.8
 psycopg2-binary==2.9.3
