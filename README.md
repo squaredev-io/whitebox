@@ -21,6 +21,7 @@ The project is still in rapid development so to run the server clone the repo an
 ```bash
 python -m venv .venv
 pip install -r requirements.txt
+pre-commit install
 ENV=dev uvicorn src.main:app --reload
 ```
 
