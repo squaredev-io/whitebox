@@ -32,5 +32,5 @@ jobs:
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git commit -am "Files updated after formatting"
           git push
-        if: ${{ steps.changes_present.outputs.changes_detected == "true" }}
+        if: ${{ steps.changes_present.outputs.changes_detected == true }}
           
