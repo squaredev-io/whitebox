@@ -28,5 +28,5 @@ jobs:
     steps:
       - name: Commit
         run: |
-          echo commit is ${needs.format.outputs.trigger_commit}
+          echo commit is ${{needs.format.outputs.trigger_commit}}
           
