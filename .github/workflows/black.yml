@@ -27,7 +27,7 @@ jobs:
       - name: Check output
         run: echo "output ${{steps.changes_present.outputs.changes_detected}}"
       - name: Commit
-        if: steps.changes_present.outputs.changes_detected == true
+        if: steps.changes_present.outputs.changes_detected == 'true'
         run: |
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
