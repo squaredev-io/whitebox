@@ -15,7 +15,9 @@ jobs:
         run: black .
       - name: Check diff for changes
         id: changes_present
-        run: echo 'name=changes_detected=true' >> $GITHUB_OUTPUT
+        run: |
+          echo 'name=changes_detected=true' >> $GITHUB_OUTPUT
+          echo I am here
   create_commit:
     runs-on: ubuntu-latest
     needs: format
@@ -23,5 +25,6 @@ jobs:
     steps:
       - name: Commit
         run: |
-          echo commit is ${{needs.format.outputs.trigger_commit}}
+          echo "commit is ${{needs.format.outputs.trigger_commit}}"
+          echo "step is ${{steps.changes_present.outputs.changes_detected}}"
           
