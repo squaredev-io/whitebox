@@ -23,8 +23,6 @@ jobs:
           if ! [ -z "$outputs" ]
           then
             echo "changes_detected=true" >> $GITHUB_OUTPUT
-          else
-            echo "changes_detected=false" >> $GITHUB_OUTPUT
           fi
       - name: Commit
         run: |
