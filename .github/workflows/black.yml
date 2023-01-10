@@ -25,10 +25,11 @@ jobs:
             echo "changes_detected=true" >> $GITHUB_OUTPUT
           fi
       - name: Commit
-        if: ${{ steps.changes_present.outputs.changes_detected }} == true
         run: |
+          echo "commit ${{ steps.changes_present.outputs.changes_detected }}"
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git commit -am "Files updated after formatting"
           git push
+        if: ${{ steps.changes_present.outputs.changes_detected }} == true
           
