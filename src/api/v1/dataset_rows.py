@@ -79,8 +79,7 @@ async def create_dataset_rows(
         return errors.not_found(f"Model with id: {dict(body[0])['model_id']} not found")
 
 
-@dataset_rows_router.get(
-    "/dataset-rows",
+@dataset_rows_router.get("/dataset-rows",
     tags=["Dataset Rows"],
     response_model=List[DatasetRow],
     summary="Get all model's dataset rows",

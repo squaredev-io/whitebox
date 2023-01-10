@@ -1,5 +1,5 @@
 name: Black Formatter
-on: [push, pull_request]
+on: push
 jobs:
   format:
     permissions:
