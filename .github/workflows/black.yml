@@ -16,8 +16,12 @@ jobs:
       - name: Check diff for changes
         id: changes_present
         run: |
-          echo 'name=changes_detected=true' >> $GITHUB_OUTPUT
+          echo "::set-output name=changes_detected::true"
           echo I am here
+          echo "step is ${{steps.changes_present.outputs.changes_detected}}"
+      - name: Check output
+        id: output_value
+        run: echo "step is ${{steps.changes_present.outputs.changes_detected}}"
   create_commit:
     runs-on: ubuntu-latest
     needs: format
