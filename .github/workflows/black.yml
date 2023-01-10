@@ -10,7 +10,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
       - name: Install package
-        run: pip install 'black'
+        run: pip install 'black[d]'
       - name: Run black formatter
         run: black .
       - name: Check diff for changes
