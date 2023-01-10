@@ -18,7 +18,8 @@ from src.utils.errors import add_error_responses, errors
 dataset_rows_router = APIRouter()
 
 
-@dataset_rows_router.post("/dataset-rows",
+@dataset_rows_router.post(
+    "/dataset-rows",
     tags=["Dataset Rows"],
     response_model=List[DatasetRow],
     summary="Create dataset rows",
