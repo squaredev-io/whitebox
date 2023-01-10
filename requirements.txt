@@ -90,7 +90,6 @@ pip==22.3
 platformdirs==2.5.2
 plotly==5.10.0
 pluggy==1.0.0
-pre-commit==2.21.0
 prompt-toolkit==3.0.31
 protobuf==4.21.8
 psycopg2-binary==2.9.3
