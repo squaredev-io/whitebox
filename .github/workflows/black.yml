@@ -1,10 +1,34 @@
 name: Black Formatter
-
-on: [pull_request]
-
+on: push
 jobs:
-  lint:
+  format:
+    name: Code formatting in Black
     runs-on: ubuntu-latest
+    outputs:
+      trigger_commit: ${{ steps.changes_present.outputs.changes_detected }}
     steps:
-      - uses: actions/checkout@v2
-      - uses: psf/black@stable
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Install package
+        run: pip install 'black'
+      - name: Run black formatter
+        run: black .
+      - name: Check diff for changes
+        id: changes_present
+        run: |
+            outputs=$(git diff)
+            if ! [ -z "$outputs" ]
+            then
+              echo '::set-output name=changes_detected::true' 
+            fi
+  create_commit:
+    runs-on: ubuntu-latest
+    needs: format
+    if: needs.format.outputs.trigger_commit == `true`        
+    steps:
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git commit -am "Files updated after formatting"
+          git push

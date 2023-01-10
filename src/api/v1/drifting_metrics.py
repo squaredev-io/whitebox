@@ -20,8 +20,7 @@ drifting_metrics_router = APIRouter()
     status_code=status.HTTP_200_OK,
     responses=add_error_responses([401, 404]),
 )
-async def get_all_models_drifting_metrics(
-    model_id: str,
+async def get_all_models_drifting_metrics(model_id: str,
     db: Session = Depends(get_db),
     authenticated_user: User = Depends(authenticate_user),
 ):
