@@ -1,5 +1,5 @@
 name: Black Formatter
-on: pull_request
+on: [push, pull_request]
 jobs:
   format:
     permissions:
@@ -24,8 +24,6 @@ jobs:
           then
             echo "changes_detected=true" >> $GITHUB_OUTPUT
           fi
-      - name: Check output
-        run: echo "output ${{steps.changes_present.outputs.changes_detected}}"
       - name: Commit
         if: steps.changes_present.outputs.changes_detected == 'true'
         run: |
