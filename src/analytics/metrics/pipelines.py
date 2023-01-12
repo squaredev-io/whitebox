@@ -100,7 +100,7 @@ def create_binary_classification_evaluation_metrics_pipeline(
     accuracy = metrics.accuracy_score(test_set, prediction_set)
     precision = metrics.precision_score(test_set, prediction_set)
     recall = metrics.recall_score(test_set, prediction_set)
-    f1 = recall = metrics.f1_score(test_set, prediction_set)
+    f1 = metrics.f1_score(test_set, prediction_set)
     tn, fp, fn, tp = confusion_matrix(test_set, prediction_set, labels=labels).ravel()
 
     return BinaryClassificationMetricsPipelineResult(
