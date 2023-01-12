@@ -37,6 +37,7 @@ nav:
   - Glossary:
     - glossary/metric-definitions.md
 markdown_extensions:
+  - pymdownx.arithmatex
   - pymdownx.highlight:
       anchor_linenums: true
   - admonition
@@ -54,3 +55,5 @@ extra_css:
 extra_javascript:
 - js/termynal.js
 - js/custom.js
+- mathjax-config.js
+- https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML
