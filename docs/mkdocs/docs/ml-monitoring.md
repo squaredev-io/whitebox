@@ -2,10 +2,6 @@
 
 Machine learning (ML) monitoring is a crucial process for ensuring the performance and reliability of ML models and systems. It involves tracking metrics, identifying issues, and improving overall performance. In this article, we will explore the key aspects of ML monitoring and its importance in today's data-driven world.
 
-!!! TL;DR:
-
-    Machine learning monitoring is the process of tracking and improving the performance of ML models and systems. It includes monitoring metrics, input data, and infrastructure, and detecting and addressing data and model drifting. It ensures the reliability and performance of ML models and minimizes the impact of any issues on the organization's operations.
-
 ## What is Machine Learning Monitoring?
 
 ML monitoring is the process of tracking the performance and behavior of ML models and systems. This includes monitoring metrics such as accuracy, precision, recall, and model performance over time. By monitoring these metrics, organizations can identify when a model is performing poorly or behaving unexpectedly and take action to correct it. Additionally, ML monitoring can be used to track the performance of different models and compare them to identify which model is performing best.
