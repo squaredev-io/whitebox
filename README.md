@@ -1,16 +1,41 @@
-<p align="center"><img src="assets/logo.svg" width="50%" alt="whitebox logo" /></p>
+# Whitebox - E2E machine learning monitoring
 
-# Whitebox - Machine learning monitoring platform
+<p align="center">
+  <a href="https://squaredev-io.github.io/whitebox">
+    <img src="https://squaredev-io.github.io/whitebox/img/logo.svg" alt="Whitebox" width="50%">
+  </a>
+</p>
+<p align="center">
+    <em>Whitebox is an open source E2E ML monitoring platform with edge capabilities that plays nicely with kubernetes
+</em>
+</p>
 
-## What is Whitebox?
+---
+
+**Documentation**: <a href="https://squaredev-io.github.io/whitebox/" target="_blank">https://squaredev-io.github.io/whitebox</a>
+
+**Source Code**: <a href="https://github.com/squaredev-io/whitebox" target="_blank">https://github.com/squaredev-io/whitebox</a>
+
+**Roadmap**: <a href="https://github.com/squaredev-io/whitebox/milestone/2" target="_blank">https://github.com/squaredev-io/whitebox/milestone/2</a>
+
+---
 
 Whitebox is an open source E2E ML monitoring platform with edge capabilities that plays nicely with kubernetes.
 
-## Why use Whitebox?
+The key features are:
 
-Deploying a machine learning model in production is not the end of the lifecycle. You need data to iterate and improve.
+- **Classification models metrics**
+- **Regression models metrics**
+- **Data / model drift monitoring**
+- **Alerts**
 
-<p align="center"><img src="assets/ui-prototype-demo.gif" width="50%" alt="whitebox logo" /></p>
+Design guidelines:
+
+- **Easy**: Very easy to set up and get started with.
+- **Intuitive**: Designed to be intuitive and easy to use.
+- **Pythonic SDK**: Pythonic SDK for building your own monitoring infrastructure.
+- **Robust**: Get production-ready MLOps system.
+- **Kubernetes**: Get production-ready code. With automatic interactive documentation.
 
 # How to use
 
@@ -80,6 +105,12 @@ Tests:
 - Watch: `ENV=test ptw`
 - Run test coverage `ENV=test coverage run -m pytest`
 - Look at coverage report: `coverage report` or `coverage html` to generate an html. To view it in your browser open the `htmlcov/index.html` file.
+
+Docs:
+
+```
+mkdocs serve -f docs/mkdocs/mkdocs.yml -a localhost:8001
+```
 
 # Contributing
 

@@ -18,9 +18,7 @@ services:
 
   whitebox:
     profiles: ["whitebox"]
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: sqdhub/whitebox:main
     restart: unless-stopped
     environment:
       - APP_NAME=Whitebox | Docker
