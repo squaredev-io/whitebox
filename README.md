@@ -72,20 +72,9 @@ sequenceDiagram
     whitebox-->>user: Get alerted when an anomaly occurs
 ```
 
-# Features
-
-You can see all planned features on our [v1.0 milestone](https://github.com/squaredev-io/whitebox/milestone/1).
-
-## Coming soon
-
-- 📖 Docs
-- 💻 Whitebox UI
-- 📈 Regression models
-- 🤖 Edge / privacy features
-
 # Set up locally for development
 
-Install packages:
+### Install packages:
 
 ```bash
 python -m venv .venv
@@ -93,20 +82,22 @@ pip install -r requirements.txt
 pre-commit install
 ```
 
-Run the server:
+### Run the server:
 
 ```bash
 ENV=dev uvicorn src.main:app --reload
 ```
 
-Tests:
+### Tests:
 
 - Run: `ENV=test pytest -s`
 - Watch: `ENV=test ptw`
 - Run test coverage `ENV=test coverage run -m pytest`
 - Look at coverage report: `coverage report` or `coverage html` to generate an html. To view it in your browser open the `htmlcov/index.html` file.
 
-Docs:
+### Docs
+
+**Documentation is hosted bby GitHub here**: <a href="https://squaredev-io.github.io/whitebox/" target="_blank">https://squaredev-io.github.io/whitebox</a>
 
 ```
 mkdocs serve -f docs/mkdocs/mkdocs.yml -a localhost:8001
