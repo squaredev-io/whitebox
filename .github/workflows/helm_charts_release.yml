@@ -14,7 +14,6 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-          access-token: ${{ secrets.WORKFLOW_GIT_ACCESS_TOKEN }}
 
       - name: Install Helm
         uses: azure/setup-helm@v3
@@ -34,7 +33,7 @@ jobs:
 
       - name: Package whitebox chart
         run: |
-          helm package -u --version ${CHART_VERSION} helm_charts/whitebox
+          helm package -u --version ${{ steps.extract_version.outputs.version }} helm_charts/whitebox
 
       - name: Publish whitebox chart
         run: |
