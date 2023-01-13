@@ -14,12 +14,6 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-          access-token: ${{ secrets.WORKFLOW_GIT_ACCESS_TOKEN }}
-
-      - name: Configure Git
-        run: |
-          git config user.name "$GITHUB_ACTOR"
-          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
       - name: Install Helm
         uses: azure/setup-helm@v3
@@ -31,25 +25,11 @@ jobs:
         with:
           python-version: 3.9
 
-      - name: Extract chart version
-        run: echo "CHART_VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
-
-      - name: Install python dependencies
+      - name: Extract chart version and remove v prefix
+        id: extract_version
         run: |
-          python -m pip install --upgrade pip
-          pip install pyyaml
-
-      - name: Bump chart version
-        run: python ./.github/scripts/bump_chart_version.py $CHART_VERSION
-
-      - name: Commit & Push
-        run: |
-          git config --global user.name "$GITHUB_ACTOR"
-          git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com"
-          git checkout -b main
-          git add .
-          git commit -m "Bump chart version to $CHART_VERSION"
-          git push origin main
+          CHART_VERSION=$(echo ${{ github.ref }} | cut -d'/' -f3)
+          echo "::set-output name=version::${CHART_VERSION#v}"
 
       - name: Package whitebox chart
         run: |
