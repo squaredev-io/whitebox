@@ -37,4 +37,4 @@ jobs:
 
       - name: Publish whitebox chart
         run: |
-          curl --data-binary "@whitebox-${CHART_VERSION}.tgz" chartmuseum.squaredev.io/api/charts -u ${{ secrets.CHARTMUSEUM_USERNAME }}:${{ secrets.CHARTMUSEUM_PASSWORD }}
+          curl --data-binary "@whitebox-${{ steps.extract_version.outputs.version }}.tgz" chartmuseum.squaredev.io/api/charts -u ${{ secrets.CHARTMUSEUM_USERNAME }}:${{ secrets.CHARTMUSEUM_PASSWORD }}
