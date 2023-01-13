@@ -103,6 +103,15 @@ ENV=dev uvicorn src.main:app --reload
 mkdocs serve -f docs/mkdocs/mkdocs.yml -a localhost:8001
 ```
 
+# Helm chart
+You can install whitebox and all of its dependencies in your k8s cluster using helm
+  
+  ```bash
+  helm repo add squaredev https://chartmuseum.squaredev.io/
+  helm repo update
+  helm install whitebox squaredev/whitebox
+  ```
+
 # Contributing
 
 We happily welcome contributions to Whitebox. You can start by opening a new issue!
