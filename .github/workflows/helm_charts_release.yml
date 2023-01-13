@@ -33,7 +33,7 @@ jobs:
 
       - name: Package whitebox chart
         run: |
-          helm package -u --version ${CHART_VERSION} helm_charts/whitebox
+          helm package -u --version ${{ steps.extract_version.outputs.version }} helm_charts/whitebox
 
       - name: Publish whitebox chart
         run: |
