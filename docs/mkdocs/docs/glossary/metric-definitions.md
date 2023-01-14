@@ -112,10 +112,75 @@ Returns the f1 classification score. In `multi-class classification`, returns th
 Formula:
 
 $$ 
-f1 = 2 * {(precision * recall) \over (precision + recall)}
+F1 = 2 * {(precision * recall) \over (precision + recall)}
 $$
 
 ## Statistical tests and techniques
 
-### Kolmogorov-Smirnov test
+### Kolmogorov-Smirnov Two Sample test
+When there are two datasets then K-S two sample test can be used to test the agreement between their distributions. The null hypothesis states that there is no difference between the two distributions. Formula:
 
+$$ 
+D = Max|{F_a(X)-F_b(X)}| 
+$$
+
+where:
+
+- $a$ = observations from first dataset.
+- $b$ = observations from second dataset.
+- $F_n(X)$ = observed cumulative frequency distribution of a random sample of n observations.
+
+### Chi-squared test
+A chi-square test is a statistical test used to compare 2 datasets. The purpose of this test is to determine if a difference between data of 2 datasets is due to chance, or if it is due to a relationship between the variables you are studying. Formula:
+
+$$ 
+x^2 = Σ{(O_i - E_i)^2 \over E_i}
+$$
+
+where:
+
+- $x^2$ = chi-square
+- $O_i$ = 1st dataset values
+- $E_i$ = 2nd dataset values
+
+### Z-score for independent proportions
+The purpose of the z-test for independent proportions is to compare two independent datasets. Formula:
+
+$$ 
+Z = {p_1 - p_2 \over \sqrt{p'  q' ({1\over n_1} + {1\over n_2})}}
+$$
+
+where:
+
+- $Z$ = Z-statistic which is compared to the standard normal deviate
+- $p_1 , p_2$ = two datasets proportions
+- $p'$ = estimated true proportion under the null hypothesis
+- $q'$ = $(1-p')$
+- $n_1 , n_2$ = number of observations in two datasets
+
+### Wasserstein distance
+The Wasserstein distance is a metric to describe the distance between the distributions of 2 datasets. Formula:
+
+$$ 
+W = ({\int_0^1}{{|{F_A}^{-1}(u) - {F_B}^{-1}(u)|}^2 du} )^{0.5}
+$$
+
+where:
+
+- $W$ = Wasserstein distance
+- $F_A , F_B$ = corresponding cumulative distribution functions of two datasets
+- ${F_A}^{-1} , {F_B}^{-1}$ = respective quantile functions
+
+### Jensen–Shannon divergence
+The Jensen–Shannon divergence is a method of measuring the similarity between two probability distributions. Formula:
+
+$$ 
+JS = 1/2 * KL(P || M) + 1/2 * KL(Q || M)
+$$
+
+where:
+
+- $JS$ = Jensen–Shannon divergence
+- $KL$ = Kullback-Leibler divergence: $– sum x$ in $X$ $P(x)$ * $log(Q(x) / P(x))$
+- $P,Q$ = distributions of 2 datasets
+- $M$ = ${1 \over 2} * (P+Q)$

@@ -39,15 +39,15 @@ Logic to choose the appropriate statistical test is based on:
 
 For small data with <= 1000 observations in the reference dataset:
 
-- For numerical features (n_unique > 5): two-sample Kolmogorov-Smirnov test.
-- For categorical features or numerical features with n_unique <= 5: chi-squared test.
-- For binary categorical features (n_unique <= 2), we use the proportion difference test for independent samples based on Z-score.
+- For numerical features (n_unique > 5): <a href="/glossary/metric-definitions/#kolmogorov-smirnov-two-sample-test" class="external-link" target="_blank">two-sample Kolmogorov-Smirnov test</a>.
+- For categorical features or numerical features with n_unique <= 5: <a href="/glossary/metric-definitions/#chi-squared-test" class="external-link" target="_blank">chi-squared test</a>.
+- For binary categorical features (n_unique <= 2), we use the proportion difference test for independent samples based on <a href="/glossary/metric-definitions/#z-score-for-independent-proportions" class="external-link" target="_blank">Z-score</a>.
     
 All tests use a 0.95 confidence level by default.
     
 For larger data with > 1000 observations in the reference dataset:
 
-- For numerical features (n_unique > 5): Wasserstein Distance.
-- For categorical features or numerical with n_unique <= 5): Jensen–Shannon divergence.
+- For numerical features (n_unique > 5): <a href="/glossary/metric-definitions/#wasserstein-distance" class="external-link" target="_blank">Wasserstein Distance</a>.
+- For categorical features or numerical with n_unique <= 5): <a href="/glossary/metric-definitions/#jensenshannon-divergence" class="external-link" target="_blank">Jensen–Shannon divergence</a>.
 
 All tests use a threshold = 0.1 by default.
