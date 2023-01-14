@@ -7,8 +7,8 @@ The target of evaluation metrics is to evaluate the quality of an machine learni
 
 | Metric          | Supported model              |
 | --------------- | ------------------| 
-| <a href="/glossary/metric-definitions/#missing-values" class="external-link" target="_blank">**confusion matrix**</a>      | `binary classification` & `multi-class classification`|
-| <a href="/glossary/metric-definitions/#non-missing-values" class="external-link" target="_blank">**accuracy**</a>       | `binary classification` & `multi-class classification`                    |
-| <a href="/glossary/metric-definitions/#mean-or-average-value" class="external-link" target="_blank">**precision**</a>     | `binary classification` & `multi-class classification` | 
-| <a href="/glossary/metric-definitions/#minimum-value" class="external-link" target="_blank">**recall**</a>   | `binary classification` & `multi-class classification`                     |
-| <a href="/glossary/metric-definitions/#maximum-value" class="external-link" target="_blank">**f1**</a> | `binary classification` & `multi-class classification`                   |
+| <a href="/glossary/metric-definitions/#confusion-matrix" class="external-link" target="_blank">**confusion matrix**</a>      | `binary classification` & `multi-class classification`|
+| <a href="/glossary/metric-definitions/#accuracy" class="external-link" target="_blank">**accuracy**</a>       | `binary classification` & `multi-class classification`                    |
+| <a href="/glossary/metric-definitions/#precision" class="external-link" target="_blank">**precision**</a>     | `binary classification` & `multi-class classification` | 
+| <a href="/glossary/metric-definitions/#recall" class="external-link" target="_blank">**recall**</a>   | `binary classification` & `multi-class classification`                     |
+| <a href="/glossary/metric-definitions/#f1-score" class="external-link" target="_blank">**f1 score**</a> | `binary classification` & `multi-class classification`                   |
