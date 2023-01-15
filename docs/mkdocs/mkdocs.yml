@@ -31,6 +31,7 @@ nav:
     - monitor/descriptive-statistics.md
     - monitor/evaluation-metrics.md
     - monitor/drift-metrics.md
+    - monitor/explainability.md
   - Tutorial - User Guide: 
     - tutorial/index.md
   - Deploymemt: deployment.md
