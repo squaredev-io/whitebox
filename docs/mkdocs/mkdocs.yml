@@ -27,12 +27,19 @@ nav:
   - Whitebox: index.md
   - Feaures: features.md
   - ML Monitoring: ml-monitoring.md
-  - Metrics: metrics.md
+  - Monitor: 
+    - monitor/descriptive-statistics.md
+    - monitor/evaluation-metrics.md
+    - monitor/drift-metrics.md
+    - monitor/explainability.md
   - Tutorial - User Guide: 
     - tutorial/index.md
   - Deploymemt: deployment.md
   - SDK Documantation: sdk-docs.md
+  - Glossary:
+    - glossary/metric-definitions.md
 markdown_extensions:
+  - pymdownx.arithmatex
   - pymdownx.highlight:
       anchor_linenums: true
   - admonition
@@ -50,3 +57,5 @@ extra_css:
 extra_javascript:
 - js/termynal.js
 - js/custom.js
+- mathjax-config.js
+- https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML
