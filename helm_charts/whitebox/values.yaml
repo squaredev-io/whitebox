@@ -2,7 +2,11 @@ image:
   tag: main
 name: whitebox
 postgresql:
-  auth:
-    user: whitebox
-    password: whitebox
   enabled: true
+  storageClass: standard
+  auth:
+    username: whitebox
+    password: whitebox
+  primary:
+    persistence:
+      size: 100Mi
