@@ -1,4 +1,4 @@
-# Drift metrics
+# Drift
 
 The target of drift metrics is to calculate the data drift between 2 datasets. Currently supported drift types are:
 

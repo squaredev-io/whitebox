@@ -184,3 +184,15 @@ where:
 - $KL$ = Kullback-Leibler divergence: $– sum x$ in $X$ $P(x)$ * $log(Q(x) / P(x))$
 - $P,Q$ = distributions of 2 datasets
 - $M$ = ${1 \over 2} * (P+Q)$
+
+## Machine Learning models
+
+### Light Gradient Boosting Machine
+
+LightGBM is an open-source framework for gradient boosted machines. By default LightGBM will train a Gradient Boosted Decision Tree (GBDT), but it also supports random forests, Dropouts meet Multiple Additive Regression Trees (DART), and Gradient Based One-Side Sampling (Goss). The framework is fast and was designed for distributed training. It supports large-scale datasets and training on the GPU. LightGBM also provide highly optimised, scalable and fast implementations of gradient boosted machines (GBMs). The official documentation of LightGBM is accessible [here](https://lightgbm.readthedocs.io/en/latest/index.html).
+
+## Explainable AI models
+
+### Local Interpretable Model-agnostic Explanations
+
+LIME (Local Interpretable Model-agnostic Explanations), an explainable AI technique, aids in illuminating a machine learning model and making each prediction's particular implications understandable. The technique is appropriate for local explanations since it describes the classifier for a particular single instance. LIME modifies the input data to produce a succession of false data that only partially retain the original features. The original implementation along with documentation of LIME technique could be found in [this repo](https://github.com/marcotcr/lime).
