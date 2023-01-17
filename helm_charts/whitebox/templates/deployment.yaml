@@ -1,24 +1,48 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: '{{ .Values.name }}'
+  name: {{ include "whitebox.fullname" . }}
   labels:
-    app: '{{ .Values.name }}'
+    {{- include "whitebox.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: '{{ .Values.name }}'
+      {{- include "whitebox.selectorLabels" . | nindent 6 }}
   template:
     metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       labels:
-        app: '{{ .Values.name }}'
+        {{- include "whitebox.selectorLabels" . | nindent 8 }}
     spec:
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: whitebox
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
           image: sqdhub/whitebox:{{ .Values.image.tag }}
           ports:
-            - containerPort: 8000
+            - name: http
+              containerPort: 8000
+              protocol: TCP
           env:
             - name: POSTGRES_DB_URI
-              value: postgresql://{{ .Values.postgresql.auth.username }}:{{ .Values.postgresql.auth.password }}@{{ .Release.Name }}-postgresql/postgres 
+              value: postgresql://{{ .Values.postgresql.auth.username | default "postgres" }}:{{ .Values.postgresql.auth.password | default "postgres" }}@{{ .Release.Name }}-postgresql/postgres
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
