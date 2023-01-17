@@ -11,5 +11,5 @@ check_data/
 *.ipynb_checkpoints
 *.db
 site/
-notebooks/
+src/notebooks/
 test.ipynb

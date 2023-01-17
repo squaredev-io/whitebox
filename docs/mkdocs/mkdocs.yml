@@ -34,6 +34,8 @@ nav:
     - monitor/explainability.md
   - Tutorial - User Guide: 
     - tutorial/index.md
+    - Notebooks:
+      - tutorial/notebooks/sdk.ipynb
   - Deploymemt: deployment.md
   - SDK Documantation: sdk-docs.md
   - Glossary:
@@ -59,3 +61,5 @@ extra_javascript:
 - js/custom.js
 - mathjax-config.js
 - https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML
+plugins:
+  - mkdocs-jupyter
