@@ -5,7 +5,7 @@ metadata:
   labels:
     app: '{{ .Values.name }}'
 spec:
-  replicas: 1
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
       app: '{{ .Values.name }}'
@@ -19,3 +19,6 @@ spec:
           image: sqdhub/whitebox:{{ .Values.image.tag }}
           ports:
             - containerPort: 8000
+          env:
+            - name: POSTGRES_DB_URI
+              value: postgresql://{{ .Values.postgresql.auth.username }}:{{ .Values.postgresql.auth.password }}@{{ .Release.Name }}-postgresql/postgres 

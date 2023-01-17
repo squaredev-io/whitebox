@@ -1,17 +1,11 @@
 name: Release Charts
 
 on:
-  # release:
-  #   types: [published]
-  # workflow_dispatch:
-  push:
-    branches:
-      - main
-    paths:
-      - 'docs/helm_charts/**'
+  release:
+    types: [published]
 
 jobs:
-  release:
+  release_charts:
     permissions:
       contents: write
     runs-on: ubuntu-latest
@@ -21,19 +15,26 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Configure Git
-        run: |
-          git config user.name "$GITHUB_ACTOR"
-          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
-
       - name: Install Helm
         uses: azure/setup-helm@v3
         with:
           version: v3.10.0
 
-      - name: Run chart-releaser
-        uses: helm/chart-releaser-action@v1.4.1
-        env:
-          CR_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2
         with:
-          charts_dir: 'docs/helm_charts'
+          python-version: 3.9
+
+      - name: Extract chart version and remove v prefix
+        id: extract_version
+        run: |
+          CHART_VERSION=$(echo ${{ github.ref }} | cut -d'/' -f3)
+          echo "::set-output name=version::${CHART_VERSION#v}"
+
+      - name: Package whitebox chart
+        run: |
+          helm package -u --version ${{ steps.extract_version.outputs.version }} helm_charts/whitebox
+
+      - name: Publish whitebox chart
+        run: |
+          curl --data-binary "@whitebox-${{ steps.extract_version.outputs.version }}.tgz" chartmuseum.squaredev.io/api/charts -u ${{ secrets.CHARTMUSEUM_USERNAME }}:${{ secrets.CHARTMUSEUM_PASSWORD }}
