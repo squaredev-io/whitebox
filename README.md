@@ -103,8 +103,24 @@ ENV=dev uvicorn src.main:app --reload
 mkdocs serve -f docs/mkdocs/mkdocs.yml -a localhost:8001
 ```
 
-# Helm chart
-You can install whitebox and all of its dependencies in your k8s cluster using helm
+# Deploy Whitebox
+## Using docker
+
+Whitebox uses postgres as its database. They need to run in the same docker network. An example docker-compose file is located in the `examples` folder.
+
+  ```bash
+  docker-compose -f examples/docker-compose/docker-compose.yml up
+  ```
+
+If you just need to run Whitebox, make sure you set the `POSTGRES_DB_URI` in the environment.
+
+  ```bash
+  docker run -dp 8000:8000 sqdhub/whitebox:main
+  ```
+
+### In a k8s cluster
+
+Whitebox and all its dependencies are available as helm charts:
   
   ```bash
   helm repo add squaredev https://chartmuseum.squaredev.io/

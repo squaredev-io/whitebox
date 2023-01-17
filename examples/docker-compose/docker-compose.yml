@@ -15,9 +15,10 @@ services:
       - "5432:5432"
     volumes:
       - wb_data:/var/lib/postgresql/data
+    networks:
+      - whitebox
 
   whitebox:
-    profiles: ["whitebox"]
     image: sqdhub/whitebox:main
     restart: unless-stopped
     environment:
@@ -27,6 +28,12 @@ services:
       - "8000:8000"
     depends_on:
       - postgres
+    networks:
+      - whitebox
 
 volumes:
   wb_data:
+
+networks:
+  whitebox:
+    name: whitebox
