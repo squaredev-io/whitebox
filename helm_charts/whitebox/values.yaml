@@ -25,14 +25,14 @@ ingress:
   # kubernetes.io/tls-acme: "true"
     # cert-manager.io/cluster-issuer: letsencrypt-prod
   # hosts:
-  # - host: whitebox.gcharis.com
+  # - host: whitebox.example.com
   # paths:
   # - path: /
   #         pathType: Prefix
   # tls: 
   #  - secretName: whitebox-tls
   #    hosts:
-  #      - whitebox.gcharis.com
+  #      - whitebox.example.com
 
 resources: {}
 
