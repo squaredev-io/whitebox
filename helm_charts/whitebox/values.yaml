@@ -1,12 +1,55 @@
+replicaCount: 1
+
 image:
   tag: main
-name: whitebox
+
+nameOverride: ''
+fullnameOverride: ''
+
+podAnnotations: {}
+
+podSecurityContext: {}
+
+securityContext: {}
+
+service:
+  type: ClusterIP
+  port: 80
+
+
+ingress:
+  enabled: false
+  # className: ''
+  # annotations:
+  # kubernetes.io/ingress.class: nginx
+  # kubernetes.io/tls-acme: "true"
+    # cert-manager.io/cluster-issuer: letsencrypt-prod
+  # hosts:
+  # - host: whitebox.example.com
+  # paths:
+  # - path: /
+  #         pathType: Prefix
+  # tls: 
+  #  - secretName: whitebox-tls
+  #    hosts:
+  #      - whitebox.example.com
+
+resources: {}
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
 postgresql:
   enabled: true
   storageClass: standard
+
   auth:
     username: whitebox
     password: whitebox
+    
   primary:
     persistence:
       size: 100Mi
