@@ -20,13 +20,14 @@
 
 ---
 
-Whitebox is an open source E2E ML monitoring platform with edge capabilities that plays nicely with kubernetes.
+Whitebox is an dynamic open source E2E ML monitoring platform with edge capabilities that plays nicely with kubernetes.
 
-The key features are:
+The current key features are:
 
-- **Classification models metrics**
-- **Regression models metrics**
-- **Data / model drift monitoring**
+- **Descriptive statistics**
+- **Classification models evaluation metrics**
+- **Data / Concept drift monitoring**
+- **Explainable AI**
 - **Alerts**
 
 Design guidelines:
