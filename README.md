@@ -115,12 +115,12 @@ Whitebox uses postgres as its database. They need to run in the same docker netw
 If you just need to run Whitebox, make sure you set the `POSTGRES_DB_URI` in the environment.
 
   ```bash
-  docker run -dp 8000:8000 sqdhub/whitebox:main
+  docker run -dp 8000:8000 sqdhub/whitebox:main -e POSTGRES_DB_URI=postgresql://user:password@host:port/db_name
   ```
 
 ### In a k8s cluster
 
-Whitebox and all its dependencies are available as helm charts:
+Whitebox and all its dependencies are available as a helm chart:
   
   ```bash
   helm repo add squaredev https://chartmuseum.squaredev.io/
