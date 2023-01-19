@@ -5,7 +5,7 @@ on:
     types: [published]
 
 jobs:
-  release_charts:
+  release_package:
     permissions:
       contents: write
     runs-on: ubuntu-latest
