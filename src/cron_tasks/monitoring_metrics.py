@@ -5,7 +5,10 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, Session
 
 from src import crud, entities
-from src.analytics.drift.pipelines import run_data_drift_pipeline
+from src.analytics.drift.pipelines import (
+    run_data_drift_pipeline,
+    run_concept_drift_pipeline,
+)
 from src.analytics.metrics.pipelines import (
     create_binary_classification_evaluation_metrics_pipeline,
     create_feature_metrics_pipeline,
@@ -56,10 +59,16 @@ async def run_calculate_drifting_metrics_pipeline(
     data_drift_report = run_data_drift_pipeline(
         processed_training_dropped_target_df, processed_inference_dropped_target_df
     )
+    concept_drift_report = run_concept_drift_pipeline(
+        training_processed_df,
+        inference_processed_df,
+        model.prediction,
+    )
 
     new_drifting_metric = entities.DriftingMetric(
         timestamp=str(datetime.utcnow()),
         model_id=model.id,
+        concept_drift_summary=concept_drift_report,
         data_drift_summary=data_drift_report,
     )
 

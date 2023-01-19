@@ -203,36 +203,44 @@ class TestNodes:
         )
 
     def test_create_concept_drift_pipeline_drift_not_detected(self):
-        concept_drift_report = run_concept_drift_pipeline(
-            reference_concept_drift, current_concept_drift, "y_testing_multi"
+        concept_drift_report = vars(
+            run_concept_drift_pipeline(
+                reference_concept_drift, current_concept_drift, "y_testing_multi"
+            )
         )
         assert list(concept_drift_report.keys()) == [
-            "timestamp",
             "concept_drift_summary",
             "column_correlation",
         ]
         assert (
-            round(concept_drift_report["concept_drift_summary"]["drift_score"], 3)
+            round(vars(concept_drift_report["concept_drift_summary"])["drift_score"], 3)
             == 0.082
         )
-        assert concept_drift_report["concept_drift_summary"]["drift_detected"] == False
+        assert (
+            vars(concept_drift_report["concept_drift_summary"])["drift_detected"]
+            == False
+        )
 
     def test_create_concept_drift_pipeline_drift_detected(self):
-        concept_drift_report = run_concept_drift_pipeline(
-            reference_concept_drift_detected,
-            current_concept_drift_detected,
-            "discount_price__currency",
+        concept_drift_report = vars(
+            run_concept_drift_pipeline(
+                reference_concept_drift_detected,
+                current_concept_drift_detected,
+                "discount_price__currency",
+            )
         )
         assert list(concept_drift_report.keys()) == [
-            "timestamp",
             "concept_drift_summary",
             "column_correlation",
         ]
         assert (
-            round(concept_drift_report["concept_drift_summary"]["drift_score"], 3)
+            round(vars(concept_drift_report["concept_drift_summary"])["drift_score"], 3)
             == 0.008
         )
-        assert concept_drift_report["concept_drift_summary"]["drift_detected"] == True
+        assert (
+            vars(concept_drift_report["concept_drift_summary"])["drift_detected"]
+            == True
+        )
 
     def test_create_binary_classification_training_model_pipeline(self):
         model, eval = create_binary_classification_training_model_pipeline(

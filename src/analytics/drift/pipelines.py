@@ -1,9 +1,8 @@
 import pandas as pd
-from typing import Dict, Union, Any
 import json
 from evidently.report import Report
 from evidently.metric_preset import DataDriftPreset, TargetDriftPreset
-from src.schemas.driftingMetric import DataDriftTable
+from src.schemas.driftingMetric import DataDriftTable, ConceptDriftTable
 
 
 def run_data_drift_pipeline(
@@ -54,7 +53,6 @@ def run_data_drift_pipeline(
     initial_report = json.loads(initial_report)
 
     data_drift_report = {}
-    data_drift_report["timestamp"] = initial_report["timestamp"]
     data_drift_report["drift_summary"] = initial_report["metrics"][1]["result"]
 
     return DataDriftTable(**data_drift_report["drift_summary"])
@@ -62,7 +60,7 @@ def run_data_drift_pipeline(
 
 def run_concept_drift_pipeline(
     reference_dataset: pd.DataFrame, current_dataset: pd.DataFrame, target_feature: str
-) -> Dict[str, Union[TargetDriftPreset, str]]:
+) -> ConceptDriftTable:
     """
     To estimate the categorical target drift, we compare the distribution of the target in the two datasets.
     This solution works for both binary and multi-class classification.
@@ -89,10 +87,12 @@ def run_concept_drift_pipeline(
     initial_report = drift_report.json()
     initial_report = json.loads(initial_report)
     concept_drift_report = {}
-    concept_drift_report["timestamp"] = initial_report["timestamp"]
     concept_drift_report["concept_drift_summary"] = initial_report["metrics"][0][
         "result"
     ]
     concept_drift_report["column_correlation"] = initial_report["metrics"][1]["result"]
 
-    return concept_drift_report
+    return ConceptDriftTable(
+        concept_drift_summary=concept_drift_report["concept_drift_summary"],
+        column_correlation=concept_drift_report["column_correlation"],
+    )

@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Dict, Union
+from typing import Dict, List, Union
 from pydantic import BaseModel
 from src.schemas.base import ItemBase
 
@@ -28,15 +28,15 @@ class CramerV(BaseModel):
 
     column_name: str
     kind: str
-    values: Dict[str, Dict[str, str]]
+    values: Dict[str, List[str]]
 
 
 class ColumnConceptDriftCorrelationMetrics(BaseModel):
     """One column concept drift correlation metrics"""
 
     column_name: str
-    current: CramerV
-    reference: CramerV
+    current: Dict[str, CramerV]
+    reference: Dict[str, CramerV]
 
 
 class ColumnConceptDriftMetrics(BaseModel):
@@ -57,12 +57,10 @@ class ConceptDriftTable(BaseModel):
     column_correlation: ColumnConceptDriftCorrelationMetrics
 
 
-# TODO: Need to include the class of the concept drift
 class DriftingMetricBase(ItemBase):
     model_id: str
     timestamp: Union[str, datetime]
-    # TODO: The pipeline needs to return a DataDriftTable. If evidently does not provide it we should create it.
-    # concept_drift_summary: DataDriftTable
+    concept_drift_summary: ConceptDriftTable
     data_drift_summary: DataDriftTable
 
 
