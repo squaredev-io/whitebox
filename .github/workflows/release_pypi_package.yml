@@ -1,0 +1,36 @@
+name: Release PyPI Package
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  release_charts:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      - name: Extract version and remove v prefix
+        id: extract_version
+        run: |
+          echo ::set-env name=VERSION::${{ env.GITHUB_REF | replace("refs/tags/v","") }}
+
+      - name: Build and Package
+        run: |
+          python setup.py sdist bdist_wheel
+
+      - name: Publish package
+        run: |
+          python -m pip install --upgrade pip
+          pip install twine
+          twine upload dist/*
