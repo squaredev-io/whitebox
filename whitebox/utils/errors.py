@@ -65,7 +65,7 @@ errors = CustomError()
 
 def add_error_responses(status_codes) -> List[ErrorProps]:
     """
-    For the schema to work the part after schemas/ should correspond to a title error schema in src/api/app/v1/docs.py
+    For the schema to work the part after schemas/ should correspond to a title error schema in whitebox/api/app/v1/docs.py
     """
 
     error_responses = {

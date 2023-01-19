@@ -11,9 +11,9 @@ settings = get_settings()
 test_model_id = "test_model_id"
 test_model_path = f"{settings.MODEL_PATH}/{test_model_id}"
 
-test_metrics_df = pd.read_csv("src/analytics/data/testing/metrics_test_data.csv")
+test_metrics_df = pd.read_csv("whitebox/analytics/data/testing/metrics_test_data.csv")
 test_classification_df = pd.read_csv(
-    "src/analytics/data/testing/classification_test_data.csv"
+    "whitebox/analytics/data/testing/classification_test_data.csv"
 )
 drift_data = fetch_california_housing(as_frame=True)
 drift_data = drift_data.frame
@@ -22,7 +22,7 @@ current = drift_data.iloc[1000:1200]
 reference_concept_drift = test_classification_df.head(5)
 current_concept_drift = test_classification_df.tail(5)
 concept_drift_detected_dataset = pd.read_csv(
-    "src/analytics/data/testing/udemy_fin_adj.csv"
+    "whitebox/analytics/data/testing/udemy_fin_adj.csv"
 )
 reference_concept_drift_detected = concept_drift_detected_dataset.head(1000)
 current_concept_drift_detected = concept_drift_detected_dataset.tail(1000)

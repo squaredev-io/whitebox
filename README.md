@@ -101,7 +101,7 @@ pre-commit install
 ### Run the server:
 
 ```bash
-ENV=dev uvicorn src.main:app --reload
+ENV=dev uvicorn whitebox.main:app --reload
 ```
 
 ### Tests:

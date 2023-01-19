@@ -12,4 +12,4 @@ COPY . .
 
 EXPOSE 8000
 
-ENTRYPOINT ENV=dev uvicorn src.main:app --reload --host 0.0.0.0 --port 8000 
+ENTRYPOINT ENV=dev uvicorn whitebox.main:app --reload --host 0.0.0.0 --port 8000 

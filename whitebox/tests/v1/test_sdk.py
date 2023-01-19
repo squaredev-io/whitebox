@@ -93,7 +93,7 @@ def test_sdk_delete_model(client):
 @pytest.mark.order(get_order_number("sdk_log_training_dataset"))
 def test_sdk_log_training_dataset(client):
     mock_model_id = "mock_model_id"
-    df = pd.read_csv("src/analytics/data/testing/classification_test_data.csv")
+    df = pd.read_csv("whitebox/analytics/data/testing/classification_test_data.csv")
 
     with requests_mock.Mocker() as m:
         m.post(
@@ -129,7 +129,7 @@ def test_sdk_log_training_dataset(client):
 @pytest.mark.order(get_order_number("sdk_log_inferences"))
 def test_sdk_log_inferences(client):
     mock_model_id = "mock_model_id"
-    df = pd.read_csv("src/analytics/data/testing/classification_test_data.csv")
+    df = pd.read_csv("whitebox/analytics/data/testing/classification_test_data.csv")
 
     with requests_mock.Mocker() as m:
         m.post(
