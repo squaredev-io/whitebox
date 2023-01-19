@@ -13,3 +13,6 @@ check_data/
 site/
 notebooks/
 test.ipynb
+dist/
+build/
+whitebox_sdk.egg-info
