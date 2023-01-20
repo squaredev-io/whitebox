@@ -8,31 +8,21 @@
 - **Robust**: Get production-ready MLOps system.
 - **Kubernetes**: Get production-ready code. With automatic interactive documentation.
 
+## Descriptive Statistics
+
+Whitebox provides a nice <a href="/monitor/descriptive-statistics/#descriptive-statistics" class="external-link" target="_blank">list of descriptive statistics</a> of input dataset, making the overview of data easy.
+
 ## Classification Models Metrics
 
-Whitebox includes comprehensive metrics tracking for classification models. These metrics include
+Whitebox includes comprehensive <a href="/monitor/evaluation-metrics/#evaluation-metrics" class="external-link" target="_blank">metrics</a> tracking for classification models. This allows users to easily evaluate the performance of their classification models and identify areas for improvement. Additionally, users can set custom thresholds for each metric to receive alerts when performance deviates from expected results.
 
-- accuracy
-- precision
-- recall
-- F1 score
-- confusion matrix
+## Data / Concept Drift Monitoring
 
-This allows users to easily evaluate the performance of their classification models and identify areas for improvement. Additionally, users can set custom thresholds for each metric to receive alerts when performance deviates from expected results.
+Whitebox includes monitoring for <a href="/monitor/drift/#drift" class="external-link" target="_blank">data and concept drift</a>. This feature tracks changes in the distribution of the data used to train models and alerts users when significant changes occur. Additionally, it detects changes in the performance of deployed models and alerts users when significant drift is detected. This allows users to identify and address data and model drift early, reducing the risk of poor model performance.
 
-## Regression Models Metrics
+## Explainable AI
 
-Whitebox includes comprehensive metrics tracking for regression models. These metrics include
-
-- mean squared error
-- mean absolute error
-- R-squared,
-
-This allows users to easily evaluate the performance of their regression models and identify areas for improvement. Additionally, users can set custom thresholds for each metric to receive alerts when performance deviates from expected results.
-
-## Data / Model Drift Monitoring
-
-Whitebox includes monitoring for data and model drift. This feature tracks changes in the distribution of the data used to train models and alerts users when significant changes occur. Additionally, it detects changes in the performance of deployed models and alerts users when significant drift is detected. This allows users to identify and address data and model drift early, reducing the risk of poor model performance.
+Whitebox includes model explaination also. The explainability performed through the <a href="/monitor/explainability/#explainability" class="external-link" target="_blank">explainability report</a> which allows user to know anytime which feature had the most impact on model's prediction.
 
 ## Alerts
 
