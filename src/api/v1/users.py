@@ -4,7 +4,6 @@ from src import crud
 from sqlalchemy.orm import Session
 from src.core.db import get_db
 from src.schemas.utils import StatusCode
-from src.utils.passwords import hash_password
 from src.utils.errors import add_error_responses
 
 users_router = APIRouter()
@@ -20,7 +19,6 @@ users_router = APIRouter()
 )
 async def create_user(body: UserCreateDto, db: Session = Depends(get_db)) -> User:
     """Creates an admin user during testing"""
-    body.api_key = hash_password(body.api_key)
     new_user = crud.users.create(db=db, obj_in=body)
     return new_user
 
