@@ -21,7 +21,7 @@ jobs:
           python-version: 3.9
 
       - name: Build a binary wheel and a source tarball.
-        run: python setup.py sdist bdist_wheel
+        run: pip install wheel && python setup.py sdist bdist_wheel
 
       - name: Publish distribution 📦 to PyPI
         if: startsWith(github.ref, 'refs/tags')
