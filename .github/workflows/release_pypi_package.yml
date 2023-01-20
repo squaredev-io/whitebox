@@ -20,13 +20,7 @@ jobs:
         with:
           python-version: 3.9
 
-      - name: Extract version from github tag, remove v prefix and make it an environment variable
-        id: extract_version
-        run: |
-          VERSION=$(echo ${{ github.ref }} | cut -d'/' -f3)
-          echo "::set-env name=VERSION::${VERSION#v}"
-
-      - name: Build a binary wheel and a source tarball
+      - name: Build a binary wheel and a source tarball. Get version from github tag (and remove v prefix)
         run: python setup.py sdist bdist_wheel
 
       - name: Publish distribution 📦 to PyPI

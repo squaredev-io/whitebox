@@ -1,9 +1,7 @@
 from setuptools import setup, find_packages
-import os
 
-# get version from env  variable
-VERSION = os.environ.get("VERSION")
-assert VERSION is not None, "VERSION env variable must be set"
+
+VERSION = "0.0.10"
 
 DESCRIPTION = "Whitebox is an open source E2E ML monitoring platform with edge capabilities that plays nicely with kubernetes"
 LONG_DESCRIPTION = ""
