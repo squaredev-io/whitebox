@@ -1,4 +1,4 @@
-# Using Whitebox
+# Using Whitebox SDK
 
 ## Installation
 
@@ -18,19 +18,23 @@ Now you're good to go!
 
 ## Initial Setup
 
-In order to run Whitebox, you will need the application's API key. This key will be produced for you during the initial run of the Uvicorn live server:
+In order to run Whitebox, you will need the application's API key.
+This key will be produced for you during the initial run of the Uvicorn live server.
+Assuming you run the server with docker compose (you can find more in the install page of the tutorial), you will see the following output:
 
 <div class="termy">
 
 ```console
-$ whitebox serve
+$ docker compose up
 
+...
 <span style="color: green;">INFO</span>: Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
 <span style="color: green;">INFO</span>: Started reloader process [4450] using StatReload
 <span style="color: green;">INFO</span>: Started server process [4452]
 <span style="color: green;">INFO</span>: Waiting for application startup.
 <span style="color: green;">INFO</span>: Created username: admin, API key: some_api_key
 <span style="color: green;">INFO</span>: Application startup complete.
+...
 ```
 
 </div>
@@ -148,35 +152,3 @@ wb.log_inferences(
 !!! warning
 
     Make sure you add the actuals if you already know them, because as of now, there's no ability to add them at a later time by updating the inference rows.
-
-## Metrics Calculation
-
-The metrics are automatically calculated in a set interval for all models in the database.
-
-### Metric Requirements
-
-All metrics require that inferences are provided for the specific model. If not, the whole process is skipped. Each metric though has different requirements that need to be fulfilled in order to be calculated:
-
-#### Drifting Metrics
-
-- Inferences
-- Training Dataset
-
-#### Performance Metrics
-
-- Inferences
-- Actuals for the inferences
-
-!!! note
-
-    If actuals aren't provided for all inferences, then **ONLY the inferences that have actuals** will be used for the calculation of the drifting metrics.
-
-#### Feature Metrics
-
-- Inferences
-
-### Monitors
-
-### Alerts
-
-Once the metrics reports have been produced, the monitoring alert pipeline is triggered. This means that if you have created any model monitors for a specific metric, alerts will be created if certain criteria are met, based on the thresholds and the monitor types you have specified.
