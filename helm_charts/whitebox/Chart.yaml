@@ -1,10 +1,10 @@
 apiVersion: v2
 name: whitebox
-description: A Machine Learning monitoring platform
+description: A Machine learning monitoring platform
 
 type: application
 version: 0.1.0
-appVersion: '0.1.0'
+appVersion: "0.1.0"
 
 dependencies:
   - name: postgresql

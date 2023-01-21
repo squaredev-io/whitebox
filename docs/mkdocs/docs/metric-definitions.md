@@ -1,4 +1,4 @@
-# Glossary / Metric Definitions
+# Glossary / Metric definitions
 
 ## Descriptive statistics
 
@@ -203,7 +203,7 @@ where:
 - $P,Q$ = distributions of 2 datasets
 - $M$ = ${1 \over 2} * (P+Q)$
 
-## Machine Learning models
+## Machine learning models
 
 ### Light Gradient Boosting Machine
 

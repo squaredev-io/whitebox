@@ -37,7 +37,7 @@ nav:
       - ml-monitoring.md
       - metric-definitions.md
 
-  - SDK Documantation: sdk-docs.md
+  - sdk-docs.md
 
 markdown_extensions:
   - pymdownx.arithmatex

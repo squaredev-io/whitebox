@@ -16,7 +16,7 @@ $  helm install whitebox squaredev/whitebox
 
 !!! info
 
-    Don't forget to get the API key and it somewhere safe!
+    Don't forget to get the API key and store it somewhere safe!
 
     If you lose it, you will need to delete the admin user in your database and re-run the live serve to produce a new key!
 
