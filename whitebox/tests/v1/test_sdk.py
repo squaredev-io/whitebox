@@ -1,5 +1,6 @@
 import pandas as pd
 import pytest
+from whitebox.schemas.modelMonitor import AlertSeverity, MonitorMetrics, MonitorStatus
 from whitebox.sdk import Whitebox
 from whitebox.tests.v1.conftest import get_order_number, state, state_sdk
 from whitebox.tests.v1.mock_data import (
@@ -171,3 +172,26 @@ def test_sdk_log_inferences(client):
             timestamps=timestamps,
             actuals=mixed_actuals,
         )
+
+
+@pytest.mark.order(get_order_number("sdk_create_model_monitor"))
+def test_sdk_create_model_monitor(client):
+    with requests_mock.Mocker() as m:
+        m.post(
+            url=f"{state_sdk.wb.host}/v1/model-monitors",
+            json=model_multi_create_payload,
+            headers={"api-key": state_sdk.wb.api_key},
+        )
+
+        model_monitor = state_sdk.wb.create_model_monitor(
+            model_id="mock_model_id",
+            name="test",
+            status=MonitorStatus.active,
+            metric=MonitorMetrics.accuracy,
+            feature="feature1",
+            lower_threshold=0.7,
+            severity=AlertSeverity.high,
+            email="jaclie.chan@chinamail.io",
+        )
+
+        assert model_monitor == model_monitor

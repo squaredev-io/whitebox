@@ -87,7 +87,7 @@ ENV=dev uvicorn whitebox.main:app --reload
 
 ### Tests:
 
-- Run: `ENV=test pytest -s`
+- Run: `ENV=test pytest` or `ENV=test pytest -s` to preserve logs.
 - Watch: `ENV=test ptw`
 - Run test coverage `ENV=test coverage run -m pytest`
 - Look at coverage report: `coverage report` or `coverage html` to generate an html. To view it in your browser open the `htmlcov/index.html` file.
