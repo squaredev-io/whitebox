@@ -51,7 +51,7 @@ services:
     restart: unless-stopped
     environment:
       - APP_NAME=Whitebox | Docker
-      - POSTGRES_DB_URI=postgresql://postgres:postgres@postgres:5432/postgres
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/postgres
     ports:
       - "8000:8000"
     depends_on:

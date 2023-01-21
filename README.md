@@ -71,6 +71,10 @@ Now you're ready to start using Whitebox! Read the [documentation](https://squar
 
 # Set up locally for development
 
+Whitebox supports Postgres and SQLite. You can use either one of them.
+If you want to use SQLite, you need to set up a SQLite database and set the `DATABASE_URL` environment variable to the database URL.
+If you want to use Postgres, you don't need to do anything. Just have a Postgres database running and set the `DATABASE_URL` environment variable to the database URL.
+
 ### Install packages:
 
 ```bash
@@ -83,6 +87,12 @@ pre-commit install
 
 ```bash
 ENV=dev uvicorn whitebox.main:app --reload
+```
+
+### Quick way to start a postgres database:
+
+```bash
+docker compose up postgres -d
 ```
 
 ### Tests:

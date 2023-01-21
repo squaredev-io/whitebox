@@ -6,7 +6,7 @@ import os
 class Settings(BaseSettings):
     APP_NAME: str = ""
     ENV: str = ""
-    POSTGRES_DB_URI: str = ""
+    DATABASE_URL: str = ""
     VERSION: str = ""
     MODEL_PATH: str = ""
 

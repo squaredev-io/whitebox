@@ -13,8 +13,8 @@ import os
 from secrets import token_hex
 
 settings = get_settings()
-database = databases.Database(settings.POSTGRES_DB_URI)
-engine = sqlalchemy.create_engine(settings.POSTGRES_DB_URI)
+database = databases.Database(settings.DATABASE_URL)
+engine = sqlalchemy.create_engine(settings.DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 

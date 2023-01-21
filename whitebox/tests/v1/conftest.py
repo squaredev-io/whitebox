@@ -27,8 +27,8 @@ def client():
 @fixture(scope="session", autouse=True)
 async def db():
     # runs once before all tests
-    engine = sqlalchemy.create_engine(settings.POSTGRES_DB_URI)
-    database = databases.Database(settings.POSTGRES_DB_URI)
+    engine = sqlalchemy.create_engine(settings.DATABASE_URL)
+    database = databases.Database(settings.DATABASE_URL)
     SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
     Base.metadata.create_all(engine)
     await database.connect()
