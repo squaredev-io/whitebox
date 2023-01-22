@@ -39,15 +39,7 @@ Design guidelines:
 
 # Installation
 
-Install whitebox server and all of its dependencies in your k8s cluster using `helm`
-
-```bash
-helm repo add squaredev https://chartmuseum.squaredev.io/
-helm repo update
-helm install whitebox squaredev/whitebox
-```
-
-Note: You can also install the server using `docker compose`. See the [docs](https://squaredev-io.github.io/whitebox/tutorial/installation) for more info.
+Install the server using `docker compose`. See the [docs](https://squaredev-io.github.io/whitebox/tutorial/installation) for more info.
 
 Install the SDK with `pip`:
 

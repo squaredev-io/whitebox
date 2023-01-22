@@ -1,26 +1,6 @@
 # Installation
 
-## Kubernetes
-
-Install whitebox server and all of its dependencies in your k8s cluster using `helm`
-
-<div class="termy">
-
-```console
-$  helm repo add squaredev https://chartmuseum.squaredev.io/
-$  helm repo update
-$  helm install whitebox squaredev/whitebox
-```
-
-</div>
-
-!!! info
-
-    Don't forget to get the API key and store it somewhere safe!
-
-    If you lose it, you will need to delete the admin user in your database and re-run the live serve to produce a new key!
-
-## Docker compose
+## Docker
 
 Install whitebox server and all of its dependencies using `docker-compose`
 
@@ -71,3 +51,9 @@ $  docker compose up
 ```
 
 </div>
+
+## Kubernetes
+
+!!! info
+
+    As kubernetes deployment is part of our Professional offering please [contact us](https://forms.office.com/pages/responsepage.aspx?id=-XXSgSIX1keVdU9wdH0U-XphvBYZ6r5PmfX1dlo1e3tUOFQyNkVNQkZRVUo0WTNXRkZTNVlPSzhJQy4u).
