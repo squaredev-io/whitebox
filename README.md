@@ -39,18 +39,12 @@ Design guidelines:
 
 # Installation
 
+Install the server using `docker compose`. See the [docs](https://squaredev-io.github.io/whitebox/tutorial/installation) for more info.
+
 Install the SDK with `pip`:
 
 ```bash
 pip install whitebox-sdk
-```
-
-Install whitebox server and all of its dependencies in your k8s cluster using `helm`
-
-```bash
-helm repo add squaredev https://chartmuseum.squaredev.io/
-helm repo update
-helm install whitebox squaredev/whitebox
 ```
 
 # How to use
@@ -67,28 +61,11 @@ wb = Whitebox(host="127.0.0.1:8000", api_key="some_api_key")
 
 Now you're ready to start using Whitebox! Read the [documentation](https://squaredev-io.github.io/whitebox/) to learn more about the SDK.
 
-## High level diagram of model set up
-
-All you have to do is register a model and send inference data through the SDK.
-
-```mermaid
-sequenceDiagram
-    actor user
-    participant whitebox
-
-    user->>user: Import sdk
-
-    note over user, whitebox: Configure model and monitors
-    user->>whitebox: Register model and training set via SDK
-    whitebox-->>user: Model ID
-    user->>whitebox: Log model inferences and actuals
-
-    note over user, whitebox: You can now start monitoring metrics and get alerts
-    user->>whitebox: Setup monitors to get specific alert
-    whitebox-->>user: Get alerted when an anomaly occurs
-```
-
 # Set up locally for development
+
+Whitebox supports Postgres and SQLite. You can use either one of them.
+If you want to use SQLite, you need to set up a SQLite database and set the `DATABASE_URL` environment variable to the database URL.
+If you want to use Postgres, you don't need to do anything. Just have a Postgres database running and set the `DATABASE_URL` environment variable to the database URL.
 
 ### Install packages:
 
@@ -104,9 +81,15 @@ pre-commit install
 ENV=dev uvicorn whitebox.main:app --reload
 ```
 
+### Quick way to start a postgres database:
+
+```bash
+docker compose up postgres -d
+```
+
 ### Tests:
 
-- Run: `ENV=test pytest -s`
+- Run: `ENV=test pytest` or `ENV=test pytest -s` to preserve logs.
 - Watch: `ENV=test ptw`
 - Run test coverage `ENV=test coverage run -m pytest`
 - Look at coverage report: `coverage report` or `coverage html` to generate an html. To view it in your browser open the `htmlcov/index.html` file.

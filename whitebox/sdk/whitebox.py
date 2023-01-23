@@ -2,10 +2,17 @@ from enum import Enum
 import numpy as np
 import pandas as pd
 from whitebox.schemas.model import FeatureTypes, ModelCreateDto, ModelType
-from typing import Dict
+from typing import Dict, Optional
 import requests
 import logging
 from fastapi import status
+
+from whitebox.schemas.modelMonitor import (
+    AlertSeverity,
+    ModelMonitorCreateDto,
+    MonitorMetrics,
+    MonitorStatus,
+)
 
 
 class APiVersion(str, Enum):
@@ -177,3 +184,38 @@ class Whitebox:
                 "Processed and non processed dataframes must have the same length."
             )
         return True
+
+    def create_model_monitor(
+        self,
+        model_id: str,
+        name: str,
+        status: MonitorStatus,
+        metric: MonitorMetrics,
+        feature: Optional[str],
+        lower_threshold: Optional[float],
+        severity: AlertSeverity,
+        email: str,
+    ):
+        """
+        Creates a monitor for a model.
+        """
+
+        model_monitor = ModelMonitorCreateDto(
+            model_id=model_id,
+            name=name,
+            status=status,
+            metric=metric,
+            feature=feature,
+            lower_threshold=lower_threshold,
+            severity=severity,
+            email=email,
+        )
+
+        result = requests.post(
+            url=f"{self.host}/{self.api_version}/model-monitors",
+            json=model_monitor.dict(),
+            headers={"api-key": self.api_key},
+        )
+
+        logger.info(result.json())
+        return result.json()

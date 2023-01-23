@@ -1,4 +1,4 @@
-from typing import List, Union
+from typing import List, Tuple, Union
 
 import pandas as pd
 from sqlalchemy.orm import Session
@@ -24,7 +24,7 @@ async def get_model_dataset_rows_df(db: Session, model_id: str) -> pd.DataFrame:
 
 async def get_model_inference_rows_df(
     db: Session, model_id: str
-) -> tuple[pd.DataFrame, pd.DataFrame, pd.Series]:
+) -> Tuple[pd.DataFrame, pd.DataFrame, pd.Series]:
     inference_rows_in_db = crud.inference_rows.get_inference_rows_by_model(
         db=db, model_id=model_id
     )
