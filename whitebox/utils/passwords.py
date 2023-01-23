@@ -2,7 +2,7 @@ from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.primitives import padding
 from cryptography.hazmat.backends import default_backend
 import secrets
-from src.core.settings import get_settings
+from whitebox.core.settings import get_settings
 
 
 settings = get_settings()
