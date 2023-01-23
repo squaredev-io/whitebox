@@ -12,13 +12,10 @@ from whitebox.sdk.whitebox import Whitebox
 from whitebox.tests.utils.maps import v1_test_order_map
 from whitebox.entities.Base import Base
 from whitebox.utils.passwords import decrypt_api_key
+from whitebox.core.db import SessionLocal
 
 
 settings = get_settings()
-
-database = databases.Database(settings.DATABASE_URL)
-engine = sqlalchemy.create_engine(settings.DATABASE_URL)
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
 def get_order_number(task):
@@ -45,19 +42,18 @@ class TestsState:
 state = TestsState()
 
 
-@fixture(scope="session", autouse=True)
-def get_admin_token():
-    Base.metadata.create_all(engine)
+@fixture(scope="session")
+def api_key():
     db = SessionLocal()
 
     user = crud.users.get_first_by_filter(db=db, username="admin")
-    state.api_key = (
+    api_key = (
         decrypt_api_key(user.api_key, settings.SECRET_KEY.encode())
         if settings.SECRET_KEY
         else user.api_key
     )
 
-    db.close()
+    yield api_key
 
 
 class TestsSDKState:

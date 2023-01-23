@@ -11,14 +11,14 @@ from fastapi import status
 
 
 @pytest.mark.order(get_order_number("model_monitor_create"))
-def test_model_monitor_create(client):
+def test_model_monitor_create(client, api_key):
     accuracy_monitor = client.post(
         "/v1/model-monitors",
         json={
             **model_monitor_accuracy_create_payload,
             "model_id": state.model_multi["id"],
         },
-        headers={"api-key": state.api_key},
+        headers={"api-key": api_key},
     )
 
     accuracy_monitor = client.post(
@@ -27,7 +27,7 @@ def test_model_monitor_create(client):
             **model_monitor_f1_create_payload,
             "model_id": state.model_multi["id"],
         },
-        headers={"api-key": state.api_key},
+        headers={"api-key": api_key},
     )
 
     accuracy_monitor = client.post(
@@ -36,7 +36,7 @@ def test_model_monitor_create(client):
             **model_monitor_data_drift_create_payload,
             "model_id": state.model_binary["id"],
         },
-        headers={"api-key": state.api_key},
+        headers={"api-key": api_key},
     )
 
     accuracy_monitor = client.post(
@@ -45,7 +45,7 @@ def test_model_monitor_create(client):
             **model_monitor_precision_create_payload,
             "model_id": state.model_binary["id"],
         },
-        headers={"api-key": state.api_key},
+        headers={"api-key": api_key},
     )
 
     assert accuracy_monitor.status_code == status.HTTP_201_CREATED
@@ -56,15 +56,15 @@ def test_model_monitor_create(client):
 def test_model_monitors_get_model_all(client):
     response_multi = client.get(
         f"/v1/model-monitors?model_id={state.model_multi['id']}",
-        headers={"api-key": state.api_key},
+        headers={"api-key": api_key},
     )
     response_all = client.get(
         f"/v1/model-monitors",
-        headers={"api-key": state.api_key},
+        headers={"api-key": api_key},
     )
     response_wrong_model = client.get(
         f"/v1/model-monitors?model_id=wrong_model_id",
-        headers={"api-key": state.api_key},
+        headers={"api-key": api_key},
     )
 
     assert len(response_multi.json()) == 2
