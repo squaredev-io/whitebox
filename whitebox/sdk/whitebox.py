@@ -220,7 +220,7 @@ class Whitebox:
         logger.info(result.json())
         return result.json()
 
-    def get_alerts(self, model_id: str) -> dict:
+    def get_alerts(self, model_id: str = "") -> dict:
         """
         Returns all alerts for a model.
         """
