@@ -95,7 +95,7 @@ class Whitebox:
 
     def log_training_dataset(
         self, model_id: str, non_processed: pd.DataFrame, processed: pd.DataFrame
-    ):
+    ) -> bool:
         """
         Logs a training dataset for a model.
 
@@ -133,7 +133,7 @@ class Whitebox:
         processed: pd.DataFrame,
         timestamps: pd.Series,
         actuals: pd.Series = None,
-    ):
+    ) -> bool:
         """
         Logs inferences of a model.
 
@@ -195,7 +195,7 @@ class Whitebox:
         lower_threshold: Optional[float],
         severity: AlertSeverity,
         email: str,
-    ):
+    ) -> dict:
         """
         Creates a monitor for a model.
         """
@@ -214,6 +214,18 @@ class Whitebox:
         result = requests.post(
             url=f"{self.host}/{self.api_version}/model-monitors",
             json=model_monitor.dict(),
+            headers={"api-key": self.api_key},
+        )
+
+        logger.info(result.json())
+        return result.json()
+
+    def get_alerts(self, model_id: str) -> dict:
+        """
+        Returns all alerts for a model.
+        """
+        result = requests.get(
+            url=f"{self.host}/{self.api_version}/alerts?modelId={model_id}",
             headers={"api-key": self.api_key},
         )
 

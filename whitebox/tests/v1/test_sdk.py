@@ -195,3 +195,26 @@ def test_sdk_create_model_monitor(client):
         )
 
         assert model_monitor == model_monitor
+
+
+@pytest.mark.order(get_order_number("sdk_get_alerts"))
+def test_sdk_create_model_monitor(client):
+    with requests_mock.Mocker() as m:
+        m.post(
+            url=f"{state_sdk.wb.host}/v1/alerts",
+            json=model_multi_create_payload,
+            headers={"api-key": state_sdk.wb.api_key},
+        )
+
+        model_monitor = state_sdk.wb.create_model_monitor(
+            model_id="mock_model_id",
+            name="test",
+            status=MonitorStatus.active,
+            metric=MonitorMetrics.accuracy,
+            feature="feature1",
+            lower_threshold=0.7,
+            severity=AlertSeverity.high,
+            email="jaclie.chan@chinamail.io",
+        )
+
+        assert model_monitor == model_monitor
