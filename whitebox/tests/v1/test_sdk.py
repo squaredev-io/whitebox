@@ -194,4 +194,4 @@ def test_sdk_create_model_monitor(client):
             email="jaclie.chan@chinamail.io",
         )
 
-        assert model_monitor == model_monitor
+        assert model_monitor is not None
