@@ -2,7 +2,7 @@
 
 ## Monitors
 
-You can create a monitor in whitebox so that alert are reated automaticaly when some value is out of bounds. Here is an example:
+You can create a monitor in whitebox so that alert are created automaticaly when some value is out of bounds. Here is an example:
 
 ```Python
 from whitebox import Whitebox, MonitorStatus, MonitorMetrics, AlertSeverity
