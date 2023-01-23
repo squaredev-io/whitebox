@@ -30,7 +30,6 @@ def client():
 
 class TestsState:
     user: dict = {}
-    api_key: str = ""
     model_binary: dict = {}
     model_multi: dict = {}
     model_multi_2: dict = {}
