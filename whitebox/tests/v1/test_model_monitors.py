@@ -53,7 +53,7 @@ def test_model_monitor_create(client, api_key):
 
 
 @pytest.mark.order(get_order_number("model_monitors_get_model_all"))
-def test_model_monitors_get_model_all(client):
+def test_model_monitors_get_model_all(client, api_key):
     response_multi = client.get(
         f"/v1/model-monitors?model_id={state.model_multi['id']}",
         headers={"api-key": api_key},
