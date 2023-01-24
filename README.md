@@ -111,7 +111,7 @@ Whitebox uses postgres as its database. They need to run in the same docker netw
   docker-compose -f examples/docker-compose/docker-compose.yml up
   ```
 
-If you just need to run Whitebox, make sure you set the `POSTGRES_DB_URI` in the environment.
+If you just need to run Whitebox, make sure you set the `DATABASE_URL` in the environment.
 
   ```bash
   docker run -dp 8000:8000 sqdhub/whitebox:main -e DATABASE_URL=postgresql://user:password@host:port/db_name
