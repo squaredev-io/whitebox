@@ -44,7 +44,7 @@ async def connect():
 
         obj_in = UserCreateDto(username="admin", api_key=api_key)
         crud.users.create(db=db, obj_in=obj_in)
-        logger.info(f"Created username: admin, API key: {api_key}")
+        logger.info(f"Created username: admin, API key: {plain_api_key}")
     await database.connect()
 
 
