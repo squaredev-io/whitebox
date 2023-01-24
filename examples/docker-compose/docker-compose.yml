@@ -25,6 +25,7 @@ services:
     environment:
       - APP_NAME=Whitebox | Docker
       - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/postgres
+      - SECRET_KEY=3beae33e30bcdaf6b172e17dc8f26341
     ports:
       - "8000:8000"
     depends_on:
