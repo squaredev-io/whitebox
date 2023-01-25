@@ -21,6 +21,7 @@ services:
 
   whitebox:
     image: sqdhub/whitebox:main
+    platform: linux/amd64
     restart: unless-stopped
     environment:
       - APP_NAME=Whitebox | Docker
