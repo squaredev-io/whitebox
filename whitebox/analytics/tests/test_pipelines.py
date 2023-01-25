@@ -47,6 +47,10 @@ test_regression_df = pd.read_csv(
 df_load_reg = load_diabetes()
 df_reg = pd.DataFrame(df_load_reg.data, columns=df_load_reg.feature_names)
 df_reg["target"] = df_load_reg.target
+df_reg_inference = df_reg.drop(columns=["target"])
+df_reg_inference = df_reg_inference.tail(10)
+df_reg_inference_row1 = df_reg_inference.iloc[7]
+df_reg_inference_row2 = df_reg_inference.iloc[3]
 
 
 class TestNodes:
@@ -282,28 +286,35 @@ class TestNodes:
         assert (eval_score) == 0.2576
 
     def test_create_xai_pipeline_per_inference_row(self):
-        binary_class_report1 = create_xai_pipeline_classification_per_inference_row(
+        binary_class_report1 = create_xai_pipeline_per_inference_row(
             df_binary, "target", df_binary_inference_row1, "binary", test_model_id
         )
-        multi_class_report1 = create_xai_pipeline_classification_per_inference_row(
+        multi_class_report1 = create_xai_pipeline_per_inference_row(
             df_multi, "target", df_multi_inference_row1, "multi_class", test_model_id
         )
-        binary_class_report2 = create_xai_pipeline_classification_per_inference_row(
+        regression_report1 = create_xai_pipeline_per_inference_row(
+            df_reg, "target", df_reg_inference_row1, "regression", test_model_id
+        )
+        binary_class_report2 = create_xai_pipeline_per_inference_row(
             df_binary, "target", df_binary_inference_row2, "binary", test_model_id
         )
-        multi_class_report2 = create_xai_pipeline_classification_per_inference_row(
+        multi_class_report2 = create_xai_pipeline_per_inference_row(
             df_multi, "target", df_multi_inference_row2, "multi_class", test_model_id
+        )
+        regression_report2 = create_xai_pipeline_per_inference_row(
+            df_reg, "target", df_reg_inference_row2, "regression", test_model_id
         )
 
         binary_contribution_check_one = binary_class_report1["worst perimeter"]
         binary_contribution_check_two = binary_class_report2["worst texture"]
         multi_contribution_check_one = multi_class_report1["hue"]
         multi_contribution_check_two = multi_class_report2["alcohol"]
+        regression_contribution_check_one = regression_report1["sex"]
+        regression_contribution_check_two = regression_report2["bp"]
 
         # We delete the models and the directory created by the create models for classification pipelines
         os.remove(f"{test_model_path}/lgb_binary.pkl")
         os.remove(f"{test_model_path}/lgb_multi.pkl")
-        # temp
         os.remove(f"{test_model_path}/lgb_reg.pkl")
         os.rmdir(test_model_path)
 
@@ -311,3 +322,5 @@ class TestNodes:
         assert (round(binary_contribution_check_two, 1)) == -0.1
         assert (round(multi_contribution_check_one, 2)) == -0.09
         assert (round(multi_contribution_check_two, 3)) == 0.076
+        assert (round(regression_contribution_check_one, 2)) == 9.48
+        assert (round(regression_contribution_check_two, 3)) == 14.079

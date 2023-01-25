@@ -2,7 +2,7 @@ from typing import Dict, List
 from whitebox.middleware.auth import authenticate_user
 from whitebox.schemas.inferenceRow import InferenceRow, InferenceRowCreateDto
 from whitebox.analytics.xai_models.pipelines import (
-    create_xai_pipeline_classification_per_inference_row,
+    create_xai_pipeline_per_inference_row,
 )
 import pandas as pd
 from whitebox.schemas.user import User
