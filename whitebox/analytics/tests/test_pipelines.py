@@ -4,7 +4,7 @@ from whitebox.analytics.models.pipelines import *
 from whitebox.analytics.xai_models.pipelines import *
 from unittest import TestCase
 from sklearn.datasets import fetch_california_housing
-from sklearn.datasets import load_breast_cancer, load_wine
+from sklearn.datasets import load_breast_cancer, load_wine, load_diabetes
 import os
 
 settings = get_settings()
@@ -44,6 +44,9 @@ df_multi_inference_row2 = df_multi_inference.iloc[2]
 test_regression_df = pd.read_csv(
     "whitebox/analytics/data/testing/regression_test_data.csv"
 )
+df_load_reg = load_diabetes()
+df_reg = pd.DataFrame(df_load_reg.data, columns=df_load_reg.feature_names)
+df_reg["target"] = df_load_reg.target
 
 
 class TestNodes:
@@ -270,6 +273,13 @@ class TestNodes:
         )
         eval_score = eval["precision"]
         assert (round(eval_score, 2)) == 0.96
+
+    def test_create_regression_training_model_pipeline(self):
+        model, eval = create_regression_training_model_pipeline(
+            df_reg, "target", test_model_id
+        )
+        eval_score = eval["r2_score"]
+        assert (eval_score) == 0.2576
 
     def test_create_xai_pipeline_classification_per_inference_row(self):
         binary_class_report1 = create_xai_pipeline_classification_per_inference_row(
