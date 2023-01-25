@@ -13,10 +13,10 @@ from fastapi import status
 
 
 @pytest.mark.order(get_order_number("sdk_init"))
-def test_sdk_init(client):
-    wb = Whitebox(host=client.base_url, api_key=state.api_key)
+def test_sdk_init(client, api_key):
+    wb = Whitebox(host=client.base_url, api_key=api_key)
     assert wb.host == client.base_url
-    assert wb.api_key == state.api_key
+    assert wb.api_key == api_key
     state_sdk.wb = wb
 
 

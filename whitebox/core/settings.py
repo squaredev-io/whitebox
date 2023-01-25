@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     DATABASE_URL: str = ""
     VERSION: str = ""
     MODEL_PATH: str = ""
+    SECRET_KEY: str = ""
 
     class Config:
         env_file = f".env.{os.getenv('ENV')}" or ".env.dev"

@@ -102,6 +102,39 @@ docker compose up postgres -d
 mkdocs serve -f docs/mkdocs/mkdocs.yml -a localhost:8001
 ```
 
+# Deploy Whitebox
+## Using docker
+
+Whitebox uses postgres as its database. They need to run in the same docker network. An example docker-compose file is located in the `examples` folder. Make sure you replace the SECRET_KEY with one of your own. Look below for more info.
+
+  ```bash
+  docker-compose -f examples/docker-compose/docker-compose.yml up
+  ```
+
+If you just need to run Whitebox, make sure you set the `DATABASE_URL` in the environment.
+
+  ```bash
+  docker run -dp 8000:8000 sqdhub/whitebox:main -e DATABASE_URL=postgresql://user:password@host:port/db_name
+  ```
+To save the api key encrypted in the database, provide a SECRET_KEY variable in the environment that is consisted of a 16 bytes string. 
+  ```bash
+  python -c "from secrets import token_hex; print(token_hex(16))"
+  ```
+***Save this token somewhere safe.***
+
+The api key can be retrieved directly from the postgres database:
+
+  ```bash
+  API_KEY=$(docker exec <postgres_container_id> /bin/sh -c "psql -U postgres -c \"SELECT api_key FROM users WHERE username='admin';\" -tA")
+
+  echo $API_KEY
+  ```
+If you've set the `SECRET_KEY` in the environment get the decrypted key using:
+
+  ```bash
+  docker exec <whitebox_container_id> /usr/local/bin/python scripts/decrypt_api_key.py $API_KEY
+  ```
+
 # Contributing
 
 We happily welcome contributions to Whitebox. You can start by opening a new issue!
