@@ -83,7 +83,7 @@ Creates a monitor for a specific metric.
 | **severity**        | `AlertSeverity`  | The severity of the alert the monitor produces. Possible values for `AlertSeverity`: `low`, `mid`, `high`.                                                               |
 | **email**           | `str`            | The email to which the alert will be sent.                                                                                                                               |
 | **feature**         | `str`            | The feature to be monitored. Defaults to `None`.                                                                                                                         |
-| **lower_threshold** | `float`          | The threshold under which an alert will be produced. Defaults to `None`.                                                                                                 |
+| **lower_threshold** | `float`          | The threshold below which an alert will be produced. Defaults to `None`.                                                                                                 |
 
 !!! note
 
