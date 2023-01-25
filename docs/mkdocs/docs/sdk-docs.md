@@ -4,7 +4,7 @@
 
 **_create_model_**_(name, type, features, prediction, probability, labels, description="")_
 
-Creates a model in the database. This model works aσ placeholder for all the he actual model's metadata.
+Creates a model in the database. This model works as placeholder for all the actual model's metadata.
 
 | Parameter       | Type                      | Description                                                                                                           |
 | --------------- | ------------------------- | --------------------------------------------------------------------------------------------------------------------- |

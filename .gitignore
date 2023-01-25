@@ -11,5 +11,9 @@ check_data/
 *.ipynb_checkpoints
 *.db
 site/
-src/notebooks/
+# src/notebooks/
+notebooks/
 test.ipynb
+dist/
+build/
+whitebox_sdk.egg-info

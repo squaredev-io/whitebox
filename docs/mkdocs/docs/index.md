@@ -16,17 +16,18 @@
 
 **Source Code**: <a href="https://github.com/squaredev-io/whitebox" target="_blank">https://github.com/squaredev-io/whitebox</a>
 
-**Roadmap**: <a href="https://github.com/squaredev-io/whitebox/milestone/2" target="_blank">https://github.com/squaredev-io/whitebox/milestone/2</a>
+**Roadmap**: <a href="https://github.com/squaredev-io/whitebox/milestones" target="_blank">https://github.com/squaredev-io/whitebox/milestones</a>
 
 ---
 
-Whitebox is an open source E2E ML monitoring platform with edge capabilities that plays nicely with kubernetes.
+Whitebox is a dynamic open source E2E ML monitoring platform with edge capabilities that plays nicely with kubernetes.
 
-The key features are:
+The current key features are:
 
-- **Classification models metrics**
-- **Regression models metrics**
-- **Data / model drift monitoring**
+- **Descriptive statistics**
+- **Classification models evaluation metrics**
+- **Data / Concept drift monitoring**
+- **Explainable AI**
 - **Alerts**
 
 Design guidelines:

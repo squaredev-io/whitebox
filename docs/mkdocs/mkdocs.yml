@@ -9,7 +9,7 @@ theme:
       primary: cyan
       accent: blue
       toggle:
-        icon: material/weather-sunny 
+        icon: material/weather-sunny
         name: Switch to dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
@@ -23,23 +23,22 @@ theme:
 repo_url: https://github.com/squaredev-io/whitebox
 repo_name: squaredev/whitebox
 edit_uri: ""
+
 nav:
-  - Whitebox: index.md
-  - Feaures: features.md
-  - ML Monitoring: ml-monitoring.md
-  - Monitor: 
-    - monitor/descriptive-statistics.md
-    - monitor/evaluation-metrics.md
-    - monitor/drift-metrics.md
-    - monitor/explainability.md
-  - Tutorial - User Guide: 
-    - tutorial/index.md
-    - Notebooks:
-      - tutorial/notebooks/sdk.ipynb
-  - Deploymemt: deployment.md
-  - SDK Documantation: sdk-docs.md
-  - Glossary:
-    - glossary/metric-definitions.md
+  - Overview: index.md
+  - Features: features.md
+  - Tutorial:
+      - tutorial/installation.md
+      - tutorial/sdk.md
+      - tutorial/metrics.md
+      - tutorial/monitors_alerts.md
+
+  - MLOps monitoring intro:
+      - ml-monitoring.md
+      - metric-definitions.md
+
+  - sdk-docs.md
+
 markdown_extensions:
   - pymdownx.arithmatex
   - pymdownx.highlight:
@@ -54,12 +53,10 @@ markdown_extensions:
   - toc:
       permalink: true
 extra_css:
-- css/termynal.css
-- css/custom.css
+  - css/termynal.css
+  - css/custom.css
 extra_javascript:
-- js/termynal.js
-- js/custom.js
-- mathjax-config.js
-- https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML
-plugins:
-  - mkdocs-jupyter
+  - js/termynal.js
+  - js/custom.js
+  - mathjax-config.js
+  - https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML

@@ -37,42 +37,35 @@ Design guidelines:
 - **Robust**: Get production-ready MLOps system.
 - **Kubernetes**: Get production-ready code. With automatic interactive documentation.
 
-# How to use
+# Installation
 
-## Run the server
+Install the server using `docker compose`. See the [docs](https://squaredev-io.github.io/whitebox/tutorial/installation) for more info.
 
-The project is still in rapid development so to run the server clone the repo and run:
+Install the SDK with `pip`:
 
 ```bash
-python -m venv .venv
-pip install -r requirements.txt
-ENV=dev uvicorn src.main:app --reload
+pip install whitebox-sdk
 ```
 
-In the near future you will be able to `pip install whitebox` and run `whitebox serve` to run whitebox.
+# How to use
 
-## High level diagram of model set up
+After you are done installing the server and the SDK, you can start using it.
 
-All you have to do is register a model and send inference data through the SDK.
+After you get the API key, all you have to do is create an instance of the Whitebox class adding your host and API key as parameters:
 
-```mermaid
-sequenceDiagram
-    actor user
-    participant whitebox
+```python
+from whitebox import Whitebox
 
-    user->>user: Import sdk
-
-    note over user, whitebox: Configure model and monitors
-    user->>whitebox: Register model and training set via SDK
-    whitebox-->>user: Model ID
-    user->>whitebox: Log model inferences and actuals
-
-    note over user, whitebox: You can now start monitoring metrics and get alerts
-    user->>whitebox: Setup monitors to get specific alert
-    whitebox-->>user: Get alerted when an anomaly occurs
+wb = Whitebox(host="127.0.0.1:8000", api_key="some_api_key")
 ```
+
+Now you're ready to start using Whitebox! Read the [documentation](https://squaredev-io.github.io/whitebox/) to learn more about the SDK.
 
 # Set up locally for development
+
+Whitebox supports Postgres and SQLite. You can use either one of them.
+If you want to use SQLite, you need to set up a SQLite database and set the `DATABASE_URL` environment variable to the database URL.
+If you want to use Postgres, you don't need to do anything. Just have a Postgres database running and set the `DATABASE_URL` environment variable to the database URL.
 
 ### Install packages:
 
@@ -85,12 +78,18 @@ pre-commit install
 ### Run the server:
 
 ```bash
-ENV=dev uvicorn src.main:app --reload
+ENV=dev uvicorn whitebox.main:app --reload
+```
+
+### Quick way to start a postgres database:
+
+```bash
+docker compose up postgres -d
 ```
 
 ### Tests:
 
-- Run: `ENV=test pytest -s`
+- Run: `ENV=test pytest` or `ENV=test pytest -s` to preserve logs.
 - Watch: `ENV=test ptw`
 - Run test coverage `ENV=test coverage run -m pytest`
 - Look at coverage report: `coverage report` or `coverage html` to generate an html. To view it in your browser open the `htmlcov/index.html` file.
@@ -102,15 +101,6 @@ ENV=dev uvicorn src.main:app --reload
 ```
 mkdocs serve -f docs/mkdocs/mkdocs.yml -a localhost:8001
 ```
-
-# Helm chart
-You can install whitebox and all of its dependencies in your k8s cluster using helm
-  
-  ```bash
-  helm repo add squaredev https://chartmuseum.squaredev.io/
-  helm repo update
-  helm install whitebox squaredev/whitebox
-  ```
 
 # Contributing
 
