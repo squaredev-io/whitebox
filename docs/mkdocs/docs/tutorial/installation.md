@@ -63,7 +63,7 @@ $  docker-compose up
 
 ## Kubernetes
 
-You can also install Whitebox server and all of its dependencies in your k8s cluster using `helm`
+You can also install Whitebox server and all of its dependencies in your k8s cluster using `helm`:
 
 ```bash
 helm repo add squaredev https://chartmuseum.squaredev.io/
