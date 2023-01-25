@@ -6,6 +6,7 @@ import lightgbm as lgb
 from lightgbm import LGBMClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import roc_auc_score, precision_score
+from sklearn import metrics
 import joblib
 from whitebox.core.settings import get_settings
 
@@ -178,7 +179,7 @@ def create_regression_training_model_pipeline(
 
     reg = lgb.LGBMRegressor()
     reg.fit(X_train, y_train)
-    joblib.dump(clf, f"{model_path}/lgb_reg.pkl")
+    joblib.dump(reg, f"{model_path}/lgb_reg.pkl")
 
     """
     We make some predictions in the X_test and we find the class 
