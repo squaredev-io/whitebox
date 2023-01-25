@@ -303,6 +303,8 @@ class TestNodes:
         # We delete the models and the directory created by the create models for classification pipelines
         os.remove(f"{test_model_path}/lgb_binary.pkl")
         os.remove(f"{test_model_path}/lgb_multi.pkl")
+        # temp
+        os.remove(f"{test_model_path}/lgb_reg.pkl")
         os.rmdir(test_model_path)
 
         assert (round(binary_contribution_check_one, 3)) == -0.464
