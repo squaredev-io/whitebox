@@ -281,7 +281,7 @@ class TestNodes:
         eval_score = eval["r2_score"]
         assert (eval_score) == 0.2576
 
-    def test_create_xai_pipeline_classification_per_inference_row(self):
+    def test_create_xai_pipeline_per_inference_row(self):
         binary_class_report1 = create_xai_pipeline_classification_per_inference_row(
             df_binary, "target", df_binary_inference_row1, "binary", test_model_id
         )
