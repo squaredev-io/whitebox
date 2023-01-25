@@ -11,7 +11,6 @@ check_data/
 *.ipynb_checkpoints
 *.db
 site/
-# src/notebooks/
 notebooks/
 test.ipynb
 dist/
