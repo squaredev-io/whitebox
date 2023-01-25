@@ -2,12 +2,14 @@
 
 ## Installation
 
-Installing Whitebox is a pretty easy job. Just install it like any other python package:
+Installing Whitebox is a pretty easy job. Just install it like any other python package.
+
+Install the SDK with `pip`:
 
 <div class="termy">
 
 ```console
-$  pip install whitebox
+$  pip install whitebox-sdk
 ```
 
 </div>

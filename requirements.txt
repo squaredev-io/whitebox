@@ -70,7 +70,6 @@ llvmlite==0.38.1
 MarkupSafe==2.1.1
 matplotlib==3.6.0
 matplotlib-inline==0.1.6
-mkdocs-jupyter==0.22.0
 mkdocs-material==8.5.11
 multidict==6.0.2
 munkres==1.1.4
