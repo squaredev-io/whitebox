@@ -192,3 +192,44 @@ def create_multiple_classification_evaluation_metrics_pipeline(
             conf_matrix,
         )
     )
+
+
+def create_regression_evaluation_metrics_pipeline(
+    test_set: pd.Series, prediction_set: pd.Series
+) -> Dict[str, float]:
+
+    """
+    Regression evaluation metrics
+
+    Calculates the evaluation metrics for regression
+    given two datasets
+
+    Parameters
+    ----------
+    test_set : pd.Series
+        Given ground truth dataset
+
+    prediction_set : pd.Series
+        Given predictions dataset
+
+    Returns
+    -------
+    evaluation_metrics : Dict
+
+        The returned metrics are:
+            r square,
+            mean square error,
+            mean absolute error
+
+    """
+
+    rsq = round(metrics.r2_score(test_set, prediction_set), 4)
+    mse = round(metrics.mean_squared_error(test_set, prediction_set), 4)
+    mae = round(metrics.mean_absolute_error(test_set, prediction_set), 4)
+
+    regression_report = {}
+    regression_report["r_square"] = rsq
+    regression_report["mean_squared_error"] = mse
+    regression_report["mean_absolute_error"] = mae
+
+    return regression_report

@@ -41,6 +41,10 @@ df_multi_inference = df_multi_inference.tail(10)
 df_multi_inference_row1 = df_multi_inference.iloc[4]
 df_multi_inference_row2 = df_multi_inference.iloc[2]
 
+test_regression_df = pd.read_csv(
+    "whitebox/analytics/data/testing/regression_test_data.csv"
+)
+
 
 class TestNodes:
     def test_create_feature_metrics_pipeline(self):
@@ -179,6 +183,17 @@ class TestNodes:
             },
             multi_metrics.confusion_matrix["class2"].dict(),
         )
+
+    def test_create_regression_evaluation_metrics_pipeline(self):
+        reg_report = create_regression_evaluation_metrics_pipeline(
+            test_regression_df["y_test"], test_regression_df["y_prediction"]
+        )
+        rsq = reg_report["r_square"]
+        mse = reg_report["mean_squared_error"]
+        mae = reg_report["mean_absolute_error"]
+        assert (rsq) == 0.9044
+        assert (mse) == 0.0071
+        assert (mae) == 0.037
 
     def test_create_data_drift_pipeline(self):
         data_drift_report = dict(run_data_drift_pipeline(reference, current))
