@@ -16,7 +16,7 @@ Another important aspect of ML monitoring is the ability to detect and address d
 
 ## Monitoring input data
 
-Another important aspect of ML monitoring is being able to track the input data that is being fed into the model. This can be used to identify any issues with the data, such as missing values or outliers, and to ensure that the data is being processed correctly. This helps to ensure that the model is making accurate predictions and that the data is being used effectively.
+Another important aspect of ML monitoring is being able to track the input data that is being fed into the model. This can be used to identify any issues with the data, such as missing values, and to ensure that the data is being processed correctly. This helps to ensure that the model is making accurate predictions and that the data is being used effectively.
 
 ## Monitoring infrastructure and resources
 

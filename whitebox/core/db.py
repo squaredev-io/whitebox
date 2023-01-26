@@ -6,9 +6,8 @@ from whitebox.entities.Base import Base
 from whitebox.schemas.user import UserCreateDto
 
 from whitebox import crud
-from whitebox.utils.passwords import hash_password
+from whitebox.utils.passwords import encrypt_api_key
 from whitebox.utils.logger import cronLogger as logger
-import os
 
 from secrets import token_hex
 
@@ -32,13 +31,20 @@ async def connect():
     """
     Base.metadata.create_all(engine)
     db = SessionLocal()
-    if not os.getenv("ENV") == "test":
-        admin_exists = crud.users.get_first_by_filter(db=db, username="admin")
-        if not admin_exists:
-            api_key = token_hex(32)
-            obj_in = UserCreateDto(username="admin", api_key=hash_password(api_key))
-            crud.users.create(db=db, obj_in=obj_in)
-            logger.info(f"Created username: admin, API key: {api_key}")
+
+    admin_exists = crud.users.get_first_by_filter(db=db, username="admin")
+    if not admin_exists:
+        plain_api_key = token_hex(32)
+        secret_key = settings.SECRET_KEY
+        api_key = (
+            encrypt_api_key(plain_api_key, secret_key.encode())
+            if secret_key
+            else plain_api_key
+        )
+
+        obj_in = UserCreateDto(username="admin", api_key=api_key)
+        crud.users.create(db=db, obj_in=obj_in)
+        logger.info(f"Created username: admin, API key: {plain_api_key}")
     await database.connect()
 
 

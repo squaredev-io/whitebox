@@ -12,14 +12,14 @@ from fastapi import status
 
 
 @pytest.mark.order(get_order_number("inference_rows_create"))
-def test_inference_row_create(client):
+def test_inference_row_create(client, api_key):
     response = client.post(
         "/v1/inference-rows",
         json={
             **inference_row_create_single_row_payload,
             "model_id": state.model_multi["id"],
         },
-        headers={"api-key": state.api_key},
+        headers={"api-key": api_key},
     )
     state.inference_row_multi = response.json()
     assert response.status_code == status.HTTP_201_CREATED
@@ -27,7 +27,7 @@ def test_inference_row_create(client):
 
 
 @pytest.mark.order(get_order_number("inference_rows_create_many"))
-def test_inference_row_create_many(client):
+def test_inference_row_create_many(client, api_key):
     response_binary = client.post(
         "/v1/inference-rows/batch",
         json=list(
@@ -36,7 +36,7 @@ def test_inference_row_create_many(client):
                 inference_row_create_many_binary_payload,
             )
         ),
-        headers={"api-key": state.api_key},
+        headers={"api-key": api_key},
     )
 
     state.inference_row_binary = response_binary.json()[0]
@@ -49,7 +49,7 @@ def test_inference_row_create_many(client):
                 inference_row_create_many_multi_payload,
             )
         ),
-        headers={"api-key": state.api_key},
+        headers={"api-key": api_key},
     )
 
     response_multi_2 = client.post(
@@ -60,7 +60,7 @@ def test_inference_row_create_many(client):
                 inference_row_create_many_multi_no_actual_payload,
             )
         ),
-        headers={"api-key": state.api_key},
+        headers={"api-key": api_key},
     )
 
     response_multi_3 = client.post(
@@ -71,7 +71,7 @@ def test_inference_row_create_many(client):
                 inference_row_create_many_multi_mixed_actuals_payload,
             )
         ),
-        headers={"api-key": state.api_key},
+        headers={"api-key": api_key},
     )
 
     assert response_binary.status_code == status.HTTP_201_CREATED
@@ -83,18 +83,18 @@ def test_inference_row_create_many(client):
 
 
 @pytest.mark.order(get_order_number("inference_rows_get_model's_all"))
-def test_inference_row_get_models_all(client):
+def test_inference_row_get_models_all(client, api_key):
     response_multi = client.get(
         f"/v1/inference-rows?model_id={state.model_multi['id']}",
-        headers={"api-key": state.api_key},
+        headers={"api-key": api_key},
     )
     response_binary = client.get(
         f"/v1/inference-rows?model_id={state.model_binary['id']}",
-        headers={"api-key": state.api_key},
+        headers={"api-key": api_key},
     )
     response_wrong_model = client.get(
         f"/v1/inference-rows?model_id=wrong_model_id",
-        headers={"api-key": state.api_key},
+        headers={"api-key": api_key},
     )
     assert response_multi.status_code == status.HTTP_200_OK
     assert response_binary.status_code == status.HTTP_200_OK
@@ -104,14 +104,14 @@ def test_inference_row_get_models_all(client):
 
 
 @pytest.mark.order(get_order_number("inference_rows_get"))
-def test_inference_row_get(client):
+def test_inference_row_get(client, api_key):
     response = client.get(
         f"/v1/inference-rows/{state.inference_row_multi['id']}",
-        headers={"api-key": state.api_key},
+        headers={"api-key": api_key},
     )
     response_wrong_inference = client.get(
         f"/v1/inference-rows/wrong_inference_id",
-        headers={"api-key": state.api_key},
+        headers={"api-key": api_key},
     )
     assert response.status_code == status.HTTP_200_OK
     assert response_wrong_inference.status_code == status.HTTP_404_NOT_FOUND
@@ -119,15 +119,15 @@ def test_inference_row_get(client):
 
 
 @pytest.mark.order(get_order_number("inference_rows_xai"))
-def test_inference_row_xai(client):
+def test_inference_row_xai(client, api_key):
     response = client.get(
         f"/v1/inference-rows/{state.inference_row_binary['id']}/xai",
-        headers={"api-key": state.api_key},
+        headers={"api-key": api_key},
     )
 
     response_wrong_inference = client.get(
         f"/v1/inference-rows/wrong_inference_id/xai",
-        headers={"api-key": state.api_key},
+        headers={"api-key": api_key},
     )
 
     assert response.status_code == status.HTTP_200_OK
