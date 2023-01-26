@@ -9,7 +9,7 @@ Creates a model in the database. This model works as placeholder for all the act
 | Parameter       | Type                      | Description                                                                                                           |
 | --------------- | ------------------------- | --------------------------------------------------------------------------------------------------------------------- |
 | **name**        | `str`                     | The name of the model.                                                                                                |
-| **type**        | `str`                     | The model's type. Possible values: `binary`,`multi_class`.                                                            |
+| **type**        | `str`                     | The model's type. Possible values: `binary`,`multi_class`, `regression`.                                              |
 | **features**    | `Dict[str, FeatureTypes]` | The model's features. Possible values for `FeatureTypes`: `categorical`,`boolean`, `string`, `datetime`, `numerical`. |
 | **prediction**  | `str`                     | The prediction of the model.                                                                                          |
 | **probability** | `str`                     | The probability of the model.                                                                                         |

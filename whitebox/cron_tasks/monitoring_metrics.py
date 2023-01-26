@@ -13,6 +13,7 @@ from whitebox.analytics.metrics.pipelines import (
     create_binary_classification_evaluation_metrics_pipeline,
     create_feature_metrics_pipeline,
     create_multiple_classification_evaluation_metrics_pipeline,
+    create_regression_evaluation_metrics_pipeline,
 )
 from whitebox.core.settings import get_settings
 from whitebox.cron_tasks.shared import (
@@ -134,6 +135,9 @@ async def run_calculate_performance_metrics_pipeline(
         )
 
         crud.multi_classification_metrics.create(db, obj_in=new_performance_metric)
+
+    elif model.type == ModelType.regression:
+        create_regression_evaluation_metrics_pipeline()
 
     logger.info("Performance metrics calculated!")
 

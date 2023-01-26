@@ -3,6 +3,7 @@ from typing import List
 from whitebox.analytics.models.pipelines import (
     create_binary_classification_training_model_pipeline,
     create_multiclass_classification_training_model_pipeline,
+    create_regression_training_model_pipeline,
 )
 from whitebox.middleware.auth import authenticate_user
 from whitebox.schemas.datasetRow import DatasetRow, DatasetRowCreate
@@ -70,6 +71,13 @@ async def create_dataset_rows(
         elif model.type == "multi_class":
             background_tasks.add_task(
                 create_multiclass_classification_training_model_pipeline,
+                processed_dataset_rows_pd,
+                model.prediction,
+                model.id,
+            )
+        elif model.type == "regression":
+            background_tasks.add_task(
+                create_regression_training_model_pipeline,
                 processed_dataset_rows_pd,
                 model.prediction,
                 model.id,

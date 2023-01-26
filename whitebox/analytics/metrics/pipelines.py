@@ -1,12 +1,12 @@
 import pandas as pd
-import numpy as np
 from sklearn import metrics
 from sklearn.metrics import confusion_matrix
 from whitebox.analytics.metrics.functions import *
-from typing import Dict, Union, Any, List
+from typing import List
 from whitebox.schemas.performanceMetric import (
     BinaryClassificationMetricsPipelineResult,
     MultiClassificationMetricsPipelineResult,
+    RegressionMetricsPipelineResult,
 )
 from whitebox.schemas.modelIntegrityMetric import FeatureMetrics
 
@@ -196,7 +196,7 @@ def create_multiple_classification_evaluation_metrics_pipeline(
 
 def create_regression_evaluation_metrics_pipeline(
     test_set: pd.Series, prediction_set: pd.Series
-) -> Dict[str, float]:
+) -> RegressionMetricsPipelineResult:
 
     """
     Regression evaluation metrics
@@ -227,9 +227,8 @@ def create_regression_evaluation_metrics_pipeline(
     mse = round(metrics.mean_squared_error(test_set, prediction_set), 4)
     mae = round(metrics.mean_absolute_error(test_set, prediction_set), 4)
 
-    regression_report = {}
-    regression_report["r_square"] = rsq
-    regression_report["mean_squared_error"] = mse
-    regression_report["mean_absolute_error"] = mae
-
-    return regression_report
+    return RegressionMetricsPipelineResult(
+        **format_evaluation_metrics_regression(
+            r_square=rsq, mean_squared_error=mse, mean_absolute_error=mae
+        )
+    )

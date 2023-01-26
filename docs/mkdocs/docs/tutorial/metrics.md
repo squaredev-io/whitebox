@@ -19,7 +19,6 @@ The descriptive statistics are calculated per feature on any given dataset.
 | Metric                 | Type of data                |
 | ---------------------- | --------------------------- |
 | **missing_count**      | `numerical` & `categorical` |
-| **missing_count**      | `numerical` & `categorical` |
 | **non_missing_count**  | `numerical` & `categorical` |
 | **mean**               | `numerical`                 |
 | **minimum**            | `numerical`                 |

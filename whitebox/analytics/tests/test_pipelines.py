@@ -192,8 +192,10 @@ class TestNodes:
         )
 
     def test_create_regression_evaluation_metrics_pipeline(self):
-        reg_report = create_regression_evaluation_metrics_pipeline(
-            test_regression_df["y_test"], test_regression_df["y_prediction"]
+        reg_report = dict(
+            create_regression_evaluation_metrics_pipeline(
+                test_regression_df["y_test"], test_regression_df["y_prediction"]
+            )
         )
         rsq = reg_report["r_square"]
         mse = reg_report["mean_squared_error"]

@@ -136,7 +136,7 @@ async def create_inference_row_xai_report(
 
     dataset_rows_processed = [x.processed for x in dataset_rows]
 
-    xai_report = create_xai_pipeline_classification_per_inference_row(
+    xai_report = create_xai_pipeline_per_inference_row(
         training_set=pd.DataFrame(dataset_rows_processed),
         target=model.prediction,
         inference_row=inference_row_series,
