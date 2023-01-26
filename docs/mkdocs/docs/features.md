@@ -12,9 +12,15 @@
 
 Whitebox provides a nice [list of descriptive statistics](../metric-definitions/#descriptive-statistics) of input dataset, making the overview of data easy.
 
-## Classification Models Metrics
+## Models Metrics
+
+### Classification Models
 
 Whitebox includes comprehensive [metrics](../metric-definitions/#evaluation-metrics) tracking for classification models. This allows users to easily evaluate the performance of their classification models and identify areas for improvement. Additionally, users can set custom thresholds for each metric to receive alerts when performance deviates from expected results.
+
+### Regression Models
+
+Whitebox includes comprehensive [metrics](../metric-definitions/#evaluation-metrics) tracking for regression models. This allows users to easily evaluate the performance of their regression models and identify areas for improvement. Additionally, users can set custom thresholds for each metric to receive alerts when performance deviates from expected results.
 
 ## Data / Concept Drift Monitoring
 
