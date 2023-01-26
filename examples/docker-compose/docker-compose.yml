@@ -1,4 +1,5 @@
 version: "3.10"
+name: Whitebox
 services:
   postgres:
     image: postgres:15
@@ -15,18 +16,27 @@ services:
       - "5432:5432"
     volumes:
       - wb_data:/var/lib/postgresql/data
+    networks:
+      - whitebox
 
   whitebox:
-    profiles: ["whitebox"]
     image: sqdhub/whitebox:main
+    platform: linux/amd64
     restart: unless-stopped
     environment:
       - APP_NAME=Whitebox | Docker
       - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/postgres
+      - SECRET_KEY=<add_your_own>
     ports:
       - "8000:8000"
     depends_on:
       - postgres
+    networks:
+      - whitebox
 
 volumes:
   wb_data:
+
+networks:
+  whitebox:
+    name: whitebox

@@ -6,15 +6,11 @@ theme:
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: cyan
-      accent: blue
       toggle:
         icon: material/weather-sunny
         name: Switch to dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: cyan
-      accent: blue
       toggle:
         icon: material/weather-night
         name: Switch to light mode
@@ -53,10 +49,11 @@ markdown_extensions:
   - toc:
       permalink: true
 extra_css:
-  - css/termynal.css
-  - css/custom.css
+- css/termynal.css
+- css/custom.css
+- css/extra.css
 extra_javascript:
   - js/termynal.js
   - js/custom.js
-  - mathjax-config.js
+  - js/mathjax-config.js
   - https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML

@@ -3,13 +3,17 @@ import sqlalchemy
 from fastapi.testclient import TestClient
 from pytest import fixture
 from sqlalchemy.orm import sessionmaker
+from whitebox import crud
 
 from whitebox.core.settings import get_settings
 from whitebox.entities.Base import Base
 from whitebox.main import app
 from whitebox.sdk.whitebox import Whitebox
 from whitebox.tests.utils.maps import v1_test_order_map
-from secrets import token_hex
+from whitebox.entities.Base import Base
+from whitebox.utils.passwords import decrypt_api_key
+from whitebox.core.db import SessionLocal
+
 
 settings = get_settings()
 
@@ -24,25 +28,8 @@ def client():
         yield client
 
 
-@fixture(scope="session", autouse=True)
-async def db():
-    # runs once before all tests
-    engine = sqlalchemy.create_engine(settings.DATABASE_URL)
-    database = databases.Database(settings.DATABASE_URL)
-    SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-    Base.metadata.create_all(engine)
-    await database.connect()
-    db = SessionLocal()
-    yield db
-    # runs once after all tests
-    await database.disconnect()
-    # await database.execute(query="DROP DATABASE test WITH (FORCE);")
-    Base.metadata.drop_all(engine)
-
-
 class TestsState:
     user: dict = {}
-    api_key: str = token_hex(32)
     model_binary: dict = {}
     model_multi: dict = {}
     model_multi_2: dict = {}
@@ -52,6 +39,20 @@ class TestsState:
 
 
 state = TestsState()
+
+
+@fixture(scope="session")
+def api_key():
+    db = SessionLocal()
+
+    user = crud.users.get_first_by_filter(db=db, username="admin")
+    api_key = (
+        decrypt_api_key(user.api_key, settings.SECRET_KEY.encode())
+        if settings.SECRET_KEY
+        else user.api_key
+    )
+
+    yield api_key
 
 
 class TestsSDKState:

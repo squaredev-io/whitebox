@@ -1,7 +1,6 @@
 from fastapi import APIRouter
 from .health import health_router
 
-from .users import users_router
 from .models import models_router
 from .dataset_rows import dataset_rows_router
 from .inference_rows import inference_rows_router
@@ -17,7 +16,6 @@ v1_router = APIRouter()
 v1 = "/v1"
 
 v1_router.include_router(health_router, prefix=v1)
-v1_router.include_router(users_router, prefix=v1)
 v1_router.include_router(models_router, prefix=v1)
 v1_router.include_router(dataset_rows_router, prefix=v1)
 v1_router.include_router(inference_rows_router, prefix=v1)

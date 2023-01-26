@@ -1,6 +1,5 @@
 v1_test_order_map = [
     "health",
-    "users_create",
     "models_no_api_key",
     "models_wrong_api_key",
     "cron_tasks_run_no_models",
@@ -25,7 +24,6 @@ v1_test_order_map = [
     "model_integrity_metrics_get_model_all",
     "alerts_get",
     "models_delete",
-    "users_delete",
     # SDK tests
     "sdk_init",
     "sdk_create_model",
