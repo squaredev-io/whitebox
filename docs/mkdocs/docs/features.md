@@ -10,19 +10,19 @@
 
 ## Descriptive Statistics
 
-Whitebox provides a nice <a href="/monitor/descriptive-statistics/#descriptive-statistics" class="external-link" target="_blank">list of descriptive statistics</a> of input dataset, making the overview of data easy.
+Whitebox provides a nice [list of descriptive statistics](../metric-definitions/#descriptive-statistics) of input dataset, making the overview of data easy.
 
 ## Classification Models Metrics
 
-Whitebox includes comprehensive <a href="/monitor/evaluation-metrics/#evaluation-metrics" class="external-link" target="_blank">metrics</a> tracking for classification models. This allows users to easily evaluate the performance of their classification models and identify areas for improvement. Additionally, users can set custom thresholds for each metric to receive alerts when performance deviates from expected results.
+Whitebox includes comprehensive [metrics](../metric-definitions/#evaluation-metrics) tracking for classification models. This allows users to easily evaluate the performance of their classification models and identify areas for improvement. Additionally, users can set custom thresholds for each metric to receive alerts when performance deviates from expected results.
 
 ## Data / Concept Drift Monitoring
 
-Whitebox includes monitoring for <a href="/monitor/drift/#drift" class="external-link" target="_blank">data and concept drift</a>. This feature tracks changes in the distribution of the data used to train models and alerts users when significant changes occur. Additionally, it detects changes in the performance of deployed models and alerts users when significant drift is detected. This allows users to identify and address data and model drift early, reducing the risk of poor model performance.
+Whitebox includes monitoring for data and concept drift. This feature tracks changes in the distribution of the data used to train models and alerts users when significant changes occur. Additionally, it detects changes in the performance of deployed models and alerts users when significant drift is detected. This allows users to identify and address data and model drift early, reducing the risk of poor model performance.
 
 ## Explainable AI
 
-Whitebox includes model explaination also. The explainability performed through the <a href="/monitor/explainability/#explainability" class="external-link" target="_blank">explainability report</a> which allows user to know anytime which feature had the most impact on model's prediction.
+Whitebox includes model explaination also. The explainability performed through the explainability report which allows user to know anytime which feature had the most impact on model's prediction.
 
 ## Alerts
 

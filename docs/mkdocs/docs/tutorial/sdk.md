@@ -2,12 +2,14 @@
 
 ## Installation
 
-Installing Whitebox is a pretty easy job. Just install it like any other python package:
+Installing Whitebox is a pretty easy job. Just install it like any other python package.
+
+Install the SDK with `pip`:
 
 <div class="termy">
 
 ```console
-$  pip install whitebox
+$  pip install whitebox-sdk
 ```
 
 </div>
@@ -107,7 +109,7 @@ wb.delete_model("some_model_id")
 
 Once you have created a model you can start loading your data. Let's start with the training dataset!
 
-In our example we will create a `pd.DataFrame` from a `.csv` file. Of course you can use any method you like to create your `pd.DataFrame` as long as your non-processed and processed datasets have **the same amount of rows** (a.k.a. the same length)!
+In our example we will create a `pd.DataFrame` from a `.csv` file. Of course you can use any method you like to create your `pd.DataFrame` as long as your non-processed and processed datasets have **the same amount of rows** (a.k.a. the same length) and there are **more than one rows**!
 
 ```Python
 import pandas as pd

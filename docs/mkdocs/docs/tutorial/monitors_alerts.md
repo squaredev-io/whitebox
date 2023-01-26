@@ -14,10 +14,9 @@ model_monitor = wb.create_model_monitor(
     name="test",
     status=MonitorStatus.active,
     metric=MonitorMetrics.accuracy,
-    feature="feature1",
-    lower_threshold=0.7,
     severity=AlertSeverity.high,
-    email="jaclie.chan@somemail.io",
+    email="jackie.chan@somemail.io",
+    lower_threshold=0.7
 )
 ```
 
