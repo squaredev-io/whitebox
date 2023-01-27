@@ -25,10 +25,10 @@ class ModelBase(BaseModel):
 
     """Inference row metadata"""
     features: Dict[str, FeatureTypes]
-    labels: Dict[str, int]
 
     prediction: str
     probability: str
+    labels: Optional[Dict[str, int]]
 
 
 class Model(ModelBase, ItemBase):

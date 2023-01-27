@@ -51,18 +51,18 @@ Returns a drift summary of the following form:
 
 ```
 {'timestamp': the timestamp of the report,
- 'drift_summary': 
+ 'drift_summary':
     {'number_of_columns': total number of dataset columns,
      'number_of_drifted_columns': total number of drifted columns,
      'share_of_drifted_columns': ('number_of_drifted_columns/'number_of_columns'),
      'dataset_drift': Boolean based on the criteria below,
-     'drift_by_columns': 
+     'drift_by_columns':
         {'column1': {'column_name': 'column1',
                      'column_type': the type of column (e.g. num),
                      'stattest_name': the statistical test tha was used,
                      'drift_score': the drifting score based on the test,
                      'drift_detected': Boolean based on the criteria below,
-                     'threshold': a float number based on the criteria below}, 
+                     'threshold': a float number based on the criteria below},
                     {......}
         }
     }
@@ -98,16 +98,17 @@ Returns a concept drift summary of the following form:
 
 ```
 {'timestamp': the timestamp of the report,
- 'concept_drift_summary': 
+ 'concept_drift_summary':
     {'column_name': 'column1',
      'column_type': the type of column (e.g. num),
      'stattest_name': the statistical test tha was used,
      'threshold': threshold used based on criteria below,
      'drift_score': the drifting score based on the test,
      'drift_detected': Boolean based on the criteria below,
-    } 
+    }
 }
 ```
+
 Logic to choose the appropriate statistical test is based on:
 
 - the number of observations in the reference dataset
@@ -122,7 +123,6 @@ All tests use a 0.95 confidence level by default.
 
 For larger data with > 1000 observations in the reference dataset we use Jensen–Shannon divergence with a threshold = 0.1 .
 
-
 ## Performance Evaluation Metrics
 
 **Requirements**:
@@ -136,16 +136,16 @@ The target of evaluation metrics is to evaluate the quality of an machine learni
 - Multi-class classification
 - Regression
 
-| Metric               | Supported model                                        |
-| -------------------- | ------------------------------------------------------ |
-| **confusion matrix** | `binary classification` & `multi-class classification` |
-| **accuracy**         | `binary classification` & `multi-class classification` |
-| **precision**        | `binary classification` & `multi-class classification` |
-| **recall**           | `binary classification` & `multi-class classification` |
-| **f1 score**         | `binary classification` & `multi-class classification` |
-| **r_square**         | `regression` |
-| **mean_squared_error**         | `regression` |
-| **mean_absolute_error**         | `regression` |
+| Metric                  | Supported model                                        |
+| ----------------------- | ------------------------------------------------------ |
+| **confusion matrix**    | `binary classification` & `multi-class classification` |
+| **accuracy**            | `binary classification` & `multi-class classification` |
+| **precision**           | `binary classification` & `multi-class classification` |
+| **recall**              | `binary classification` & `multi-class classification` |
+| **f1 score**            | `binary classification` & `multi-class classification` |
+| **r_square**            | `regression`                                           |
+| **mean_squared_error**  | `regression`                                           |
+| **mean_absolute_error** | `regression`                                           |
 
 ## Explainability
 
@@ -163,13 +163,13 @@ The target of the explainability feature is to provide a contribution score of e
 
 At this level a replacement model is trained in the same training data as client's model, and used for the explainability feature. Below there is a table of used models per machine learning task.
 
-| Model        | Task                                                   |
-| ------------ | ------------------------------------------------------ |
+| Model        | Task                                                                  |
+| ------------ | --------------------------------------------------------------------- |
 | **LightGBM** | `binary classification` & `multi-class classification` & `regression` |
 
 The fine tuning of models, through a hyper-parameters exploration is a pending task for now.
 
-The trained model along with the inference data are used as input in <a href="/glossary/metric-definitions/#local-interpretable-model-agnostic-explanations" class="external-link" target="_blank">LIME</a> library, and the below report is provided - presenting the contribution of each feature in a specific prediction (the report includes all the feature contribution score to an descending order based on the absolute score value):
+The trained model along with the inference data are used as input in [LIME](../../metric-definitions/#local-interpretable-model-agnostic-explanations) library, and the below report is provided - presenting the contribution of each feature in a specific prediction (the report includes all the feature contribution score to an descending order based on the absolute score value):
 
 ```json
 {

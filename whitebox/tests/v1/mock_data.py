@@ -84,7 +84,6 @@ model_regression_create_payload = dict(
         "feature4": "numerical",
         "target": "numerical",
     },
-    labels={"label_1": 0, "label_2": 1, "label_3": 2},
     prediction="target",
     probability="n/a",
 )

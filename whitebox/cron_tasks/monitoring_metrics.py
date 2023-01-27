@@ -103,7 +103,13 @@ async def run_calculate_performance_metrics_pipeline(
     inference_processed_df = inference_processed_df.reset_index(drop=True)
     cleaned_actuals_df = cleaned_actuals_df.reset_index(drop=True)
 
-    labels = list(model.labels.values())
+    if model.type is not ModelType.regression:
+        if not model.labels:
+            logger.info(
+                f"Can't calculate performance metrics for model {model.id} because labels are required for binary and multi_class models!"
+            )
+            return
+        labels = list(model.labels.values())
 
     logger.info(f"Calculating performance metrics for model {model.id}")
     if model.type == ModelType.binary:

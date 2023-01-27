@@ -83,7 +83,7 @@ wb.create_model(
 )
 ```
 
-For more details about the schema accepted property types visit the <a href="/sdk-docs/#models" class="external-link" target="_blank">Models section</a> in the SDK documentation.
+For more details about the schema accepted property types visit the [Models section](../../sdk-docs/#models) in the SDK documentation.
 
 ### Fetching a Model
 

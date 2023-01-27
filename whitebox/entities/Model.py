@@ -13,7 +13,7 @@ class Model(Base):
     description = Column(String)
     type = Column("type", Enum(ModelType))
     features = Column(JSON)
-    labels = Column(JSON)
+    labels = Column(JSON, nullable=True)
     prediction = Column(String)
     probability = Column(String)
     created_at = Column(DateTime)

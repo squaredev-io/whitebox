@@ -15,8 +15,8 @@ class MonitorMetrics(str, enum.Enum):
     recall = "recall"
     f1 = "f1"
     data_drift = "data_drift"
-    concept_drift = "concept_drift"
-    missing_values_count = "missing_values_count"
+    # concept_drift = "concept_drift"
+    # missing_values_count = "missing_values_count"
 
 
 class AlertSeverity(str, enum.Enum):

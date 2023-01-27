@@ -14,6 +14,10 @@ def test_performance_metric_get_model_all(client, api_key):
         f"/v1/performance-metrics?model_id={state.model_binary['id']}",
         headers={"api-key": api_key},
     )
+    response_reg = client.get(
+        f"/v1/performance-metrics?model_id={state.model_regression['id']}",
+        headers={"api-key": api_key},
+    )
     response_wrong_model = client.get(
         f"/v1/performance-metrics?model_id=wrong_model_id",
         headers={"api-key": api_key},
@@ -21,9 +25,11 @@ def test_performance_metric_get_model_all(client, api_key):
 
     assert response_multi.status_code == status.HTTP_200_OK
     assert response_binary.status_code == status.HTTP_200_OK
+    assert response_reg.status_code == status.HTTP_200_OK
     assert response_wrong_model.status_code == status.HTTP_404_NOT_FOUND
 
     validated = [schemas.MultiClassificationMetrics(**m) for m in response_multi.json()]
     validated = [
         schemas.BinaryClassificationMetrics(**m) for m in response_binary.json()
     ]
+    validated = [schemas.RegressionMetrics(**m) for m in response_multi.json()]
