@@ -1,3 +1,4 @@
+import shutil
 from fastapi.testclient import TestClient
 from pytest import fixture
 from sqlalchemy.orm import close_all_sessions
@@ -40,7 +41,12 @@ def api_key():
 @fixture(scope="session", autouse=True)
 def drop_db():
     yield
+    # Removes the folder "test_model" with the models trained during testing
+    test_model_path = settings.MODEL_PATH
+    shutil.rmtree(test_model_path)
+
     close_all_sessions()
+    # Drops all test database tables
     Base.metadata.drop_all(engine)
 
 

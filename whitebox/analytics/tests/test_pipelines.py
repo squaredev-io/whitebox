@@ -5,11 +5,8 @@ from whitebox.analytics.xai_models.pipelines import *
 from unittest import TestCase
 from sklearn.datasets import fetch_california_housing
 from sklearn.datasets import load_breast_cancer, load_wine, load_diabetes
-import os
 
-settings = get_settings()
 test_model_id = "test_model_id"
-test_model_path = f"{settings.MODEL_PATH}/{test_model_id}"
 
 test_metrics_df = pd.read_csv("whitebox/analytics/data/testing/metrics_test_data.csv")
 test_classification_df = pd.read_csv(
@@ -313,12 +310,6 @@ class TestNodes:
         multi_contribution_check_two = multi_class_report2["alcohol"]
         regression_contribution_check_one = regression_report1["sex"]
         regression_contribution_check_two = regression_report2["bp"]
-
-        # We delete the models and the directory created by the create models for classification pipelines
-        os.remove(f"{test_model_path}/lgb_binary.pkl")
-        os.remove(f"{test_model_path}/lgb_multi.pkl")
-        os.remove(f"{test_model_path}/lgb_reg.pkl")
-        os.rmdir(test_model_path)
 
         assert (round(binary_contribution_check_one, 3)) == -0.464
         assert (round(binary_contribution_check_two, 1)) == -0.1
