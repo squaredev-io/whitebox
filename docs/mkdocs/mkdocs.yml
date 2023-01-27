@@ -29,7 +29,7 @@ nav:
       - tutorial/metrics.md
       - tutorial/monitors_alerts.md
 
-  - MLOps monitoring intro:
+  - MLOps Monitoring Intro:
       - ml-monitoring.md
       - metric-definitions.md
 
