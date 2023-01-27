@@ -4,6 +4,7 @@ from whitebox.tests.v1.mock_data import (
     inference_row_create_many_multi_payload,
     inference_row_create_many_multi_no_actual_payload,
     inference_row_create_many_multi_mixed_actuals_payload,
+    inference_row_create_many_reg_payload,
 )
 import pytest
 from whitebox import schemas
@@ -74,12 +75,25 @@ def test_inference_row_create_many(client, api_key):
         headers={"api-key": api_key},
     )
 
+    response_reg = client.post(
+        "/v1/inference-rows/batch",
+        json=list(
+            map(
+                lambda x: {**x, "model_id": state.model_regression["id"]},
+                inference_row_create_many_reg_payload,
+            )
+        ),
+        headers={"api-key": api_key},
+    )
+
     assert response_binary.status_code == status.HTTP_201_CREATED
     assert response_multi.status_code == status.HTTP_201_CREATED
+    assert response_reg.status_code == status.HTTP_201_CREATED
     validated = [schemas.InferenceRow(**m) for m in response_binary.json()]
     validated = [schemas.InferenceRow(**m) for m in response_multi.json()]
     validated = [schemas.InferenceRow(**m) for m in response_multi_2.json()]
     validated = [schemas.InferenceRow(**m) for m in response_multi_3.json()]
+    validated = [schemas.InferenceRow(**m) for m in response_reg.json()]
 
 
 @pytest.mark.order(get_order_number("inference_rows_get_model's_all"))

@@ -34,6 +34,7 @@ class TestsState:
     model_multi: dict = {}
     model_multi_2: dict = {}
     model_multi_3: dict = {}
+    model_regression: dict = {}
     inference_row_multi: dict = {}
     inference_row_binary: dict = {}
 

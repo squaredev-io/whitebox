@@ -1,6 +1,6 @@
 from datetime import datetime
 from whitebox.schemas.model import ModelType
-from sklearn.datasets import load_breast_cancer, load_wine
+from sklearn.datasets import load_breast_cancer, load_wine, load_diabetes
 import pandas as pd
 import random
 from copy import deepcopy
@@ -73,6 +73,22 @@ model_multi_3_create_payload = dict(
     probability="n/a",
 )
 
+model_regression_create_payload = dict(
+    name="Regression Model",
+    description="Regression Model description",
+    type=ModelType.regression,
+    features={
+        "feature1": "numerical",
+        "feature2": "numerical",
+        "feature3": "numerical",
+        "feature4": "numerical",
+        "target": "numerical",
+    },
+    labels={"label_1": 0, "label_2": 1, "label_3": 2},
+    prediction="target",
+    probability="n/a",
+)
+
 model_update_payload = dict(
     name="Model 1 - categorical",
     description="Model 1 description",
@@ -129,6 +145,16 @@ dataset_rows_create_binary_payload = [
     {"processed": x, "nonprocessed": x} for x in dict_binary_data
 ]
 
+df_load_reg = load_diabetes()
+df_reg = pd.DataFrame(df_load_reg.data, columns=df_load_reg.feature_names)
+df_reg["target"] = df_load_reg.target
+df_reg = df_reg.tail(100)
+
+dict_reg_data = df_reg.to_dict(orient="records")
+dataset_rows_create_reg_payload = [
+    {"processed": x, "nonprocessed": x} for x in dict_reg_data
+]
+
 dataset_rows_create_wrong_model_payload = list(
     (
         dict(
@@ -147,8 +173,7 @@ dataset_rows_create_wrong_model_payload = list(
 
 # inference rows data for both binary and multiclaas models
 df_multi_inference = df_multi.tail(10)
-
-dict_inferences = df_multi_inference.to_dict(orient="records")
+dict_multi_inferences = df_multi_inference.to_dict(orient="records")
 inference_row_create_many_multi_payload = [
     {
         "timestamp": str(datetime.now()),
@@ -156,7 +181,7 @@ inference_row_create_many_multi_payload = [
         "nonprocessed": x,
         "actual": random.randint(0, 1),
     }
-    for x in dict_inferences
+    for x in dict_multi_inferences
 ]
 
 inference_row_create_single_row_payload = inference_row_create_many_multi_payload[0]
@@ -173,8 +198,7 @@ inference_row_create_many_multi_mixed_actuals_payload = (
 
 # This is the body of the request coming from the sdk
 df_binary_inference = df_binary.tail(10)
-
-dict_inferences = df_binary_inference.to_dict(orient="records")
+dict_binary_inferences = df_binary_inference.to_dict(orient="records")
 inference_row_create_many_binary_payload = [
     {
         "timestamp": str(datetime.now()),
@@ -182,7 +206,19 @@ inference_row_create_many_binary_payload = [
         "nonprocessed": x,
         "actual": random.randint(0, 1),
     }
-    for x in dict_inferences
+    for x in dict_binary_inferences
+]
+
+df_reg_inference = df_reg.tail(10)
+dict_reg_inferences = df_reg_inference.to_dict(orient="records")
+inference_row_create_many_reg_payload = [
+    {
+        "timestamp": str(datetime.now()),
+        "processed": x,
+        "nonprocessed": x,
+        "actual": random.randint(0, 1),
+    }
+    for x in dict_reg_inferences
 ]
 
 timestamps = pd.Series(["2022-12-22T12:13:27.879738"] * 10)

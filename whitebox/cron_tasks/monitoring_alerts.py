@@ -97,12 +97,16 @@ async def run_create_alerts_pipeline():
         for model in models:
             model_monitors = await get_active_model_monitors(db, model_id=model.id)
             for monitor in model_monitors:
-                if monitor.metric in [
-                    MonitorMetrics.accuracy,
-                    MonitorMetrics.precision,
-                    MonitorMetrics.recall,
-                    MonitorMetrics.f1,
-                ]:
+                if (
+                    monitor.metric
+                    in [
+                        MonitorMetrics.accuracy,
+                        MonitorMetrics.precision,
+                        MonitorMetrics.recall,
+                        MonitorMetrics.f1,
+                    ]
+                    and model.type is not ModelType.regression
+                ):
                     await run_create_performance_metric_alert_pipeline(model, monitor)
                 elif monitor.metric == MonitorMetrics.data_drift:
                     await run_create_data_drift_alert_pipeline(model, monitor)
