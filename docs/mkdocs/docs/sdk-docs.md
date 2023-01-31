@@ -78,16 +78,16 @@ Inserts a set of inference rows into the database.
 
 Creates a monitor for a specific metric.
 
-| Parameter           | Type             | Description                                                                                                                     |
-| ------------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| **model_id**        | `str`            | The ID of the model.                                                                                                            |
-| **name**            | `str`            | The name of the monitor.                                                                                                        |
-| **status**          | `MonitorStatus`  | The status of the monitor. Possible values for `MonitorStatus`: `active`, `inactive`.                                           |
-| **metric**          | `MonitorMetrics` | The metric that will be monitored. Possible values for `MonitorMetrics`: `accuracy`, `precision`, `recall`, `f1`, `data_drift`. |
-| **severity**        | `AlertSeverity`  | The severity of the alert the monitor produces. Possible values for `AlertSeverity`: `low`, `mid`, `high`.                      |
-| **email**           | `str`            | The email to which the alert will be sent.                                                                                      |
-| **feature**         | `str`            | The feature to be monitored. Defaults to `None`.                                                                                |
-| **lower_threshold** | `float`          | The threshold below which an alert will be produced. Defaults to `None`.                                                        |
+| Parameter           | Type             | Description                                                                                                                                                                              |
+| ------------------- | ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **model_id**        | `str`            | The ID of the model.                                                                                                                                                                     |
+| **name**            | `str`            | The name of the monitor.                                                                                                                                                                 |
+| **status**          | `MonitorStatus`  | The status of the monitor. Possible values for `MonitorStatus`: `active`, `inactive`.                                                                                                    |
+| **metric**          | `MonitorMetrics` | The metric that will be monitored. Possible values for `MonitorMetrics`: `accuracy`, `precision`, `recall`, `f1`, `r_square`, `mean_squared_error`, `mean_absolute_error`, `data_drift`. |
+| **severity**        | `AlertSeverity`  | The severity of the alert the monitor produces. Possible values for `AlertSeverity`: `low`, `mid`, `high`.                                                                               |
+| **email**           | `str`            | The email to which the alert will be sent.                                                                                                                                               |
+| **feature**         | `str`            | The feature to be monitored. Defaults to `None`.                                                                                                                                         |
+| **lower_threshold** | `float`          | The threshold below which an alert will be produced. Defaults to `None`.                                                                                                                 |
 
 !!! note
 
