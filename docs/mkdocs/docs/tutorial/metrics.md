@@ -49,23 +49,26 @@ An analysis happens comparing the current data to the reference data estimating 
 
 Returns a drift summary of the following form:
 
-```
-{'timestamp': the timestamp of the report,
- 'drift_summary':
-    {'number_of_columns': total number of dataset columns,
-     'number_of_drifted_columns': total number of drifted columns,
-     'share_of_drifted_columns': ('number_of_drifted_columns/'number_of_columns'),
-     'dataset_drift': Boolean based on the criteria below,
-     'drift_by_columns':
-        {'column1': {'column_name': 'column1',
-                     'column_type': the type of column (e.g. num),
-                     'stattest_name': the statistical test tha was used,
-                     'drift_score': the drifting score based on the test,
-                     'drift_detected': Boolean based on the criteria below,
-                     'threshold': a float number based on the criteria below},
-                    {......}
-        }
+```json
+{
+  "timestamp": "the timestamp of the report",
+  "drift_summary": {
+    "number_of_columns": "total number of dataset columns",
+    "number_of_drifted_columns": "total number of drifted columns",
+    "share_of_drifted_columns": "number_of_drifted_columns/number_of_columns",
+    "dataset_drift": "Boolean based on the criteria below",
+    "drift_by_columns": {
+      "column1": {
+        "column_name": "column1",
+        "column_type": "the type of column (e.g. num)",
+        "stattest_name": "the statistical test tha was used",
+        "drift_score": "the drifting score based on the test",
+        "drift_detected": "Boolean based on the criteria below",
+        "threshold": "a float number based on the criteria below"
+      },
+      "column2": {"..."}
     }
+  }
 }
 ```
 
@@ -96,16 +99,17 @@ An analysis happens comparing the current target feature to the reference target
 
 Returns a concept drift summary of the following form:
 
-```
-{'timestamp': the timestamp of the report,
- 'concept_drift_summary':
-    {'column_name': 'column1',
-     'column_type': the type of column (e.g. num),
-     'stattest_name': the statistical test tha was used,
-     'threshold': threshold used based on criteria below,
-     'drift_score': the drifting score based on the test,
-     'drift_detected': Boolean based on the criteria below,
-    }
+```json
+{
+  "timestamp": "the timestamp of the report",
+  "concept_drift_summary": {
+    "column_name": "column1",
+    "column_type": "the type of column (e.g. num)",
+    "stattest_name": "the statistical test tha was used",
+    "threshold": "threshold used based on criteria below",
+    "drift_score": "the drifting score based on the test",
+    "drift_detected": "Boolean based on the criteria below,"
+  }
 }
 ```
 
