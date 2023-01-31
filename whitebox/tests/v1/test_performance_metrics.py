@@ -32,4 +32,4 @@ def test_performance_metric_get_model_all(client, api_key):
     validated = [
         schemas.BinaryClassificationMetrics(**m) for m in response_binary.json()
     ]
-    validated = [schemas.RegressionMetrics(**m) for m in response_multi.json()]
+    validated = [schemas.RegressionMetrics(**m) for m in response_reg.json()]

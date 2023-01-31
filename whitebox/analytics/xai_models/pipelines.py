@@ -22,8 +22,6 @@ def create_xai_pipeline_per_inference_row(
     model_base_path = settings.MODEL_PATH
     model_path = f"{model_base_path}/{model_id}"
 
-    print("I'm the creator!")
-
     xai_dataset = training_set.drop(columns=[target])
     explainability_report = {}
 

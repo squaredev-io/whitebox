@@ -258,3 +258,12 @@ model_monitor_precision_create_payload = dict(
     severity=AlertSeverity.low,
     email="example@whitebox.io",
 )
+
+model_monitor_r_square_create_payload = dict(
+    name="r_square monitor",
+    status=MonitorStatus.active,
+    metric=MonitorMetrics.r_square,
+    lower_threshold=0.85,
+    severity=AlertSeverity.low,
+    email="example@whitebox.io",
+)

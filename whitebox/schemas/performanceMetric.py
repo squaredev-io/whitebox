@@ -68,7 +68,7 @@ class RegressionMetricsPipelineResult(BaseModel):
     mean_absolute_error: float
 
 
-class RegressionMetricsBase(BaseModel):
+class RegressionMetricsBase(RegressionMetricsPipelineResult):
     model_id: str
     timestamp: Union[str, datetime]
 

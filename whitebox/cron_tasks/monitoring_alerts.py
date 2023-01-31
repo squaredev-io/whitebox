@@ -40,7 +40,12 @@ async def run_create_performance_metric_alert_pipeline(
         )
         return
 
-    if model.type == ModelType.binary or monitor.metric == MonitorMetrics.accuracy:
+    # Performance metrics reports for not multi_class models have the same format: metric: float.
+    # Same if the metric is accuracy.
+    if (
+        model.type is not ModelType.multi_class
+        or monitor.metric == MonitorMetrics.accuracy
+    ):
         metric_value = vars(last_performance_metrics_report)[monitor.metric]
     else:
         metric_value = vars(last_performance_metrics_report)[monitor.metric]["weighted"]
@@ -97,16 +102,15 @@ async def run_create_alerts_pipeline():
         for model in models:
             model_monitors = await get_active_model_monitors(db, model_id=model.id)
             for monitor in model_monitors:
-                if (
-                    monitor.metric
-                    in [
-                        MonitorMetrics.accuracy,
-                        MonitorMetrics.precision,
-                        MonitorMetrics.recall,
-                        MonitorMetrics.f1,
-                    ]
-                    and model.type is not ModelType.regression
-                ):
+                if monitor.metric in [
+                    MonitorMetrics.accuracy,
+                    MonitorMetrics.precision,
+                    MonitorMetrics.recall,
+                    MonitorMetrics.f1,
+                    MonitorMetrics.r_square,
+                    MonitorMetrics.mean_squared_error,
+                    MonitorMetrics.mean_absolute_error,
+                ]:
                     await run_create_performance_metric_alert_pipeline(model, monitor)
                 elif monitor.metric == MonitorMetrics.data_drift:
                     await run_create_data_drift_alert_pipeline(model, monitor)
