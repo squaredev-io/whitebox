@@ -16,7 +16,9 @@
 
 **Source Code**: <a href="https://github.com/squaredev-io/whitebox" target="_blank">https://github.com/squaredev-io/whitebox</a>
 
-**Roadmap**: <a href="https://github.com/squaredev-io/whitebox/milestone/2" target="_blank">https://github.com/squaredev-io/whitebox/milestone/2</a>
+**Roadmap**: <a href="https://github.com/squaredev-io/whitebox/milestones" target="_blank">https://github.com/squaredev-io/whitebox/milestones</a>
+
+**Discord**: <a href="https://discord.gg/bkAcsx4V" target="_blank">https://discord.gg/bkAcsx4V</a>
 
 ---
 
