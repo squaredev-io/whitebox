@@ -6,6 +6,7 @@ import lightgbm as lgb
 from lightgbm import LGBMClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import roc_auc_score, precision_score
+from sklearn import metrics
 import joblib
 from whitebox.core.settings import get_settings
 
@@ -138,3 +139,59 @@ def create_multiclass_classification_training_model_pipeline(
     multi_evaluation_report["precision"] = prec_score
 
     return clf, multi_evaluation_report
+
+
+def create_regression_training_model_pipeline(
+    training_dataset: pd.DataFrame, target: str, model_id: str
+) -> Dict[str, float]:
+
+    model_path = f"{model_base_path}/{model_id}"
+
+    # Create directory if it doesn't exist
+    os.makedirs(model_path, exist_ok=True)
+
+    """
+    We first define what will be training set and the targeted column for our prediction
+
+    """
+    Y = training_dataset[target]
+    X = training_dataset.drop(columns=[target])
+    """
+    We split to test and training set by using a random_state of 0 in order our code to be 
+    reproducible.
+    WARNING: We assume that the given dataset is preprocessed. That means than no preprocessing will be performed 
+    by us. We have to revisit this step in the near future.
+    
+    """
+
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, Y, test_size=0.3, random_state=0
+    )
+    """
+    We use the default set of parameters which produce good results with our baseline dataset.
+    WARNING: In the near future we have to grid-search for the optimal parameters for training datasets
+    
+    The train of our model took locally less than 1 seconds.
+    Also we temp save the model in a pkl format.
+    WARNING: We have to revisit this step for optimise the resources cost.
+    
+    """
+
+    reg = lgb.LGBMRegressor()
+    reg.fit(X_train, y_train)
+    joblib.dump(reg, f"{model_path}/lgb_reg.pkl")
+
+    """
+    We make some predictions in the X_test and we find the class 
+    there by rounding the output. After that we calculate the roc auc curve
+    score.
+    
+    """
+
+    y_predicted = reg.predict(X_test)
+    r2_score = round(metrics.r2_score(y_test, y_predicted), 4)
+
+    reg_evaluation_report = {}
+    reg_evaluation_report["r2_score"] = r2_score
+
+    return reg, reg_evaluation_report

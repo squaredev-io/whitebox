@@ -42,7 +42,7 @@ class Whitebox:
         features: Dict[str, FeatureTypes],
         prediction: str,
         probability: str,
-        labels: Dict[str, int],
+        labels: Dict[str, int] = None,
         description: str = "",
     ):
         """
@@ -191,10 +191,10 @@ class Whitebox:
         name: str,
         status: MonitorStatus,
         metric: MonitorMetrics,
-        feature: Optional[str],
-        lower_threshold: Optional[float],
         severity: AlertSeverity,
         email: str,
+        feature: Optional[str],
+        lower_threshold: Optional[float],
     ) -> dict:
         """
         Creates a monitor for a model.

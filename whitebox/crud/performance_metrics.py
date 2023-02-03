@@ -5,10 +5,12 @@ from whitebox.crud.base import CRUDBase
 from whitebox.entities.PerformanceMetric import (
     BinaryClassificationMetrics as BinaryClassificationMetricsEntity,
     MultiClassificationMetrics as MultiClassificationMetricsEntity,
+    RegressionMetrics as RegressionMetricsEntity,
 )
 from whitebox.schemas.performanceMetric import (
     BinaryClassificationMetrics,
     MultiClassificationMetrics,
+    RegressionMetrics,
 )
 
 
@@ -17,12 +19,18 @@ class CRUD(
 ):
     def get_by_model(
         self, db: Session, *, model_id: int
-    ) -> Union[List[BinaryClassificationMetrics], List[MultiClassificationMetrics]]:
+    ) -> Union[
+        List[BinaryClassificationMetrics],
+        List[MultiClassificationMetrics],
+        List[RegressionMetrics],
+    ]:
         return db.query(self.model).filter(self.model.model_id == model_id).all()
 
     def get_latest_report_by_model(
         self, db: Session, *, model_id: int
-    ) -> Union[BinaryClassificationMetrics, MultiClassificationMetrics]:
+    ) -> Union[
+        BinaryClassificationMetrics, MultiClassificationMetrics, RegressionMetrics
+    ]:
         return (
             db.query(self.model)
             .filter(self.model.model_id == model_id)
@@ -33,3 +41,4 @@ class CRUD(
 
 binary_classification_metrics = CRUD(BinaryClassificationMetricsEntity)
 multi_classification_metrics = CRUD(MultiClassificationMetricsEntity)
+regression_metrics = CRUD(RegressionMetricsEntity)

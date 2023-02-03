@@ -7,8 +7,10 @@ from whitebox.middleware.auth import authenticate_user
 from whitebox.schemas.performanceMetric import (
     BinaryClassificationMetrics,
     MultiClassificationMetrics,
+    RegressionMetrics,
 )
 from whitebox.schemas.user import User
+from whitebox.schemas.model import ModelType
 from whitebox.utils.errors import add_error_responses, errors
 
 
@@ -19,7 +21,9 @@ performance_metrics_router = APIRouter()
     "/performance-metrics",
     tags=["Performance Metrics"],
     response_model=Union[
-        List[BinaryClassificationMetrics], List[MultiClassificationMetrics]
+        List[BinaryClassificationMetrics],
+        List[MultiClassificationMetrics],
+        List[RegressionMetrics],
     ],
     summary="Get all model's performance metrics",
     status_code=status.HTTP_200_OK,
@@ -34,13 +38,15 @@ async def get_all_models_performance_metrics(
 
     model = crud.models.get(db, model_id)
     if model:
-        if vars(model)["type"] == "binary":
+        if vars(model)["type"] == ModelType.binary:
             return crud.binary_classification_metrics.get_by_model(
                 db=db, model_id=model_id
             )
-        else:
+        elif vars(model)["type"] == ModelType.multi_class:
             return crud.multi_classification_metrics.get_by_model(
                 db=db, model_id=model_id
             )
+        elif vars(model)["type"] == ModelType.regression:
+            return crud.regression_metrics.get_by_model(db=db, model_id=model_id)
     else:
         return errors.not_found("Model not found")

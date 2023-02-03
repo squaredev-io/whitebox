@@ -5,12 +5,13 @@ import lime
 import lime.lime_tabular
 from whitebox.analytics.models.pipelines import *
 from whitebox.core.settings import get_settings
+from whitebox.schemas.model import ModelType
 
 
 settings = get_settings()
 
 
-def create_xai_pipeline_classification_per_inference_row(
+def create_xai_pipeline_per_inference_row(
     training_set: pd.DataFrame,
     target: str,
     inference_row: pd.Series,
@@ -31,11 +32,11 @@ def create_xai_pipeline_classification_per_inference_row(
     for feature in range(0, len(xai_dataset.columns.tolist())):
         mapping_dict[feature] = xai_dataset.columns.tolist()[feature]
 
-    # Expainability for both classifications tasks
+    # Expainability for both classifications tasks and regression
     # We have again to revisit here in the future as in case we upload the model
     # from the file system we don't care if it is binary or multiclass
 
-    if type_of_task == "multi_class":
+    if type_of_task == ModelType.multi_class:
 
         # Giving the option of retrieving the local model
 
@@ -54,7 +55,7 @@ def create_xai_pipeline_classification_per_inference_row(
             mapping_dict[name]: val for name, val in temp_dict.items()
         }
 
-    elif type_of_task == "binary":
+    elif type_of_task == ModelType.binary:
 
         # Giving the option of retrieving the local model
 
@@ -67,6 +68,25 @@ def create_xai_pipeline_classification_per_inference_row(
         )
 
         exp = explainer.explain_instance(inference_row, model.predict_proba)
+        med_report = exp.as_map()
+        temp_dict = dict(list(med_report.values())[0])
+        explainability_report = {
+            mapping_dict[name]: val for name, val in temp_dict.items()
+        }
+
+    elif type_of_task == ModelType.regression:
+
+        # Giving the option of retrieving the local model
+
+        model = joblib.load(f"{model_path}/lgb_reg.pkl")
+        explainer = lime.lime_tabular.LimeTabularExplainer(
+            xai_dataset.values,
+            feature_names=xai_dataset.columns.values.tolist(),
+            mode="regression",
+            random_state=1,
+        )
+
+        exp = explainer.explain_instance(inference_row, model.predict)
         med_report = exp.as_map()
         temp_dict = dict(list(med_report.values())[0])
         explainability_report = {

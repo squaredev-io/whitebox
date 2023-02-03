@@ -4,6 +4,7 @@ from whitebox.tests.v1.mock_data import (
     model_monitor_f1_create_payload,
     model_monitor_data_drift_create_payload,
     model_monitor_precision_create_payload,
+    model_monitor_r_square_create_payload,
 )
 from whitebox import schemas
 from whitebox.tests.v1.conftest import get_order_number, state
@@ -21,7 +22,7 @@ def test_model_monitor_create(client, api_key):
         headers={"api-key": api_key},
     )
 
-    accuracy_monitor = client.post(
+    f1_monitor = client.post(
         "/v1/model-monitors",
         json={
             **model_monitor_f1_create_payload,
@@ -30,7 +31,7 @@ def test_model_monitor_create(client, api_key):
         headers={"api-key": api_key},
     )
 
-    accuracy_monitor = client.post(
+    data_drift_monitor = client.post(
         "/v1/model-monitors",
         json={
             **model_monitor_data_drift_create_payload,
@@ -39,11 +40,20 @@ def test_model_monitor_create(client, api_key):
         headers={"api-key": api_key},
     )
 
-    accuracy_monitor = client.post(
+    precision_monitor = client.post(
         "/v1/model-monitors",
         json={
             **model_monitor_precision_create_payload,
             "model_id": state.model_binary["id"],
+        },
+        headers={"api-key": api_key},
+    )
+
+    r_square_monitor = client.post(
+        "/v1/model-monitors",
+        json={
+            **model_monitor_r_square_create_payload,
+            "model_id": state.model_regression["id"],
         },
         headers={"api-key": api_key},
     )
@@ -68,7 +78,7 @@ def test_model_monitors_get_model_all(client, api_key):
     )
 
     assert len(response_multi.json()) == 2
-    assert len(response_all.json()) == 4
+    assert len(response_all.json()) == 5
 
     assert response_multi.status_code == status.HTTP_200_OK
     assert response_all.status_code == status.HTTP_200_OK

@@ -16,6 +16,8 @@ theme:
         name: Switch to light mode
   icon:
     repo: fontawesome/brands/git-alt
+  features:
+    - navigation.footer
 repo_url: https://github.com/squaredev-io/whitebox
 repo_name: squaredev/whitebox
 edit_uri: ""
@@ -57,3 +59,11 @@ extra_javascript:
   - js/custom.js
   - js/mathjax-config.js
   - https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML
+extra:
+  social:
+    - icon: fontawesome/brands/github 
+      link: https://github.com/squaredev-io
+    - icon: fontawesome/brands/linkedin 
+      link: https://www.linkedin.com/company/squaredev
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/whitebox-sdk/

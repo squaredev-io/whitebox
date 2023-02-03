@@ -42,7 +42,7 @@ $$
 σ^2 = {Σ(x_i-μ)^2 \over Ν-1}
 $$
 
-## Evaluation metrics
+## Classification evaluation metrics
 
 ### Confusion Matrix
 
@@ -127,6 +127,55 @@ Formula:
 $$
 F1 = 2 * {(precision * recall) \over (precision + recall)}
 $$
+
+## Regression evaluation metrics
+
+### R-Squared
+
+In a regression model, R-Squared (also known as R2 or the coefficient of determination) is a statistical metric that quantifies how much of the variance in the dependent variable can be accounted for by the independent variable. R-squared, thus, displays how well the data match the regression model (the goodness of fit).
+
+Formula:
+
+$$
+R^2 = {SS_{regression} \over SS_{total}}
+$$
+
+where:
+
+- $SS_{regression}$ = sum of squares due to regression (explained sum of squares)
+- $SS_{total}$ = total sum of squares
+
+### Mean squared error
+
+The degree of inaccuracy in statistical models is gauged by the mean squared error, or MSE. Between the observed and projected values, it evaluates the average squared difference. The MSE is equal to 0 when a model is error-free. As model error increases, its value increases.
+
+Formula:
+
+$$
+MSE = {Σ(y_{i}-y'_{i})^2 \over n}
+$$
+
+where:
+
+- $y_{i}$ = $i_{th}$ observation
+- $y'_{i}$ = corresponding predicted value
+- $n$ = number of observations
+
+### Mean absolute error
+
+The mean absolute error of a model with respect to a test set is the mean of the absolute values of the individual prediction errors on over all instances in the test set. Each prediction error is the difference between the true value and the predicted value for the instance.
+
+Formula:
+
+$$
+MAE = {{{Σ^2}_{i=1}}|y_{i}-x_{i}| \over n}
+$$
+
+where:
+
+- $y_{i}$ = prediction
+- $x_{i}$ = true value
+- $n$ = number of observations
 
 ## Statistical tests and techniques
 

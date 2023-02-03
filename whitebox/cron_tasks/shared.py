@@ -60,11 +60,15 @@ async def get_latest_performance_metrics_report(
                 db, model_id=model.id
             )
         )
-    else:
+    elif model.type == ModelType.multi_class:
         last_report_in_db = (
             crud.multi_classification_metrics.get_latest_report_by_model(
                 db, model_id=model.id
             )
+        )
+    else:
+        last_report_in_db = crud.regression_metrics.get_latest_report_by_model(
+            db, model_id=model.id
         )
     return last_report_in_db
 

@@ -34,3 +34,16 @@ class MultiClassificationMetrics(Base):
     confusion_matrix = Column(JSON)
     created_at = Column(DateTime)
     updated_at = Column(DateTime)
+
+
+class RegressionMetrics(Base):
+    __tablename__ = "regression_metrics"
+
+    id = Column(String, primary_key=True, unique=True, default=generate_uuid)
+    model_id = Column(String, ForeignKey("models.id", ondelete="CASCADE"))
+    timestamp = Column(DateTime)
+    r_square = Column(Float)
+    mean_squared_error = Column(Float)
+    mean_absolute_error = Column(Float)
+    created_at = Column(DateTime)
+    updated_at = Column(DateTime)

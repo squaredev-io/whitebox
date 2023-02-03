@@ -69,6 +69,20 @@ def format_evaluation_metrics_multiple(
     return formated_metrics_for_multiple
 
 
+def format_evaluation_metrics_regression(
+    r_square: float,
+    mean_squared_error: float,
+    mean_absolute_error: float,
+) -> Dict[str, Union[int, float]]:
+    formated_metrics_for_regression = {
+        "r_square": r_square,
+        "mean_squared_error": mean_squared_error,
+        "mean_absolute_error": mean_absolute_error,
+    }
+
+    return formated_metrics_for_regression
+
+
 def confusion_for_multiclass(
     test_set: pd.DataFrame, prediction_set: pd.DataFrame, labels: List[int]
 ) -> Dict[str, Dict[str, int]]:

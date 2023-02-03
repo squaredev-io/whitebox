@@ -3,9 +3,11 @@ from typing import List
 from whitebox.analytics.models.pipelines import (
     create_binary_classification_training_model_pipeline,
     create_multiclass_classification_training_model_pipeline,
+    create_regression_training_model_pipeline,
 )
 from whitebox.middleware.auth import authenticate_user
 from whitebox.schemas.datasetRow import DatasetRow, DatasetRowCreate
+from whitebox.schemas.model import ModelType
 from whitebox.schemas.user import User
 from fastapi import APIRouter, BackgroundTasks, Depends, status
 from fastapi.encoders import jsonable_encoder
@@ -60,16 +62,23 @@ async def create_dataset_rows(
         ]
         processed_dataset_rows_pd = pd.DataFrame(processed_dataset_rows)
 
-        if model.type == "binary":
+        if model.type == ModelType.binary:
             background_tasks.add_task(
                 create_binary_classification_training_model_pipeline,
                 processed_dataset_rows_pd,
                 model.prediction,
                 model.id,
             )
-        elif model.type == "multi_class":
+        elif model.type == ModelType.multi_class:
             background_tasks.add_task(
                 create_multiclass_classification_training_model_pipeline,
+                processed_dataset_rows_pd,
+                model.prediction,
+                model.id,
+            )
+        elif model.type == ModelType.regression:
+            background_tasks.add_task(
+                create_regression_training_model_pipeline,
                 processed_dataset_rows_pd,
                 model.prediction,
                 model.id,
