@@ -14,7 +14,6 @@ from whitebox.schemas.modelIntegrityMetric import FeatureMetrics
 def create_feature_metrics_pipeline(
     dataset: pd.DataFrame,
 ) -> FeatureMetrics:
-
     """
     Feature metrics basic calculation
 
@@ -66,7 +65,6 @@ def create_feature_metrics_pipeline(
 def create_binary_classification_evaluation_metrics_pipeline(
     test_set: pd.Series, prediction_set: pd.Series, labels: List[int]
 ) -> BinaryClassificationMetricsPipelineResult:
-
     """
     Binary classification evaluation metrics
 
@@ -197,7 +195,6 @@ def create_multiple_classification_evaluation_metrics_pipeline(
 def create_regression_evaluation_metrics_pipeline(
     test_set: pd.Series, prediction_set: pd.Series
 ) -> RegressionMetricsPipelineResult:
-
     """
     Regression evaluation metrics
 

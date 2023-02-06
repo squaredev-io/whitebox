@@ -322,7 +322,6 @@ class Task_Manager:
         self._is_shutting_down = False
 
     async def on_task_started(self, task_name: str):
-
         ...
 
     async def on_task_exception(self, task_name: str, exception: BaseException):
