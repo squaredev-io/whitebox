@@ -13,6 +13,7 @@ from whitebox.analytics.metrics.pipelines import (
     create_binary_classification_evaluation_metrics_pipeline,
     create_feature_metrics_pipeline,
     create_multiple_classification_evaluation_metrics_pipeline,
+    create_regression_evaluation_metrics_pipeline,
 )
 from whitebox.core.settings import get_settings
 from whitebox.cron_tasks.shared import (
@@ -102,7 +103,13 @@ async def run_calculate_performance_metrics_pipeline(
     inference_processed_df = inference_processed_df.reset_index(drop=True)
     cleaned_actuals_df = cleaned_actuals_df.reset_index(drop=True)
 
-    labels = list(model.labels.values())
+    if model.type is not ModelType.regression:
+        if not model.labels:
+            logger.info(
+                f"Can't calculate performance metrics for model {model.id} because labels are required for binary and multi_class models!"
+            )
+            return
+        labels = list(model.labels.values())
 
     logger.info(f"Calculating performance metrics for model {model.id}")
     if model.type == ModelType.binary:
@@ -134,6 +141,19 @@ async def run_calculate_performance_metrics_pipeline(
         )
 
         crud.multi_classification_metrics.create(db, obj_in=new_performance_metric)
+
+    elif model.type == ModelType.regression:
+        regression_metrics_report = create_regression_evaluation_metrics_pipeline(
+            cleaned_actuals_df, inference_processed_df[model.prediction]
+        )
+
+        new_performance_metric = entities.RegressionMetrics(
+            model_id=model.id,
+            timestamp=str(datetime.utcnow()),
+            **dict(regression_metrics_report),
+        )
+
+        crud.regression_metrics.create(db, obj_in=new_performance_metric)
 
     logger.info("Performance metrics calculated!")
 

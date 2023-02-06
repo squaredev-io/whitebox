@@ -7,6 +7,7 @@ import enum
 class ModelType(str, enum.Enum):
     binary = "binary"
     multi_class = "multi_class"
+    regression = "regression"
 
 
 class FeatureTypes(str, enum.Enum):
@@ -23,13 +24,11 @@ class ModelBase(BaseModel):
     type: ModelType
 
     """Inference row metadata"""
-
-    # TODO do we need this?
     features: Dict[str, FeatureTypes]
-    labels: Dict[str, int]
 
     prediction: str
     probability: str
+    labels: Optional[Dict[str, int]]
 
 
 class Model(ModelBase, ItemBase):

@@ -5,5 +5,9 @@ from .Inference import InferenceRow
 from .Model import Model
 from .ModelIntegrityMetric import ModelIntegrityMetric
 from .ModelMonitor import ModelMonitor
-from .PerformanceMetric import BinaryClassificationMetrics, MultiClassificationMetrics
+from .PerformanceMetric import (
+    BinaryClassificationMetrics,
+    MultiClassificationMetrics,
+    RegressionMetrics,
+)
 from .User import User
