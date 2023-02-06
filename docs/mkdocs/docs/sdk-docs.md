@@ -72,6 +72,14 @@ Inserts a set of inference rows into the database.
 
     The non processed and processed dataframes along with the timestamps and actuals series must **ALL** have the same length.
 
+**_get_xai_row_**_(inference_row_id)_
+
+Produces an explainability report for a specific inference row.
+
+| Parameter            | Type  | Description                  |
+| -------------------- | ----- | ---------------------------- |
+| **inference_row_id** | `str` | The ID of the inference row. |
+
 ## Monitors
 
 **_create_model_monitor_**_(model_id, name, status, metric, severity, email, feature=None, lower_threshold=None)_
@@ -92,3 +100,29 @@ Creates a monitor for a specific metric.
 !!! note
 
     Some metrics like the data drift don't use a threshold so the feature that will be monitored should be inserted. In any case, both `feature` and `lower_threshold` can't be `None` at the same time.
+
+## Metrics
+
+**_get_drifting_metrics_**_(model_id)_
+
+Fetches a model's drifting metric reports.
+
+| Parameter    | Type  | Description          |
+| ------------ | ----- | -------------------- |
+| **model_id** | `str` | The ID of the model. |
+
+**_get_descriptive_statistics_**_(model_id)_
+
+Fetches a model's descriptive statistics reports.
+
+| Parameter    | Type  | Description          |
+| ------------ | ----- | -------------------- |
+| **model_id** | `str` | The ID of the model. |
+
+**_get_performance_metrics_**_(model_id)_
+
+Fetches a model's performance metric reports.
+
+| Parameter    | Type  | Description          |
+| ------------ | ----- | -------------------- |
+| **model_id** | `str` | The ID of the model. |

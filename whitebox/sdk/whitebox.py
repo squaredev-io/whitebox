@@ -173,6 +173,20 @@ class Whitebox:
 
         return False
 
+    def get_xai_row(self, inference_row_id: str):
+        """
+        Given a specific inference row id, this endpoint produces an explainability report for this inference.
+        If some of the required data isn't found, returns None.
+        """
+        result = requests.get(
+            url=f"{self.host}/{self.api_version}/inference-rows/{inference_row_id}/xai",
+            headers={"api-key": self.api_key},
+        )
+        if result.status_code == status.HTTP_404_NOT_FOUND:
+            return None
+
+        return result.json()
+
     def create_model_monitor(
         self,
         model_id: str,
@@ -236,7 +250,7 @@ class Whitebox:
 
     def get_descriptive_statistics(self, model_id: str):
         """
-        Returns a model's descriptive metric reports. If the model does not exist, returns None.
+        Returns a model's descriptive statistics reports. If the model does not exist, returns None.
         If the model exists but there are no metrics, returns an empty list.
         """
         result = requests.get(
@@ -255,20 +269,6 @@ class Whitebox:
         """
         result = requests.get(
             url=f"{self.host}/{self.api_version}/performance-metrics?model_id={model_id}",
-            headers={"api-key": self.api_key},
-        )
-        if result.status_code == status.HTTP_404_NOT_FOUND:
-            return None
-
-        return result.json()
-
-    def get_xai_row(self, inference_row_id: str):
-        """
-        Given a specific inference row id, this endpoint produces an explainability report for this inference.
-        If some of the required data isn't found, returns None.
-        """
-        result = requests.get(
-            url=f"{self.host}/{self.api_version}/inference-rows/{inference_row_id}/xai",
             headers={"api-key": self.api_key},
         )
         if result.status_code == status.HTTP_404_NOT_FOUND:
