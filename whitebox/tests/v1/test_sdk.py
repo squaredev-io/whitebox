@@ -7,6 +7,10 @@ from whitebox.tests.v1.mock_data import (
     model_multi_create_payload,
     timestamps,
     mixed_actuals,
+    inference_row_xai_payload,
+    drifting_metrics_report_payload,
+    descriptive_statistics_report_payload,
+    performance_metrics_report_payload,
 )
 import requests_mock
 from fastapi import status
@@ -195,3 +199,109 @@ def test_sdk_create_model_monitor(client):
         )
 
         assert model_monitor is not None
+
+
+@pytest.mark.order(get_order_number("sdk_get_drifting_metrics"))
+def test_sdk_get_drifting_metrics(client):
+    mock_model_id = "mock_model_id"
+    with requests_mock.Mocker() as m:
+        m.get(
+            url=f"{state_sdk.wb.host}/v1/drifting-metrics?model_id={mock_model_id}",
+            headers={"api-key": state_sdk.wb.api_key},
+            status_code=status.HTTP_404_NOT_FOUND,
+        )
+
+        not_found_result = state_sdk.wb.get_drifting_metrics(model_id=mock_model_id)
+
+        assert not_found_result == None
+
+        m.get(
+            url=f"{state_sdk.wb.host}/v1/drifting-metrics?model_id={mock_model_id}",
+            headers={"api-key": state_sdk.wb.api_key},
+            json=drifting_metrics_report_payload,
+        )
+
+        drifting_report = state_sdk.wb.get_drifting_metrics(model_id=mock_model_id)
+
+        assert drifting_report == drifting_metrics_report_payload
+
+
+@pytest.mark.order(get_order_number("sdk_get_descriptive_statistics"))
+def test_sdk_get_descriptive_statistics(client):
+    mock_model_id = "mock_model_id"
+    with requests_mock.Mocker() as m:
+        m.get(
+            url=f"{state_sdk.wb.host}/v1/model-integrity-metrics?model_id={mock_model_id}",
+            headers={"api-key": state_sdk.wb.api_key},
+            status_code=status.HTTP_404_NOT_FOUND,
+        )
+
+        not_found_result = state_sdk.wb.get_descriptive_statistics(
+            model_id=mock_model_id
+        )
+
+        assert not_found_result == None
+
+        m.get(
+            url=f"{state_sdk.wb.host}/v1/model-integrity-metrics?model_id={mock_model_id}",
+            headers={"api-key": state_sdk.wb.api_key},
+            json=descriptive_statistics_report_payload,
+        )
+
+        descriptive_report = state_sdk.wb.get_descriptive_statistics(
+            model_id=mock_model_id
+        )
+
+        assert descriptive_report == descriptive_statistics_report_payload
+
+
+@pytest.mark.order(get_order_number("sdk_get_performance_metrics"))
+def test_sdk_get_performance_metrics(client):
+    mock_model_id = "mock_model_id"
+    with requests_mock.Mocker() as m:
+        m.get(
+            url=f"{state_sdk.wb.host}/v1/performance-metrics?model_id={mock_model_id}",
+            headers={"api-key": state_sdk.wb.api_key},
+            status_code=status.HTTP_404_NOT_FOUND,
+        )
+
+        not_found_result = state_sdk.wb.get_performance_metrics(model_id=mock_model_id)
+
+        assert not_found_result == None
+
+        m.get(
+            url=f"{state_sdk.wb.host}/v1/performance-metrics?model_id={mock_model_id}",
+            headers={"api-key": state_sdk.wb.api_key},
+            json=performance_metrics_report_payload,
+        )
+
+        performance_report = state_sdk.wb.get_performance_metrics(
+            model_id=mock_model_id
+        )
+
+        assert performance_report == performance_metrics_report_payload
+
+
+@pytest.mark.order(get_order_number("sdk_get_xai_row"))
+def test_sdk_get_xai_row(client):
+    mock_inference_id = "mock_inference_id"
+    with requests_mock.Mocker() as m:
+        m.get(
+            url=f"{state_sdk.wb.host}/v1/inference-rows/{mock_inference_id}/xai",
+            headers={"api-key": state_sdk.wb.api_key},
+            status_code=status.HTTP_404_NOT_FOUND,
+        )
+
+        not_found_result = state_sdk.wb.get_xai_row(inference_row_id=mock_inference_id)
+
+        assert not_found_result == None
+
+        m.get(
+            url=f"{state_sdk.wb.host}/v1/inference-rows/{mock_inference_id}/xai",
+            headers={"api-key": state_sdk.wb.api_key},
+            json=inference_row_xai_payload,
+        )
+
+        xai = state_sdk.wb.get_xai_row(inference_row_id=mock_inference_id)
+
+        assert xai == inference_row_xai_payload
