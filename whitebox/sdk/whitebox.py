@@ -44,7 +44,7 @@ class Whitebox:
         probability: str,
         labels: Dict[str, int] = None,
         description: str = "",
-    ):
+    ) -> dict:
         """
         Create a new model in Whitebox and define a type, and a schema for it.
         """
@@ -66,7 +66,7 @@ class Whitebox:
         logger.info(result.json())
         return result.json()
 
-    def get_model(self, model_id: str):
+    def get_model(self, model_id: str) -> dict:
         """
         Returns a model by its id. If the model does not exist, returns None.
         """
@@ -234,7 +234,7 @@ class Whitebox:
         logger.info(result.json())
         return result.json()
 
-    def get_drifting_metrics(self, model_id: str):
+    def get_drifting_metrics(self, model_id: str) -> dict:
         """
         Returns a model's drifting metric reports. If the model does not exist, returns None.
         If the model exists but there are no metrics, returns an empty list.
@@ -248,7 +248,7 @@ class Whitebox:
 
         return result.json()
 
-    def get_descriptive_statistics(self, model_id: str):
+    def get_descriptive_statistics(self, model_id: str) -> dict:
         """
         Returns a model's descriptive statistics reports. If the model does not exist, returns None.
         If the model exists but there are no metrics, returns an empty list.
@@ -262,7 +262,7 @@ class Whitebox:
 
         return result.json()
 
-    def get_performance_metrics(self, model_id: str):
+    def get_performance_metrics(self, model_id: str) -> dict:
         """
         Returns a model's performance metric reports. If the model does not exist, returns None.
         If the model exists but there are no metrics, returns an empty list.
