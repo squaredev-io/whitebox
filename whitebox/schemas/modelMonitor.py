@@ -10,16 +10,18 @@ class MonitorStatus(str, enum.Enum):
 
 
 class MonitorMetrics(str, enum.Enum):
+    # Performance metrics
     accuracy = "accuracy"
     precision = "precision"
     recall = "recall"
     f1 = "f1"
-    data_drift = "data_drift"
     r_square = "r_square"
     mean_squared_error = "mean_squared_error"
     mean_absolute_error = "mean_absolute_error"
-    # concept_drift = "concept_drift"
-    # missing_values_count = "missing_values_count"
+
+    # Drifting metrics
+    data_drift = "data_drift"
+    concept_drift = "concept_drift"
 
 
 class AlertSeverity(str, enum.Enum):

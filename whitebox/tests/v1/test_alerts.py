@@ -21,6 +21,8 @@ def test_alerts_get_model_all(client, api_key):
         headers={"api-key": api_key},
     )
 
+    assert len(response_all.json()) == 6
+
     assert response_all.status_code == status.HTTP_200_OK
     assert response_model_all.status_code == status.HTTP_200_OK
     assert response_wrong_model.status_code == status.HTTP_404_NOT_FOUND
