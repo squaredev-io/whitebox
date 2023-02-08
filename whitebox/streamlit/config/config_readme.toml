@@ -1,0 +1,12 @@
+[app]
+app_intro = """
+This streamlit app allows you to visualise and monitor the results and all related analytics produced by Whitebox.
+
+All you have to do is to select your desired model which is stored in your database and then navigate through the different tabs.
+"""
+[tooltips]
+model_option = """
+These are the models that are saved in your connected database.
+"""
+[links]
+repo = "https://github.com/squaredev-io/whitebox"
