@@ -18,7 +18,6 @@ model_base_path = settings.MODEL_PATH
 def create_binary_classification_training_model_pipeline(
     training_dataset: pd.DataFrame, target: str, model_id: str
 ) -> Dict[str, float]:
-
     model_path = f"{model_base_path}/{model_id}"
 
     # Create directory if it doesn't exist
@@ -75,7 +74,6 @@ def create_binary_classification_training_model_pipeline(
 def create_multiclass_classification_training_model_pipeline(
     training_dataset: pd.DataFrame, target: str, model_id: str
 ) -> Dict[str, float]:
-
     model_path = f"{model_base_path}/{model_id}"
 
     # Create directory if it doesn't exist
@@ -144,7 +142,6 @@ def create_multiclass_classification_training_model_pipeline(
 def create_regression_training_model_pipeline(
     training_dataset: pd.DataFrame, target: str, model_id: str
 ) -> Dict[str, float]:
-
     model_path = f"{model_base_path}/{model_id}"
 
     # Create directory if it doesn't exist

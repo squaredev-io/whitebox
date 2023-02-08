@@ -10,7 +10,6 @@ async def authenticate_user(
     api_key: str = Header(),
     db: Session = Depends(get_db),
 ) -> User:
-
     user = crud.users.get_first_by_filter(db, username="admin")
     if not passwords_match(user.api_key, api_key):
         raise HTTPException(

@@ -18,7 +18,6 @@ def create_xai_pipeline_per_inference_row(
     type_of_task: str,
     model_id: str,
 ) -> Dict[str, float]:
-
     model_base_path = settings.MODEL_PATH
     model_path = f"{model_base_path}/{model_id}"
 
@@ -37,7 +36,6 @@ def create_xai_pipeline_per_inference_row(
     # from the file system we don't care if it is binary or multiclass
 
     if type_of_task == ModelType.multi_class:
-
         # Giving the option of retrieving the local model
 
         model = joblib.load(f"{model_path}/lgb_multi.pkl")
@@ -56,7 +54,6 @@ def create_xai_pipeline_per_inference_row(
         }
 
     elif type_of_task == ModelType.binary:
-
         # Giving the option of retrieving the local model
 
         model = joblib.load(f"{model_path}/lgb_binary.pkl")
@@ -75,7 +72,6 @@ def create_xai_pipeline_per_inference_row(
         }
 
     elif type_of_task == ModelType.regression:
-
         # Giving the option of retrieving the local model
 
         model = joblib.load(f"{model_path}/lgb_reg.pkl")
