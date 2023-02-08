@@ -7,7 +7,7 @@ from whitebox import crud, entities
 from whitebox.core.settings import get_settings
 from whitebox.cron_tasks.shared import (
     get_all_models,
-    get_latest_data_drift_metrics_report,
+    get_latest_drift_metrics_report,
     get_latest_performance_metrics_report,
     get_active_model_monitors,
 )
@@ -61,30 +61,35 @@ async def run_create_performance_metric_alert_pipeline(
         logger.info(f"Created alert for monitor {monitor.id}!")
 
 
-async def run_create_data_drift_alert_pipeline(model: Model, monitor: ModelMonitor):
+async def run_create_drift_alert_pipeline(model: Model, monitor: ModelMonitor):
     """
-    Run the pipeline to find any alerts for a metric in performance metrics
+    Run the pipeline to find any alerts for a metric in drift metrics
     If one is found it is saved in the database
     """
 
-    last_data_drift_report = await get_latest_data_drift_metrics_report(db, model)
+    last_drift_report = await get_latest_drift_metrics_report(db, model)
 
-    if not last_data_drift_report:
+    if not last_drift_report:
         logger.info(
-            f"No alert created for monitor: {monitor.id} because no data drift report was found!"
+            f"No alert created for monitor: {monitor.id} because no drift report was found!"
         )
         return
 
-    data_drift: bool = last_data_drift_report.data_drift_summary["drift_by_columns"][
-        monitor.feature
-    ]["drift_detected"]
+    if monitor.metric == MonitorMetrics.data_drift:
+        drift_detected: bool = last_drift_report.data_drift_summary["drift_by_columns"][
+            monitor.feature
+        ]["drift_detected"]
+    else:
+        drift_detected: bool = last_drift_report.concept_drift_summary[
+            "concept_drift_summary"
+        ]["drift_detected"]
 
-    if data_drift:
+    if drift_detected:
         new_alert = entities.Alert(
             model_id=model.id,
             model_monitor_id=monitor.id,
             timestamp=str(datetime.utcnow()),
-            description=f'Data drift found in "{monitor.feature}" feature.',
+            description=f'{monitor.metric.capitalize().replace("_", " ")} found in "{monitor.feature}" feature.',
         )
         crud.alerts.create(db, obj_in=new_alert)
         logger.info(f"Created alert for monitor {monitor.id}!")
@@ -112,8 +117,11 @@ async def run_create_alerts_pipeline():
                     MonitorMetrics.mean_absolute_error,
                 ]:
                     await run_create_performance_metric_alert_pipeline(model, monitor)
-                elif monitor.metric == MonitorMetrics.data_drift:
-                    await run_create_data_drift_alert_pipeline(model, monitor)
+                elif (
+                    monitor.metric == MonitorMetrics.data_drift
+                    or monitor.metric == MonitorMetrics.concept_drift
+                ):
+                    await run_create_drift_alert_pipeline(model, monitor)
 
     db.close()
     end = time.time()

@@ -250,6 +250,15 @@ model_monitor_data_drift_create_payload = dict(
     email="example@whitebox.io",
 )
 
+model_monitor_concept_drift_create_payload = dict(
+    name="concept drift monitor",
+    status=MonitorStatus.active,
+    metric=MonitorMetrics.concept_drift,
+    feature="concavity error",
+    severity=AlertSeverity.low,
+    email="example@whitebox.io",
+)
+
 model_monitor_precision_create_payload = dict(
     name="precision monitor",
     status=MonitorStatus.active,

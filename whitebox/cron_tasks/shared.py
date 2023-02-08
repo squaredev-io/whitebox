@@ -73,9 +73,7 @@ async def get_latest_performance_metrics_report(
     return last_report_in_db
 
 
-async def get_latest_data_drift_metrics_report(
-    db: Session, model: Model
-) -> DriftingMetric:
+async def get_latest_drift_metrics_report(db: Session, model: Model) -> DriftingMetric:
     last_report_in_db = crud.drifting_metrics.get_latest_report_by_model(
         db, model_id=model.id
     )
