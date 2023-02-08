@@ -52,7 +52,7 @@ After you get the API key, all you have to do is create an instance of the White
 ```Python
 from whitebox import Whitebox
 
-wb = Whitebox(host="127.0.0.1:8000", api_key="some_api_key")
+wb = Whitebox(host="http://127.0.0.1:8000", api_key="some_api_key")
 ```
 
 Now you're ready to start using Whitebox!

@@ -32,4 +32,8 @@ v1_test_order_map = [
     "sdk_log_training_dataset",
     "sdk_log_inferences",
     "sdk_create_model_monitor",
+    "sdk_get_drifting_metrics",
+    "sdk_get_descriptive_statistics",
+    "sdk_get_performance_metrics",
+    "sdk_get_xai_row",
 ]

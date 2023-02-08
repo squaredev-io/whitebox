@@ -15,7 +15,6 @@ from fastapi import status
 
 @pytest.mark.order(get_order_number("dataset_rows_wrong_training_dataset"))
 def test_dataset_rows_wrong_training_data(client, api_key):
-
     response_single_row = client.post(
         "/v1/dataset-rows",
         json=list(

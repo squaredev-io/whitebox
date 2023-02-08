@@ -44,7 +44,7 @@ class Whitebox:
         probability: str,
         labels: Dict[str, int] = None,
         description: str = "",
-    ):
+    ) -> dict:
         """
         Create a new model in Whitebox and define a type, and a schema for it.
         """
@@ -66,7 +66,7 @@ class Whitebox:
         logger.info(result.json())
         return result.json()
 
-    def get_model(self, model_id: str):
+    def get_model(self, model_id: str) -> dict:
         """
         Returns a model by its id. If the model does not exist, returns None.
         """
@@ -173,17 +173,19 @@ class Whitebox:
 
         return False
 
-    def _check_processed_and_non_processed_length(
-        self, processed: pd.DataFrame, non_processed: pd.DataFrame
-    ) -> bool:
+    def get_xai_row(self, inference_row_id: str):
         """
-        Checks if the processed and non processed dataframes have the same number of rows.
+        Given a specific inference row id, this endpoint produces an explainability report for this inference.
+        If some of the required data isn't found, returns None.
         """
-        if len(processed) != len(non_processed):
-            raise ValueError(
-                "Processed and non processed dataframes must have the same length."
-            )
-        return True
+        result = requests.get(
+            url=f"{self.host}/{self.api_version}/inference-rows/{inference_row_id}/xai",
+            headers={"api-key": self.api_key},
+        )
+        if result.status_code == status.HTTP_404_NOT_FOUND:
+            return None
+
+        return result.json()
 
     def create_model_monitor(
         self,
@@ -231,3 +233,57 @@ class Whitebox:
 
         logger.info(result.json())
         return result.json()
+
+    def get_drifting_metrics(self, model_id: str) -> dict:
+        """
+        Returns a model's drifting metric reports. If the model does not exist, returns None.
+        If the model exists but there are no metrics, returns an empty list.
+        """
+        result = requests.get(
+            url=f"{self.host}/{self.api_version}/drifting-metrics?model_id={model_id}",
+            headers={"api-key": self.api_key},
+        )
+        if result.status_code == status.HTTP_404_NOT_FOUND:
+            return None
+
+        return result.json()
+
+    def get_descriptive_statistics(self, model_id: str) -> dict:
+        """
+        Returns a model's descriptive statistics reports. If the model does not exist, returns None.
+        If the model exists but there are no metrics, returns an empty list.
+        """
+        result = requests.get(
+            url=f"{self.host}/{self.api_version}/model-integrity-metrics?model_id={model_id}",
+            headers={"api-key": self.api_key},
+        )
+        if result.status_code == status.HTTP_404_NOT_FOUND:
+            return None
+
+        return result.json()
+
+    def get_performance_metrics(self, model_id: str) -> dict:
+        """
+        Returns a model's performance metric reports. If the model does not exist, returns None.
+        If the model exists but there are no metrics, returns an empty list.
+        """
+        result = requests.get(
+            url=f"{self.host}/{self.api_version}/performance-metrics?model_id={model_id}",
+            headers={"api-key": self.api_key},
+        )
+        if result.status_code == status.HTTP_404_NOT_FOUND:
+            return None
+
+        return result.json()
+
+    def _check_processed_and_non_processed_length(
+        self, processed: pd.DataFrame, non_processed: pd.DataFrame
+    ) -> bool:
+        """
+        Checks if the processed and non processed dataframes have the same number of rows.
+        """
+        if len(processed) != len(non_processed):
+            raise ValueError(
+                "Processed and non processed dataframes must have the same length."
+            )
+        return True
