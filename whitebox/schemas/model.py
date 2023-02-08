@@ -10,24 +10,11 @@ class ModelType(str, enum.Enum):
     regression = "regression"
 
 
-class FeatureTypes(str, enum.Enum):
-    categorical = "categorical"
-    boolean = "boolean"
-    string = "string"
-    datetime = "datetime"
-    numerical = "numerical"
-
-
 class ModelBase(BaseModel):
     name: str
     description: str
     type: ModelType
-
-    """Inference row metadata"""
-    features: Dict[str, FeatureTypes]
-
     prediction: str
-    probability: str
     labels: Optional[Dict[str, int]]
 
 

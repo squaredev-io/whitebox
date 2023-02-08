@@ -4,19 +4,17 @@ This is the documentation for Whitebox's SDK. For an interactive experience, you
 
 ## Models
 
-**_create_model_**_(name, type, features, prediction, probability, labels=None, description="")_
+**_create_model_**_(name, type, prediction, labels=None, description="")_
 
 Creates a model in the database. This model works as placeholder for all the actual model's metadata.
 
-| Parameter       | Type                      | Description                                                                                                            |
-| --------------- | ------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| **name**        | `str`                     | The name of the model.                                                                                                 |
-| **type**        | `str`                     | The model's type. Possible values: `binary`, `multi_class`, `regression`.                                              |
-| **features**    | `Dict[str, FeatureTypes]` | The model's features. Possible values for `FeatureTypes`: `categorical`, `boolean`, `string`, `datetime`, `numerical`. |
-| **prediction**  | `str`                     | The prediction of the model.                                                                                           |
-| **probability** | `str`                     | The probability of the model.                                                                                          |
-| **labels**      | `Dict[str, int]`          | The model's labels. Defaults to `None`.                                                                                |
-| **description** | `str`                     | The model's description. Defaults to an empty string `""`.                                                             |
+| Parameter       | Type             | Description                                                               |
+| --------------- | ---------------- | ------------------------------------------------------------------------- |
+| **name**        | `str`            | The name of the model.                                                    |
+| **type**        | `str`            | The model's type. Possible values: `binary`, `multi_class`, `regression`. |
+| **prediction**  | `str`            | The prediction of the model.                                              |
+| **labels**      | `Dict[str, int]` | The model's labels. Defaults to `None`.                                   |
+| **description** | `str`            | The model's description. Defaults to an empty string `""`.                |
 
 !!! info
 

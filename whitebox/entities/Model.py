@@ -12,10 +12,8 @@ class Model(Base):
     name = Column(String)
     description = Column(String)
     type = Column("type", Enum(ModelType))
-    features = Column(JSON)
     labels = Column(JSON, nullable=True)
     prediction = Column(String)
-    probability = Column(String)
     created_at = Column(DateTime)
     updated_at = Column(DateTime)
 
@@ -23,6 +21,7 @@ class Model(Base):
     inference_rows = relationship("InferenceRow")
     binary_classification_metrics = relationship("BinaryClassificationMetrics")
     multi_classification_metrics = relationship("MultiClassificationMetrics")
+    regression_metrics = relationship("RegressionMetrics")
     drifting_metrics = relationship("DriftingMetric")
     model_integrity_metrics = relationship("ModelIntegrityMetric")
     model_monitors = relationship("ModelMonitor")
