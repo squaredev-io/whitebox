@@ -37,9 +37,7 @@ def test_sdk_create_model(client):
             name=model_multi_create_payload["name"],
             description=model_multi_create_payload["description"],
             labels=model_multi_create_payload["labels"],
-            features=model_multi_create_payload["features"],
             type=model_multi_create_payload["type"],
-            probability=model_multi_create_payload["probability"],
             prediction=model_multi_create_payload["prediction"],
         )
 

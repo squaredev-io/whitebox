@@ -1,7 +1,7 @@
 from enum import Enum
 import numpy as np
 import pandas as pd
-from whitebox.schemas.model import FeatureTypes, ModelCreateDto, ModelType
+from whitebox.schemas.model import ModelCreateDto, ModelType
 from typing import Dict, Optional
 import requests
 import logging
@@ -39,9 +39,7 @@ class Whitebox:
         self,
         name: str,
         type: ModelType,
-        features: Dict[str, FeatureTypes],
         prediction: str,
-        probability: str,
         labels: Dict[str, int] = None,
         description: str = "",
     ) -> dict:
@@ -52,10 +50,8 @@ class Whitebox:
             name=name,
             description=description,
             type=type,
-            features=features,
             labels=labels,
             prediction=prediction,
-            probability=probability,
         )
         result = requests.post(
             url=f"{self.host}/{self.api_version}/models",

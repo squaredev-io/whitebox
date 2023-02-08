@@ -69,17 +69,11 @@ Let's create a sample model:
 wb.create_model(
     name="Model 1",
     type="binary",
-    features={
-        'additionalProp1': 'numerical',
-        'additionalProp2': 'numerical',
-        'additionalProp3': 'numerical'
-    },
     labels={
         'additionalProp1': 0,
         'additionalProp2': 1
     },
-    prediction="target",
-    probability="proba"
+    prediction="target"
 )
 ```
 

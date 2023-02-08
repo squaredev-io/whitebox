@@ -13,79 +13,39 @@ model_binary_create_payload = dict(
     name="Model 1",
     description="Model 1 description",
     type=ModelType.binary,
-    features={
-        "feature1": "numerical",
-        "feature2": "numerical",
-        "feature3": "numerical",
-        "feature4": "numerical",
-        "target": "numerical",
-    },
     labels={"label_1": 0, "label_2": 1},
     prediction="target",
-    probability="n/a",
 )
 
 model_multi_create_payload = dict(
     name="Model 2",
     description="Model 2 description",
     type=ModelType.multi_class,
-    features={
-        "feature1": "numerical",
-        "feature2": "numerical",
-        "feature3": "numerical",
-        "feature4": "numerical",
-        "target": "numerical",
-    },
     labels={"label_1": 0, "label_2": 1, "label_3": 2},
     prediction="target",
-    probability="n/a",
 )
 
 model_multi_2_create_payload = dict(
     name="Model 3",
     description="Model 3 description",
     type=ModelType.multi_class,
-    features={
-        "feature1": "numerical",
-        "feature2": "numerical",
-        "feature3": "numerical",
-        "feature4": "numerical",
-        "target": "numerical",
-    },
     labels={"label_1": 0, "label_2": 1, "label_3": 2},
     prediction="target",
-    probability="n/a",
 )
 
 model_multi_3_create_payload = dict(
     name="Model 4",
     description="Model 4 description",
     type=ModelType.multi_class,
-    features={
-        "feature1": "numerical",
-        "feature2": "numerical",
-        "feature3": "numerical",
-        "feature4": "numerical",
-        "target": "numerical",
-    },
     labels={"label_1": 0, "label_2": 1, "label_3": 2},
     prediction="target",
-    probability="n/a",
 )
 
 model_regression_create_payload = dict(
     name="Regression Model",
     description="Regression Model description",
     type=ModelType.regression,
-    features={
-        "feature1": "numerical",
-        "feature2": "numerical",
-        "feature3": "numerical",
-        "feature4": "numerical",
-        "target": "numerical",
-    },
     prediction="target",
-    probability="n/a",
 )
 
 model_update_payload = dict(
