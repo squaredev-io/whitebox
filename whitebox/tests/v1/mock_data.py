@@ -133,14 +133,15 @@ dataset_rows_create_wrong_model_payload = list(
 # inference rows data for both binary and multiclaas models
 df_multi_inference = df_multi.tail(10)
 dict_multi_inferences = df_multi_inference.to_dict(orient="records")
+multi_actuals = [0, 2, 0, 1, 2, 1, 1, 2, 0, 1]
 inference_row_create_many_multi_payload = [
     {
         "timestamp": str(datetime.now()),
         "processed": x,
         "nonprocessed": x,
-        "actual": random.randint(0, 1),
+        "actual": multi_actuals[i],
     }
-    for x in dict_multi_inferences
+    for i, x in enumerate(dict_multi_inferences)
 ]
 
 inference_row_create_single_row_payload = inference_row_create_many_multi_payload[0]
@@ -158,26 +159,28 @@ inference_row_create_many_multi_mixed_actuals_payload = (
 # This is the body of the request coming from the sdk
 df_binary_inference = df_binary.tail(10)
 dict_binary_inferences = df_binary_inference.to_dict(orient="records")
+binary_actuals = [0, 1, 1, 0, 1, 0, 1, 1, 1, 0]
 inference_row_create_many_binary_payload = [
     {
         "timestamp": str(datetime.now()),
         "processed": x,
         "nonprocessed": x,
-        "actual": random.randint(0, 1),
+        "actual": binary_actuals[i],
     }
-    for x in dict_binary_inferences
+    for i, x in enumerate(dict_binary_inferences)
 ]
 
 df_reg_inference = df_reg.tail(10)
 dict_reg_inferences = df_reg_inference.to_dict(orient="records")
+reg_actuals = [103, 20, 50, 64, 48, 198, 105, 138, 250, 57]
 inference_row_create_many_reg_payload = [
     {
         "timestamp": str(datetime.now()),
         "processed": x,
         "nonprocessed": x,
-        "actual": random.randint(0, 1),
+        "actual": reg_actuals[i],
     }
-    for x in dict_reg_inferences
+    for i, x in enumerate(dict_reg_inferences)
 ]
 
 timestamps = pd.Series(["2022-12-22T12:13:27.879738"] * 10)
