@@ -37,7 +37,6 @@ model_multi_3_create_payload = dict(
     name="Model 4",
     description="Model 4 description",
     type=ModelType.multi_class,
-    labels={"label_1": 0, "label_2": 1, "label_3": 2},
     prediction="target",
 )
 
