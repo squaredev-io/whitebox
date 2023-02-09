@@ -240,6 +240,16 @@ model_monitor_r_square_create_payload = dict(
     email="example@whitebox.io",
 )
 
+alert_payload = {
+    "id": "c2a25e32-4e40-40da-a83f-fc299514866e",
+    "created_at": "2023-02-09T12:52:50.547557",
+    "updated_at": "2023-02-09T12:52:50.547557",
+    "model_id": "11737584-a356-4de5-924c-9894dfcd0e0d",
+    "model_monitor_id": "fa3a12f3-6801-4c25-8154-8b627e1d37b1",
+    "timestamp": "2023-02-09T12:52:50.547525",
+    "description": 'Data drift found in "concavity error" feature.',
+}
+
 performance_metrics_report_payload = [
     {
         "id": "f7030044-e0c2-4493-8aea-f66e6564efb7",
