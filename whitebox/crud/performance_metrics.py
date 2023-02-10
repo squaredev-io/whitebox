@@ -17,14 +17,19 @@ from whitebox.schemas.performanceMetric import (
 class CRUD(
     CRUDBase[Union[BinaryClassificationMetrics, MultiClassificationMetrics], Any, Any]
 ):
-    def get_by_model(
+    def get_performance_metrics_by_model(
         self, db: Session, *, model_id: int
     ) -> Union[
         List[BinaryClassificationMetrics],
         List[MultiClassificationMetrics],
         List[RegressionMetrics],
     ]:
-        return db.query(self.model).filter(self.model.model_id == model_id).all()
+        return (
+            db.query(self.model)
+            .filter(self.model.model_id == model_id)
+            .order_by(desc("timestamp"))
+            .all()
+        )
 
     def get_latest_report_by_model(
         self, db: Session, *, model_id: int

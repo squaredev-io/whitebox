@@ -11,7 +11,10 @@ class CRUD(CRUDBase[DriftingMetric, Any, Any]):
         self, db: Session, *, model_id: str
     ) -> List[DriftingMetric]:
         return (
-            db.query(self.model).filter(DriftingMetricEntity.model_id == model_id).all()
+            db.query(self.model)
+            .filter(DriftingMetricEntity.model_id == model_id)
+            .order_by(desc("timestamp"))
+            .all()
         )
 
     def get_latest_report_by_model(
