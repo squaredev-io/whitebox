@@ -4,6 +4,10 @@ from sklearn.metrics import ConfusionMatrixDisplay
 import streamlit as st
 from typing import Dict, Union, List
 from matplotlib import pyplot as plt
+import json
+import plotly.express as px
+
+from utils.transformation import export_drift_timeseries_from_dict
 
 from utils.load import load_config, load_image
 from utils.export import display_links
@@ -69,12 +73,31 @@ second_part = [
 ]
 cm = np.array([first_part, second_part])
 
+f = open("streamlit/mock/drift.json")
+drift = json.load(f)
+f.close()
+
 overview, performance, drifting, inferences, monitors, alerts = st.tabs(
     ["Overview", "Performance", "Drifting", "Inferences", "Monitors", "Alerts"]
 )
 
-# Sidebar
-st.sidebar.image(load_image("logo.png"), use_column_width=True)
+st.markdown(
+    """
+    <style>
+        [data-testid=stSidebar] [data-testid=stImage]{
+            text-align: center;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 100%;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+st.sidebar.image(load_image("logo.png"), width=120)
+
+
 display_links(readme["links"]["repo"])
 st.sidebar.write(
     "Whitebox is an open source E2E ML monitoring platform with edge capabilities that plays nicely with kubernetes."
@@ -106,3 +129,38 @@ if button:
         fig, ax = plt.subplots(figsize=(5, 5))
         disp.plot(ax=ax)
         st.pyplot()
+
+    with drifting:
+        value_df, drift_df = export_drift_timeseries_from_dict(drift)
+        df_columns = value_df.drop("index", axis=1).columns
+        common_tab, sep_tab = st.tabs(
+            ["Common representation", "Separeted representation"]
+        )
+        with sep_tab:
+            for column in df_columns:
+                drift_detected = (drift_df[[column]] == True).any()[0]
+                viz_df = value_df[[column, "index"]]
+                viz_df.columns = ["drift_score", "time"]
+                subtitle = ""
+                if drift_detected:
+                    subtitle = "Drift detected"
+                fig = px.line(
+                    viz_df,
+                    x="time",
+                    y="drift_score",
+                    title=f"{column} <br><sup>{subtitle}</sup>",
+                )
+                st.plotly_chart(fig)
+        with common_tab:
+            drift_detected = True in drift_df.values
+            subtitle = ""
+            if drift_detected:
+                subtitle = "Drift detected"
+            fig = px.line(
+                value_df,
+                x="index",
+                y=df_columns,
+                title=f"All variables <br><sup>{subtitle}</sup>",
+                markers=True,
+            )
+            st.plotly_chart(fig)
