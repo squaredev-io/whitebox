@@ -1,6 +1,6 @@
 from typing import Any, List
 from sqlalchemy.orm import Session
-from sqlalchemy import desc
+from sqlalchemy import asc
 from whitebox.crud.base import CRUDBase
 from whitebox.entities.ModelIntegrityMetric import (
     ModelIntegrityMetric as ModelIntegrityMetricEntity,
@@ -18,7 +18,7 @@ class CRUD(CRUDBase[ModelIntegrityMetric, ModelIntegrityMetricCreate, Any]):
         return (
             db.query(self.model)
             .filter(ModelIntegrityMetricEntity.model_id == model_id)
-            .order_by(desc("timestamp"))
+            .order_by(asc("timestamp"))
             .all()
         )
 
