@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 
-VERSION = "0.0.15"
+VERSION = "0.0.19"
 
 DESCRIPTION = "Whitebox is an open source E2E ML monitoring platform with edge capabilities that plays nicely with kubernetes"
 LONG_DESCRIPTION = ""
