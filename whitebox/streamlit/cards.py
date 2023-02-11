@@ -1,12 +1,12 @@
 import streamlit as st
 
 
-def card(paraphrased_text):
+def card(text):
     st.markdown(
         f"""
     <div class="card text-white bg-dark mb-3" style="max-width: 280rem;">
         <div class="card-body">
-            <p class="card-text">{paraphrased_text}</p>
+            <p class="card-text">{text}</p>
         </div>
     </div>
     """,

@@ -26,7 +26,7 @@ def load_config(config_readme_filename: str) -> Dict[Any, Any]:
 
 
 @st.cache(ttl=300)
-def load_image(image_name: str) -> Image:
+def load_image(image_name: str):
     """Displays an image.
 
     Parameters
