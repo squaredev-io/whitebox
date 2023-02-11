@@ -9,6 +9,7 @@ def create_drift_tab(drift):
     It created 2 tabs of graphs, one with the combined drifts of variables
     and one tab with graphs for each one variable.
     """
+    st.title("Drifting")
     # Isolate timeseties parts from the drift object
     value_df, drift_df = export_drift_timeseries_from_dict(drift)
     # Keep the columns except the time/index
