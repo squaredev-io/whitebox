@@ -1,19 +1,14 @@
 import numpy as np
 import pandas as pd
-from sklearn.metrics import ConfusionMatrixDisplay
 import streamlit as st
 from typing import Dict, Union, List
 from matplotlib import pyplot as plt
 import json
-import plotly.express as px
 
 from tabs.drifting import *
 from tabs.sidebar import *
 from tabs.overview import *
 from tabs.performance import *
-
-from utils.load import load_config, load_image
-from utils.transformation import get_dataframe_from_performance_dict
 
 from cards import *
 
