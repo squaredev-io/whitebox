@@ -10,8 +10,10 @@ import plotly.express as px
 from tabs.drifting import *
 from tabs.sidebar import *
 from tabs.overview import *
+from tabs.performance import *
 
 from utils.load import load_config, load_image
+from utils.transformation import get_dataframe_from_performance_dict
 
 from cards import *
 
@@ -78,6 +80,10 @@ f = open("streamlit/mock/drift.json")
 drift = json.load(f)
 f.close()
 
+f = open("streamlit/mock/performance.json")
+perf = json.load(f)
+f.close()
+
 # -----------------------------------
 overview, performance, drifting, inferences, monitors, alerts = st.tabs(
     ["Overview", "Performance", "Drifting", "Inferences", "Monitors", "Alerts"]
@@ -88,6 +94,9 @@ model_option, button = create_sidebar(model_names)
 if button:
     with overview:
         create_overview_tab(model, cm, base_evaluation_metrics_binary_df)
+
+    with performance:
+        create_performance_tab(perf)
 
     with drifting:
         create_drift_tab(drift)

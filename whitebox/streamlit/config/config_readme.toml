@@ -8,5 +8,8 @@ All you have to do is to select your desired model which is stored in your datab
 model_option = """
 These are the models that are saved in your connected database.
 """
+overview_performance = """
+These are the model's performance metrics after it was trained with the training data. 
+"""
 [links]
 repo = "https://github.com/squaredev-io/whitebox"

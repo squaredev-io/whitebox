@@ -27,3 +27,22 @@ def export_drift_timeseries_from_dict(drift):
     drift_df = convert_drift_timeseries_dict_to_pd(timeseries_drift)
 
     return value_df, drift_df
+
+
+def get_dataframe_from_performance_dict(performance_dict):
+    timeseries = {}
+    for i in range(len(performance_dict)):
+        acc = performance_dict[i]["accuracy"]
+        prec = performance_dict[i]["precision"]["macro"]
+        rec = performance_dict[i]["recall"]["macro"]
+        f1 = performance_dict[i]["f1"]["macro"]
+        timeseries[performance_dict[i]["timestamp"]] = {
+            "accuracy": acc,
+            "precision": prec,
+            "recall": rec,
+            "f1": f1,
+        }
+
+    performance_df = pd.DataFrame.from_dict(timeseries, orient="index").reset_index()
+    performance_df["index"] = pd.to_datetime(performance_df["index"])
+    return performance_df
