@@ -1,26 +1,11 @@
 import streamlit as st
 from utils.load import load_config, load_image
-from utils.export import display_links
+from utils.export import display_links, center_image
 
 
 def create_sidebar(model_names):
     readme = load_config("config_readme.toml")
-    # Markdown for seeting logi in the center
-    st.markdown(
-        """
-    <style>
-        [data-testid=stSidebar] [data-testid=stImage]{
-            text-align: center;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-            width: 100%;
-        }
-    </style>
-    """,
-        unsafe_allow_html=True,
-    )
-
+    center_image()
     st.sidebar.image(load_image("logo.png"), width=120)
     display_links(readme["links"]["repo"])
 
