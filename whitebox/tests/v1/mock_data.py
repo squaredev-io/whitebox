@@ -37,7 +37,6 @@ model_multi_3_create_payload = dict(
     name="Model 4",
     description="Model 4 description",
     type=ModelType.multi_class,
-    labels={"label_1": 0, "label_2": 1, "label_3": 2},
     prediction="target",
 )
 
@@ -133,14 +132,15 @@ dataset_rows_create_wrong_model_payload = list(
 # inference rows data for both binary and multiclaas models
 df_multi_inference = df_multi.tail(10)
 dict_multi_inferences = df_multi_inference.to_dict(orient="records")
+multi_actuals = [0, 2, 0, 1, 2, 1, 1, 2, 0, 1]
 inference_row_create_many_multi_payload = [
     {
         "timestamp": str(datetime.now()),
         "processed": x,
         "nonprocessed": x,
-        "actual": random.randint(0, 1),
+        "actual": multi_actuals[i],
     }
-    for x in dict_multi_inferences
+    for i, x in enumerate(dict_multi_inferences)
 ]
 
 inference_row_create_single_row_payload = inference_row_create_many_multi_payload[0]
@@ -158,26 +158,28 @@ inference_row_create_many_multi_mixed_actuals_payload = (
 # This is the body of the request coming from the sdk
 df_binary_inference = df_binary.tail(10)
 dict_binary_inferences = df_binary_inference.to_dict(orient="records")
+binary_actuals = [0, 1, 1, 0, 1, 0, 1, 1, 1, 0]
 inference_row_create_many_binary_payload = [
     {
         "timestamp": str(datetime.now()),
         "processed": x,
         "nonprocessed": x,
-        "actual": random.randint(0, 1),
+        "actual": binary_actuals[i],
     }
-    for x in dict_binary_inferences
+    for i, x in enumerate(dict_binary_inferences)
 ]
 
 df_reg_inference = df_reg.tail(10)
 dict_reg_inferences = df_reg_inference.to_dict(orient="records")
+reg_actuals = [103, 20, 50, 64, 48, 198, 105, 138, 250, 57]
 inference_row_create_many_reg_payload = [
     {
         "timestamp": str(datetime.now()),
         "processed": x,
         "nonprocessed": x,
-        "actual": random.randint(0, 1),
+        "actual": reg_actuals[i],
     }
-    for x in dict_reg_inferences
+    for i, x in enumerate(dict_reg_inferences)
 ]
 
 timestamps = pd.Series(["2022-12-22T12:13:27.879738"] * 10)
@@ -236,6 +238,16 @@ model_monitor_r_square_create_payload = dict(
     severity=AlertSeverity.low,
     email="example@whitebox.io",
 )
+
+alert_payload = {
+    "id": "c2a25e32-4e40-40da-a83f-fc299514866e",
+    "created_at": "2023-02-09T12:52:50.547557",
+    "updated_at": "2023-02-09T12:52:50.547557",
+    "model_id": "11737584-a356-4de5-924c-9894dfcd0e0d",
+    "model_monitor_id": "fa3a12f3-6801-4c25-8154-8b627e1d37b1",
+    "timestamp": "2023-02-09T12:52:50.547525",
+    "description": 'Data drift found in "concavity error" feature.',
+}
 
 performance_metrics_report_payload = [
     {
