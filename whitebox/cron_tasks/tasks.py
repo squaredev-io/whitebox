@@ -5,7 +5,7 @@ from whitebox.cron_tasks.monitoring_alerts import run_create_alerts_pipeline
 
 task_manager = get_task_manager()
 
-metrics_cron = os.getenv("METRICS_CRON") or "*/3 * * * *"
+metrics_cron = os.getenv("METRICS_CRON") or "*/15 * * * *"
 
 task_manager.register(
     name="metrics_cron",
