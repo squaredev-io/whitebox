@@ -11,6 +11,7 @@ from tabs.sidebar import *
 from tabs.overview import *
 from tabs.performance import *
 from tabs.inferences import *
+from tabs.monitors import *
 
 from cards import *
 
@@ -107,3 +108,6 @@ if button:
 
     with inferences:
         create_inferences_tab(inf, pred_column)
+
+    with monitors:
+        create_monitors_tab()

@@ -18,6 +18,6 @@ def create_sidebar(model_names):
         model_names,
         help=readme["tooltips"]["model_option"],
     )
-    button = st.sidebar.button("Ok")
-
+    # button = st.sidebar.button("Ok")
+    button = st.sidebar.checkbox("Ok")
     return model_option, button
