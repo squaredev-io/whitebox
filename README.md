@@ -1,8 +1,8 @@
 # Whitebox - E2E machine learning monitoring
 
 <p align="center">
-  <a href="https://squaredev-io.github.io/whitebox">
-    <img src="https://squaredev-io.github.io/whitebox/img/logo.svg" alt="Whitebox" width="50%">
+  <a href="https://whitebox-ai.github.io/whitebox">
+    <img src="https://whitebox-ai.github.io/whitebox/img/logo.svg" alt="Whitebox" width="50%">
   </a>
 </p>
 <p align="center">
@@ -12,11 +12,11 @@
 
 ---
 
-**Documentation**: <a href="https://squaredev-io.github.io/whitebox/" target="_blank">https://squaredev-io.github.io/whitebox</a>
+**Documentation**: <a href="https://whitebox-ai.github.io/whitebox/" target="_blank">https://whitebox-ai.github.io/whitebox</a>
 
-**Source Code**: <a href="https://github.com/squaredev-io/whitebox" target="_blank">https://github.com/squaredev-io/whitebox</a>
+**Source Code**: <a href="https://github.com/whitebox-ai/whitebox" target="_blank">https://github.com/whitebox-ai/whitebox</a>
 
-**Roadmap**: <a href="https://github.com/squaredev-io/whitebox/milestones" target="_blank">https://github.com/squaredev-io/whitebox/milestones</a>
+**Roadmap**: <a href="https://github.com/whitebox-ai/whitebox/milestones" target="_blank">https://github.com/whitebox-ai/whitebox/milestones</a>
 
 **Discord**: <a href="https://discord.gg/bkAcsx4V" target="_blank">https://discord.gg/bkAcsx4V</a>
 
@@ -41,7 +41,7 @@ Design guidelines:
 
 # Installation
 
-Install the server using `docker compose`. See the [docs](https://squaredev-io.github.io/whitebox/tutorial/installation) for more info.
+Install the server using `docker compose`. See the [docs](https://whitebox-ai.github.io/whitebox/tutorial/installation) for more info.
 
 Install the SDK with `pip`:
 
@@ -61,7 +61,7 @@ from whitebox import Whitebox
 wb = Whitebox(host="127.0.0.1:8000", api_key="some_api_key")
 ```
 
-Now you're ready to start using Whitebox! Read the [documentation](https://squaredev-io.github.io/whitebox/) to learn more about the SDK.
+Now you're ready to start using Whitebox! Read the [documentation](https://whitebox-ai.github.io/whitebox/) to learn more about the SDK.
 
 # Set up locally for development
 
@@ -98,7 +98,7 @@ docker compose up postgres -d
 
 ### Docs
 
-**Documentation is hosted bby GitHub here**: <a href="https://squaredev-io.github.io/whitebox/" target="_blank">https://squaredev-io.github.io/whitebox</a>
+**Documentation is hosted bby GitHub here**: <a href="https://whitebox-ai.github.io/whitebox/" target="_blank">https://whitebox-ai.github.io/whitebox</a>
 
 ```
 mkdocs serve -f docs/mkdocs/mkdocs.yml -a localhost:8001
