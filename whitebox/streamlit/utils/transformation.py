@@ -46,3 +46,32 @@ def get_dataframe_from_performance_dict(performance_dict):
     performance_df = pd.DataFrame.from_dict(timeseries, orient="index").reset_index()
     performance_df["index"] = pd.to_datetime(performance_df["index"])
     return performance_df
+
+
+def adjust_inference_column_positions(inf_df, target_column):
+    df_columns = inf_df.columns
+    # Find only the feature columns
+    df_feature_columns = df_columns.drop([target_column, "timestamp", "id", "actual"])
+    # Inser the id and timestamp in front positions
+    df_adj_columns = df_feature_columns.insert(0, "id")
+    df_adj_columns = df_adj_columns.insert(1, "timestamp")
+    # Append target column and actual column
+    df_adj_columns = df_adj_columns.to_list()
+    df_adj_columns.append(target_column)
+    df_adj_columns.append("actual")
+
+    return inf_df.reindex(columns=df_adj_columns)
+
+
+def convert_inference_dict_to_df(inf_dict, target_column):
+    temp_full_dict = {}
+    for i in range(len(inf_dict)):
+        temp_row_dict = inf_dict[i]["nonprocessed"]
+        temp_row_dict["timestamp"] = inf_dict[i]["timestamp"]
+        temp_row_dict["id"] = inf_dict[i]["id"]
+        temp_row_dict["actual"] = inf_dict[i]["actual"]
+
+        temp_full_dict[i] = temp_row_dict
+
+    inf_df = pd.DataFrame.from_dict(temp_full_dict, orient="index")
+    return adjust_inference_column_positions(inf_df, target_column)

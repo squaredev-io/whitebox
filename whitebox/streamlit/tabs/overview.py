@@ -13,6 +13,7 @@ def create_overview_tab(model, confusion_matrix, base_evaluation_metrics):
         st.title("Overview")
         st.write(card(model["name"], model["type"], model["description"]))
         st.header("Performance")
+
         with st.expander("See explanation"):
             st.write(readme["tooltips"]["overview_performance"])
 

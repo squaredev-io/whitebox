@@ -5,10 +5,12 @@ from typing import Dict, Union, List
 from matplotlib import pyplot as plt
 import json
 
+
 from tabs.drifting import *
 from tabs.sidebar import *
 from tabs.overview import *
 from tabs.performance import *
+from tabs.inferences import *
 
 from cards import *
 
@@ -49,6 +51,7 @@ model = {
     "name": "model test",
     "description": "a model for testing visualisations",
     "type": "binary",
+    "prediction": "target",
     "labels": {"default": 0, "no_default": 1},
     "created_at": "2022-05-05",
     "updated_at": "2022-05-05",
@@ -79,6 +82,12 @@ f = open("streamlit/mock/performance.json")
 perf = json.load(f)
 f.close()
 
+f = open("streamlit/mock/inferences.json")
+inf = json.load(f)
+f.close()
+
+pred_column = model["prediction"]
+
 # -----------------------------------
 overview, performance, drifting, inferences, monitors, alerts = st.tabs(
     ["Overview", "Performance", "Drifting", "Inferences", "Monitors", "Alerts"]
@@ -95,3 +104,6 @@ if button:
 
     with drifting:
         create_drift_tab(drift)
+
+    with inferences:
+        create_inferences_tab(inf, pred_column)
