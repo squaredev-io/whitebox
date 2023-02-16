@@ -12,6 +12,7 @@ from tabs.overview import *
 from tabs.performance import *
 from tabs.inferences import *
 from tabs.monitors import *
+from tabs.alerts import *
 
 from cards import *
 
@@ -119,3 +120,6 @@ if button:
 
     with monitors:
         create_monitors_tab(mon, al)
+
+    with alerts:
+        create_alerts_tab(al, mon)

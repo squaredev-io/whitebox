@@ -17,10 +17,11 @@ def get_recent_alert(alerts_df):
     return alerts_df.reset_index(drop=True)
 
 
-def combine_monitor_with_alert(monitor_df, alert_df):
+def combine_monitor_with_alert_for_monitors(monitor_df, alert_df):
     merged_df = pd.merge(
         monitor_df,
-        alert_df[["model_monitor_id", "timestamp", "description"]],
+        alert_df[["model_monitor_id", "description"]],
+        how="left",
         left_on="id",
         right_on="model_monitor_id",
     )
@@ -73,18 +74,26 @@ def create_monitors_tab(monitors, alerts):
 
         monitors_df = pd.DataFrame(monitors)
         alerts_df = pd.DataFrame(alerts)
-        recent_alerts_df = get_recent_alert(alerts_df)
-        merged_df = combine_monitor_with_alert(monitors_df, recent_alerts_df)
-        show_df = merged_df[["status", "name", "timestamp", "description"]]
 
-        add_new_monitor_check = st.checkbox(
-            "Add new monitor",
-            key="test",
+        # We need to find the recent alerts for each monitor
+        # then we need them to get their decriptions to show into the
+        # monitors tab
+        recent_alerts_df = get_recent_alert(alerts_df)
+        merged_df = combine_monitor_with_alert_for_monitors(
+            monitors_df, recent_alerts_df
         )
-        if add_new_monitor_check:
-            add_new_monitor()
-        else:
-            basic_monitor_page(show_df, merged_df)
+
+        show_df = merged_df[["status", "name", "updated_at", "description"]]
+        show_df.columns = ["Status", "Name", "Last update", "Anomaly activity"]
+
+    add_new_monitor_check = st.checkbox(
+        "Add new monitor",
+        key="test",
+    )
+    if add_new_monitor_check:
+        add_new_monitor()
+    else:
+        basic_monitor_page(show_df, merged_df)
 
 
 def basic_monitor_page(show_df, merged_df):
@@ -93,7 +102,7 @@ def basic_monitor_page(show_df, merged_df):
         "Search and filter for monitors", merged_df["name"].values.tolist()
     )
     if multiselect:
-        filtered_df = show_df[show_df["name"].isin(multiselect)]
+        filtered_df = show_df[show_df["Name"].isin(multiselect)]
         st.dataframe(filtered_df, width=1200, height=200)
 
         status = st.checkbox(
