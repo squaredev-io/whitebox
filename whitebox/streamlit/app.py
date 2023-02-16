@@ -87,6 +87,14 @@ f = open("streamlit/mock/inferences.json")
 inf = json.load(f)
 f.close()
 
+f = open("streamlit/mock/monitors.json")
+mon = json.load(f)
+f.close()
+
+f = open("streamlit/mock/alerts.json")
+al = json.load(f)
+f.close()
+
 pred_column = model["prediction"]
 
 # -----------------------------------
@@ -110,4 +118,4 @@ if button:
         create_inferences_tab(inf, pred_column)
 
     with monitors:
-        create_monitors_tab()
+        create_monitors_tab(mon, al)
