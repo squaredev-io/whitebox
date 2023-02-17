@@ -30,7 +30,13 @@ def export_drift_timeseries_from_dict(drift):
     return value_df, drift_df
 
 
-def get_dataframe_from_performance_dict(performance_dict):
+def get_dataframe_from_regression_performance_dict(performance_dict):
+    df = pd.DataFrame(performance_dict)
+    df = df[["r_square", "mean_squared_error", "mean_absolute_error", "timestamp"]]
+    return df
+
+
+def get_dataframe_from_classification_performance_dict(performance_dict):
     timeseries = {}
     for i in range(len(performance_dict)):
         acc = performance_dict[i]["accuracy"]
@@ -46,6 +52,8 @@ def get_dataframe_from_performance_dict(performance_dict):
 
     performance_df = pd.DataFrame.from_dict(timeseries, orient="index").reset_index()
     performance_df["index"] = pd.to_datetime(performance_df["index"])
+
+    performance_df = performance_df.rename({"index": "timestamp"}, axis=1)
     return performance_df
 
 

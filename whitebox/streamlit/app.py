@@ -110,7 +110,7 @@ if button:
         create_overview_tab(model, cm, base_evaluation_metrics_binary_df)
 
     with performance:
-        create_performance_tab(perf)
+        create_performance_tab(perf, model)
 
     with drifting:
         create_drift_tab(drift)
