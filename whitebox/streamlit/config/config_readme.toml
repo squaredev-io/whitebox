@@ -11,5 +11,23 @@ These are the models that are saved in your connected database.
 overview_performance = """
 These are the model's performance metrics after it was trained with the training data. 
 """
+monitor_name = """
+Add your preference name for the new monitor. 
+"""
+monitor_use_case = """
+Add your preference type of monitor. 
+"""
+stat_thresh_monitor = """
+Enter a value between 0 and 1 with max two decimal points, e.g. 0.25. 
+"""
+alert_trig_monitor = """
+Alert will trigger if below the lower threshold or above the upper threshold. 
+"""
+alert_severity_monitor = """
+What alert severity should be associated with the notifications being sent?
+"""
+notifications_monitor = """
+Notifications will be sent via email. Please provide your email below:
+"""
 [links]
 repo = "https://github.com/squaredev-io/whitebox"

@@ -5,35 +5,72 @@ from utils.transformation import (
     get_recent_alert,
     combine_monitor_with_alert_for_monitors,
 )
+from utils.load import load_config
+from utils.export import text_markdown
 
 
 def add_new_monitor():
-
-    new_monitor_name = st.text_input("Monitor name")
+    readme = load_config("config_readme.toml")
+    new_monitor_name = st.text_input(
+        "Monitor name",
+        max_chars=30,
+        help=readme["tooltips"]["monitor_name"],
+        placeholder="Model name",
+    )
     if new_monitor_name:
         monitor_option = st.selectbox(
-            "Select use case", ("Drift", "Data Quality", "Model performance")
+            "Select use case",
+            ("Drift", "Data Quality", "Model performance"),
+            help=readme["tooltips"]["monitor_use_case"],
         )
         monitor_option_check = st.checkbox("Select static threshold")
 
         if monitor_option_check:
+
+            st.write(
+                text_markdown(
+                    readme["tooltips"]["alert_trig_monitor"], "#525462", "12px"
+                )
+            )
             lower_threshold = st.number_input(
-                "Lower threshold", min_value=0.0, max_value=1.0, key="lower"
+                "Lower threshold",
+                min_value=0.0,
+                max_value=1.0,
+                key="lower",
+                help=readme["tooltips"]["stat_thresh_monitor"],
             )
             upper_threshold = st.number_input(
-                "Upper threshold", min_value=0.0, max_value=1.0, key="upper"
+                "Upper threshold",
+                min_value=0.0,
+                max_value=1.0,
+                key="upper",
+                help=readme["tooltips"]["stat_thresh_monitor"],
             )
             threshold_option_check = st.checkbox("Set actions")
 
             if threshold_option_check:
                 st.write("Alert severity")
-                severity = st.radio(
-                    "What alert severity should be associated with the notifications being sent?",
-                    ["Low", "Medium", "High"],
+                st.write(
+                    text_markdown(
+                        readme["tooltips"]["alert_severity_monitor"], "#525462", "12px"
+                    )
                 )
+                severity = st.radio(
+                    "Alert severity",
+                    ["Low", "Medium", "High"],
+                    label_visibility="collapsed",
+                )
+
                 st.write("Notifications")
+                st.write(
+                    text_markdown(
+                        readme["tooltips"]["notifications_monitor"], "#525462", "12px"
+                    )
+                )
                 new_monitor_name = st.text_input(
-                    "Notifications will be sent via email. Please provide your email below:"
+                    "Notifications",
+                    placeholder="Your email...",
+                    label_visibility="collapsed",
                 )
 
                 setup_button = st.button("Complete setup")

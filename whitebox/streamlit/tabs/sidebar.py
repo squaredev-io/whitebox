@@ -14,7 +14,7 @@ def create_sidebar(model_names):
     )
 
     model_option = st.sidebar.selectbox(
-        "Please select one of your models below and then press 'Ok':",
+        "Please select one of your models below and then check the 'Ok':",
         model_names,
         help=readme["tooltips"]["model_option"],
     )

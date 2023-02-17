@@ -35,3 +35,10 @@ def center_image():
     """,
         unsafe_allow_html=True,
     )
+
+
+def text_markdown(text, color, font_size):
+    st.markdown(
+        f'<p style="color:{color};{font_size}:12px;border-radius:2%;">{text}</p>',
+        unsafe_allow_html=True,
+    )

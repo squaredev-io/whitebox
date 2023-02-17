@@ -33,6 +33,7 @@ def create_inferences_tab(inf, pred_column):
         col1, col2 = st.columns(2)
 
         with col1:
+            # TODO: Add filter for dates (eg. Show data from 'last month')
             viz_inference_df(inf_df, pred_column)
 
         with col2:
