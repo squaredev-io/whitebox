@@ -1,31 +1,10 @@
 import streamlit as st
 import pandas as pd
 from utils.export import structure
-
-
-def get_recent_alert(alerts_df):
-    """
-    Function that gets alerts dataframe and results on the
-    most recent alert row for each unique id
-    """
-    alerts_df["timestamp"] = pd.to_datetime(alerts_df["timestamp"])
-    # sort the dataframe by 'date' column in descending order
-    alerts_df = alerts_df.sort_values(by="timestamp", ascending=False)
-    # drop duplicates based on 'id' column, keeping only the first occurrence (most recent date)
-    alerts_df = alerts_df.drop_duplicates(subset="model_monitor_id", keep="first")
-
-    return alerts_df.reset_index(drop=True)
-
-
-def combine_monitor_with_alert_for_monitors(monitor_df, alert_df):
-    merged_df = pd.merge(
-        monitor_df,
-        alert_df[["model_monitor_id", "description"]],
-        how="left",
-        left_on="id",
-        right_on="model_monitor_id",
-    )
-    return merged_df
+from utils.transformation import (
+    get_recent_alert,
+    combine_monitor_with_alert_for_monitors,
+)
 
 
 def add_new_monitor():
@@ -66,6 +45,35 @@ def add_new_monitor():
                     )
 
 
+def basic_monitor_page(show_df, merged_df):
+    st.dataframe(show_df, width=1200, height=300)
+    multiselect = st.multiselect(
+        "Search and filter for monitors", merged_df["name"].values.tolist()
+    )
+    if multiselect:
+        filtered_df = show_df[show_df["Name"].isin(multiselect)]
+        st.dataframe(filtered_df, width=1200, height=200)
+
+        status = st.checkbox("Change the status of the selected monitors")
+        if status:
+            status_slider = st.select_slider(
+                "Select the status of the selected monitor",
+                ["Active", "", "Inactive"],
+                value=(""),
+            )
+
+            if status_slider == "Active":
+                # here we need the connection with db
+                st.write(
+                    "The status of the selected monitors has been updated to 'Active'!"
+                )
+            elif status_slider == "Inactive":
+                # here we need the connection with db
+                st.write(
+                    "The status of the selected monitors has been updated to 'Inactive'!"
+                )
+
+
 def create_monitors_tab(monitors, alerts):
     """ """
     with st.spinner("Loading monitors..."):
@@ -94,34 +102,3 @@ def create_monitors_tab(monitors, alerts):
         add_new_monitor()
     else:
         basic_monitor_page(show_df, merged_df)
-
-
-def basic_monitor_page(show_df, merged_df):
-    st.dataframe(show_df, width=1200, height=300)
-    multiselect = st.multiselect(
-        "Search and filter for monitors", merged_df["name"].values.tolist()
-    )
-    if multiselect:
-        filtered_df = show_df[show_df["Name"].isin(multiselect)]
-        st.dataframe(filtered_df, width=1200, height=200)
-
-        status = st.checkbox(
-            "Do you want to change the status of the selected monitors?"
-        )
-        if status:
-            status_slider = st.select_slider(
-                "Select the status of the selected monitor",
-                ["Active", "", "Inactive"],
-                value=(""),
-            )
-
-            if status_slider == "Active":
-                # here we need the connection with db
-                st.write(
-                    "The status of the selected monitors has been updated to 'Active'!"
-                )
-            elif status_slider == "Inactive":
-                # here we need the connection with db
-                st.write(
-                    "The status of the selected monitors has been updated to 'Inactive'!"
-                )

@@ -1,4 +1,5 @@
 import pandas as pd
+from pandas.api.types import is_datetime64_any_dtype
 
 
 def convert_drift_timeseries_dict_to_pd(timeseries_dict):
@@ -75,3 +76,45 @@ def convert_inference_dict_to_df(inf_dict, target_column):
 
     inf_df = pd.DataFrame.from_dict(temp_full_dict, orient="index")
     return adjust_inference_column_positions(inf_df, target_column)
+
+
+def get_recent_alert(alerts_df):
+    """
+    Function that gets alerts dataframe and results on the
+    most recent alert row for each unique id
+    """
+    alerts_df["timestamp"] = pd.to_datetime(alerts_df["timestamp"])
+
+    # datetime with no timezone
+    if is_datetime64_any_dtype(alerts_df["timestamp"]):
+        alerts_df["timestamp"] = alerts_df["timestamp"].dt.tz_localize(None)
+
+    # sort the dataframe by 'date' column in descending order
+    alerts_df = alerts_df.sort_values(by="timestamp", ascending=False)
+    # drop duplicates based on 'id' column, keeping only the first occurrence (most recent date)
+    alerts_df = alerts_df.drop_duplicates(subset="model_monitor_id", keep="first")
+
+    return alerts_df.reset_index(drop=True)
+
+
+def combine_monitor_with_alert_for_alerts(monitor_df, alert_df):
+
+    merged_df = pd.merge(
+        monitor_df[["id", "metric", "name"]],
+        alert_df[["model_monitor_id", "timestamp", "description"]],
+        how="right",
+        left_on="id",
+        right_on="model_monitor_id",
+    )
+    return merged_df
+
+
+def combine_monitor_with_alert_for_monitors(monitor_df, alert_df):
+    merged_df = pd.merge(
+        monitor_df,
+        alert_df[["model_monitor_id", "description"]],
+        how="left",
+        left_on="id",
+        right_on="model_monitor_id",
+    )
+    return merged_df
