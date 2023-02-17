@@ -1,8 +1,22 @@
 import pandas as pd
 from pandas.api.types import is_datetime64_any_dtype
+from typing import List, Tuple, Union
+
+import os, sys
+
+sys.path.insert(0, os.path.abspath("./"))
+
+from whitebox.schemas.driftingMetric import DriftingMetricBase
+from whitebox.schemas.performanceMetric import (
+    RegressionMetrics,
+    BinaryClassificationMetrics,
+    MultiClassificationMetrics,
+)
+from whitebox.schemas.inferenceRow import InferenceRow
 
 
-def convert_drift_timeseries_dict_to_pd(timeseries_dict):
+def convert_drift_timeseries_dict_to_pd(timeseries_dict) -> pd.DataFrame:
+    """Converts the drift timeseries dict to a pandas dataframe object"""
     df = pd.DataFrame.from_dict(timeseries_dict, orient="index")
     df = df.reset_index()
     df["index"] = pd.to_datetime(df["index"])
@@ -10,7 +24,11 @@ def convert_drift_timeseries_dict_to_pd(timeseries_dict):
     return df
 
 
-def export_drift_timeseries_from_dict(drift):
+def export_drift_timeseries(
+    drift: List[DriftingMetricBase],
+) -> Tuple[pd.DataFrame, pd.DataFrame]:
+    """Exports the drift object to 2 pandas dataframe objects as timeseries"""
+
     timeseries_value = {}
     timeseries_drift = {}
     for i in range(len(drift)):
@@ -30,20 +48,31 @@ def export_drift_timeseries_from_dict(drift):
     return value_df, drift_df
 
 
-def get_dataframe_from_regression_performance_dict(performance_dict):
-    df = pd.DataFrame(performance_dict)
+def get_dataframe_from_regression_performance_metrics(
+    performance: List[RegressionMetrics],
+) -> pd.DataFrame:
+    df = pd.DataFrame(performance)
     df = df[["r_square", "mean_squared_error", "mean_absolute_error", "timestamp"]]
+
     return df
 
 
-def get_dataframe_from_classification_performance_dict(performance_dict):
+def get_dataframe_from_classification_performance_metrics(
+    performance: Union[
+        List[BinaryClassificationMetrics], List[MultiClassificationMetrics]
+    ]
+) -> pd.DataFrame:
+    """
+    Gets pandas dataframe timeseries out of classification
+    performance metrics
+    """
     timeseries = {}
-    for i in range(len(performance_dict)):
-        acc = performance_dict[i]["accuracy"]
-        prec = performance_dict[i]["precision"]["macro"]
-        rec = performance_dict[i]["recall"]["macro"]
-        f1 = performance_dict[i]["f1"]["macro"]
-        timeseries[performance_dict[i]["timestamp"]] = {
+    for i in range(len(performance)):
+        acc = performance[i]["accuracy"]
+        prec = performance[i]["precision"]["macro"]
+        rec = performance[i]["recall"]["macro"]
+        f1 = performance[i]["f1"]["macro"]
+        timeseries[performance[i]["timestamp"]] = {
             "accuracy": acc,
             "precision": prec,
             "recall": rec,
@@ -57,7 +86,10 @@ def get_dataframe_from_classification_performance_dict(performance_dict):
     return performance_df
 
 
-def adjust_inference_column_positions(inf_df, target_column):
+def adjust_inference_column_positions(
+    inf_df: pd.DataFrame, target_column: str
+) -> pd.DataFrame:
+    """Adjust a dataframe's columns positions"""
     df_columns = inf_df.columns
     # Find only the feature columns
     df_feature_columns = df_columns.drop([target_column, "timestamp", "id", "actual"])
@@ -72,13 +104,16 @@ def adjust_inference_column_positions(inf_df, target_column):
     return inf_df.reindex(columns=df_adj_columns)
 
 
-def convert_inference_dict_to_df(inf_dict, target_column):
+def convert_inference_to_df(
+    inf_list: List[InferenceRow], target_column: str
+) -> pd.DataFrame:
+    """Gets pandas dataframe timeseries out of given inference rows"""
     temp_full_dict = {}
-    for i in range(len(inf_dict)):
-        temp_row_dict = inf_dict[i]["nonprocessed"]
-        temp_row_dict["timestamp"] = inf_dict[i]["timestamp"]
-        temp_row_dict["id"] = inf_dict[i]["id"]
-        temp_row_dict["actual"] = inf_dict[i]["actual"]
+    for i in range(len(inf_list)):
+        temp_row_dict = inf_list[i]["nonprocessed"]
+        temp_row_dict["timestamp"] = inf_list[i]["timestamp"]
+        temp_row_dict["id"] = inf_list[i]["id"]
+        temp_row_dict["actual"] = inf_list[i]["actual"]
 
         temp_full_dict[i] = temp_row_dict
 
@@ -86,7 +121,7 @@ def convert_inference_dict_to_df(inf_dict, target_column):
     return adjust_inference_column_positions(inf_df, target_column)
 
 
-def get_recent_alert(alerts_df):
+def get_recent_alert(alerts_df: pd.DataFrame) -> pd.DataFrame:
     """
     Function that gets alerts dataframe and results on the
     most recent alert row for each unique id
@@ -105,8 +140,10 @@ def get_recent_alert(alerts_df):
     return alerts_df.reset_index(drop=True)
 
 
-def combine_monitor_with_alert_for_alerts(monitor_df, alert_df):
-
+def combine_monitor_with_alert_for_alerts(
+    monitor_df: pd.DataFrame, alert_df: pd.DataFrame
+) -> pd.DataFrame:
+    """Merges two df together based on specific keys and columns for alerts part"""
     merged_df = pd.merge(
         monitor_df[["id", "metric", "name"]],
         alert_df[["model_monitor_id", "timestamp", "description"]],
@@ -117,7 +154,11 @@ def combine_monitor_with_alert_for_alerts(monitor_df, alert_df):
     return merged_df
 
 
-def combine_monitor_with_alert_for_monitors(monitor_df, alert_df):
+def combine_monitor_with_alert_for_monitors(
+    monitor_df: pd.DataFrame, alert_df: pd.DataFrame
+) -> pd.DataFrame:
+    """Merges two df together based on specific keys and columns for monitors part"""
+
     merged_df = pd.merge(
         monitor_df,
         alert_df[["model_monitor_id", "description"]],

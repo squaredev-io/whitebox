@@ -1,12 +1,25 @@
 import streamlit as st
 from matplotlib import pyplot as plt
+import pandas as pd
+from numpy import ndarray
 from sklearn.metrics import ConfusionMatrixDisplay
 from cards import *
 from utils.export import structure
 from utils.load import load_config
 
+import os, sys
 
-def create_classification_performance_metrics(base_evaluation_metrics):
+sys.path.insert(0, os.path.abspath("./"))
+from whitebox.schemas.model import Model
+
+
+def create_classification_performance_metrics(
+    base_evaluation_metrics: pd.DataFrame,
+) -> None:
+
+    """
+    Create performance metrics visualisation for classification model in Streamlit
+    """
     col1, col2, col3, col4 = st.columns(4)
     col1.metric(
         label="Accuracy",
@@ -29,7 +42,12 @@ def create_classification_performance_metrics(base_evaluation_metrics):
     )
 
 
-def create_regression_performance_metrics(base_evaluation_metrics):
+def create_regression_performance_metrics(
+    base_evaluation_metrics: pd.DataFrame,
+) -> None:
+    """
+    Create performance metrics visualisation for regression model in Streamlit
+    """
     col1, col2, col3 = st.columns(3)
     col1.metric(
         label="R2",
@@ -47,7 +65,7 @@ def create_regression_performance_metrics(base_evaluation_metrics):
     )
 
 
-def plot_confusion_matrix(confusion_matrix, model):
+def plot_confusion_matrix(confusion_matrix: ndarray, model: Model):
     st.header("Confusion matrix")
     disp = ConfusionMatrixDisplay(
         confusion_matrix=confusion_matrix,
@@ -58,7 +76,12 @@ def plot_confusion_matrix(confusion_matrix, model):
     st.pyplot()
 
 
-def create_overview_tab(model, confusion_matrix, base_evaluation_metrics):
+def create_overview_tab(
+    model: Model, confusion_matrix: ndarray, base_evaluation_metrics: pd.DataFrame
+) -> None:
+    """
+    Creates the overview tab in Streamlit
+    """
     with st.spinner("Loading overview of the model..."):
         readme = load_config("config_readme.toml")
         structure()

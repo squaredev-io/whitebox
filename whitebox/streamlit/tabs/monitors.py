@@ -8,8 +8,17 @@ from utils.transformation import (
 from utils.load import load_config
 from utils.export import text_markdown
 
+from typing import List
+import os, sys
+sys.path.insert(0, os.path.abspath("./"))
+from whitebox.schemas.alert import Alert
+from whitebox.schemas.modelMonitor import ModelMonitor
 
-def add_new_monitor():
+
+def add_new_monitor() -> None:
+    """
+    Spawns the section of the addition of a new monitor
+    """
     readme = load_config("config_readme.toml")
     new_monitor_name = st.text_input(
         "Monitor name",
@@ -82,7 +91,13 @@ def add_new_monitor():
                     )
 
 
-def basic_monitor_page(show_df, merged_df):
+def basic_monitor_page(show_df: pd.DataFrame, merged_df: pd.DataFrame) -> None:
+    """
+    Create the basic monitor page part.
+    Displays the dataframe of the monitors and adds filters
+    for activity and inactivity of found monitors.
+    """
+
     st.dataframe(show_df, width=1200, height=300)
     multiselect = st.multiselect(
         "Search and filter for monitors", merged_df["name"].values.tolist()
@@ -111,8 +126,10 @@ def basic_monitor_page(show_df, merged_df):
                 )
 
 
-def create_monitors_tab(monitors, alerts):
-    """ """
+def create_monitors_tab(monitors: List[ModelMonitor], alerts: List[Alert]):
+    """
+    Creates the monitors tabs in Streamlit
+    """
     with st.spinner("Loading monitors..."):
         structure()
         st.title("Monitors")

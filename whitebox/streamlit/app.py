@@ -76,23 +76,23 @@ second_part = [
 ]
 cm = np.array([first_part, second_part])
 
-f = open("streamlit/mock/drift.json")
+f = open("whitebox/streamlit/mock/drift.json")
 drift = json.load(f)
 f.close()
 
-f = open("streamlit/mock/performance.json")
+f = open("whitebox/streamlit/mock/performance.json")
 perf = json.load(f)
 f.close()
 
-f = open("streamlit/mock/inferences.json")
+f = open("whitebox/streamlit/mock/inferences.json")
 inf = json.load(f)
 f.close()
 
-f = open("streamlit/mock/monitors.json")
+f = open("whitebox/streamlit/mock/monitors.json")
 mon = json.load(f)
 f.close()
 
-f = open("streamlit/mock/alerts.json")
+f = open("whitebox/streamlit/mock/alerts.json")
 al = json.load(f)
 f.close()
 

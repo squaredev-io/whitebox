@@ -21,7 +21,9 @@ def load_config(config_readme_filename: str) -> Dict[Any, Any]:
     dict
         Readme configuration file.
     """
-    config_readme = toml.load(Path(f"streamlit/config/{config_readme_filename}"))
+    config_readme = toml.load(
+        Path(f"whitebox/streamlit/config/{config_readme_filename}")
+    )
     return dict(config_readme)
 
 
@@ -39,4 +41,4 @@ def load_image(image_name: str):
     Image
         Image to be displayed.
     """
-    return Image.open(f"streamlit/references/{image_name}")
+    return Image.open(f"whitebox/streamlit/references/{image_name}")

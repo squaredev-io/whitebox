@@ -1,20 +1,29 @@
 import streamlit as st
 import plotly.express as px
-from utils.transformation import export_drift_timeseries_from_dict
+
+from utils.transformation import export_drift_timeseries
 from utils.export import structure
 
+from typing import List
+import os, sys
 
-def create_drift_tab(drift):
+sys.path.insert(0, os.path.abspath("./"))
+from whitebox.schemas.driftingMetric import DriftingMetricBase
+
+
+def create_drift_tab(drift: List[DriftingMetricBase]) -> None:
     """
+    Creates the dift tab in Streamlit.
+
     Gets the drift object and plots via streamlit the drifting graphs.
-    It created 2 tabs of graphs, one with the combined drifts of variables
+    It creates 2 tabs of graphs, one with the combined drifts of variables
     and one tab with graphs for each one variable.
     """
     with st.spinner("Loading model drift..."):
         structure()
         st.title("Drifting")
         # Isolate timeseties parts from the drift object
-        value_df, drift_df = export_drift_timeseries_from_dict(drift)
+        value_df, drift_df = export_drift_timeseries(drift)
         # Keep the columns except the time/index
         df_columns = value_df.drop("index", axis=1).columns
         # We have 2 different representations

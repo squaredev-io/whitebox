@@ -1,8 +1,19 @@
 import streamlit as st
+import pandas as pd
 import plotly.express as px
 
 
-def create_line_graph(df, x, y, title, subtitle, height, width, markers=False):
+def create_line_graph(
+    df: pd.DataFrame,
+    x: str,
+    y: str,
+    title: str,
+    subtitle: str,
+    height: float,
+    width: float,
+    markers: bool = False,
+) -> None:
+    """Plots a plotly chart in Streamlit"""
     fig = px.line(
         df,
         x=x,
