@@ -112,7 +112,6 @@ def add_new_monitor(wb, model_id, model_type) -> None:
                         email=email,
                         lower_threshold=lower_threshold,
                     )
-                    print(new_monitor, "gdgdgdgdg")
                     st.write(
                         f"The new monitor has been created with id: ",
                         new_monitor["id"],

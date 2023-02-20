@@ -12,10 +12,12 @@ from whitebox.schemas.performanceMetric import (
     BinaryClassificationMetrics,
     MultiClassificationMetrics,
 )
+from whitebox.schemas.model import Model
 from whitebox.schemas.inferenceRow import InferenceRow
 
 
-def get_models_names(models_list):
+def get_models_names(models_list: List[Model]) -> Union[List[str], None]:
+    """Gets a Model list and returns a list with the models' names"""
     if len(models_list) > 0:
         models_df = pd.DataFrame(models_list)
         return models_df["name"].to_list()
@@ -23,9 +25,15 @@ def get_models_names(models_list):
         return models_list
 
 
-def get_model_from_name(models, model_name):
-    if len(models) > 0:
-        models_df = pd.DataFrame(models)
+def get_model_from_name(
+    models_list: Union[List[Model], None], model_name: str
+) -> Union[Model, None]:
+    """
+    Gets a model name and a models List and returns the
+    entire model object with the corresponding name
+    """
+    if len(models_list) > 0:
+        models_df = pd.DataFrame(models_list)
         model_df = models_df.loc[models_df["name"] == model_name].reset_index(drop=True)
         return model_df.to_dict(orient="records")[0]
 
@@ -43,9 +51,9 @@ def export_drift_timeseries(
     drift: List[DriftingMetricBase],
 ) -> Tuple[pd.DataFrame, pd.DataFrame]:
     """Exports the drift object to 2 pandas dataframe objects as timeseries"""
-
     timeseries_value = {}
     timeseries_drift = {}
+
     for i in range(len(drift)):
         drift_by_columns = drift[i]["data_drift_summary"]["drift_by_columns"]
         temp_col_value_dict = {}
@@ -74,31 +82,34 @@ def get_dataframe_from_regression_performance_metrics(
 
 def get_dataframe_from_classification_performance_metrics(
     performance: Union[
-        List[BinaryClassificationMetrics], List[MultiClassificationMetrics]
+        List[BinaryClassificationMetrics], List[MultiClassificationMetrics], None
     ]
-) -> pd.DataFrame:
+) -> Union[pd.DataFrame, None]:
     """
     Gets pandas dataframe timeseries out of classification
     performance metrics
     """
-    timeseries = {}
-    for i in range(len(performance)):
-        acc = performance[i]["accuracy"]
-        prec = performance[i]["precision"]["macro"]
-        rec = performance[i]["recall"]["macro"]
-        f1 = performance[i]["f1"]["macro"]
-        timeseries[performance[i]["timestamp"]] = {
-            "accuracy": acc,
-            "precision": prec,
-            "recall": rec,
-            "f1": f1,
-        }
+    if len(performance) > 0:
+        timeseries = {}
+        for i in range(len(performance)):
+            acc = performance[i]["accuracy"]
+            prec = performance[i]["precision"]["macro"]
+            rec = performance[i]["recall"]["macro"]
+            f1 = performance[i]["f1"]["macro"]
+            timeseries[performance[i]["timestamp"]] = {
+                "accuracy": acc,
+                "precision": prec,
+                "recall": rec,
+                "f1": f1,
+            }
 
-    performance_df = pd.DataFrame.from_dict(timeseries, orient="index").reset_index()
-    performance_df["index"] = pd.to_datetime(performance_df["index"])
+        performance_df = pd.DataFrame.from_dict(
+            timeseries, orient="index"
+        ).reset_index()
+        performance_df["index"] = pd.to_datetime(performance_df["index"])
 
-    performance_df = performance_df.rename({"index": "timestamp"}, axis=1)
-    return performance_df
+        performance_df = performance_df.rename({"index": "timestamp"}, axis=1)
+        return performance_df
 
 
 def adjust_inference_column_positions(

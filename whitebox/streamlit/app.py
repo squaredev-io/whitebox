@@ -11,15 +11,15 @@ from tabs.inferences import *
 from tabs.monitors import *
 from tabs.alerts import *
 from cards import *
-from utils.transformation import get_models_names, get_model_from_name
+from utils.transformation import get_model_from_name
 
 from whitebox import Whitebox
 
-wb = Whitebox(
-    host="http://127.0.0.1:8000",
-    api_key="c37b902f5af13c43af33652770d7c51008f5e18b0cf4cf9cc870ab93bea98f3f",
-)
-
+# wb = Whitebox(
+#     host="http://127.0.0.1:8000",
+#     api_key="c37b902f5af13c43af33652770d7c51008f5e18b0cf4cf9cc870ab93bea98f3f",
+# )
+# c37b902f5af13c43af33652770d7c51008f5e18b0cf4cf9cc870ab93bea98f3f
 st.set_option("deprecation.showPyplotGlobalUse", False)
 
 # ----------------------------------------------
@@ -69,16 +69,13 @@ cm = np.array([first_part, second_part])
 overview, performance, drifting, inferences, monitors, alerts = st.tabs(
     ["Overview", "Performance", "Drifting", "Inferences", "Monitors", "Alerts"]
 )
+model_option, models_list, checkbox, wb = create_sidebar()
 
-models_list = wb.get_models()
-model_names = get_models_names(models_list)
-model_option, button = create_sidebar(model_names)
-model = get_model_from_name(models_list, model_option)
-pred_column = model["prediction"]
-model_id = model["id"]
-model_type = model["type"]
-
-if button:
+if checkbox:
+    model = get_model_from_name(models_list, model_option)
+    pred_column = model["prediction"]
+    model_id = model["id"]
+    model_type = model["type"]
     # TODO: Need to connect this one with the db.
     with overview:
         create_overview_tab(model, cm, base_evaluation_metrics_binary_df)
