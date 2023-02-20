@@ -10,13 +10,10 @@ from pandas.api.types import (
     is_object_dtype,
 )
 
-from typing import List
-
 import os, sys
 
 sys.path.insert(0, os.path.abspath("./"))
-from whitebox.schemas.alert import Alert
-from whitebox.schemas.modelMonitor import ModelMonitor
+from whitebox import Whitebox
 
 
 def filter_dataframe(df: pd.DataFrame) -> pd.DataFrame:
@@ -102,15 +99,17 @@ def filter_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-def create_alerts_tab(alerts: List[Alert], monitors: List[ModelMonitor]) -> None:
+def create_alerts_tab(wb: Whitebox, model_id: str) -> None:
     """
     Creates the alerts tab in Streamlit.
     A table with all the alerts is visualised.
     """
 
-    total_alerts = len(alerts)
     with st.spinner("Loading alerts..."):
         structure()
+        monitors = wb.get_monitors(model_id)
+        alerts = wb.get_alerts(model_id)
+        total_alerts = len(alerts)
         st.title("Alerts (" + str(total_alerts) + ")")
 
         alerts_df = pd.DataFrame(alerts)

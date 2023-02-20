@@ -218,8 +218,8 @@ class Whitebox:
         metric: MonitorMetrics,
         severity: AlertSeverity,
         email: str,
-        feature: Optional[str],
         lower_threshold: Optional[float],
+        feature: Optional[Union[str, None]] = None,
     ) -> dict:
         """
         Creates a monitor for a model.

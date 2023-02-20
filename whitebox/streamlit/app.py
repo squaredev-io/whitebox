@@ -1,10 +1,7 @@
 import numpy as np
 import pandas as pd
 import streamlit as st
-from typing import Dict, Union, List
-from matplotlib import pyplot as plt
-import json
-
+from typing import Dict, Union
 
 from tabs.drifting import *
 from tabs.sidebar import *
@@ -25,10 +22,7 @@ wb = Whitebox(
 
 st.set_option("deprecation.showPyplotGlobalUse", False)
 
-# Load config
-# st.set_page_config(page_title="Whitebox", layout="wide")
-
-# ----------------------------------------
+# ----------------------------------------------
 def format_evaluation_metrics_binary(
     accuracy: float,
     precision: float,
@@ -53,10 +47,6 @@ def format_evaluation_metrics_binary(
     return formated_metrics_for_binary
 
 
-models_list = wb.get_models()
-model_names = get_models_names(models_list)
-
-
 evaluation_metrics_binary = format_evaluation_metrics_binary(
     0.64, 0.5, 0.11, 0.72, 1200, 600, 840, 260
 )
@@ -75,58 +65,35 @@ second_part = [
 ]
 cm = np.array([first_part, second_part])
 
-# f = open("whitebox/streamlit/mock/drift.json")
-# drift = json.load(f)
-# f.close()
-
-# f = open("whitebox/streamlit/mock/performance.json")
-# perf = json.load(f)
-# f.close()
-
-# f = open("whitebox/streamlit/mock/inferences.json")
-# inf = json.load(f)
-# f.close()
-
-# f = open("whitebox/streamlit/mock/monitors.json")
-# mon = json.load(f)
-# f.close()
-
-# f = open("whitebox/streamlit/mock/alerts.json")
-# al = json.load(f)
-# f.close()
-
-
 # -----------------------------------
 overview, performance, drifting, inferences, monitors, alerts = st.tabs(
     ["Overview", "Performance", "Drifting", "Inferences", "Monitors", "Alerts"]
 )
 
+models_list = wb.get_models()
+model_names = get_models_names(models_list)
 model_option, button = create_sidebar(model_names)
 model = get_model_from_name(models_list, model_option)
 pred_column = model["prediction"]
 model_id = model["id"]
-
-inf = wb.get_inferences(model_id)
-perf = wb.get_performance_metrics(model_id)
-drift = wb.get_drifting_metrics(model_id)
-mon = wb.get_monitors(model_id)
-al = wb.get_alerts(model_id)
+model_type = model["type"]
 
 if button:
+    # TODO: Need to connect this one with the db.
     with overview:
         create_overview_tab(model, cm, base_evaluation_metrics_binary_df)
 
     with performance:
-        create_performance_tab(perf, model)
+        create_performance_tab(wb, model_id, model_type)
 
     with drifting:
-        create_drift_tab(drift)
+        create_drift_tab(wb, model_id)
 
     with inferences:
-        create_inferences_tab(inf, pred_column)
+        create_inferences_tab(wb, model_id, pred_column)
 
     with monitors:
-        create_monitors_tab(mon, al)
+        create_monitors_tab(wb, model_id, model_type)
 
     with alerts:
-        create_alerts_tab(al, mon)
+        create_alerts_tab(wb, model_id)

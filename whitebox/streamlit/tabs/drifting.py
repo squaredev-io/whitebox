@@ -4,14 +4,14 @@ import plotly.express as px
 from utils.transformation import export_drift_timeseries
 from utils.export import structure
 
-from typing import List
 import os, sys
 
 sys.path.insert(0, os.path.abspath("./"))
-from whitebox.schemas.driftingMetric import DriftingMetricBase
+
+from whitebox import Whitebox
 
 
-def create_drift_tab(drift: List[DriftingMetricBase]) -> None:
+def create_drift_tab(wb: Whitebox, model_id: str) -> None:
     """
     Creates the dift tab in Streamlit.
 
@@ -22,6 +22,7 @@ def create_drift_tab(drift: List[DriftingMetricBase]) -> None:
     with st.spinner("Loading model drift..."):
         structure()
         st.title("Drifting")
+        drift = wb.get_drifting_metrics(model_id)
         # Isolate timeseties parts from the drift object
         value_df, drift_df = export_drift_timeseries(drift)
         # Keep the columns except the time/index

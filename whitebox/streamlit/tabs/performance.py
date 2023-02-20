@@ -8,16 +8,10 @@ from utils.transformation import (
 )
 from utils.graphs import create_line_graph
 
-from typing import Union, List
 import os, sys
 
 sys.path.insert(0, os.path.abspath("./"))
-from whitebox.schemas.model import Model
-from whitebox.schemas.performanceMetric import (
-    RegressionMetrics,
-    BinaryClassificationMetrics,
-    MultiClassificationMetrics,
-)
+from whitebox import Whitebox
 
 
 def create_performance_graphs(performance_df: pd.DataFrame, perf_column: str) -> None:
@@ -31,14 +25,7 @@ def create_performance_graphs(performance_df: pd.DataFrame, perf_column: str) ->
     create_line_graph(viz_df, "time", "score (%)", perf_column, subtitle, 400, 380)
 
 
-def create_performance_tab(
-    performance: Union[
-        List[RegressionMetrics],
-        List[BinaryClassificationMetrics],
-        List[MultiClassificationMetrics],
-    ],
-    model: Model,
-) -> None:
+def create_performance_tab(wb: Whitebox, model_id: str, model_type: str) -> None:
     """
     Creates the performance tab in Streamlit
     """
@@ -46,10 +33,11 @@ def create_performance_tab(
     with st.spinner("Loading performance of the model..."):
         structure()
         st.title("Performance")
+        performance = wb.get_performance_metrics(model_id)
         # Set the graphs in two columns (side by side)
         col1, col2 = st.columns(2)
 
-        if (model["type"] == "binary") | (model["type"] == "multi_class"):
+        if (model_type == "binary") | (model_type == "multi_class"):
             performance_df = get_dataframe_from_classification_performance_metrics(
                 performance
             )

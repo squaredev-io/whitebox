@@ -5,9 +5,10 @@ from utils.export import structure
 import time
 
 import os, sys
+
 sys.path.insert(0, os.path.abspath("./"))
-from whitebox.schemas.inferenceRow import InferenceRow
-from typing import List
+
+from whitebox import Whitebox
 
 
 def highlight_rows(row: pd.DataFrame, pred_column: str):
@@ -34,7 +35,7 @@ def viz_inference_df(inf_df: pd.DataFrame, pred_column: str):
     st.dataframe(inf_df, width=1200, height=390)
 
 
-def create_inferences_tab(inf: List[InferenceRow], pred_column: str) -> None:
+def create_inferences_tab(wb: Whitebox, model_id: str, pred_column: str) -> None:
     """
     Creates the Inferences tab in Streamlit.
     It visualises the dataframe of the inferences and also spawns
@@ -43,6 +44,7 @@ def create_inferences_tab(inf: List[InferenceRow], pred_column: str) -> None:
     with st.spinner("Loading inferences..."):
         structure()
         st.title("Inferences")
+        inf = wb.get_inferences(model_id)
         inf_df = convert_inference_to_df(inf, pred_column)
 
     explain = st.checkbox("Explain inferences")

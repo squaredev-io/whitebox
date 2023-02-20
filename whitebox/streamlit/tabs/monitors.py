@@ -8,15 +8,14 @@ from utils.transformation import (
 from utils.load import load_config
 from utils.export import text_markdown
 
-from typing import List
 import os, sys
 
 sys.path.insert(0, os.path.abspath("./"))
-from whitebox.schemas.alert import Alert
-from whitebox.schemas.modelMonitor import ModelMonitor
+
+from whitebox import Whitebox
 
 
-def add_new_monitor() -> None:
+def add_new_monitor(wb, model_id, model_type) -> None:
     """
     Spawns the section of the addition of a new monitor
     """
@@ -28,11 +27,29 @@ def add_new_monitor() -> None:
         placeholder="Model name",
     )
     if new_monitor_name:
+        # TODO: To include "Data Quality" in the future
         monitor_option = st.selectbox(
             "Select use case",
-            ("Drift", "Data Quality", "Model performance"),
+            ("Drift", "Model performance"),
             help=readme["tooltips"]["monitor_use_case"],
         )
+        if monitor_option == "Model performance":
+            if (model_type == "binary") | (model_type == "multi_class"):
+                metric_option = st.selectbox(
+                    "Select metric",
+                    ("accuracy", "precision", "recall", "f1"),
+                )
+            else:
+                metric_option = st.selectbox(
+                    "Select metric",
+                    ("r_square", "mean_squared_error", "mean_absolute_error"),
+                )
+        else:
+            metric_option = st.selectbox(
+                "Select metric",
+                ("data_drift", "concept_drift"),
+            )
+
         monitor_option_check = st.checkbox("Select static threshold")
 
         if monitor_option_check:
@@ -49,6 +66,7 @@ def add_new_monitor() -> None:
                 key="lower",
                 help=readme["tooltips"]["stat_thresh_monitor"],
             )
+            # TODO: upper_threshold is not currently being used
             upper_threshold = st.number_input(
                 "Upper threshold",
                 min_value=0.0,
@@ -67,7 +85,7 @@ def add_new_monitor() -> None:
                 )
                 severity = st.radio(
                     "Alert severity",
-                    ["Low", "Medium", "High"],
+                    ["low", "medium", "high"],
                     label_visibility="collapsed",
                 )
 
@@ -77,7 +95,7 @@ def add_new_monitor() -> None:
                         readme["tooltips"]["notifications_monitor"], "#525462", "12px"
                     )
                 )
-                new_monitor_name = st.text_input(
+                email = st.text_input(
                     "Notifications",
                     placeholder="Your email...",
                     label_visibility="collapsed",
@@ -85,8 +103,20 @@ def add_new_monitor() -> None:
 
                 setup_button = st.button("Complete setup")
                 if setup_button:
-                    # Run the pipeline for the connection with the db here
-                    st.write("The new monitor has be created!")
+                    new_monitor = wb.create_model_monitor(
+                        model_id=model_id,
+                        name=new_monitor_name,
+                        status="active",
+                        metric=metric_option,
+                        severity=severity,
+                        email=email,
+                        lower_threshold=lower_threshold,
+                    )
+                    print(new_monitor, "gdgdgdgdg")
+                    st.write(
+                        f"The new monitor has been created with id: ",
+                        new_monitor["id"],
+                    )
                     st.write(
                         "Please uncheck the 'Add new monitor' checkbox at the top to go back."
                     )
@@ -127,13 +157,15 @@ def basic_monitor_page(show_df: pd.DataFrame, merged_df: pd.DataFrame) -> None:
                 )
 
 
-def create_monitors_tab(monitors: List[ModelMonitor], alerts: List[Alert]):
+def create_monitors_tab(wb: Whitebox, model_id: str, model_type: str):
     """
     Creates the monitors tabs in Streamlit
     """
     with st.spinner("Loading monitors..."):
         structure()
         st.title("Monitors")
+        monitors = wb.get_monitors(model_id)
+        alerts = wb.get_alerts(model_id)
 
         monitors_df = pd.DataFrame(monitors)
         alerts_df = pd.DataFrame(alerts)
@@ -155,7 +187,7 @@ def create_monitors_tab(monitors: List[ModelMonitor], alerts: List[Alert]):
         key="test",
     )
     if add_new_monitor_check:
-        add_new_monitor()
+        add_new_monitor(wb, model_id, model_type)
     else:
         if len(monitors_df) > 0:
             basic_monitor_page(show_df, merged_df)
