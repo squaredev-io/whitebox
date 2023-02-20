@@ -10,6 +10,7 @@ from utils.export import text_markdown
 
 from typing import List
 import os, sys
+
 sys.path.insert(0, os.path.abspath("./"))
 from whitebox.schemas.alert import Alert
 from whitebox.schemas.modelMonitor import ModelMonitor
@@ -141,12 +142,13 @@ def create_monitors_tab(monitors: List[ModelMonitor], alerts: List[Alert]):
         # then we need them to get their decriptions to show into the
         # monitors tab
         recent_alerts_df = get_recent_alert(alerts_df)
-        merged_df = combine_monitor_with_alert_for_monitors(
-            monitors_df, recent_alerts_df
-        )
+        if len(monitors_df) > 0:
+            merged_df = combine_monitor_with_alert_for_monitors(
+                monitors_df, recent_alerts_df
+            )
 
-        show_df = merged_df[["status", "name", "updated_at", "description"]]
-        show_df.columns = ["Status", "Name", "Last update", "Anomaly activity"]
+            show_df = merged_df[["status", "name", "updated_at", "description"]]
+            show_df.columns = ["Status", "Name", "Last update", "Anomaly activity"]
 
     add_new_monitor_check = st.checkbox(
         "Add new monitor",
@@ -155,4 +157,5 @@ def create_monitors_tab(monitors: List[ModelMonitor], alerts: List[Alert]):
     if add_new_monitor_check:
         add_new_monitor()
     else:
-        basic_monitor_page(show_df, merged_df)
+        if len(monitors_df) > 0:
+            basic_monitor_page(show_df, merged_df)

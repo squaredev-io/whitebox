@@ -2,7 +2,7 @@ from enum import Enum
 import numpy as np
 import pandas as pd
 from whitebox.schemas.model import ModelCreateDto, ModelType
-from typing import Dict, Optional
+from typing import Dict, Optional, Union
 import requests
 import logging
 from fastapi import status
@@ -68,6 +68,19 @@ class Whitebox:
         """
         result = requests.get(
             url=f"{self.host}/{self.api_version}/models/{model_id}",
+            headers={"api-key": self.api_key},
+        )
+        if result.status_code == status.HTTP_404_NOT_FOUND:
+            return None
+
+        return result.json()
+
+    def get_models(self) -> Union[dict, None]:
+        """
+        Returns all the models. If no models exist, returns None.
+        """
+        result = requests.get(
+            url=f"{self.host}/{self.api_version}/models",
             headers={"api-key": self.api_key},
         )
         if result.status_code == status.HTTP_404_NOT_FOUND:
@@ -169,6 +182,20 @@ class Whitebox:
 
         return False
 
+    def get_inferences(self, model_id: str):
+        """
+        Given a specific model id, this endpoint fetches all the inferences.
+        If some of the required data isn't found, returns None.
+        """
+        result = requests.get(
+            url=f"{self.host}/{self.api_version}/inference-rows?model_id={model_id}",
+            headers={"api-key": self.api_key},
+        )
+        if result.status_code == status.HTTP_404_NOT_FOUND:
+            return None
+
+        return result.json()
+
     def get_xai_row(self, inference_row_id: str):
         """
         Given a specific inference row id, this endpoint produces an explainability report for this inference.
@@ -212,6 +239,18 @@ class Whitebox:
         result = requests.post(
             url=f"{self.host}/{self.api_version}/model-monitors",
             json=model_monitor.dict(),
+            headers={"api-key": self.api_key},
+        )
+
+        logger.info(result.json())
+        return result.json()
+
+    def get_monitors(self, model_id: str) -> dict:
+        """
+        Returns all monitors for a model.
+        """
+        result = requests.get(
+            url=f"{self.host}/{self.api_version}/model-monitors?modelId={model_id}",
             headers={"api-key": self.api_key},
         )
 

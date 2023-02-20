@@ -26,7 +26,7 @@ def create_performance_graphs(performance_df: pd.DataFrame, perf_column: str) ->
     """
     viz_df = performance_df[[perf_column, "timestamp"]]
     viz_df.columns = ["score (%)", "time"]
-    mean_score = round(np.mean(viz_df["score (%)"]), 4) * 100
+    mean_score = round(np.mean(viz_df["score (%)"]) * 100, 2)
     subtitle = str(mean_score) + " %"
     create_line_graph(viz_df, "time", "score (%)", perf_column, subtitle, 400, 380)
 

@@ -15,6 +15,21 @@ from whitebox.schemas.performanceMetric import (
 from whitebox.schemas.inferenceRow import InferenceRow
 
 
+def get_models_names(models_list):
+    if len(models_list) > 0:
+        models_df = pd.DataFrame(models_list)
+        return models_df["name"].to_list()
+    else:
+        return models_list
+
+
+def get_model_from_name(models, model_name):
+    if len(models) > 0:
+        models_df = pd.DataFrame(models)
+        model_df = models_df.loc[models_df["name"] == model_name].reset_index(drop=True)
+        return model_df.to_dict(orient="records")[0]
+
+
 def convert_drift_timeseries_dict_to_pd(timeseries_dict) -> pd.DataFrame:
     """Converts the drift timeseries dict to a pandas dataframe object"""
     df = pd.DataFrame.from_dict(timeseries_dict, orient="index")
@@ -126,18 +141,21 @@ def get_recent_alert(alerts_df: pd.DataFrame) -> pd.DataFrame:
     Function that gets alerts dataframe and results on the
     most recent alert row for each unique id
     """
-    alerts_df["timestamp"] = pd.to_datetime(alerts_df["timestamp"])
+    if len(alerts_df) > 0:
+        alerts_df["timestamp"] = pd.to_datetime(alerts_df["timestamp"])
 
-    # datetime with no timezone
-    if is_datetime64_any_dtype(alerts_df["timestamp"]):
-        alerts_df["timestamp"] = alerts_df["timestamp"].dt.tz_localize(None)
+        # datetime with no timezone
+        if is_datetime64_any_dtype(alerts_df["timestamp"]):
+            alerts_df["timestamp"] = alerts_df["timestamp"].dt.tz_localize(None)
 
-    # sort the dataframe by 'date' column in descending order
-    alerts_df = alerts_df.sort_values(by="timestamp", ascending=False)
-    # drop duplicates based on 'id' column, keeping only the first occurrence (most recent date)
-    alerts_df = alerts_df.drop_duplicates(subset="model_monitor_id", keep="first")
+        # sort the dataframe by 'date' column in descending order
+        alerts_df = alerts_df.sort_values(by="timestamp", ascending=False)
+        # drop duplicates based on 'id' column, keeping only the first occurrence (most recent date)
+        alerts_df = alerts_df.drop_duplicates(subset="model_monitor_id", keep="first")
 
-    return alerts_df.reset_index(drop=True)
+        return alerts_df.reset_index(drop=True)
+    else:
+        return alerts_df
 
 
 def combine_monitor_with_alert_for_alerts(

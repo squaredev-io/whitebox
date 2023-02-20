@@ -116,13 +116,14 @@ def create_alerts_tab(alerts: List[Alert], monitors: List[ModelMonitor]) -> None
         alerts_df = pd.DataFrame(alerts)
         monitors_df = pd.DataFrame(monitors)
 
-        merged_df = combine_monitor_with_alert_for_alerts(monitors_df, alerts_df)
-        show_df = merged_df[["timestamp", "metric", "description", "name"]]
-        show_df.columns = [
-            "Anomaly timestamp",
-            "Metric",
-            "Anomaly details",
-            "Monitor Name",
-        ]
-        filtered_df = filter_dataframe(show_df)
-        st.dataframe(filtered_df, width=1200, height=300)
+        if (len(alerts_df) > 0) & (len(monitors_df) > 0):
+            merged_df = combine_monitor_with_alert_for_alerts(monitors_df, alerts_df)
+            show_df = merged_df[["timestamp", "metric", "description", "name"]]
+            show_df.columns = [
+                "Anomaly timestamp",
+                "Metric",
+                "Anomaly details",
+                "Monitor Name",
+            ]
+            filtered_df = filter_dataframe(show_df)
+            st.dataframe(filtered_df, width=1200, height=300)

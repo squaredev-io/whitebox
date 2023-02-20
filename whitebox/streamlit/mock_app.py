@@ -14,14 +14,6 @@ from tabs.inferences import *
 from tabs.monitors import *
 from tabs.alerts import *
 from cards import *
-from utils.transformation import get_models_names, get_model_from_name
-
-from whitebox import Whitebox
-
-wb = Whitebox(
-    host="http://127.0.0.1:8000",
-    api_key="c37b902f5af13c43af33652770d7c51008f5e18b0cf4cf9cc870ab93bea98f3f",
-)
 
 st.set_option("deprecation.showPyplotGlobalUse", False)
 
@@ -53,10 +45,18 @@ def format_evaluation_metrics_binary(
     return formated_metrics_for_binary
 
 
-models_list = wb.get_models()
-model_names = get_models_names(models_list)
+model_names = ["model test", "decision_tree", "random_forest", "custom_tf_model"]
 
-
+model = {
+    "id": "001",
+    "name": "model test",
+    "description": "a model for testing visualisations",
+    "type": "binary",
+    "prediction": "target",
+    "labels": {"default": 0, "no_default": 1},
+    "created_at": "2022-05-05",
+    "updated_at": "2022-05-05",
+}
 evaluation_metrics_binary = format_evaluation_metrics_binary(
     0.64, 0.5, 0.11, 0.72, 1200, 600, 840, 260
 )
@@ -75,26 +75,27 @@ second_part = [
 ]
 cm = np.array([first_part, second_part])
 
-# f = open("whitebox/streamlit/mock/drift.json")
-# drift = json.load(f)
-# f.close()
+f = open("whitebox/streamlit/mock/drift.json")
+drift = json.load(f)
+f.close()
 
-# f = open("whitebox/streamlit/mock/performance.json")
-# perf = json.load(f)
-# f.close()
+f = open("whitebox/streamlit/mock/performance.json")
+perf = json.load(f)
+f.close()
 
-# f = open("whitebox/streamlit/mock/inferences.json")
-# inf = json.load(f)
-# f.close()
+f = open("whitebox/streamlit/mock/inferences.json")
+inf = json.load(f)
+f.close()
 
-# f = open("whitebox/streamlit/mock/monitors.json")
-# mon = json.load(f)
-# f.close()
+f = open("whitebox/streamlit/mock/monitors.json")
+mon = json.load(f)
+f.close()
 
-# f = open("whitebox/streamlit/mock/alerts.json")
-# al = json.load(f)
-# f.close()
+f = open("whitebox/streamlit/mock/alerts.json")
+al = json.load(f)
+f.close()
 
+pred_column = model["prediction"]
 
 # -----------------------------------
 overview, performance, drifting, inferences, monitors, alerts = st.tabs(
@@ -102,15 +103,6 @@ overview, performance, drifting, inferences, monitors, alerts = st.tabs(
 )
 
 model_option, button = create_sidebar(model_names)
-model = get_model_from_name(models_list, model_option)
-pred_column = model["prediction"]
-model_id = model["id"]
-
-inf = wb.get_inferences(model_id)
-perf = wb.get_performance_metrics(model_id)
-drift = wb.get_drifting_metrics(model_id)
-mon = wb.get_monitors(model_id)
-al = wb.get_alerts(model_id)
 
 if button:
     with overview:
