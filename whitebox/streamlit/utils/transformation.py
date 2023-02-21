@@ -89,7 +89,7 @@ def get_dataframe_from_classification_performance_metrics(
     Gets pandas dataframe timeseries out of classification
     performance metrics
     """
-    if len(performance) > 0:
+    if performance:
         timeseries = {}
         for i in range(len(performance)):
             acc = performance[i]["accuracy"]

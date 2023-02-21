@@ -1,7 +1,7 @@
 from enum import Enum
 import numpy as np
 import pandas as pd
-from whitebox.schemas.model import ModelCreateDto, ModelType
+from whitebox.schemas.model import ModelCreateDto, ModelType, ModelUpdateDto
 from typing import Dict, Optional, Union
 import requests
 import logging
@@ -87,6 +87,22 @@ class Whitebox:
             return None
 
         return result.json()
+
+    def update_model(self, model_id: str, body: ModelUpdateDto):
+        """
+        Updates a model by its id. If any error occurs, returns False.
+        """
+        result = requests.put(
+            url=f"{self.host}/{self.api_version}/models/{model_id}",
+            json=body,
+            headers={"api-key": self.api_key},
+        )
+        logger.info(result.json())
+
+        if result.status_code == status.HTTP_200_OK:
+            return True
+
+        return False
 
     def delete_model(self, model_id: str):
         """

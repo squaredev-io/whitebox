@@ -6,7 +6,7 @@ from PIL import Image
 
 
 @st.cache(allow_output_mutation=True, ttl=300)
-def load_config(config_readme_filename: str) -> Dict[Any, Any]:
+def load_config(config_readme_filename: str) -> Dict[str, Any]:
     """Loads configuration files.
 
     Parameters
@@ -42,3 +42,8 @@ def load_image(image_name: str):
         Image to be displayed.
     """
     return Image.open(f"whitebox/streamlit/references/{image_name}")
+
+
+def local_css(file_name: str):
+    with open(file_name) as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)

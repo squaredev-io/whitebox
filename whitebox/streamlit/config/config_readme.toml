@@ -29,5 +29,23 @@ What alert severity should be associated with the notifications being sent?
 notifications_monitor = """
 Notifications will be sent via email. Please provide your email below:
 """
+host = """
+Your host and port combined in a url.
+"""
+api_key = """
+Your api key as was created from the initialisation of Whitebox.
+"""
+model_name = """
+Your desired model name.
+"""
+model_description = """
+Your desired model description.
+"""
+model_type = """
+Your desired model type.
+"""
+target_column = """
+Your desired target column as depicted in your data.
+"""
 [links]
 repo = "https://github.com/squaredev-io/whitebox"
