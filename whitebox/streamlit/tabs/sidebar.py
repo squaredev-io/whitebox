@@ -60,13 +60,11 @@ def create_sidebar() -> Tuple[
             api_key=api_key_option,
         )
 
-        creation_model_expander = st.sidebar.expander("Model creation", expanded=False)
+        creation_model_expander = st.sidebar.expander("Create model", expanded=False)
         with creation_model_expander:
             create_new_model(wb, readme)
 
-        selection_model_expander = st.sidebar.expander(
-            "Model selection", expanded=False
-        )
+        selection_model_expander = st.sidebar.expander("Select model", expanded=False)
         with selection_model_expander:
             models_list = wb.get_models()
             model_names = get_models_names(models_list)
@@ -76,9 +74,7 @@ def create_sidebar() -> Tuple[
                 help=readme["tooltips"]["model_option"],
             )
 
-        modification_model_expander = st.sidebar.expander(
-            "Model modification", expanded=False
-        )
+        modification_model_expander = st.sidebar.expander("Edit model", expanded=False)
         with modification_model_expander:
             st.write(f"This step will modify the selected model '{model_option}'")
             modify_selected_model(wb, models_list, readme, model_option)
