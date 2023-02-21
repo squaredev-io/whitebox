@@ -15,10 +15,6 @@ from utils.transformation import get_model_from_name
 
 from whitebox import Whitebox
 
-# wb = Whitebox(
-#     host="http://127.0.0.1:8000",
-#     api_key="c37b902f5af13c43af33652770d7c51008f5e18b0cf4cf9cc870ab93bea98f3f",
-# )
 st.set_option("deprecation.showPyplotGlobalUse", False)
 
 # ----------------------------------------------

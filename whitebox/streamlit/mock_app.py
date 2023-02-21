@@ -17,9 +17,7 @@ from cards import *
 
 st.set_option("deprecation.showPyplotGlobalUse", False)
 
-# Load config
-# st.set_page_config(page_title="Whitebox", layout="wide")
-
+# The below lines are temp until we have the performance metricc functionality
 # ----------------------------------------
 def format_evaluation_metrics_binary(
     accuracy: float,

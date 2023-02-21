@@ -46,7 +46,7 @@ def create_sidebar() -> Tuple[
 
     with settings_expander:
         host_option = st.text_input(
-            "Paste here your host url:",
+            "Paste here your Host URL:",
             max_chars=21,
             placeholder="http://127.0.0.1:8000",
             value="http://127.0.0.1:8000",
@@ -54,7 +54,7 @@ def create_sidebar() -> Tuple[
         )
 
         api_key_option = st.text_input(
-            "Paste here your api key:",
+            "Paste here your API key:",
             max_chars=64,
             type="password",
             placeholder="your api key",
@@ -130,7 +130,7 @@ def create_new_model(wb: Whitebox, readme: Dict[str, Any]):
 def create_model_type_select_box(readme: Dict[str, Any], key: str):
     model_type_option_list = ["binary", "multi_class", "regression"]
     model_type_option = st.selectbox(
-        "Please select one of the found models below:",
+        "Please select model:",
         model_type_option_list,
         help=readme["tooltips"]["model_type"],
         key=key,
