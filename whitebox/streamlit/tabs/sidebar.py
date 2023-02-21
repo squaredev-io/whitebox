@@ -7,6 +7,15 @@ from whitebox import Whitebox
 from utils.transformation import get_models_names, get_model_from_name
 
 
+@st.cache_resource
+def initialise_whitebox(host_option, api_key_option):
+    wb = Whitebox(
+        host=host_option,
+        api_key=api_key_option,
+    )
+    return wb
+
+
 def create_sidebar() -> Tuple[
     Union[str, None, bool],
     Union[List[str], None],
@@ -55,10 +64,7 @@ def create_sidebar() -> Tuple[
 
     # Initialise the other expanders only when the settings are confirmed
     if setting_confirmation:
-        wb = Whitebox(
-            host=host_option,
-            api_key=api_key_option,
-        )
+        wb = initialise_whitebox(host_option, api_key_option)
 
         creation_model_expander = st.sidebar.expander("Create model", expanded=False)
         with creation_model_expander:

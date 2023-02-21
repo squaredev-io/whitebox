@@ -1,7 +1,7 @@
 import pandas as pd
 from pandas.api.types import is_datetime64_any_dtype
 from typing import List, Tuple, Union
-
+import streamlit as st
 import os, sys
 
 sys.path.insert(0, os.path.abspath("./"))
@@ -16,6 +16,7 @@ from whitebox.schemas.model import Model
 from whitebox.schemas.inferenceRow import InferenceRow
 
 
+@st.cache_data(ttl=300)
 def get_models_names(models_list: List[Model]) -> Union[List[str], None]:
     """Gets a Model list and returns a list with the models' names"""
     if len(models_list) > 0:
@@ -25,6 +26,7 @@ def get_models_names(models_list: List[Model]) -> Union[List[str], None]:
         return models_list
 
 
+@st.cache_data(ttl=300)
 def get_model_from_name(
     models_list: Union[List[Model], None], model_name: str
 ) -> Union[Model, None]:
@@ -38,6 +40,7 @@ def get_model_from_name(
         return model_df.to_dict(orient="records")[0]
 
 
+@st.cache_data(ttl=300)
 def convert_drift_timeseries_dict_to_pd(timeseries_dict) -> pd.DataFrame:
     """Converts the drift timeseries dict to a pandas dataframe object"""
     df = pd.DataFrame.from_dict(timeseries_dict, orient="index")
@@ -47,6 +50,7 @@ def convert_drift_timeseries_dict_to_pd(timeseries_dict) -> pd.DataFrame:
     return df
 
 
+@st.cache_data(ttl=300)
 def export_drift_timeseries(
     drift: List[DriftingMetricBase],
 ) -> Tuple[pd.DataFrame, pd.DataFrame]:
@@ -71,6 +75,7 @@ def export_drift_timeseries(
     return value_df, drift_df
 
 
+@st.cache_data(ttl=300)
 def get_dataframe_from_regression_performance_metrics(
     performance: List[RegressionMetrics],
 ) -> pd.DataFrame:
@@ -80,6 +85,7 @@ def get_dataframe_from_regression_performance_metrics(
     return df
 
 
+@st.cache_data(ttl=300)
 def get_dataframe_from_classification_performance_metrics(
     performance: Union[
         List[BinaryClassificationMetrics], List[MultiClassificationMetrics], None
@@ -112,6 +118,7 @@ def get_dataframe_from_classification_performance_metrics(
         return performance_df
 
 
+@st.cache_data(ttl=300)
 def adjust_inference_column_positions(
     inf_df: pd.DataFrame, target_column: str
 ) -> pd.DataFrame:
@@ -130,6 +137,7 @@ def adjust_inference_column_positions(
     return inf_df.reindex(columns=df_adj_columns)
 
 
+@st.cache_data(ttl=300)
 def convert_inference_to_df(
     inf_list: List[InferenceRow], target_column: str
 ) -> pd.DataFrame:
@@ -147,6 +155,7 @@ def convert_inference_to_df(
     return adjust_inference_column_positions(inf_df, target_column)
 
 
+@st.cache_data(ttl=300)
 def get_recent_alert(alerts_df: pd.DataFrame) -> pd.DataFrame:
     """
     Function that gets alerts dataframe and results on the
@@ -169,6 +178,7 @@ def get_recent_alert(alerts_df: pd.DataFrame) -> pd.DataFrame:
         return alerts_df
 
 
+@st.cache_data(ttl=300)
 def combine_monitor_with_alert_for_alerts(
     monitor_df: pd.DataFrame, alert_df: pd.DataFrame
 ) -> pd.DataFrame:
@@ -183,6 +193,7 @@ def combine_monitor_with_alert_for_alerts(
     return merged_df
 
 
+@st.cache_data(ttl=300)
 def combine_monitor_with_alert_for_monitors(
     monitor_df: pd.DataFrame, alert_df: pd.DataFrame
 ) -> pd.DataFrame:

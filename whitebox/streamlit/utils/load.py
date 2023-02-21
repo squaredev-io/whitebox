@@ -5,7 +5,7 @@ from pathlib import Path
 from PIL import Image
 
 
-@st.cache(allow_output_mutation=True, ttl=300)
+@st.cache_data(ttl=300)
 def load_config(config_readme_filename: str) -> Dict[str, Any]:
     """Loads configuration files.
 
@@ -27,7 +27,7 @@ def load_config(config_readme_filename: str) -> Dict[str, Any]:
     return dict(config_readme)
 
 
-@st.cache(ttl=300)
+@st.cache_data(ttl=300)
 def load_image(image_name: str):
     """Displays an image.
 

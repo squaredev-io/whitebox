@@ -137,6 +137,7 @@ SQLAlchemy==1.4.41
 stack-data==0.5.1
 starlette==0.20.4
 statsmodels==0.13.2
+streamlit==1.18.1
 tenacity==8.1.0
 threadpoolctl==3.1.0
 tomli==2.0.1

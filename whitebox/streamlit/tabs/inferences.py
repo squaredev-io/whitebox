@@ -11,6 +11,7 @@ sys.path.insert(0, os.path.abspath("./"))
 from whitebox import Whitebox
 
 
+@st.cache_data(ttl=300)
 def highlight_rows(row: pd.DataFrame, pred_column: str):
     """
     Part of styling function of dataframe.
