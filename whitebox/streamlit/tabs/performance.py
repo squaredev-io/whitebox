@@ -36,7 +36,6 @@ def create_performance_tab(wb: Whitebox, model_id: str, model_type: str) -> None
         performance = wb.get_performance_metrics(model_id)
 
         if performance:
-            print("yesss")
             # Set the graphs in two columns (side by side)
             col1, col2 = st.columns(2)
 
