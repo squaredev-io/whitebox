@@ -1,0 +1,35 @@
+[
+    {
+        "id": 1,
+        "model_id": "model_test",
+        "name": "my_custom_metric",
+        "status": "active",
+        "metric": "accuracy",
+        "severity": "low",
+        "email": "test@squaredev.io",
+        "lower_threshold": 0.7,
+        "updated_at": "2023-02-16"
+    },
+    {
+        "id": 2,
+        "model_id": "model_test",
+        "name": "another_metric",
+        "status": "active",
+        "metric": "data_drift",
+        "severity": "low",
+        "email": "test@squaredev.io",
+        "lower_threshold": 0.5,
+        "updated_at": "2023-02-14"
+    },
+    {
+        "id": 3,
+        "model_id": "model_test",
+        "name": "check this metric",
+        "status": "active",
+        "metric": "accuracy",
+        "severity": "low",
+        "email": "test@squaredev.io",
+        "lower_threshold": 0.5,
+        "updated_at": "2023-02-14"
+    }
+]

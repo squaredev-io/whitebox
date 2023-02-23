@@ -1,0 +1,188 @@
+[
+    {
+        "id": "b3381df8-56b4-43f6-aa72-523427b7d723",
+        "created_at": "2023-02-09T14:33:00.456240",
+        "updated_at": "2023-02-09T14:33:00.456240",
+        "model_id": "83539c2b-579f-4a2c-b7ba-02d31c9408d8",
+        "timestamp": "2022-12-22T00:00:00",
+        "concept_drift_summary": {
+            "concept_drift_summary": {
+                "column_name": "target",
+                "column_type": "cat",
+                "stattest_name": "chi-square p_value",
+                "drift_score": 0.3896307449384165,
+                "drift_detected": false,
+                "stattest_threshold": 0.05
+            },
+            "column_correlation": {
+                "column_name": "target",
+                "current": {},
+                "reference": {}
+            }
+        },
+        "data_drift_summary": {
+            "number_of_columns": 4,
+            "number_of_drifted_columns": 0,
+            "share_of_drifted_columns": 0.0,
+            "dataset_drift": false,
+            "drift_by_columns": {
+                "petal length (cm)": {
+                    "column_name": "petal length (cm)",
+                    "column_type": "num",
+                    "stattest_name": "K-S p_value",
+                    "drift_score": 0.7588302830810655,
+                    "drift_detected": true,
+                    "threshold": 0.05
+                },
+                "petal width (cm)": {
+                    "column_name": "petal width (cm)",
+                    "column_type": "num",
+                    "stattest_name": "K-S p_value",
+                    "drift_score": 0.7588302830810655,
+                    "drift_detected": false,
+                    "threshold": 0.05
+                },
+                "sepal length (cm)": {
+                    "column_name": "sepal length (cm)",
+                    "column_type": "num",
+                    "stattest_name": "K-S p_value",
+                    "drift_score": 0.8382225197478262,
+                    "drift_detected": false,
+                    "threshold": 0.05
+                },
+                "sepal width (cm)": {
+                    "column_name": "sepal width (cm)",
+                    "column_type": "num",
+                    "stattest_name": "K-S p_value",
+                    "drift_score": 0.9540265350498883,
+                    "drift_detected": false,
+                    "threshold": 0.05
+                }
+            }
+        }
+    },
+    {
+        "id": "6f74de30-9a5c-4a88-9e02-0a7d8777e242",
+        "created_at": "2023-02-09T14:36:00.506190",
+        "updated_at": "2023-02-09T14:36:00.506190",
+        "model_id": "83539c2b-579f-4a2c-b7ba-02d31c9408d8",
+        "timestamp": "2022-12-23T00:00:00",
+        "concept_drift_summary": {
+            "concept_drift_summary": {
+                "column_name": "target",
+                "column_type": "cat",
+                "stattest_name": "chi-square p_value",
+                "drift_score": 0.6738389777139696,
+                "drift_detected": false,
+                "stattest_threshold": 0.05
+            },
+            "column_correlation": {
+                "column_name": "target",
+                "current": {},
+                "reference": {}
+            }
+        },
+        "data_drift_summary": {
+            "number_of_columns": 4,
+            "number_of_drifted_columns": 0,
+            "share_of_drifted_columns": 0.0,
+            "dataset_drift": false,
+            "drift_by_columns": {
+                "petal length (cm)": {
+                    "column_name": "petal length (cm)",
+                    "column_type": "num",
+                    "stattest_name": "K-S p_value",
+                    "drift_score": 0.9797880018857934,
+                    "drift_detected": false,
+                    "threshold": 0.05
+                },
+                "petal width (cm)": {
+                    "column_name": "petal width (cm)",
+                    "column_type": "num",
+                    "stattest_name": "K-S p_value",
+                    "drift_score": 0.9325945507895383,
+                    "drift_detected": false,
+                    "threshold": 0.05
+                },
+                "sepal length (cm)": {
+                    "column_name": "sepal length (cm)",
+                    "column_type": "num",
+                    "stattest_name": "K-S p_value",
+                    "drift_score": 0.8957682983065736,
+                    "drift_detected": false,
+                    "threshold": 0.05
+                },
+                "sepal width (cm)": {
+                    "column_name": "sepal width (cm)",
+                    "column_type": "num",
+                    "stattest_name": "K-S p_value",
+                    "drift_score": 0.7450045755465691,
+                    "drift_detected": false,
+                    "threshold": 0.05
+                }
+            }
+        }
+    },
+    {
+        "id": "78453a39-faa0-4aa7-bb30-8e4e1b91fef4",
+        "created_at": "2023-02-09T14:39:00.608156",
+        "updated_at": "2023-02-09T14:39:00.608156",
+        "model_id": "83539c2b-579f-4a2c-b7ba-02d31c9408d8",
+        "timestamp": "2022-12-24T00:00:00",
+        "concept_drift_summary": {
+            "concept_drift_summary": {
+                "column_name": "target",
+                "column_type": "cat",
+                "stattest_name": "chi-square p_value",
+                "drift_score": 0.32175216781613775,
+                "drift_detected": false,
+                "stattest_threshold": 0.05
+            },
+            "column_correlation": {
+                "column_name": "target",
+                "current": {},
+                "reference": {}
+            }
+        },
+        "data_drift_summary": {
+            "number_of_columns": 4,
+            "number_of_drifted_columns": 0,
+            "share_of_drifted_columns": 0.0,
+            "dataset_drift": false,
+            "drift_by_columns": {
+                "petal length (cm)": {
+                    "column_name": "petal length (cm)",
+                    "column_type": "num",
+                    "stattest_name": "K-S p_value",
+                    "drift_score": 0.692577574430372,
+                    "drift_detected": false,
+                    "threshold": 0.05
+                },
+                "petal width (cm)": {
+                    "column_name": "petal width (cm)",
+                    "column_type": "num",
+                    "stattest_name": "K-S p_value",
+                    "drift_score": 0.692577574430372,
+                    "drift_detected": false,
+                    "threshold": 0.05
+                },
+                "sepal length (cm)": {
+                    "column_name": "sepal length (cm)",
+                    "column_type": "num",
+                    "stattest_name": "K-S p_value",
+                    "drift_score": 0.8799325977736985,
+                    "drift_detected": false,
+                    "threshold": 0.05
+                },
+                "sepal width (cm)": {
+                    "column_name": "sepal width (cm)",
+                    "column_type": "num",
+                    "stattest_name": "K-S p_value",
+                    "drift_score": 0.1333377862549532,
+                    "drift_detected": false,
+                    "threshold": 0.05
+                }
+            }
+        }
+    }
+]

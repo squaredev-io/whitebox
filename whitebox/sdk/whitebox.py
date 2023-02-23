@@ -1,11 +1,12 @@
 from enum import Enum
 import numpy as np
 import pandas as pd
-from whitebox.schemas.model import ModelCreateDto, ModelType
-from typing import Dict, Optional
+from whitebox.schemas.model import ModelCreateDto, ModelType, ModelUpdateDto
+from typing import Dict, Optional, Union
 import requests
 import logging
 from fastapi import status
+from fastapi.encoders import jsonable_encoder
 
 from whitebox.schemas.modelMonitor import (
     AlertSeverity,
@@ -39,7 +40,7 @@ class Whitebox:
         self,
         name: str,
         type: ModelType,
-        prediction: str,
+        target_column: str,
         labels: Dict[str, int] = None,
         description: str = "",
     ) -> dict:
@@ -51,11 +52,12 @@ class Whitebox:
             description=description,
             type=type,
             labels=labels,
-            prediction=prediction,
+            target_column=target_column,
         )
+
         result = requests.post(
             url=f"{self.host}/{self.api_version}/models",
-            json=new_model.dict(),
+            json=jsonable_encoder(new_model),
             headers={"api-key": self.api_key},
         )
 
@@ -74,6 +76,35 @@ class Whitebox:
             return None
 
         return result.json()
+
+    def get_models(self) -> Union[dict, None]:
+        """
+        Returns all the models. If no models exist, returns None.
+        """
+        result = requests.get(
+            url=f"{self.host}/{self.api_version}/models",
+            headers={"api-key": self.api_key},
+        )
+        if result.status_code == status.HTTP_404_NOT_FOUND:
+            return None
+
+        return result.json()
+
+    def update_model(self, model_id: str, body: ModelUpdateDto):
+        """
+        Updates a model by its id. If any error occurs, returns False.
+        """
+        result = requests.put(
+            url=f"{self.host}/{self.api_version}/models/{model_id}",
+            json=body,
+            headers={"api-key": self.api_key},
+        )
+        logger.info(result.json())
+
+        if result.status_code == status.HTTP_200_OK:
+            return True
+
+        return False
 
     def delete_model(self, model_id: str):
         """
@@ -169,6 +200,20 @@ class Whitebox:
 
         return False
 
+    def get_inferences(self, model_id: str):
+        """
+        Given a specific model id, this endpoint fetches all the inferences.
+        If some of the required data isn't found, returns None.
+        """
+        result = requests.get(
+            url=f"{self.host}/{self.api_version}/inference-rows?model_id={model_id}",
+            headers={"api-key": self.api_key},
+        )
+        if result.status_code == status.HTTP_404_NOT_FOUND:
+            return None
+
+        return result.json()
+
     def get_xai_row(self, inference_row_id: str):
         """
         Given a specific inference row id, this endpoint produces an explainability report for this inference.
@@ -191,8 +236,8 @@ class Whitebox:
         metric: MonitorMetrics,
         severity: AlertSeverity,
         email: str,
-        feature: Optional[str],
         lower_threshold: Optional[float],
+        feature: Optional[Union[str, None]] = None,
     ) -> dict:
         """
         Creates a monitor for a model.
@@ -212,6 +257,18 @@ class Whitebox:
         result = requests.post(
             url=f"{self.host}/{self.api_version}/model-monitors",
             json=model_monitor.dict(),
+            headers={"api-key": self.api_key},
+        )
+
+        logger.info(result.json())
+        return result.json()
+
+    def get_monitors(self, model_id: str) -> dict:
+        """
+        Returns all monitors for a model.
+        """
+        result = requests.get(
+            url=f"{self.host}/{self.api_version}/model-monitors?modelId={model_id}",
             headers={"api-key": self.api_key},
         )
 

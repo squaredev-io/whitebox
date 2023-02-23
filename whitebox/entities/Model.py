@@ -13,7 +13,7 @@ class Model(Base):
     description = Column(String)
     type = Column("type", Enum(ModelType))
     labels = Column(JSON, nullable=True)
-    prediction = Column(String)
+    target_column = Column(String)
     created_at = Column(DateTime)
     updated_at = Column(DateTime)
 

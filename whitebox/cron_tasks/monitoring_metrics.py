@@ -51,10 +51,10 @@ async def run_calculate_drifting_metrics_pipeline(
 
     # We need to drop the target column from the data to calculate drifting metrics
     processed_inference_dropped_target_df = inference_processed_df.drop(
-        [model.prediction], axis=1
+        [model.target_column], axis=1
     )
     processed_training_dropped_target_df = training_processed_df.drop(
-        [model.prediction], axis=1
+        [model.target_column], axis=1
     )
 
     data_drift_report = run_data_drift_pipeline(
@@ -63,7 +63,7 @@ async def run_calculate_drifting_metrics_pipeline(
     concept_drift_report = run_concept_drift_pipeline(
         training_processed_df,
         inference_processed_df,
-        model.prediction,
+        model.target_column,
     )
 
     new_drifting_metric = entities.DriftingMetric(
@@ -115,7 +115,7 @@ async def run_calculate_performance_metrics_pipeline(
     if model.type == ModelType.binary:
         binary_classification_metrics_report = (
             create_binary_classification_evaluation_metrics_pipeline(
-                cleaned_actuals_df, inference_processed_df[model.prediction], labels
+                cleaned_actuals_df, inference_processed_df[model.target_column], labels
             )
         )
 
@@ -130,7 +130,7 @@ async def run_calculate_performance_metrics_pipeline(
     elif model.type == ModelType.multi_class:
         multiclass_classification_metrics_report = (
             create_multiple_classification_evaluation_metrics_pipeline(
-                cleaned_actuals_df, inference_processed_df[model.prediction], labels
+                cleaned_actuals_df, inference_processed_df[model.target_column], labels
             )
         )
 
@@ -144,7 +144,7 @@ async def run_calculate_performance_metrics_pipeline(
 
     elif model.type == ModelType.regression:
         regression_metrics_report = create_regression_evaluation_metrics_pipeline(
-            cleaned_actuals_df, inference_processed_df[model.prediction]
+            cleaned_actuals_df, inference_processed_df[model.target_column]
         )
 
         new_performance_metric = entities.RegressionMetrics(
