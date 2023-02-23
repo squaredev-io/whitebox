@@ -34,25 +34,28 @@ def create_performance_tab(wb: Whitebox, model_id: str, model_type: str) -> None
         structure()
         st.title("Performance")
         performance = wb.get_performance_metrics(model_id)
-        # Set the graphs in two columns (side by side)
-        col1, col2 = st.columns(2)
 
-        if (model_type == "binary") | (model_type == "multi_class"):
-            performance_df = get_dataframe_from_classification_performance_metrics(
-                performance
-            )
-        else:
-            # For now the only case is regression
-            performance_df = get_dataframe_from_regression_performance_metrics(
-                performance
-            )
-        # Need to keep only the metrics columns to be visualised as separeted graphs
-        perf_columns = performance_df.drop("timestamp", axis=1).columns
+        if performance:
+            print("yesss")
+            # Set the graphs in two columns (side by side)
+            col1, col2 = st.columns(2)
 
-        for i in range(len(perf_columns)):
-            if (i % 2) == 0:
-                with col1:
-                    create_performance_graphs(performance_df, perf_columns[i])
+            if (model_type == "binary") | (model_type == "multi_class"):
+                performance_df = get_dataframe_from_classification_performance_metrics(
+                    performance
+                )
             else:
-                with col2:
-                    create_performance_graphs(performance_df, perf_columns[i])
+                # For now the only case is regression
+                performance_df = get_dataframe_from_regression_performance_metrics(
+                    performance
+                )
+            # Need to keep only the metrics columns to be visualised as separeted graphs
+            perf_columns = performance_df.drop("timestamp", axis=1).columns
+
+            for i in range(len(perf_columns)):
+                if (i % 2) == 0:
+                    with col1:
+                        create_performance_graphs(performance_df, perf_columns[i])
+                else:
+                    with col2:
+                        create_performance_graphs(performance_df, perf_columns[i])

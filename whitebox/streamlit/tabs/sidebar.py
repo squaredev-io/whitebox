@@ -106,7 +106,6 @@ def create_new_model(wb: Whitebox, readme: Dict[str, Any]):
     )
 
     model_type_option = create_model_type_select_box(readme, "type_create")
-
     prediction_column_name = st.text_input(
         "Enter your target column name",
         max_chars=10,
@@ -118,11 +117,12 @@ def create_new_model(wb: Whitebox, readme: Dict[str, Any]):
     if create_model_button:
         # Have a control for geting both model name and target column name
         if (len(model_name) > 0) & (len(prediction_column_name) > 0):
+
             wb.create_model(
                 name=model_name,
                 description=description_name,
                 type=model_type_option,
-                prediction=prediction_column_name,
+                target_column=prediction_column_name,
             )
             st.write("The new model has been created!")
 
@@ -155,39 +155,42 @@ def modify_selected_model(
 ):
     # Get the id of the previous selected model
     selected_model = get_model_from_name(models_list, selected_model_name)
-    model_id = selected_model["id"]
+    if selected_model:
+        model_id = selected_model["id"]
 
-    model_option = st.selectbox(
-        "Please select one of the below options:",
-        [
-            "delete model",
-            "rename model",
-            "change model description",
-            "change model type",
-        ],
-    )
-    if model_option == "delete model":
-        delete_button = st.button("Delete model")
-        if delete_button:
-            delete_model = wb.delete_model(model_id)
-            st.write(f"Deleted model '{selected_model}'!")
-
-    elif model_option == "rename model":
-        new_name_value = st.text_input("Please provide below the new model name:")
-        rename_button = st.button("Rename model")
-        if rename_button:
-            update_model_attribute(wb, model_id, "name", new_name_value)
-
-    elif model_option == "change model description":
-        new_description_value = st.text_input(
-            "Please provide below the new model description:"
+        model_option = st.selectbox(
+            "Please select one of the below options:",
+            [
+                "delete model",
+                "rename model",
+                "change model description",
+                "change model type",
+            ],
         )
-        description_button = st.button("Change model description")
-        if description_button:
-            update_model_attribute(wb, model_id, "description", new_description_value)
+        if model_option == "delete model":
+            delete_button = st.button("Delete model")
+            if delete_button:
+                delete_model = wb.delete_model(model_id)
+                st.write(f"Deleted model '{selected_model}'!")
 
-    elif model_option == "change model type":
-        new_type_value = create_model_type_select_box(readme, "type_change")
-        type_button = st.button("Change model type")
-        if type_button:
-            update_model_attribute(wb, model_id, "type", new_type_value)
+        elif model_option == "rename model":
+            new_name_value = st.text_input("Please provide below the new model name:")
+            rename_button = st.button("Rename model")
+            if rename_button:
+                update_model_attribute(wb, model_id, "name", new_name_value)
+
+        elif model_option == "change model description":
+            new_description_value = st.text_input(
+                "Please provide below the new model description:"
+            )
+            description_button = st.button("Change model description")
+            if description_button:
+                update_model_attribute(
+                    wb, model_id, "description", new_description_value
+                )
+
+        elif model_option == "change model type":
+            new_type_value = create_model_type_select_box(readme, "type_change")
+            type_button = st.button("Change model type")
+            if type_button:
+                update_model_attribute(wb, model_id, "type", new_type_value)

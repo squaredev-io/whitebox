@@ -68,9 +68,15 @@ def create_regression_performance_metrics(
 
 def plot_confusion_matrix(confusion_matrix: ndarray, model: Model):
     st.header("Confusion matrix")
+
+    if model["labels"]:
+        display_labels = list(model["labels"].values())
+    else:
+        display_labels = None
+
     disp = ConfusionMatrixDisplay(
         confusion_matrix=confusion_matrix,
-        display_labels=list(model["labels"].values()),
+        display_labels=display_labels,
     )
     fig, ax = plt.subplots(figsize=(5, 5))
     disp.plot(ax=ax)

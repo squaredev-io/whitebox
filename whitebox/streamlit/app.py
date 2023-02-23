@@ -68,24 +68,26 @@ model_option, models_list, checkbox, wb = create_sidebar()
 
 if checkbox:
     model = get_model_from_name(models_list, model_option)
-    pred_column = model["prediction"]
-    model_id = model["id"]
-    model_type = model["type"]
-    # TODO: Need to connect this one with the db.
-    with overview:
-        create_overview_tab(model, cm, base_evaluation_metrics_binary_df)
 
-    with performance:
-        create_performance_tab(wb, model_id, model_type)
+    if model:
+        pred_column = model["target_column"]
+        model_id = model["id"]
+        model_type = model["type"]
+        # TODO: Need to connect this one with the db.
+        with overview:
+            create_overview_tab(model, cm, base_evaluation_metrics_binary_df)
 
-    with drifting:
-        create_drift_tab(wb, model_id)
+        with performance:
+            create_performance_tab(wb, model_id, model_type)
 
-    with inferences:
-        create_inferences_tab(wb, model_id, pred_column)
+        with drifting:
+            create_drift_tab(wb, model_id)
 
-    with monitors:
-        create_monitors_tab(wb, model_id, model_type)
+        with inferences:
+            create_inferences_tab(wb, model_id, pred_column)
 
-    with alerts:
-        create_alerts_tab(wb, model_id)
+        with monitors:
+            create_monitors_tab(wb, model_id, model_type)
+
+        with alerts:
+            create_alerts_tab(wb, model_id)

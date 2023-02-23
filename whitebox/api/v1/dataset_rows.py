@@ -45,15 +45,15 @@ async def create_dataset_rows(
     model = crud.models.get(db=db, _id=dict(body[0])["model_id"])
     if model:
         for row in body:
-            if not model.prediction in row.processed:
+            if not model.target_column in row.processed:
                 return errors.bad_request(
-                    f'Column "{model.prediction}" was not found in some or any of the rows in provided training dataset. Please try again!'
+                    f'Column "{model.target_column}" was not found in some or any of the rows in provided training dataset. Please try again!'
                 )
 
-        predictions = list(set(vars(x)["processed"][model.prediction] for x in body))
+        predictions = list(set(vars(x)["processed"][model.target_column] for x in body))
         if len(predictions) <= 1:
             return errors.bad_request(
-                f'Training dataset\'s "{model.prediction}" columns must have at least 2 different values!'
+                f'Training dataset\'s "{model.target_column}" columns must have at least 2 different values!'
             )
 
         new_dataset_rows = crud.dataset_rows.create_many(db=db, obj_list=body)
@@ -66,21 +66,21 @@ async def create_dataset_rows(
             background_tasks.add_task(
                 create_binary_classification_training_model_pipeline,
                 processed_dataset_rows_pd,
-                model.prediction,
+                model.target_column,
                 model.id,
             )
         elif model.type == ModelType.multi_class:
             background_tasks.add_task(
                 create_multiclass_classification_training_model_pipeline,
                 processed_dataset_rows_pd,
-                model.prediction,
+                model.target_column,
                 model.id,
             )
         elif model.type == ModelType.regression:
             background_tasks.add_task(
                 create_regression_training_model_pipeline,
                 processed_dataset_rows_pd,
-                model.prediction,
+                model.target_column,
                 model.id,
             )
         return new_dataset_rows

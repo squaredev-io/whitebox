@@ -46,24 +46,27 @@ def create_inferences_tab(wb: Whitebox, model_id: str, pred_column: str) -> None
         structure()
         st.title("Inferences")
         inf = wb.get_inferences(model_id)
-        inf_df = convert_inference_to_df(inf, pred_column)
 
-    explain = st.checkbox("Explain inferences")
-    if explain:
-        col1, col2 = st.columns(2)
+        if inf:
+            inf_df = convert_inference_to_df(inf, pred_column)
 
-        with col1:
-            # TODO: Add filter for dates (eg. Show data from 'last month')
-            viz_inference_df(inf_df, pred_column)
+            explain = st.checkbox("Explain inferences")
+            if explain:
+                col1, col2 = st.columns(2)
 
-        with col2:
-            text_input = st.text_input(
-                "Explain an inference based on id:", placeholder="an inference id"
-            )
+                with col1:
+                    # TODO: Add filter for dates (eg. Show data from 'last month')
+                    viz_inference_df(inf_df, pred_column)
 
-            if text_input:
-                with st.spinner("Loading explanations for id: " + text_input):
-                    time.sleep(8)
+                with col2:
+                    text_input = st.text_input(
+                        "Explain an inference based on id:",
+                        placeholder="an inference id",
+                    )
 
-    else:
-        viz_inference_df(inf_df, pred_column)
+                    if text_input:
+                        with st.spinner("Loading explanations for id: " + text_input):
+                            time.sleep(8)
+
+            else:
+                viz_inference_df(inf_df, pred_column)

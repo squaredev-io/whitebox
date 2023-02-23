@@ -38,7 +38,7 @@ def test_sdk_create_model(client):
             description=model_multi_create_payload["description"],
             labels=model_multi_create_payload["labels"],
             type=model_multi_create_payload["type"],
-            prediction=model_multi_create_payload["prediction"],
+            target_column=model_multi_create_payload["target_column"],
         )
 
         assert model == model_multi_create_payload

@@ -50,7 +50,7 @@ model = {
     "name": "model test",
     "description": "a model for testing visualisations",
     "type": "binary",
-    "prediction": "target",
+    "target_column": "target",
     "labels": {"default": 0, "no_default": 1},
     "created_at": "2022-05-05",
     "updated_at": "2022-05-05",

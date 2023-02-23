@@ -14,7 +14,7 @@ class ModelBase(BaseModel):
     name: str
     description: str
     type: ModelType
-    prediction: str
+    target_column: str
     labels: Optional[Dict[str, int]]
 
 

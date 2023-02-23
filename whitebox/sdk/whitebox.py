@@ -6,6 +6,7 @@ from typing import Dict, Optional, Union
 import requests
 import logging
 from fastapi import status
+from fastapi.encoders import jsonable_encoder
 
 from whitebox.schemas.modelMonitor import (
     AlertSeverity,
@@ -39,7 +40,7 @@ class Whitebox:
         self,
         name: str,
         type: ModelType,
-        prediction: str,
+        target_column: str,
         labels: Dict[str, int] = None,
         description: str = "",
     ) -> dict:
@@ -51,11 +52,12 @@ class Whitebox:
             description=description,
             type=type,
             labels=labels,
-            prediction=prediction,
+            target_column=target_column,
         )
+
         result = requests.post(
             url=f"{self.host}/{self.api_version}/models",
-            json=new_model.dict(),
+            json=jsonable_encoder(new_model),
             headers={"api-key": self.api_key},
         )
 

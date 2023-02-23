@@ -4,7 +4,7 @@ This is the documentation for Whitebox's SDK. For an interactive experience, you
 
 ## Models
 
-**_create_model_**_(name, type, prediction, labels=None, description="")_
+**_create_model_**_(name, type, target_column, labels=None, description="")_
 
 Creates a model in the database. This model works as placeholder for all the actual model's metadata.
 
@@ -12,7 +12,7 @@ Creates a model in the database. This model works as placeholder for all the act
 | --------------- | ---------------- | ------------------------------------------------------------------------- |
 | **name**        | `str`            | The name of the model.                                                    |
 | **type**        | `str`            | The model's type. Possible values: `binary`, `multi_class`, `regression`. |
-| **prediction**  | `str`            | The prediction of the model.                                              |
+| **target_column**  | `str`            | The name of the target column (y).                             |
 | **labels**      | `Dict[str, int]` | The model's labels. Defaults to `None`.                                   |
 | **description** | `str`            | The model's description. Defaults to an empty string `""`.                |
 
