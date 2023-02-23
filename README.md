@@ -18,6 +18,8 @@
 
 **Roadmap**: <a href="https://github.com/whitebox-ai/whitebox/milestones" target="_blank">https://github.com/whitebox-ai/whitebox/milestones</a>
 
+**Issue tracking** <a href="https://github.com/orgs/whitebox-ai/projects/1/views/3" target="_blank">https://github.com/orgs/whitebox-ai/projects/1/views/3</a>
+
 **Discord**: <a href="https://discord.gg/bkAcsx4V" target="_blank">https://discord.gg/bkAcsx4V</a>
 
 ---
