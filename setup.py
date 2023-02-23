@@ -1,10 +1,11 @@
 from setuptools import setup, find_packages
+from pathlib import Path
 
 
-VERSION = "0.0.15"
+VERSION = "0.0.20"
 
 DESCRIPTION = "Whitebox is an open source E2E ML monitoring platform with edge capabilities that plays nicely with kubernetes"
-LONG_DESCRIPTION = ""
+LONG_DESCRIPTION = (Path(__file__).parent / "README.md").read_text()
 
 # Setting up
 setup(
@@ -14,7 +15,8 @@ setup(
     author="Squaredev",
     author_email="hello@squaredev.io",
     description=DESCRIPTION,
-    long_description=LONG_DESCRIPTION,
+    long_description=LONG_DESCRIPTION,  # add README.md
+    long_description_content_type="text/markdown",
     packages=find_packages(),
     install_requires=[],  # add any additional packages that
     # needs to be installed along with your package. Eg: 'caer'

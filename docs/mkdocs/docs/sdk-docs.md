@@ -1,6 +1,6 @@
 # SDK Documentation
 
-This is the documentation for Whitebox's SDK. For an interactive experience, you can expirement with the SDK's <a href="https://github.com/squaredev-io/whitebox/tree/main/examples/notebooks" class="external-link" target="_blank">Jupyter notebooks</a>.
+This is the documentation for Whitebox's SDK. For an interactive experience, you can expirement with the SDK's <a href="https://github.com/whitebox-ai/whitebox/tree/main/examples/notebooks" class="external-link" target="_blank">Jupyter notebooks</a>.
 
 ## Models
 

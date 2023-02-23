@@ -1,8 +1,8 @@
 # Whitebox
 
 <p align="center">
-  <a href="https://squaredev-io.github.io/whitebox" width="50%">
-    <img src="https://squaredev-io.github.io/whitebox/img/logo.svg" alt="Whitebox" width="50%">
+  <a href=" https://whitebox-ai.github.io/whitebox/" width="50%">
+    <img src=" https://whitebox-ai.github.io/whitebox//img/logo.svg" alt="Whitebox" width="50%">
   </a>
 </p>
 <p align="center">
@@ -12,11 +12,15 @@
 
 ---
 
-**Documentation**: <a href="https://squaredev-io.github.io/whitebox/" target="_blank">https://squaredev-io.github.io/whitebox</a>
+**Documentation**: <a href=" https://whitebox-ai.github.io/whitebox/" target="_blank"> https://whitebox-ai.github.io/whitebox/</a>
 
-**Source Code**: <a href="https://github.com/squaredev-io/whitebox" target="_blank">https://github.com/squaredev-io/whitebox</a>
+**Source Code**: <a href="https://github.com/whitebox-ai/whitebox" target="_blank">https://github.com/whitebox-ai/whitebox</a>
 
-**Roadmap**: <a href="https://github.com/squaredev-io/whitebox/milestones" target="_blank">https://github.com/squaredev-io/whitebox/milestones</a>
+**Roadmap**: <a href="https://github.com/whitebox-ai/whitebox/milestones" target="_blank">https://github.com/whitebox-ai/whitebox/milestones</a>
+
+**Issue tracking** <a href="https://github.com/orgs/whitebox-ai/projects/1/views/3" target="_blank">https://github.com/orgs/whitebox-ai/projects/1/views/3</a>
+
+**Discord**: <a href="https://discord.gg/bkAcsx4V" target="_blank">https://discord.gg/bkAcsx4V</a>
 
 ---
 

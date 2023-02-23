@@ -8,6 +8,7 @@ from whitebox.tests.v1.mock_data import (
     timestamps,
     mixed_actuals,
     inference_row_xai_payload,
+    alert_payload,
     drifting_metrics_report_payload,
     descriptive_statistics_report_payload,
     performance_metrics_report_payload,
@@ -197,6 +198,31 @@ def test_sdk_create_model_monitor(client):
         )
 
         assert model_monitor is not None
+
+
+@pytest.mark.order(get_order_number("sdk_get_alerts"))
+def test_sdk_get_alerts(client):
+    mock_model_id = "mock_model_id"
+    with requests_mock.Mocker() as m:
+        m.get(
+            url=f"{state_sdk.wb.host}/v1/alerts?model_id={mock_model_id}",
+            headers={"api-key": state_sdk.wb.api_key},
+            status_code=status.HTTP_404_NOT_FOUND,
+        )
+
+        not_found_result = state_sdk.wb.get_alerts(model_id=mock_model_id)
+
+        assert not_found_result == None
+
+        m.get(
+            url=f"{state_sdk.wb.host}/v1/alerts?model_id={mock_model_id}",
+            headers={"api-key": state_sdk.wb.api_key},
+            json=alert_payload,
+        )
+
+        alert = state_sdk.wb.get_alerts(model_id=mock_model_id)
+
+        assert alert == alert_payload
 
 
 @pytest.mark.order(get_order_number("sdk_get_drifting_metrics"))

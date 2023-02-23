@@ -280,11 +280,13 @@ class Whitebox:
         Returns all alerts for a model.
         """
         result = requests.get(
-            url=f"{self.host}/{self.api_version}/alerts?modelId={model_id}",
+            url=f"{self.host}/{self.api_version}/alerts?model_id={model_id}",
             headers={"api-key": self.api_key},
         )
 
-        logger.info(result.json())
+        if result.status_code == status.HTTP_404_NOT_FOUND:
+            return None
+
         return result.json()
 
     def get_drifting_metrics(self, model_id: str) -> dict:
