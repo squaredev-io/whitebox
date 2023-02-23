@@ -39,7 +39,6 @@ model_multi_3_create_payload = dict(
     type=ModelType.multi_class,
     labels={"label_1": 0, "label_2": 1, "label_3": 2},
     target_column="target",
-
 )
 
 model_regression_create_payload = dict(
