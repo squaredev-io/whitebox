@@ -53,7 +53,6 @@ def add_new_monitor(wb, model_id, model_type) -> None:
         monitor_option_check = st.checkbox("Select static threshold")
 
         if monitor_option_check:
-
             st.write(
                 text_markdown(
                     readme["tooltips"]["alert_trig_monitor"], "#525462", "12px"

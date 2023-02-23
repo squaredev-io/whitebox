@@ -12,12 +12,12 @@ import os, sys
 sys.path.insert(0, os.path.abspath("./"))
 from whitebox.schemas.model import Model
 
+
 # TODO: Need to connect this one with the db.
 # Currently one shot running for training data is not supported!
 def create_classification_performance_metrics(
     base_evaluation_metrics: pd.DataFrame,
 ) -> None:
-
     """
     Create performance metrics visualisation for classification model in Streamlit
     """

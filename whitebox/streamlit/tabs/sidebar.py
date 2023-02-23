@@ -16,12 +16,14 @@ def initialise_whitebox(host_option, api_key_option):
     return wb
 
 
-def create_sidebar() -> Tuple[
-    Union[str, None, bool],
-    Union[List[str], None],
-    Union[bool, None],
-    Union[Whitebox, None],
-]:
+def create_sidebar() -> (
+    Tuple[
+        Union[str, None, bool],
+        Union[List[str], None],
+        Union[bool, None],
+        Union[Whitebox, None],
+    ]
+):
     """
     Creates the sidebar of a Streamlit app
 
@@ -117,7 +119,6 @@ def create_new_model(wb: Whitebox, readme: Dict[str, Any]):
     if create_model_button:
         # Have a control for geting both model name and target column name
         if (len(model_name) > 0) & (len(prediction_column_name) > 0):
-
             wb.create_model(
                 name=model_name,
                 description=description_name,

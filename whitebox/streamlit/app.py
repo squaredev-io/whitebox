@@ -17,6 +17,7 @@ from whitebox import Whitebox
 
 st.set_option("deprecation.showPyplotGlobalUse", False)
 
+
 # ----------------------------------------------
 def format_evaluation_metrics_binary(
     accuracy: float,
