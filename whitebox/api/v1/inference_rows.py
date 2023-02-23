@@ -50,8 +50,18 @@ async def create_many_inference_rows(
 ) -> List[InferenceRow]:
     """Inserts a set of inference rows into the database."""
 
-    new_inference_rows = crud.inference_rows.create_many(db=db, obj_list=body)
-    return new_inference_rows
+    model = crud.models.get(db=db, _id=dict(body[0])["model_id"])
+    if model:
+        for row in body:
+            if not model.target_column in row.processed:
+                return errors.bad_request(
+                    f'Column "{model.target_column}" was not found in some or any of the rows in provided inference dataset. Please try again!'
+                )
+
+        new_inference_rows = crud.inference_rows.create_many(db=db, obj_list=body)
+        return new_inference_rows
+    else:
+        return errors.not_found(f"Model with id: {dict(body[0])['model_id']} not found")
 
 
 @inference_rows_router.get(
