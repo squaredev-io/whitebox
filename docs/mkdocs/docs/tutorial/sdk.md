@@ -73,7 +73,7 @@ wb.create_model(
         'additionalProp1': 0,
         'additionalProp2': 1
     },
-    prediction="target"
+    target_column="target"
 )
 ```
 

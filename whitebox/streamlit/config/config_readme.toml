@@ -1,0 +1,51 @@
+[app]
+app_intro = """
+This streamlit app allows you to visualise and monitor the results and all related analytics produced by Whitebox.
+
+All you have to do is to select your desired model which is stored in your database and then navigate through the different tabs.
+"""
+[tooltips]
+model_option = """
+These are the models that are saved in your connected database.
+"""
+overview_performance = """
+These are the model's performance metrics after it was trained with the training data. 
+"""
+monitor_name = """
+Add your preference name for the new monitor. 
+"""
+monitor_use_case = """
+Add your preference type of monitor. 
+"""
+stat_thresh_monitor = """
+Enter a value between 0 and 1 with max two decimal points, e.g. 0.25. 
+"""
+alert_trig_monitor = """
+Alert will trigger if below the lower threshold or above the upper threshold. 
+"""
+alert_severity_monitor = """
+What alert severity should be associated with the notifications being sent?
+"""
+notifications_monitor = """
+Notifications will be sent via email. Please provide your email below:
+"""
+host = """
+Your host and port combined in a url.
+"""
+api_key = """
+Your api key as was created from the initialisation of Whitebox.
+"""
+model_name = """
+Your desired model name.
+"""
+model_description = """
+Your desired model description.
+"""
+model_type = """
+Your desired model type.
+"""
+target_column = """
+Your desired target column as depicted in your data.
+"""
+[links]
+repo = "https://github.com/squaredev-io/whitebox"

@@ -18,7 +18,7 @@ theme:
     repo: fontawesome/brands/git-alt
   features:
     - navigation.footer
-repo_url: https://github.com/squaredev-io/whitebox
+repo_url: https://github.com/whitebox-ai/whitebox
 repo_name: squaredev/whitebox
 edit_uri: ""
 
@@ -51,9 +51,9 @@ markdown_extensions:
   - toc:
       permalink: true
 extra_css:
-- css/termynal.css
-- css/custom.css
-- css/extra.css
+  - css/termynal.css
+  - css/custom.css
+  - css/extra.css
 extra_javascript:
   - js/termynal.js
   - js/custom.js
@@ -61,9 +61,9 @@ extra_javascript:
   - https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML
 extra:
   social:
-    - icon: fontawesome/brands/github 
-      link: https://github.com/squaredev-io
-    - icon: fontawesome/brands/linkedin 
+    - icon: fontawesome/brands/github
+      link: https://github.com/whitebnox-ai
+    - icon: fontawesome/brands/linkedin
       link: https://www.linkedin.com/company/squaredev
     - icon: fontawesome/brands/python
       link: https://pypi.org/project/whitebox-sdk/

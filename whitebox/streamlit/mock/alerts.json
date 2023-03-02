@@ -1,0 +1,20 @@
+[
+    {
+        "id": 44,
+        "model_monitor_id": 1,
+        "timestamp": "2023-03-14",
+        "description": "fell below the threshold"
+    },
+    {
+        "id": 45,
+        "model_monitor_id": 1,
+        "timestamp": "2023-03-16",
+        "description": "fell below the threshold"
+    },
+    {
+        "id": 46,
+        "model_monitor_id": 3,
+        "timestamp": "2023-03-16",
+        "description": "fell increasinlgy below the threshold"
+    }
+]
