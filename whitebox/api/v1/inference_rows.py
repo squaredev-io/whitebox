@@ -1,6 +1,10 @@
 from typing import Dict, List
 from whitebox.middleware.auth import authenticate_user
-from whitebox.schemas.inferenceRow import InferenceRow, InferenceRowCreateDto
+from whitebox.schemas.inferenceRow import (
+    InferenceRow,
+    InferenceRowCreateDto,
+    InferenceRowPreDb,
+)
 from whitebox.analytics.xai_models.pipelines import (
     create_xai_pipeline_per_inference_row,
 )
@@ -31,7 +35,9 @@ async def create_row(
 ) -> InferenceRow:
     """Inserts an inference row into the database."""
 
-    new_inference_row = crud.inference_rows.create(db=db, obj_in=body)
+    updated_body = InferenceRowPreDb(**dict(body), is_used=False)
+
+    new_inference_row = crud.inference_rows.create(db=db, obj_in=updated_body)
     return new_inference_row
 
 
@@ -50,7 +56,9 @@ async def create_many_inference_rows(
 ) -> List[InferenceRow]:
     """Inserts a set of inference rows into the database."""
 
-    new_inference_rows = crud.inference_rows.create_many(db=db, obj_list=body)
+    updated_body = [InferenceRowPreDb(**dict(x), is_used=False) for x in body]
+
+    new_inference_rows = crud.inference_rows.create_many(db=db, obj_list=updated_body)
     return new_inference_rows
 
 
