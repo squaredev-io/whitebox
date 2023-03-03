@@ -40,6 +40,7 @@ def test_sdk_create_model(client):
             labels=model_multi_create_payload["labels"],
             type=model_multi_create_payload["type"],
             target_column=model_multi_create_payload["target_column"],
+            granularity=model_multi_create_payload["granularity"],
         )
 
         assert model == model_multi_create_payload

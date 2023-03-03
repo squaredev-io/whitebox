@@ -235,21 +235,15 @@ async def run_calculate_metrics_pipeline():
     start = time.time()
     engine.connect()
 
-    granularity = settings.GRANULARITY
-
-    granularity_amount = int(granularity[:-1])
-    granularity_type = granularity[-1]
-
-    if granularity_type not in ["T", "H", "D", "W"]:
-        raise TypeError(
-            "Wrong granularity. Accepted values: T (minutes), H (hours), D (days), W (weeks)"
-        )
-
     models = await get_all_models(db)
     if not models:
         logger.info("No models found! Skipping pipeline")
     else:
         for model in models:
+            granularity = model.granularity
+            granularity_amount = int(granularity[:-1])
+            granularity_type = granularity[-1]
+
             last_report = await get_latest_drift_metrics_report(db, model)
 
             last_report_time = (
@@ -288,7 +282,7 @@ async def run_calculate_metrics_pipeline():
 
             for group in grouped_inference_rows:
                 for timestamp, inference_group in group.items():
-                    inference_rows_ids = [vars(x)["id"] for x in inference_group]
+                    inference_rows_ids = [x.id for x in inference_group]
                     (
                         inference_processed_df,
                         inference_nonprocessed_df,

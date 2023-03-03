@@ -15,6 +15,7 @@ class ModelBase(BaseModel):
     description: str
     type: ModelType
     target_column: str
+    granularity: str
     labels: Optional[Dict[str, int]]
 
 

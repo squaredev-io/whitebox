@@ -1,4 +1,4 @@
-from typing import Dict, List, Tuple, Union
+from typing import Callable, Dict, List, Tuple, Union
 import itertools
 import pandas as pd
 import datetime
@@ -34,7 +34,7 @@ async def group_inference_rows_by_timestamp(
     last_time: datetime.datetime,
     granularity_amount: int,
     granularity_type: str,
-) -> List[Dict[datetime.datetime, InferenceRow]]:
+) -> List[Dict[datetime.datetime, List[InferenceRow]]]:
     """Create a list of dicts with all inferences grouped by timestamp"""
 
     dict_inference_rows = [vars(x) for x in inference_rows]
@@ -49,7 +49,7 @@ async def group_inference_rows_by_timestamp(
 
     updated_inferences = [InferenceRow(**x) for x in updated_inferences_dict]
 
-    key_func = lambda x: vars(x)["timestamp"]
+    key_func: Callable[[InferenceRow]] = lambda x: x.timestamp
 
     grouped_inferences = [
         {key: list(group)}
@@ -191,7 +191,7 @@ def get_used_inference_for_reusage(
     """Collects already used inference rows to be grouped with new rows of the same timestamp group and be \
         reused to create new reports."""
 
-    timestamps = [vars(x)["timestamp"] for x in inferences]
+    timestamps = [x.timestamp for x in inferences]
 
     changed_timestamps = [
         change_timestamp(x, start_time, granularity_amount, granularity_type)

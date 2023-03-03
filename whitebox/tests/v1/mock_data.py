@@ -2,7 +2,6 @@ from datetime import datetime
 from whitebox.schemas.model import ModelType
 from sklearn.datasets import load_breast_cancer, load_wine, load_diabetes
 import pandas as pd
-import random
 from copy import deepcopy
 
 from whitebox.schemas.modelMonitor import AlertSeverity, MonitorMetrics, MonitorStatus
@@ -15,6 +14,7 @@ model_binary_create_payload = dict(
     type=ModelType.binary,
     labels={"label_1": 0, "label_2": 1},
     target_column="target",
+    granularity="1D",
 )
 
 model_multi_create_payload = dict(
@@ -23,6 +23,7 @@ model_multi_create_payload = dict(
     type=ModelType.multi_class,
     labels={"label_1": 0, "label_2": 1, "label_3": 2},
     target_column="target",
+    granularity="15T",
 )
 
 model_multi_2_create_payload = dict(
@@ -31,6 +32,7 @@ model_multi_2_create_payload = dict(
     type=ModelType.multi_class,
     labels={"label_1": 0, "label_2": 1, "label_3": 2},
     target_column="target",
+    granularity="2H",
 )
 
 model_multi_3_create_payload = dict(
@@ -39,6 +41,7 @@ model_multi_3_create_payload = dict(
     type=ModelType.multi_class,
     labels={"label_1": 0, "label_2": 1, "label_3": 2},
     target_column="target",
+    granularity="1W",
 )
 
 model_regression_create_payload = dict(
@@ -46,6 +49,7 @@ model_regression_create_payload = dict(
     description="Regression Model description",
     type=ModelType.regression,
     target_column="target",
+    granularity="1D",
 )
 
 model_update_payload = dict(
