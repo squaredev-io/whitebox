@@ -9,8 +9,8 @@ from whitebox.schemas.modelMonitor import AlertSeverity, MonitorMetrics, Monitor
 user_create_payload = dict(username="admin")
 
 model_binary_create_payload = dict(
-    name="Model 1",
-    description="Model 1 description",
+    name="Model Binary",
+    description="Model description",
     type=ModelType.binary,
     labels={"label_1": 0, "label_2": 1},
     target_column="target",
@@ -18,8 +18,8 @@ model_binary_create_payload = dict(
 )
 
 model_multi_create_payload = dict(
-    name="Model 2",
-    description="Model 2 description",
+    name="Model 1 Multi",
+    description="Model 1 description",
     type=ModelType.multi_class,
     labels={"label_1": 0, "label_2": 1, "label_3": 2},
     target_column="target",
@@ -27,8 +27,8 @@ model_multi_create_payload = dict(
 )
 
 model_multi_2_create_payload = dict(
-    name="Model 3",
-    description="Model 3 description",
+    name="Model 2 Multi",
+    description="Model 2 description",
     type=ModelType.multi_class,
     labels={"label_1": 0, "label_2": 1, "label_3": 2},
     target_column="target",
@@ -36,8 +36,8 @@ model_multi_2_create_payload = dict(
 )
 
 model_multi_3_create_payload = dict(
-    name="Model 4",
-    description="Model 4 description",
+    name="Model 3",
+    description="Model 3 description",
     type=ModelType.multi_class,
     labels={"label_1": 0, "label_2": 1, "label_3": 2},
     target_column="target",
@@ -140,7 +140,7 @@ dict_multi_inferences = df_multi_inference.to_dict(orient="records")
 multi_actuals = [0, 2, 0, 1, 2, 1, 1, 2, 0, 1]
 inference_row_create_many_multi_payload = [
     {
-        "timestamp": str(datetime.now()),
+        "timestamp": str(datetime(2023, 3, 6, 12, 13, 25)),
         "processed": x,
         "nonprocessed": x,
         "actual": multi_actuals[i],
@@ -166,7 +166,7 @@ dict_binary_inferences = df_binary_inference.to_dict(orient="records")
 binary_actuals = [0, 1, 1, 0, 1, 0, 1, 1, 1, 0]
 inference_row_create_many_binary_payload = [
     {
-        "timestamp": str(datetime.now()),
+        "timestamp": str(datetime(2023, 3, 6, 12, 13, 25)),
         "processed": x,
         "nonprocessed": x,
         "actual": binary_actuals[i],
@@ -179,7 +179,7 @@ dict_reg_inferences = df_reg_inference.to_dict(orient="records")
 reg_actuals = [103, 20, 50, 64, 48, 198, 105, 138, 250, 57]
 inference_row_create_many_reg_payload = [
     {
-        "timestamp": str(datetime.now()),
+        "timestamp": str(datetime(2023, 3, 6, 12, 13, 25)),
         "processed": x,
         "nonprocessed": x,
         "actual": reg_actuals[i],

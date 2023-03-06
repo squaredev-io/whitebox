@@ -3,7 +3,7 @@ import pandas as pd
 import time
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, Session
-
+from fastapi.encoders import jsonable_encoder
 from whitebox import crud, entities
 from whitebox.analytics.drift.pipelines import (
     run_data_drift_pipeline,
@@ -84,7 +84,7 @@ async def run_calculate_drifting_metrics_pipeline(
     )
     if existing_report:
         crud.drifting_metrics.update(
-            db=db, db_obj=existing_report, obj_in=vars(new_drifting_metric)
+            db=db, db_obj=existing_report, obj_in=jsonable_encoder(new_drifting_metric)
         )
     else:
         crud.drifting_metrics.create(db, obj_in=new_drifting_metric)
@@ -147,7 +147,9 @@ async def run_calculate_performance_metrics_pipeline(
         )
         if existing_report:
             crud.binary_classification_metrics.update(
-                db=db, db_obj=existing_report, obj_in=vars(new_performance_metric)
+                db=db,
+                db_obj=existing_report,
+                obj_in=jsonable_encoder(new_performance_metric),
             )
         else:
             crud.binary_classification_metrics.create(db, obj_in=new_performance_metric)
@@ -170,7 +172,9 @@ async def run_calculate_performance_metrics_pipeline(
         )
         if existing_report:
             crud.multi_classification_metrics.update(
-                db=db, db_obj=existing_report, obj_in=vars(new_performance_metric)
+                db=db,
+                db_obj=existing_report,
+                obj_in=jsonable_encoder(new_performance_metric),
             )
         else:
             crud.multi_classification_metrics.create(db, obj_in=new_performance_metric)
@@ -191,7 +195,9 @@ async def run_calculate_performance_metrics_pipeline(
         )
         if existing_report:
             crud.regression_metrics.update(
-                db=db, db_obj=existing_report, obj_in=vars(new_performance_metric)
+                db=db,
+                db_obj=existing_report,
+                obj_in=jsonable_encoder(new_performance_metric),
             )
         else:
             crud.regression_metrics.create(db, obj_in=new_performance_metric)
@@ -222,7 +228,9 @@ async def run_calculate_feature_metrics_pipeline(
         )
         if existing_report:
             crud.model_integrity_metrics.update(
-                db=db, db_obj=existing_report, obj_in=vars(new_feature_metric)
+                db=db,
+                db_obj=existing_report,
+                obj_in=jsonable_encoder(new_feature_metric),
             )
         else:
             crud.model_integrity_metrics.create(db, obj_in=new_feature_metric)
@@ -246,10 +254,14 @@ async def run_calculate_metrics_pipeline():
 
             last_report = await get_latest_drift_metrics_report(db, model)
 
+            # We need to get the last report's timestamp as a base of grouping unless there's no report produced.
+            # In this case, the base timestamp is considered the "now" rounded to the day so the intervals start from midnight
+            # e.g. 12:00, 12:15, 12:30, 12:45 and so on if granularity is 15T.
             last_report_time = (
-                last_report.timestamp if last_report else datetime.utcnow()
+                last_report.timestamp
+                if last_report
+                else round_timestamp(datetime.utcnow(), "1D")
             )
-            last_report_time = round_timestamp(last_report_time, granularity_type)
 
             unused_inference_rows_in_db = await get_unused_model_inference_rows(
                 db, model_id=model.id

@@ -16,6 +16,12 @@ def test_cron_tasks_no_inference(client):
 
 
 @pytest.mark.order(get_order_number("cron_tasks_run_ok"))
-def test_cron_tasks(client):
+def test_cron_tasks_ok(client):
+    response = client.post("/v1/cron-tasks/run")
+    assert response.status_code == status.HTTP_200_OK
+
+
+@pytest.mark.order(get_order_number("cron_tasks_run_after_x_time"))
+def test_cron_tasks_run_after_x_time(client):
     response = client.post("/v1/cron-tasks/run")
     assert response.status_code == status.HTTP_200_OK
