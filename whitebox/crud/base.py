@@ -30,9 +30,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
     ) -> List[ModelType]:
         return db.query(self.model).offset(skip).limit(limit).all()
 
-    def get_first_by_filter(
-        self, db: Session, **kwargs: Union[Dict[str, str], str]
-    ) -> ModelType:
+    def get_first_by_filter(self, db: Session, **kwargs: Any) -> Optional[ModelType]:
         return db.query(self.model).filter_by(**kwargs).first()
 
     def create(self, db: Session, *, obj_in: CreateSchemaType) -> ModelType:

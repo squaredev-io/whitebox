@@ -73,7 +73,8 @@ wb.create_model(
         'additionalProp1': 0,
         'additionalProp2': 1
     },
-    target_column="target"
+    target_column="target",
+    granularity="1D"
 )
 ```
 

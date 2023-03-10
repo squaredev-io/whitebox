@@ -12,8 +12,9 @@ class Model(Base):
     name = Column(String)
     description = Column(String)
     type = Column("type", Enum(ModelType))
-    labels = Column(JSON, nullable=True)
     target_column = Column(String)
+    granularity = Column(String)
+    labels = Column(JSON, nullable=True)
     created_at = Column(DateTime)
     updated_at = Column(DateTime)
 

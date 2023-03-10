@@ -4,17 +4,18 @@ This is the documentation for Whitebox's SDK. For an interactive experience, you
 
 ## Models
 
-**_create_model_**_(name, type, target_column, labels=None, description="")_
+**_create_model_**_(name, type, target_column, granularity, labels=None, description="")_
 
 Creates a model in the database. This model works as placeholder for all the actual model's metadata.
 
-| Parameter       | Type             | Description                                                               |
-| --------------- | ---------------- | ------------------------------------------------------------------------- |
-| **name**        | `str`            | The name of the model.                                                    |
-| **type**        | `str`            | The model's type. Possible values: `binary`, `multi_class`, `regression`. |
-| **target_column**  | `str`            | The name of the target column (y).                             |
-| **labels**      | `Dict[str, int]` | The model's labels. Defaults to `None`.                                   |
-| **description** | `str`            | The model's description. Defaults to an empty string `""`.                |
+| Parameter         | Type             | Description                                                                                                                                                                                                                                                        |
+| ----------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **name**          | `str`            | The name of the model.                                                                                                                                                                                                                                             |
+| **type**          | `str`            | The model's type. Possible values: `binary`, `multi_class`, `regression`.                                                                                                                                                                                          |
+| **target_column** | `str`            | The name of the target column (y).                                                                                                                                                                                                                                 |
+| **granularity**   | `str`            | The granularity depending on which the inference rows will be grouped by to create the reports. Must be a `str` containing the amount (`int`) and the type (e.g. "1D"). Possible values for granularity type: `T (minutes)`, `H (hours)`, `D (days)`, `W (weeks)`. |
+| **labels**        | `Dict[str, int]` | The model's labels. Defaults to `None`.                                                                                                                                                                                                                            |
+| **description**   | `str`            | The model's description. Defaults to an empty string `""`.                                                                                                                                                                                                         |
 
 !!! info
 

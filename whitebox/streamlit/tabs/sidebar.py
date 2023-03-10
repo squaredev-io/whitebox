@@ -114,18 +114,38 @@ def create_new_model(wb: Whitebox, readme: Dict[str, Any]):
         placeholder="Your target column name",
         help=readme["tooltips"]["target_column"],
     )
+
+    granularity_amount_name = st.text_input(
+        "Enter your model granularity amount",
+        max_chars=5,
+        placeholder="Your granularity amount",
+        help=readme["tooltips"]["granularity_amount"],
+    )
+
+    granularity_type_option = create_model_granularity_select_box(
+        readme, "granularity_create"
+    )
     create_model_button = st.button("Create model")
 
     if create_model_button:
-        # Have a control for geting both model name and target column name
-        if (len(model_name) > 0) & (len(prediction_column_name) > 0):
-            wb.create_model(
-                name=model_name,
-                description=description_name,
-                type=model_type_option,
-                target_column=prediction_column_name,
-            )
-            st.write("The new model has been created!")
+        try:
+            granularity_amount = float(granularity_amount_name)
+            # Have a control for geting model name, target column name and correct number in granularity amount
+            if (
+                (len(model_name) > 0)
+                & (len(prediction_column_name) > 0)
+                & (granularity_amount.is_integer())
+            ):
+                wb.create_model(
+                    name=model_name,
+                    description=description_name,
+                    type=model_type_option,
+                    target_column=prediction_column_name,
+                    granularity=granularity_amount_name + granularity_type_option,
+                )
+                st.write("The new model has been created!")
+        except:
+            pass
 
 
 def create_model_type_select_box(readme: Dict[str, Any], key: str):
@@ -137,6 +157,28 @@ def create_model_type_select_box(readme: Dict[str, Any], key: str):
         key=key,
     )
     return model_type_option
+
+
+def create_model_granularity_select_box(readme: Dict[str, Any], key: str):
+    model_granularity_type_option_list = ["Minutes", "Hours", "Days", "Weeks"]
+    model_granularity_type_option_map = {
+        "Minutes": "T",
+        "Hours": "H",
+        "Days": "D",
+        "Weeks": "W",
+    }
+
+    model_granularity_type_option = st.selectbox(
+        "Please select model granularity type:",
+        model_granularity_type_option_list,
+        help=readme["tooltips"]["granularity_type"],
+        key=key,
+    )
+    model_granularity_type_option_mapped = (
+        model_granularity_type_option_map[model_granularity_type_option] or None
+    )
+
+    return model_granularity_type_option_mapped
 
 
 def update_model_attribute(

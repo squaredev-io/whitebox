@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Any, Dict, Union, Optional, overload
+from typing import Any, Dict, Union, Optional
 from pydantic import BaseModel
 from whitebox.schemas.base import ItemBase
 
@@ -13,9 +13,13 @@ class InferenceRowBase(BaseModel):
     actual: Optional[float]
 
 
-class InferenceRow(InferenceRowBase, ItemBase):
+class InferenceRowCreateDto(InferenceRowBase):
     pass
 
 
-class InferenceRowCreateDto(InferenceRowBase):
+class InferenceRowPreDb(InferenceRowBase):
+    is_used: bool
+
+
+class InferenceRow(InferenceRowPreDb, ItemBase):
     pass

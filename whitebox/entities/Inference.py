@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, ForeignKey, DateTime, JSON, Float
+from sqlalchemy import Boolean, Column, String, ForeignKey, DateTime, JSON, Float
 from whitebox.entities.Base import Base
 from whitebox.utils.id_gen import generate_uuid
 
@@ -11,6 +11,7 @@ class InferenceRow(Base):
     timestamp = Column(DateTime)
     nonprocessed = Column(JSON)
     processed = Column(JSON)
+    is_used = Column(Boolean)
     actual = Column(Float, nullable=True)
 
     created_at = Column(DateTime)
