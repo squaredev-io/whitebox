@@ -1,3 +1,4 @@
+from typing import List
 import streamlit as st
 import pandas as pd
 from utils.export import structure
@@ -9,6 +10,7 @@ from utils.load import load_config
 from utils.export import text_markdown
 
 import os, sys
+from whitebox.entities import ModelMonitor
 
 sys.path.insert(0, os.path.abspath("./"))
 
@@ -120,7 +122,25 @@ def add_new_monitor(wb, model_id, model_type) -> None:
                     )
 
 
-def basic_monitor_page(show_df: pd.DataFrame, merged_df: pd.DataFrame) -> None:
+def update_model_monitor_attribute(
+    wb: Whitebox, model_monitor_id: str, selected_attribute: str, value: str
+) -> bool:
+    updated_model_monitor = wb.update_model_monitor(
+        model_monitor_id, **{selected_attribute: value}
+    )
+    st.write(
+        f"The status of the selected monitors has been updated to {value.capitalize()}!"
+    )
+
+    return updated_model_monitor
+
+
+def basic_monitor_page(
+    wb: Whitebox,
+    monitor_list: List[ModelMonitor],
+    show_df: pd.DataFrame,
+    merged_df: pd.DataFrame = None,
+) -> None:
     """
     Create the basic monitor page part.
     Displays the dataframe of the monitors and adds filters
@@ -128,14 +148,24 @@ def basic_monitor_page(show_df: pd.DataFrame, merged_df: pd.DataFrame) -> None:
     """
 
     st.dataframe(show_df, width=1200, height=300)
-    multiselect = st.multiselect(
-        "Search and filter for monitors", merged_df["name"].values.tolist()
-    )
-    if multiselect:
-        filtered_df = show_df[show_df["Name"].isin(multiselect)]
+    if merged_df:
+        select_box = st.selectbox(
+            "Search and filter for monitors", merged_df["name"].values.tolist()
+        )
+    else:
+        merged_df = show_df
+        select_box = st.selectbox(
+            "Search and filter for monitors", show_df["Name"].values.tolist()
+        )
+
+    if select_box:
+        filtered_df = show_df[show_df["Name"].isin([select_box])]
         st.dataframe(filtered_df, width=1200, height=200)
 
+        monitor = next(filter(lambda x: x["name"] == select_box, monitor_list), None)
+
         status = st.checkbox("Change the status of the selected monitors")
+        delete = st.checkbox("Delete monitor")
         if status:
             status_slider = st.select_slider(
                 "Select the status of the selected monitor",
@@ -144,15 +174,15 @@ def basic_monitor_page(show_df: pd.DataFrame, merged_df: pd.DataFrame) -> None:
             )
 
             if status_slider == "Active":
-                # here we need the connection with db
-                st.write(
-                    "The status of the selected monitors has been updated to 'Active'!"
-                )
+                update_model_monitor_attribute(wb, monitor["id"], "status", "active")
+
             elif status_slider == "Inactive":
-                # here we need the connection with db
-                st.write(
-                    "The status of the selected monitors has been updated to 'Inactive'!"
-                )
+                update_model_monitor_attribute(wb, monitor["id"], "status", "inactive")
+        if delete:
+            delete_button = st.button("Delete monitor")
+            if delete_button:
+                deleted_model_monitor = wb.delete_model_monitor(monitor["id"])
+                st.write(f"The selected monitors has been deleted!")
 
 
 def create_monitors_tab(wb: Whitebox, model_id: str, model_type: str):
@@ -162,7 +192,7 @@ def create_monitors_tab(wb: Whitebox, model_id: str, model_type: str):
     with st.spinner("Loading monitors..."):
         structure()
         st.title("Monitors")
-        monitors = wb.get_monitors(model_id)
+        monitors = wb.get_model_monitors(model_id)
         alerts = wb.get_alerts(model_id)
 
         monitors_df = pd.DataFrame(monitors)
@@ -173,19 +203,25 @@ def create_monitors_tab(wb: Whitebox, model_id: str, model_type: str):
         # monitors tab
         recent_alerts_df = get_recent_alert(alerts_df)
         if len(monitors_df) > 0:
-            merged_df = combine_monitor_with_alert_for_monitors(
-                monitors_df, recent_alerts_df
-            )
-
-            show_df = merged_df[["status", "name", "updated_at", "description"]]
-            show_df.columns = ["Status", "Name", "Last update", "Anomaly activity"]
+            if len(recent_alerts_df) > 0:
+                merged_df = combine_monitor_with_alert_for_monitors(
+                    monitors_df, recent_alerts_df
+                )
+                show_df = merged_df[["status", "name", "updated_at", "description"]]
+                show_df.columns = ["Status", "Name", "Last update", "Anomaly activity"]
+            else:
+                show_df = monitors_df[["status", "name", "updated_at"]]
+                show_df.columns = ["Status", "Name", "Last update"]
 
     add_new_monitor_check = st.checkbox(
         "Add new monitor",
-        key="test",
+        key="add",
     )
     if add_new_monitor_check:
         add_new_monitor(wb, model_id, model_type)
     else:
         if len(monitors_df) > 0:
-            basic_monitor_page(show_df, merged_df)
+            if len(recent_alerts_df) > 0:
+                basic_monitor_page(wb, monitors, show_df, merged_df)
+            else:
+                basic_monitor_page(wb, monitors, show_df)

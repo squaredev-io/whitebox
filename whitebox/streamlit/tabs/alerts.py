@@ -107,7 +107,7 @@ def create_alerts_tab(wb: Whitebox, model_id: str) -> None:
 
     with st.spinner("Loading alerts..."):
         structure()
-        monitors = wb.get_monitors(model_id)
+        monitors = wb.get_model_monitors(model_id)
         alerts = wb.get_alerts(model_id)
         total_alerts = len(alerts)
         st.title("Alerts (" + str(total_alerts) + ")")

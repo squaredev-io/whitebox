@@ -13,8 +13,6 @@ from tabs.alerts import *
 from cards import *
 from utils.transformation import get_model_from_name
 
-from whitebox import Whitebox
-
 st.set_option("deprecation.showPyplotGlobalUse", False)
 
 

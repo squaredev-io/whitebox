@@ -6,6 +6,7 @@ from whitebox.tests.v1.mock_data import (
     model_monitor_concept_drift_create_payload,
     model_monitor_precision_create_payload,
     model_monitor_r_square_create_payload,
+    model_monitor_update_payload,
 )
 from whitebox import schemas
 from whitebox.tests.v1.conftest import get_order_number, state
@@ -68,8 +69,23 @@ def test_model_monitor_create(client, api_key):
         headers={"api-key": api_key},
     )
 
-    assert accuracy_monitor.status_code == status.HTTP_201_CREATED
-    validated = schemas.ModelMonitor(**accuracy_monitor.json())
+    wrong_model_monitor = client.post(
+        "/v1/model-monitors",
+        json={
+            **model_monitor_r_square_create_payload,
+            "model_id": "wrong_model_id",
+        },
+        headers={"api-key": api_key},
+    )
+
+    state.concept_drift_monitor = (
+        concept_drift_monitor_json
+    ) = concept_drift_monitor.json()
+
+    assert concept_drift_monitor.status_code == status.HTTP_201_CREATED
+    assert concept_drift_monitor_json["feature"] == "target"
+    assert wrong_model_monitor.status_code == status.HTTP_404_NOT_FOUND
+    validated = schemas.ModelMonitor(**concept_drift_monitor_json)
 
 
 @pytest.mark.order(get_order_number("model_monitors_get_model_all"))
@@ -96,3 +112,41 @@ def test_model_monitors_get_model_all(client, api_key):
 
     validated = [schemas.ModelMonitor(**m) for m in response_multi.json()]
     validated = [schemas.ModelMonitor(**m) for m in response_all.json()]
+
+
+@pytest.mark.order(get_order_number("model_monitor_update"))
+def test_model_monitor_update(client, api_key):
+    response = client.put(
+        f"/v1/model-monitors/{state.concept_drift_monitor['id']}",
+        json=model_monitor_update_payload,
+        headers={"api-key": api_key},
+    )
+    response_wrong_model = client.put(
+        f"/v1/model-monitors/wrong_model_id",
+        json=model_monitor_update_payload,
+        headers={"api-key": api_key},
+    )
+
+    response_json = response.json()
+
+    assert response.status_code == status.HTTP_200_OK
+    assert response_json["lower_threshold"] == None
+    assert response_wrong_model.status_code == status.HTTP_404_NOT_FOUND
+
+    validated = schemas.ModelMonitor(**response_json)
+
+
+@pytest.mark.order(get_order_number("model_monitor_delete"))
+def test_model_monitor_delete(client, api_key):
+    response = client.delete(
+        f"/v1/model-monitors/{state.concept_drift_monitor['id']}",
+        headers={"api-key": api_key},
+    )
+
+    wrong_monitor_response = client.delete(
+        f"/v1/model-monitors/wrong_model_monitor_id",
+        headers={"api-key": api_key},
+    )
+
+    assert response.status_code == status.HTTP_200_OK
+    assert wrong_monitor_response.status_code == status.HTTP_404_NOT_FOUND

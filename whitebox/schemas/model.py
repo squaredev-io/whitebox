@@ -29,4 +29,3 @@ class ModelCreateDto(ModelBase):
 class ModelUpdateDto(BaseModel):
     name: Optional[str]
     description: Optional[str]
-    type: Optional[ModelType]
