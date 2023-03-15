@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     VERSION: str = ""
     MODEL_PATH: str = ""
     SECRET_KEY: str = ""
+    GRANULARITY: str = ""
 
     class Config:
         env_file = f".env.{os.getenv('ENV')}" or ".env.dev"

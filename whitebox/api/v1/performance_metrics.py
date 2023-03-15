@@ -38,15 +38,15 @@ async def get_all_models_performance_metrics(
 
     model = crud.models.get(db, model_id)
     if model:
-        if vars(model)["type"] == ModelType.binary:
+        if model.type == ModelType.binary:
             return crud.binary_classification_metrics.get_performance_metrics_by_model(
                 db=db, model_id=model_id
             )
-        elif vars(model)["type"] == ModelType.multi_class:
+        elif model.type == ModelType.multi_class:
             return crud.multi_classification_metrics.get_performance_metrics_by_model(
                 db=db, model_id=model_id
             )
-        elif vars(model)["type"] == ModelType.regression:
+        elif model.type == ModelType.regression:
             return crud.regression_metrics.get_performance_metrics_by_model(
                 db=db, model_id=model_id
             )

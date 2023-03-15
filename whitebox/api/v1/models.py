@@ -28,6 +28,24 @@ async def create_model(
 ) -> Model:
     """Inserts a model into the database"""
 
+    granularity = body.granularity
+
+    try:
+        granularity_amount = float(granularity[:-1])
+    except ValueError:
+        return errors.bad_request("Granularity amount that was given is not a number!")
+
+    if not granularity_amount.is_integer():
+        return errors.bad_request(
+            "Granularity amount should be an integer and not a float (e.g. 1D)!"
+        )
+
+    granularity_type = granularity[-1]
+    if granularity_type not in ["T", "H", "D", "W"]:
+        return errors.bad_request(
+            "Wrong granularity type. Accepted values: T (minutes), H (hours), D (days), W (weeks)"
+        )
+
     new_model = crud.models.create(db=db, obj_in=body)
     return new_model
 

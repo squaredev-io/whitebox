@@ -42,6 +42,7 @@ class Whitebox:
         name: str,
         type: ModelType,
         target_column: str,
+        granularity: str,
         labels: Dict[str, int] = None,
         description: str = "",
     ) -> dict:
@@ -50,10 +51,11 @@ class Whitebox:
         """
         new_model = ModelCreateDto(
             name=name,
-            description=description,
             type=type,
-            labels=labels,
             target_column=target_column,
+            granularity=granularity,
+            labels=labels,
+            description=description,
         )
 
         result = requests.post(

@@ -47,5 +47,11 @@ Your desired model type.
 target_column = """
 Your desired target column as depicted in your data.
 """
+granularity_amount = """
+Your data's granularity amount (must be an integer).
+"""
+granularity_type = """
+Your data's granularity type.
+"""
 [links]
 repo = "https://github.com/squaredev-io/whitebox"

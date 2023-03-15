@@ -24,6 +24,9 @@ v1_test_order_map = [
     "drifting_metrics_get_model_all",
     "model_integrity_metrics_get_model_all",
     "alerts_get",
+    "inference_rows_create_many_after_x_time",
+    "cron_tasks_run_after_x_time",
+    "drifting_metrics_get_binary_model_after_x_time",
     "model_monitor_delete",
     "models_delete",
     # SDK tests

@@ -146,3 +146,46 @@ def test_inference_row_xai(client, api_key):
 
     assert response.status_code == status.HTTP_200_OK
     assert response_wrong_inference.status_code == status.HTTP_404_NOT_FOUND
+
+
+@pytest.mark.order(get_order_number("inference_rows_create_many_after_x_time"))
+def test_inference_row_create_many_after_x_time(client, api_key):
+    response_binary = client.post(
+        "/v1/inference-rows/batch",
+        json=list(
+            map(
+                lambda x: {**x, "model_id": state.model_binary["id"]},
+                inference_row_create_many_binary_payload,
+            )
+        ),
+        headers={"api-key": api_key},
+    )
+
+    response_multi = client.post(
+        "/v1/inference-rows/batch",
+        json=list(
+            map(
+                lambda x: {**x, "model_id": state.model_multi["id"]},
+                inference_row_create_many_multi_payload,
+            )
+        ),
+        headers={"api-key": api_key},
+    )
+
+    response_reg = client.post(
+        "/v1/inference-rows/batch",
+        json=list(
+            map(
+                lambda x: {**x, "model_id": state.model_regression["id"]},
+                inference_row_create_many_reg_payload,
+            )
+        ),
+        headers={"api-key": api_key},
+    )
+
+    assert response_binary.status_code == status.HTTP_201_CREATED
+    assert response_multi.status_code == status.HTTP_201_CREATED
+    assert response_reg.status_code == status.HTTP_201_CREATED
+    validated = [schemas.InferenceRow(**m) for m in response_binary.json()]
+    validated = [schemas.InferenceRow(**m) for m in response_multi.json()]
+    validated = [schemas.InferenceRow(**m) for m in response_reg.json()]
