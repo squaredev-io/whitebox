@@ -244,6 +244,40 @@ model_monitor_r_square_create_payload = dict(
     email="example@whitebox.io",
 )
 
+model_monitor_no_threshold_create_payload = dict(
+    name="no threshold monitor",
+    status=MonitorStatus.active,
+    metric=MonitorMetrics.r_square,
+    severity=AlertSeverity.low,
+    email="example@whitebox.io",
+)
+
+model_monitor_no_feature_create_payload = dict(
+    name="no feature monitor",
+    status=MonitorStatus.active,
+    metric=MonitorMetrics.data_drift,
+    severity=AlertSeverity.low,
+    email="example@whitebox.io",
+)
+
+model_monitor_feature_same_as_target_create_payload = dict(
+    name="feature same as target monitor",
+    status=MonitorStatus.active,
+    metric=MonitorMetrics.data_drift,
+    feature="target",
+    severity=AlertSeverity.low,
+    email="example@whitebox.io",
+)
+
+model_monitor_feature_not_in_columns_create_payload = dict(
+    name="feature not in columns monitor",
+    status=MonitorStatus.active,
+    metric=MonitorMetrics.data_drift,
+    feature="not_a_column",
+    severity=AlertSeverity.low,
+    email="example@whitebox.io",
+)
+
 
 model_monitor_update_payload = dict(
     name="concept drift monitor updated", lower_threshold=0.54

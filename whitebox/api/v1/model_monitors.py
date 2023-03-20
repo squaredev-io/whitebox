@@ -38,14 +38,13 @@ async def create_model_monitor(
         return errors.not_found("Model not found!")
 
     if body.metric in [MonitorMetrics.concept_drift, MonitorMetrics.data_drift]:
-        if not body.feature:
-            return errors.bad_request(f"Please set a feature for the monitor!")
-
         if body.metric == MonitorMetrics.concept_drift:
             body.feature = model.target_column
         else:
+            if not body.feature:
+                return errors.bad_request(f"Please set a feature for the monitor!")
             # TODO This should get the feature columns from model.features when this field is
-            # automatically updated fro the training dataset.
+            # automatically updated from the training dataset.
             dataset_row = crud.dataset_rows.get_first_by_filter(db, model_id=model.id)
             if not dataset_row:
                 return errors.not_found(
@@ -116,7 +115,7 @@ async def update_model_monitor(
     db: Session = Depends(get_db),
     authenticated_user: User = Depends(authenticate_user),
 ) -> ModelMonitor:
-    """Updates record of the model monitor with the specified id"""
+    """Updates record of the model monitor with the specified id."""
 
     # Remove all unset properties (with None values) from the update object
     filtered_body = {k: v for k, v in dict(body).items() if v is not None}
@@ -148,7 +147,7 @@ async def delete_model_monitor(
     db: Session = Depends(get_db),
     authenticated_user: User = Depends(authenticate_user),
 ) -> StatusCode:
-    """Deletes the model monitor with the specified id from the database"""
+    """Deletes the model monitor with the specified id from the database."""
 
     model_monitor = crud.model_monitors.get(db=db, _id=model_monitor_id)
     if not model_monitor:

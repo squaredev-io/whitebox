@@ -6,6 +6,10 @@ from whitebox.tests.v1.mock_data import (
     model_monitor_concept_drift_create_payload,
     model_monitor_precision_create_payload,
     model_monitor_r_square_create_payload,
+    model_monitor_no_threshold_create_payload,
+    model_monitor_no_feature_create_payload,
+    model_monitor_feature_same_as_target_create_payload,
+    model_monitor_feature_not_in_columns_create_payload,
     model_monitor_update_payload,
 )
 from whitebox import schemas
@@ -78,6 +82,51 @@ def test_model_monitor_create(client, api_key):
         headers={"api-key": api_key},
     )
 
+    no_training_data = client.post(
+        "/v1/model-monitors",
+        json={
+            **model_monitor_data_drift_create_payload,
+            "model_id": state.model_multi_3["id"],
+        },
+        headers={"api-key": api_key},
+    )
+
+    no_threshold = client.post(
+        "/v1/model-monitors",
+        json={
+            **model_monitor_no_threshold_create_payload,
+            "model_id": state.model_multi["id"],
+        },
+        headers={"api-key": api_key},
+    )
+
+    no_feature = client.post(
+        "/v1/model-monitors",
+        json={
+            **model_monitor_no_feature_create_payload,
+            "model_id": state.model_multi["id"],
+        },
+        headers={"api-key": api_key},
+    )
+
+    feature_same_as_target = client.post(
+        "/v1/model-monitors",
+        json={
+            **model_monitor_feature_same_as_target_create_payload,
+            "model_id": state.model_multi["id"],
+        },
+        headers={"api-key": api_key},
+    )
+
+    feature_not_in_columns = client.post(
+        "/v1/model-monitors",
+        json={
+            **model_monitor_feature_not_in_columns_create_payload,
+            "model_id": state.model_multi["id"],
+        },
+        headers={"api-key": api_key},
+    )
+
     state.concept_drift_monitor = (
         concept_drift_monitor_json
     ) = concept_drift_monitor.json()
@@ -85,6 +134,11 @@ def test_model_monitor_create(client, api_key):
     assert concept_drift_monitor.status_code == status.HTTP_201_CREATED
     assert concept_drift_monitor_json["feature"] == "target"
     assert wrong_model_monitor.status_code == status.HTTP_404_NOT_FOUND
+    assert no_threshold.status_code == status.HTTP_400_BAD_REQUEST
+    assert no_feature.status_code == status.HTTP_400_BAD_REQUEST
+    assert feature_same_as_target.status_code == status.HTTP_400_BAD_REQUEST
+    assert feature_not_in_columns.status_code == status.HTTP_400_BAD_REQUEST
+    assert no_training_data.status_code == status.HTTP_404_NOT_FOUND
     validated = schemas.ModelMonitor(**concept_drift_monitor_json)
 
 
