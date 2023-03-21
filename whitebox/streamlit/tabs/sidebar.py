@@ -184,7 +184,7 @@ def create_model_granularity_select_box(readme: Dict[str, Any], key: str):
 def update_model_attribute(
     wb: Whitebox, model_id: str, selected_attribute: str, value: str
 ):
-    updated_model = wb.update_model(model_id, {selected_attribute: value})
+    updated_model = wb.update_model(model_id, **{selected_attribute: value})
     st.write(f"Updated the selected model '{selected_attribute}'!")
 
     return updated_model
@@ -203,12 +203,7 @@ def modify_selected_model(
 
         model_option = st.selectbox(
             "Please select one of the below options:",
-            [
-                "delete model",
-                "rename model",
-                "change model description",
-                "change model type",
-            ],
+            ["delete model", "rename model", "change model description"],
         )
         if model_option == "delete model":
             delete_button = st.button("Delete model")
@@ -231,9 +226,3 @@ def modify_selected_model(
                 update_model_attribute(
                     wb, model_id, "description", new_description_value
                 )
-
-        elif model_option == "change model type":
-            new_type_value = create_model_type_select_box(readme, "type_change")
-            type_button = st.button("Change model type")
-            if type_button:
-                update_model_attribute(wb, model_id, "type", new_type_value)

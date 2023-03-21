@@ -47,3 +47,11 @@ class ModelMonitor(ModelMonitorBase, ItemBase):
 
 class ModelMonitorCreateDto(ModelMonitorBase):
     pass
+
+
+class ModelMonitorUpdateDto(BaseModel):
+    name: Optional[str]
+    status: Optional[MonitorStatus]
+    severity: Optional[AlertSeverity]
+    email: Optional[str]
+    lower_threshold: Optional[float]

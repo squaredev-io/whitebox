@@ -106,19 +106,22 @@ async def update_model(
 ) -> Model:
     """Updates record of the model with the specified id"""
 
+    # Remove all unset properties (with None values) from the update object
+    filtered_body = {k: v for k, v in dict(body).items() if v is not None}
+
     model = crud.models.get(db=db, _id=model_id)
 
     if not model:
         return errors.not_found("Model not found")
 
-    return crud.models.update(db=db, db_obj=model, obj_in=body)
+    return crud.models.update(db=db, db_obj=model, obj_in=filtered_body)
 
 
 @models_router.delete(
     "/models/{model_id}",
     tags=["Models"],
     response_model=StatusCode,
-    summary="Delete user",
+    summary="Delete model",
     status_code=status.HTTP_200_OK,
     responses=add_error_responses([401, 404]),
 )

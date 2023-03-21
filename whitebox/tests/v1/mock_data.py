@@ -53,8 +53,8 @@ model_regression_create_payload = dict(
 )
 
 model_update_payload = dict(
-    name="Model 1 - categorical",
-    description="Model 1 description",
+    name="Model 2 - categorical",
+    description="Model 2 description updated",
 )
 
 # dataset rows data for both binary and multiclass models
@@ -191,7 +191,7 @@ timestamps = pd.Series(["2022-12-22T12:13:27.879738"] * 10)
 mixed_actuals = pd.Series([0, 1, None, 1, 0, None, None, 1, 0, None])
 
 model_monitor_accuracy_create_payload = dict(
-    name="accuracy monitor ",
+    name="accuracy monitor",
     status=MonitorStatus.active,
     metric=MonitorMetrics.accuracy,
     lower_threshold=0.85,
@@ -242,6 +242,45 @@ model_monitor_r_square_create_payload = dict(
     lower_threshold=0.85,
     severity=AlertSeverity.low,
     email="example@whitebox.io",
+)
+
+model_monitor_no_threshold_create_payload = dict(
+    name="no threshold monitor",
+    status=MonitorStatus.active,
+    metric=MonitorMetrics.r_square,
+    severity=AlertSeverity.low,
+    email="example@whitebox.io",
+)
+
+model_monitor_no_feature_create_payload = dict(
+    name="no feature monitor",
+    status=MonitorStatus.active,
+    metric=MonitorMetrics.data_drift,
+    severity=AlertSeverity.low,
+    email="example@whitebox.io",
+)
+
+model_monitor_feature_same_as_target_create_payload = dict(
+    name="feature same as target monitor",
+    status=MonitorStatus.active,
+    metric=MonitorMetrics.data_drift,
+    feature="target",
+    severity=AlertSeverity.low,
+    email="example@whitebox.io",
+)
+
+model_monitor_feature_not_in_columns_create_payload = dict(
+    name="feature not in columns monitor",
+    status=MonitorStatus.active,
+    metric=MonitorMetrics.data_drift,
+    feature="not_a_column",
+    severity=AlertSeverity.low,
+    email="example@whitebox.io",
+)
+
+
+model_monitor_update_payload = dict(
+    name="concept drift monitor updated", lower_threshold=0.54
 )
 
 alert_payload = {

@@ -59,6 +59,7 @@ class TestsState:
     model_regression: dict = {}
     inference_row_multi: dict = {}
     inference_row_binary: dict = {}
+    concept_drift_monitor: dict = {}
 
 
 state = TestsState()

@@ -8,6 +8,8 @@ from whitebox.tests.v1.mock_data import (
     timestamps,
     mixed_actuals,
     inference_row_xai_payload,
+    model_monitor_concept_drift_create_payload,
+    model_monitor_update_payload,
     alert_payload,
     drifting_metrics_report_payload,
     descriptive_statistics_report_payload,
@@ -183,7 +185,7 @@ def test_sdk_create_model_monitor(client):
     with requests_mock.Mocker() as m:
         m.post(
             url=f"{state_sdk.wb.host}/v1/model-monitors",
-            json=model_multi_create_payload,
+            json=model_monitor_concept_drift_create_payload,
             headers={"api-key": state_sdk.wb.api_key},
         )
 
@@ -195,10 +197,73 @@ def test_sdk_create_model_monitor(client):
             feature="feature1",
             lower_threshold=0.7,
             severity=AlertSeverity.high,
-            email="jaclie.chan@chinamail.io",
+            email="jackie.chan@chinamail.io",
         )
 
         assert model_monitor is not None
+
+
+@pytest.mark.order(get_order_number("sdk_update_model_monitor"))
+def test_sdk_update_model_monitor(client):
+    mock_model_monitor_id = "mock_model_monitor_id"
+
+    with requests_mock.Mocker() as m:
+        m.put(
+            url=f"{state_sdk.wb.host}/v1/model-monitors/{mock_model_monitor_id}",
+            json=model_monitor_update_payload,
+            headers={"api-key": state_sdk.wb.api_key},
+        )
+
+        happy_result = state_sdk.wb.update_model_monitor(
+            model_monitor_id=mock_model_monitor_id,
+            name="concept drift monitor updated",
+            lower_threshold=0.54,
+        )
+
+        assert happy_result == True
+
+        m.put(
+            url=f"{state_sdk.wb.host}/v1/model-monitors/{mock_model_monitor_id}",
+            json=model_monitor_update_payload,
+            headers={"api-key": state_sdk.wb.api_key},
+            status_code=status.HTTP_400_BAD_REQUEST,
+        )
+
+        sad_result = state_sdk.wb.update_model_monitor(
+            model_monitor_id=mock_model_monitor_id,
+            name="concept drift monitor updated",
+            lower_threshold=0.54,
+        )
+
+        assert sad_result == False
+
+
+@pytest.mark.order(get_order_number("sdk_delete_model_monitor"))
+def test_sdk_delete_model_monitor(client):
+    mock_model_monitor_id = "mock_model_monitor_id"
+
+    with requests_mock.Mocker() as m:
+        m.delete(
+            url=f"{state_sdk.wb.host}/v1/model-monitors/{mock_model_monitor_id}",
+            headers={"api-key": state_sdk.wb.api_key},
+            status_code=status.HTTP_200_OK,
+        )
+
+        happy_result = state_sdk.wb.delete_model_monitor(
+            model_monitor_id=mock_model_monitor_id
+        )
+        assert happy_result == True
+
+        m.delete(
+            url=f"{state_sdk.wb.host}/v1/model-monitors/{mock_model_monitor_id}",
+            headers={"api-key": state_sdk.wb.api_key},
+            status_code=status.HTTP_400_BAD_REQUEST,
+        )
+
+        sad_result = state_sdk.wb.delete_model_monitor(
+            model_monitor_id=mock_model_monitor_id
+        )
+        assert sad_result == False
 
 
 @pytest.mark.order(get_order_number("sdk_get_alerts"))

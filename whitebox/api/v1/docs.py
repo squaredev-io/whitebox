@@ -39,10 +39,6 @@ tags_metadata = [
         "description": "This set of endpoints handles a model's alerts.",
     },
     {
-        "name": "Users",
-        "description": "This is a helper endpoint to create and delete an admin user in tests.",
-    },
-    {
         "name": "Cron Tasks",
         "description": "This is a helper endpoint to trigger cron tasks for tests.",
     },

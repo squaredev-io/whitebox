@@ -100,6 +100,27 @@ Creates a monitor for a specific metric.
 
     Some metrics like the data drift don't use a threshold so the feature that will be monitored should be inserted. In any case, both `feature` and `lower_threshold` can't be `None` at the same time.
 
+**_update_model_monitor_**_(model_monitor_id, name=None, status=None, severity=None, email=None, lower_threshold=None)_
+
+Updates a model monitor with a specific ID.
+
+| Parameter            | Type            | Description                                                                                                                    |
+| -------------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| **model_monitor_id** | `str`           | The ID of the model monitor to update.                                                                                         |
+| **name**             | `str`           | The name of the monitor. Defaults to `None`.                                                                                   |
+| **status**           | `MonitorStatus` | The status of the monitor. Possible values for `MonitorStatus`: `active`, `inactive`. Defaults to `None`.                      |
+| **severity**         | `AlertSeverity` | The severity of the alert the monitor produces. Possible values for `AlertSeverity`: `low`, `mid`, `high`. Defaults to `None`. |
+| **email**            | `str`           | The email to which the alert will be sent. Defaults to `None`.                                                                 |
+| **lower_threshold**  | `float`         | The threshold below which an alert will be produced. Defaults to `None`.                                                       |
+
+**_delete_model_monitor_**_(model_monitor_id)_
+
+Deletes a model monitor with a specific ID.
+
+| Parameter            | Type  | Description                            |
+| -------------------- | ----- | -------------------------------------- |
+| **model_monitor_id** | `str` | The ID of the model monitor to update. |
+
 ## Metrics
 
 **_get_drifting_metrics_**_(model_id)_
