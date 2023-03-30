@@ -17,7 +17,7 @@ class ModelMonitor(Base):
     lower_threshold = Column(Numeric, nullable=True)
     severity = Column("severity", Enum(AlertSeverity))
     email = Column(String)
-    created_at = Column(DateTime)
-    updated_at = Column(DateTime)
+    created_at = Column(DateTime(timezone=True))
+    updated_at = Column(DateTime(timezone=True))
 
     alerts = relationship("Alert")

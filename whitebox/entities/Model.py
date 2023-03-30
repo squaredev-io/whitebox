@@ -15,8 +15,8 @@ class Model(Base):
     target_column = Column(String)
     granularity = Column(String)
     labels = Column(JSON, nullable=True)
-    created_at = Column(DateTime)
-    updated_at = Column(DateTime)
+    created_at = Column(DateTime(timezone=True))
+    updated_at = Column(DateTime(timezone=True))
 
     dataset_rows = relationship("DatasetRow")
     inference_rows = relationship("InferenceRow")

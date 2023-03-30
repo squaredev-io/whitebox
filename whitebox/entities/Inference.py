@@ -8,11 +8,11 @@ class InferenceRow(Base):
 
     id = Column(String, primary_key=True, unique=True, default=generate_uuid)
     model_id = Column(String, ForeignKey("models.id", ondelete="CASCADE"))
-    timestamp = Column(DateTime)
+    timestamp = Column(DateTime(timezone=True))
     nonprocessed = Column(JSON)
     processed = Column(JSON)
     is_used = Column(Boolean)
     actual = Column(Float, nullable=True)
 
-    created_at = Column(DateTime)
-    updated_at = Column(DateTime)
+    created_at = Column(DateTime(timezone=True))
+    updated_at = Column(DateTime(timezone=True))

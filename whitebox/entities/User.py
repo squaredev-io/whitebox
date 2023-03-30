@@ -10,5 +10,5 @@ class User(Base):
     id = Column(String, unique=True, primary_key=True, default=generate_uuid)
     username = Column(String)
     api_key = Column(String)
-    created_at = Column(DateTime)
-    updated_at = Column(DateTime)
+    created_at = Column(DateTime(timezone=True))
+    updated_at = Column(DateTime(timezone=True))
