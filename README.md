@@ -1,10 +1,9 @@
+Update June 19, 2023: Whitebox is now prioritizing monitoring LLMs. This repo is no longer maintained, but our commitment to building fair and responsible AI applications remains. If you're passionate about ML or React and want to join us as a founding engineer, reach out to Kostas on Discord.
+
+---
+
 # Whitebox - E2E machine learning monitoring
 
-<p align="center">
-  <a href="https://whitebox-ai.github.io/whitebox">
-    <img src="https://whitebox-ai.github.io/whitebox/img/logo.svg" alt="Whitebox" width="50%">
-  </a>
-</p>
 <p align="center">
     <em>Whitebox is an open source E2E ML monitoring platform with edge capabilities that plays nicely with kubernetes
 </em>
