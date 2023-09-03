@@ -8,7 +8,7 @@ class BinaryClassificationMetrics(Base):
 
     id = Column(String, primary_key=True, unique=True, default=generate_uuid)
     model_id = Column(String, ForeignKey("models.id", ondelete="CASCADE"))
-    timestamp = Column(DateTime)
+    timestamp = Column(DateTime(timezone=True))
     accuracy = Column(Float)
     precision = Column(Float)
     recall = Column(Float)
@@ -17,8 +17,8 @@ class BinaryClassificationMetrics(Base):
     false_positive = Column(Integer)
     false_negative = Column(Integer)
     true_positive = Column(Integer)
-    created_at = Column(DateTime)
-    updated_at = Column(DateTime)
+    created_at = Column(DateTime(timezone=True))
+    updated_at = Column(DateTime(timezone=True))
 
 
 class MultiClassificationMetrics(Base):
@@ -26,14 +26,14 @@ class MultiClassificationMetrics(Base):
 
     id = Column(String, primary_key=True, unique=True, default=generate_uuid)
     model_id = Column(String, ForeignKey("models.id", ondelete="CASCADE"))
-    timestamp = Column(DateTime)
+    timestamp = Column(DateTime(timezone=True))
     accuracy = Column(Float)
     precision = Column(JSON)
     recall = Column(JSON)
     f1 = Column(JSON)
     confusion_matrix = Column(JSON)
-    created_at = Column(DateTime)
-    updated_at = Column(DateTime)
+    created_at = Column(DateTime(timezone=True))
+    updated_at = Column(DateTime(timezone=True))
 
 
 class RegressionMetrics(Base):
@@ -41,9 +41,9 @@ class RegressionMetrics(Base):
 
     id = Column(String, primary_key=True, unique=True, default=generate_uuid)
     model_id = Column(String, ForeignKey("models.id", ondelete="CASCADE"))
-    timestamp = Column(DateTime)
+    timestamp = Column(DateTime(timezone=True))
     r_square = Column(Float)
     mean_squared_error = Column(Float)
     mean_absolute_error = Column(Float)
-    created_at = Column(DateTime)
-    updated_at = Column(DateTime)
+    created_at = Column(DateTime(timezone=True))
+    updated_at = Column(DateTime(timezone=True))

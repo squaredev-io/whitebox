@@ -11,7 +11,7 @@ class Alert(Base):
     model_monitor_id = Column(
         String, ForeignKey("model_monitors.id", ondelete="CASCADE")
     )
-    timestamp = Column(DateTime)
+    timestamp = Column(DateTime(timezone=True))
     description = Column(String)
-    created_at = Column(DateTime)
-    updated_at = Column(DateTime)
+    created_at = Column(DateTime(timezone=True))
+    updated_at = Column(DateTime(timezone=True))

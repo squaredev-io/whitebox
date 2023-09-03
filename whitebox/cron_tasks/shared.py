@@ -2,6 +2,7 @@ from typing import Callable, Dict, List, Tuple, Union
 import itertools
 import pandas as pd
 import datetime
+import pytz
 from sqlalchemy.orm import Session
 from whitebox import crud
 from whitebox.schemas.inferenceRow import InferenceRow
@@ -43,7 +44,10 @@ async def group_inference_rows_by_timestamp(
     for x in dict_inference_rows:
         new_obj = {**x}
         new_obj["timestamp"] = change_timestamp(
-            x["timestamp"], last_time, granularity_amount, granularity_type
+            x["timestamp"],
+            last_time,
+            granularity_amount,
+            granularity_type,
         )
         updated_inferences_dict.append(new_obj)
 
@@ -159,7 +163,10 @@ def change_timestamp(
     (E.g. a timestamp 2023-03-03 12:33:25.34432 when granularity is set to 2D and the previous group's timestamp is \
         2023-03-03 00:00:00 will be converted into 2023-03-05 00:00:00)"""
 
-    timestamp_in_seconds = round_timestamp(timestamp, granularity_type).timestamp()
+    timestamp_utc_timezone = timestamp.replace(tzinfo=pytz.UTC)
+    timestamp_in_seconds = round_timestamp(
+        timestamp_utc_timezone, granularity_type
+    ).timestamp()
 
     granularity_in_seconds = convert_granularity_to_secs(
         granularity_amount, granularity_type
@@ -175,7 +182,9 @@ def change_timestamp(
         time_difference + 1
     ) * granularity_in_seconds + start_time_in_seconds
 
-    new_timestamp = datetime.datetime.fromtimestamp(new_timestamp_in_seconds)
+    new_timestamp = datetime.datetime.fromtimestamp(
+        new_timestamp_in_seconds
+    ).astimezone(datetime.timezone.utc)
 
     return new_timestamp
 

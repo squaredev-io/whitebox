@@ -26,8 +26,8 @@ def test_drifting_metric_get_model_all(client, api_key):
     assert len(response_multi_json) == 1
     assert len(response_binary_json) == 1
 
-    assert response_multi_json[0]["timestamp"] == "2023-03-06T12:15:00"
-    assert response_binary_json[0]["timestamp"] == "2023-03-07T00:00:00"
+    assert response_multi_json[0]["timestamp"] == "2023-03-06T12:15:00+00:00"
+    assert response_binary_json[0]["timestamp"] == "2023-03-07T00:00:00+00:00"
 
     assert response_multi.status_code == status.HTTP_200_OK
     assert response_binary.status_code == status.HTTP_200_OK
@@ -48,7 +48,7 @@ def test_drifting_metrics_get_binary_model_after_x_time(client, api_key):
 
     assert len(response_binary_json) == 1
 
-    assert response_binary_json[0]["timestamp"] == "2023-03-07T00:00:00"
+    assert response_binary_json[0]["timestamp"] == "2023-03-07T00:00:00+00:00"
 
     assert response_binary.status_code == status.HTTP_200_OK
 

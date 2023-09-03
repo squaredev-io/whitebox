@@ -1,4 +1,3 @@
-from typing import Optional, Union
 from pydantic import BaseModel
 from whitebox.schemas.base import ItemBase
 

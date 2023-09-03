@@ -10,5 +10,5 @@ class DatasetRow(Base):
     model_id = Column(String, ForeignKey("models.id", ondelete="CASCADE"))
     nonprocessed = Column(JSON)
     processed = Column(JSON)
-    created_at = Column(DateTime)
-    updated_at = Column(DateTime)
+    created_at = Column(DateTime(timezone=True))
+    updated_at = Column(DateTime(timezone=True))
