@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 import time
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, Session
@@ -54,7 +54,7 @@ async def run_create_performance_metric_alert_pipeline(
         new_alert = entities.Alert(
             model_id=model.id,
             model_monitor_id=monitor.id,
-            timestamp=str(datetime.utcnow()),
+            timestamp=str(datetime.now(timezone.utc)),
             description=f"{monitor.metric} fell below the threshold of {monitor.lower_threshold} at value {metric_value}.",
         )
         crud.alerts.create(db, obj_in=new_alert)
@@ -88,7 +88,7 @@ async def run_create_drift_alert_pipeline(model: Model, monitor: ModelMonitor):
         new_alert = entities.Alert(
             model_id=model.id,
             model_monitor_id=monitor.id,
-            timestamp=str(datetime.utcnow()),
+            timestamp=str(datetime.now(timezone.utc)),
             description=f'{monitor.metric.capitalize().replace("_", " ")} found in "{monitor.feature}" feature.',
         )
         crud.alerts.create(db, obj_in=new_alert)

@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 import pandas as pd
 import time
 from sqlalchemy import create_engine
@@ -260,7 +260,7 @@ async def run_calculate_metrics_pipeline():
             last_report_time = (
                 last_report.timestamp
                 if last_report
-                else round_timestamp(datetime.utcnow(), "1D")
+                else round_timestamp(datetime.now(timezone.utc), "1D")
             )
 
             unused_inference_rows_in_db = await get_unused_model_inference_rows(

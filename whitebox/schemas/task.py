@@ -6,11 +6,10 @@ from typing import Callable, Coroutine, Optional, List, Dict, Deque, Literal, Un
 from uuid import UUID, uuid4
 
 import datetime
-import pytz
 
 
 def now():
-    return datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
+    return datetime.datetime.now(datetime.timezone.utc)
 
 
 TaskStatus = Literal[
