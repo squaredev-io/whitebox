@@ -34,7 +34,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         return db.query(self.model).filter_by(**kwargs).first()
 
     def create(self, db: Session, *, obj_in: CreateSchemaType) -> ModelType:
-        date_now = datetime.datetime.utcnow()
+        date_now = datetime.datetime.now(datetime.timezone.utc)
         obj_in_data = jsonable_encoder(obj_in)
         db_obj = self.model(**obj_in_data, created_at=date_now, updated_at=date_now)
         db.add(db_obj)
@@ -45,7 +45,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
     def create_many(
         self, db: Session, *, obj_list: List[CreateSchemaType]
     ) -> List[ModelType]:
-        date_now = datetime.datetime.utcnow()
+        date_now = datetime.datetime.now(datetime.timezone.utc)
         obj_list_in_data = jsonable_encoder(obj_list)
         db_obj_list = list(
             map(
@@ -66,7 +66,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         db_obj: ModelType,
         obj_in: Union[UpdateSchemaType, Dict[str, Any]]
     ) -> ModelType:
-        date_now = datetime.datetime.utcnow()
+        date_now = datetime.datetime.now(datetime.timezone.utc)
         obj_data = jsonable_encoder(db_obj)
         if isinstance(obj_in, dict):
             update_data = obj_in

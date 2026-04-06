@@ -24,11 +24,10 @@ from typing import Callable, Optional, Coroutine, List, Dict, Deque, Union
 from functools import lru_cache
 import datetime
 
-import pytz
 
 
 def now():
-    return datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
+    return datetime.datetime.now(datetime.timezone.utc)
 
 
 class Task_Manager:
